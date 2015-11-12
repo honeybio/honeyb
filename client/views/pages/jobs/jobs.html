@@ -1,0 +1,26 @@
+<template name="jobs">
+  <div class="container">
+    <center>
+      <h3>Job List</h3>
+    </center>
+    <ul>
+      {{#each getJobList}}
+        <li><a href="/jobs/{{this._id}}">{{this.name}}</a></li>
+      {{/each}}
+    </ul>
+  </div>
+</template>
+
+<template name="jobsDetails">
+  <div class="container">
+    <center>
+      <h3>Details for Job {{name}}</h3>
+    </center>
+    <ul>
+      <li>{{description}}</li>
+      <li>{{onDevice}}</li>
+      <li>Runs {{schedule.freq}} on {{schedule.day}} at {{schedule.hr}}:{{schedule.min}}</li>
+      <li>{{command}}</li>
+    </ul>
+  </div>
+</template>

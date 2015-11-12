@@ -1,0 +1,27 @@
+<template name="applicationsCreate">
+  <div class="container">
+  <center>
+    <h3>Create a new Application</h3>
+  </center>
+    <form id= "appForm" class="appForm">
+      <div id="left" class="col-md-8">
+        <input type="text" name="applicationName" placeholder="my.application.com"><br>
+        <select id="appType" name="appType">
+          <option selected="https" value="https">HTTPS (Secure)</option>
+          <option value="http">HTTP (Not Recommended: No encryption)</option>
+          <option value="tcp">Non-HTTP (Mail, FTP, Other)</option>
+        </select><br>
+        Add Servers: <button class="addMore" id="addMore">Add Members</button><br>
+        {{#each inputs}}
+          {{> input}}
+        {{/each}}
+        <br><br><button class="submit" id="submit">Create</button>
+        Stage changes?
+          <select name="stage" id="stage">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+          </select><br>
+      </div>
+    </form>
+</div>
+</template>

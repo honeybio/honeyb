@@ -1,0 +1,48 @@
+# Meteor packages used by this project, one per line.
+# Check this file (and the other files in this directory) into your repository.
+#
+# 'meteor add' and 'meteor remove' will edit this file for you,
+# but you can also edit it by hand.
+
+less
+iron:router
+fortawesome:fontawesome
+zimme:iron-router-active
+jquery
+dbarrett:dropzonejs
+
+twbs:bootstrap@3.3.5
+standard-minifiers
+meteor-base
+mobile-experience
+mongo
+blaze-html-templates
+session
+tracker
+logging
+reload
+random
+ejson
+spacebars
+check
+accounts-password
+ahref:dragula
+accounts-ui-unstyled
+alanning:roles
+cfs:filesystem
+cfs:gridfs
+cfs:standard-packages
+easy:search
+dandv:http-more
+ecmascript
+es5-shim
+json
+meteorhacks:npm
+mrt:fs
+mrt:moment
+percolate:synced-cron
+reactive-var
+
+
+npm-container
+okgrow:router-autoscroll

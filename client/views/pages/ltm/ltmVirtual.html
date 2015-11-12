@@ -1,0 +1,220 @@
+
+<template name="ltmVirtuals">
+  <div class="container">
+  <form class="vipForm">
+  <center>
+    Virtual Servers<a href="/ltm/virtuals/create">Create New</a>
+  </center>
+  <select name="objectAction">
+    <option value="enable">Enable</option>
+    <option value="disable">Disable</option>
+    <option value="blank">-----------</option>
+    <option value="delete">Delete(!)</option>
+  </select><br>
+  Stage changes?  <select name="stage" id="stage">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                  </select><br>
+  <button class="submit" id="submit">Submit</button>
+  <ul>
+  Search: {{> virtualSearchBox}}
+
+  </ul>
+</form>
+</div>
+</template>
+
+<template name="virtualDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Address: {{destination}}</li>
+    <li>Protocol: {{ipProtocol}}</li>
+    <li>Mask: {{mask}}</li>
+    <li>Source: {{source}}</li>
+    <li>Action on Service Down: {{serviceDownImmediateAction}}</li>
+    <li>TCP Client Profile: {{> tcpProfileDropdown _id}}</li>
+    <li>TCP Server Profile: {{> tcpProfileDropdown _id}}</li>
+    <li>SSL Client Profile: </li>
+    <li>SSL Server Profile: </li>
+    <li>Oneconnect Profile: </li>
+    {{#if vlansDisabled}}
+    {{else}}
+      {{#each vlans}}
+        {{this.name}}
+      {{/each}}
+    {{/if}}
+    <li>SNAT: {{sourceAddressTranslation.type}}</li>
+    <li>Irules:
+      <ul>
+        {{#each rules}}
+          <li>{{this}}</li>
+      {{/each}}
+      </ul>
+    </li>
+  </ul>
+</div>
+</template>
+
+<template name="tcpProfileDropdown">
+  <select name="tcpProfile">
+    <option value="none">none</option>
+  {{#each allTcp}}
+    <option value="{{_id}}">{{name}}</option>
+  {{/each}}
+  </select>
+</template>
+
+<template name="ltmVirtualsCreate">
+  <div class="container">
+  <center>
+    <h3>Create a new Virtual Server</h3>
+  </center>
+  <form id= "vipForm" class="vipForm">
+    <div id="left" class="col-md-8">
+    What device?
+    <select id="device" name="deviceID">
+      <option selected="none" value="none">none</option>
+      {{#each getDeviceList}}
+        <option value="{{_id}}">{{self.name}}</option>
+      {{/each}} </select><br>
+    Virtal Server Name: <input type="text" id="vip_name" class="vip_name"><br>
+    Destination (Listening IP): <input type="text" id="vip_dest" class="vip_dest"><br>
+    Port: <input type="text" id="vip_port" class="vip_port">
+    <select id="vip_mask" name="vip_mask">
+      <option selected="255.255.255.255" value="255.255.255.255">/32</option>
+      <option value="0.0.0.0">/0</option>
+      <option value="255.0.0.0">/8</option>
+      <option value="255.255.0.0">/16</option>
+      <option value="255.255.255.0">/24</option>
+      <option value="255.255.255.254">/31</option>
+      <option value="255.255.255.252">/30</option>
+      <option value="255.255.255.248">/29</option>
+      <option value="255.255.255.240">/28</option>
+      <option value="255.255.255.224">/27</option>
+      <option value="255.255.255.192">/26</option>
+      <option value="255.255.255.128">/25</option>
+      <option value="255.255.254.0">/23</option>
+      <option value="255.255.252.0">/22</option>
+      <option value="255.255.248.0">/21</option>
+      <option value="255.255.240.0">/20</option>
+      <option value="255.255.224.0">/19</option>
+      <option value="255.255.192.0">/18</option>
+      <option value="255.255.128.0">/17</option>
+      <option value="255.254.0.0">/15</option>
+      <option value="255.252.0.0">/14</option>
+      <option value="255.248.0.0">/13</option>
+      <option value="255.240.0.0">/12</option>
+      <option value="255.224.0.0">/11</option>
+      <option value="255.192.0.0">/10</option>
+      <option value="255.128.0.0">/9</option>
+      <option value="254.0.0.0">/7</option>
+      <option value="252.0.0.0">/6</option>
+      <option value="248.0.0.0">/5</option>
+      <option value="240.0.0.0">/4</option>
+      <option value="224.0.0.0">/3</option>
+      <option value="192.0.0.0">/2</option>
+      <option value="128.0.0.0">/1</option>
+    </select><br>
+    SSL offload/bridging?
+    <select id="ssl_type" name="ssl_type">
+      <option selected="none" value="none">None</option>
+      <option value="offload">Offload</option>
+      <option value="bridge">Bridging</option>
+    </select><br>
+    Persistence/Sticky Session?
+    <select id="persistence" name="persistence">
+      <option selected="none" value="none">None</option>
+      {{#each getPersistenceList}}
+        <option value="{{fullPath}}">{{name}}</option>
+      {{/each}} </select><br>
+    SNAT Method:
+    <select id="snat" name="snat">
+      <option selected="automap" value="automap">automap</option>
+      <option value="none">None</option>
+      <option value="snat_to_vip_pool">Snat to VIP Pool</option>
+      <option value="snat_to_vip_pool">Snat to VIP iRule</option>
+      <option value="snat_to_vip_pool">Snat to VIP Pool</option>
+    </select><br>
+      <div id="poolDrop">
+        Default Pool:<br>
+      </div>
+    <button type="button" data-toggle="modal" data-target="#addPoolModal">Add Pool</button> <br>
+    Freeform Description:<br>
+    <textarea id="longDescription" name="longDescription" rows="8" cols="50"></textarea><br>
+    <button class="submit" id="submit">Create</button>
+    Stage changes?  <select name="stage" id="stage">
+                      <option value="0">No</option>
+                      <option value="1">Yes</option>
+                    </select><br>
+    </div>
+  </form>
+  <div id="right" class="col-md-4">
+      Select Device to get Pool List
+      {{#each getPoolList}}
+        <div><input type="hidden" id="default_pool" name="default_pool" value="{{fullPath}}">{{name}}</div>
+      {{/each}}
+  </div>
+
+
+</div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="addPoolModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Add a Pool</h4>
+        </div>
+        <div class="modal-body">
+          <form id= "poolForm" class="poolForm">
+            Pool Name: <input type="text" id="pool_name" class="pool_name"><br>
+            LB Method: <select id="lbMethod" name="lbMethod">
+              <option selected="round-robin" value="round-robin">round-robin</option>
+              <option value="least-connections-member">least-connections-member</option>
+              <option value="dynamic-ratio-node">dynamic-ratio-node</option>
+              <option value="fastest-app-response">fastest-app-response</option>
+              <option value="fastest-node">fastest-node</option>
+              <option value="least-connections-member">least-connections-member</option>
+              <option value="least-connections-node">least-connections-node</option>
+              <option value="observed-member">observed-member</option>
+              <option value="observed-node">observed-node</option>
+              <option value="predictive-member">predictive-member</option>
+              <option value="predictive-node">predictive-node</option>
+              <option value="least-sessions">least-sessions</option>
+              <option value="ratio-least-connections-member">ratio-least-connections-member</option>
+              <option value="ratio-least-connections-node">ratio-least-connections-node</option>
+              <option value="ratio-member">ratio-member</option>
+              <option value="ratio-node">ratio-node</option>
+              <option value="ratio-session">ratio-session</option>
+              <option value="weighted-least-connections-member">weighted-least-connections-member</option>
+              <option value="weighted-least-connections-node">weighted-least-connections-node</option>
+            </select><br>
+            Monitor: <select id="monitor" name="monitor">
+              <option selected="none" value="none">none</option>
+              {{#each getMonitorList}}
+                <option value="{{fullPath}}">{{name}}</option>
+              {{/each}}
+            </select><br>
+            Add Pool Members: <button class="addMore" id="addMore">Add Members</button><br>
+            {{#each inputs}}
+              {{> input}}
+            {{/each}}
+            <br><br><button class="submit" id="submit">Create</button>
+            Stage changes?  <select name="stage" id="stage">
+                              <option value="0">No</option>
+                              <option value="1">Yes</option>
+                            </select><br>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</template>

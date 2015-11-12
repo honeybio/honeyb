@@ -1,0 +1,97 @@
+<template name="sslCerts">
+  <div class="container">
+  <center>
+    <h3>Certificate Management</h3>
+  </center>
+  <ul>
+    {{#each allCerts}}
+      <li>
+        <a href="/ssl/certs/{{_id}}">{{name}}</a> - {{commonName}} - {{apiRawValues.expiration}}
+      </li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+
+<template name="sslKeys">
+  <div class="container">
+  <center>
+    <h3>Certificate Management</h3>
+  </center>
+  <ul>
+    {{#each allKeys}}
+      <li>
+        <a href="/ssl/keys/{{_id}}">{{name}}</a>
+      </li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+
+<template name="sslCsrs">
+  <div class="container">
+  <center>
+    <h3>Cert Signing Request Management</h3>
+  </center>
+  <ul>
+    {{#each allCsrs}}
+      <li>
+        <a href="/ssl/csrs/{{_id}}">{{name}}</a>
+      </li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+
+<template name="sslProfiles">
+  <div class="container">
+  <center>
+    <h3>Client (user-connected) SSL Profiles</h3>
+  </center>
+  <ul>
+    {{#each allClientsslProfiles}}
+      <li>
+        <a href="/ssl/profiles/{{_id}}">{{name}}</a>
+      </li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+
+<template name="keyDetails">
+  <div class="container">
+  <center>
+    <h3>Key Details</h3>
+    {{name}}
+  </center>
+  <span style="white-space: pre-wrap"> {{pemFormat}} </span>
+  <form class="poolMemberForm">
+    <input type="hidden" name="keyid" value="{{_id}}">
+    <input type="hidden" name="onDevice" value="{{onDevice}}">
+
+    <button class="submit" id="submit">Submit</button>
+  </form>
+</div>
+</template>
+
+<template name="certDetails">
+  <div class="container">
+  <center>
+    <h3>Certificate Details</h3>
+    {{name}}
+  </center>
+  <span style="white-space: pre-wrap"> {{pemFormat}} </span>
+</div>
+</template>
+
+<template name="sslprofileDetails">
+  <div class="container">
+  <center>
+    <h3>SSL Details</h3>
+    {{name}}
+  </center>
+  Certificate: {{cert}}<br>
+  Key: {{key}}<br>
+  Cipher List: {{ciphers}}<br>
+</div>
+</template>

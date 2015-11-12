@@ -1,0 +1,113 @@
+<template name="ltmRules">
+  <div class="container">
+    <form class="poolMemberForm">
+      <center>
+        iRules
+      </center>
+      <div class="row">
+        <div class="col-md-8">
+          <input type="hidden" name="poolName" value="{{_id}}">
+          <input type="hidden" name="onDevice" value="{{onDevice}}">
+          <ul>
+            {{> rulesSearchBox}}
+          </ul>
+        </div>
+        <div class="col-md-4 right-menu">
+          Search:<br>
+          <input type="text" name="ruleSearch"><br>
+          <select name="objectAction">
+            <option value="delete">Delete(!)</option>
+          </select><br>
+          Stage changes?
+          <select name="stage" id="stage">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+          </select><br>
+          <button class="submit" id="submit">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</template>
+
+<template name="ltmIdatagroups">
+  <div class="container">
+  <center>
+    Internal Data Groups - Search: <input type="text" name="iGroupSearch">
+  </center>
+  <form class="poolMemberForm">
+    <input type="hidden" name="poolName" value="{{_id}}">
+    <input type="hidden" name="onDevice" value="{{onDevice}}">
+  <ul>
+    {{> idatagroupsSearchBox}}
+</ul>
+</form>
+</div>
+</template>
+
+<template name="ltmMonitors">
+  <div class="container">
+  <center>
+    Monitors - Search: <input type="text" name="monitorSearch">
+  </center>
+  <ul>
+    <li>Type: tcp-half-open <a href="/ltm/monitors/tcp-half-open/create">Create New</a></li>
+    <li>Type: http <a href="/ltm/monitors/http/create">Create New</a></li>
+  </ul>
+  <form class="poolMemberForm">
+    <input type="hidden" name="poolName" value="{{_id}}">
+    <input type="hidden" name="onDevice" value="{{onDevice}}">
+  <ul>
+      {{> monitorsSearchBox}}
+  </ul>
+  <select name="objectAction">
+    <option value="delete">Delete(!)</option>
+  </select><br>
+  Stage changes?  <select name="stage" id="stage">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                  </select><br>
+  <button class="submit" id="submit">Submit</button>
+</form>
+</div>
+</template>
+
+<template name="ruleDetails">
+  <center>
+    <h3>View/Edit/Update {{name}} on {{onDevice}}</h3>
+    <br>
+    content:
+  </center>
+  <br><span style="white-space: pre-wrap"> {{apiAnonymous}} </span>
+</template>
+
+<template name="idatagroupDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}} on {{onDevice}}</h3>
+    <br>
+  </center>
+  {{#each records}}
+    {{> idatagroupEnum}}
+  {{/each}}
+</div>
+</template>
+
+<template name="monitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <li>
+    <ul>Parent: {{defaultsFrom}}</ul>
+    <ul>Send: {{send}}</ul>
+    <ul>Receive: {{recv}}</ul>
+  </li>
+</div>
+</template>
+
+<template name="idatagroupEnum">
+  <li>
+    {{name}}
+  </li>
+</template>

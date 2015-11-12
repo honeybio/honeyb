@@ -1,0 +1,282 @@
+<template name="devices">
+  <div class="container">
+  <center>
+    <p class="lead">Discovered Devices</p>
+  </center>
+  <ul>
+    {{> devicesSearchBox}}
+  </ul>
+  {{> discoverSingle}}
+</div>
+</template>
+
+<template name="discoverSingle">
+  <button type="button" class="btn" data-toggle="modal" data-target="#addDevice">
+    Add new BIG-IP
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="addDevice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Add a device</h4>
+        </div>
+        <div class="modal-body">
+          <form>
+            <input type="text" name="mgmtip" placeholder="Bigip management IP" />
+            <input type="text" name="mgmtuser" placeholder="Admin Username" />
+            <input type="password" name="mgmtpass" placeholder="Admin Password" />
+            <input type="submit" value="Discover">
+          </form>
+          <br>
+          <center>
+            {{getDiscoverStatus}}
+          </center>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="close" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="deviceList">
+  <li>
+     <button>Details</button>
+  </li>
+</template>
+
+<template name="showModal">
+  <div class="modal fade in" id="showModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">{{self.name}}</h4>
+        </div>
+        <div class="modal-body">
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="deviceDetails">
+  <div class="container">
+    <center>
+      <h3>View/Edit/Update  {{self.name}}</h3>
+    </center>
+    <div class="row">
+      <div class="col-md-8">
+      <ul>
+        <li>Management IP: {{mgmtAddress}}</li>
+        <li>Failover State: {{self.failoverState}}</li>
+        <li>Peer Name: {{peer.name}}</li>
+        <li>Management User: {{mgmtUser}}</li>
+        <li>Active Modules: {{self.activeModules}}</li>
+        <li>Base Mac: {{self.baseMac}}</li>
+        <li>Version: {{self.version}}</li>
+        <li>Build: {{self.build}}</li>
+        <li>Platform Name: {{self.marketingName}}</li>
+        <li>Platform ID: {{self.platform}}</li>
+        {{> provisionedModules}}
+      </ul>
+    </div>
+    <div class="col-md-4">
+      <form class="qkviewForm">
+        <input type="hidden" name="device_id" value="{{_id}}">
+        {{> onceSelect}}
+        <input type="text" class="form-control" id="my-datepicker">
+        <button class="submit" id="submit">Schedule A Qkview</button>
+      </form>
+      <form class="archiveForm">
+        <input type="hidden" name="device_id" value="{{_id}}">
+        {{> scheduleTemplate}}
+        <button class="submit" id="submit">Schedule Archive</button>
+      </form>
+      <form class="scheduledJobs">
+        {{#each getJobs _id}}
+          Job: {{name}}<br>
+        {{/each}}
+      </form><br>
+    </div>
+  </div>
+  {{#with diskSpace}}
+    {{> diskUsage}}
+  {{/with}}
+  </div>
+</template>
+
+<template name="provisionedModules">
+  Modules:
+  <ul>
+    <li>LTM: {{provision_level.ltm}}</li>
+    <li>GTM: {{provision_level.gtm}}</li>
+    <li>ASM: {{provision_level.asm}}</li>
+    <li>APM: {{provision_level.apm}}</li>
+    <li>AFM: {{provision_level.afm}}</li>
+    <li>AVR: {{provision_level.avr}}</li>
+    <li>LC: {{provision_level.lc}}</li>
+    <li>AAM: {{provision_level.am}}</li>
+    <li>SWG: {{provision_level.swg}}</li>
+  </ul>
+</template>
+
+<template name="diskUsage">
+  <canvas id="diskChart" width="800" height="200"></canvas>
+  {{#each diskSpace}}
+  <ul>
+    <li>Disk Partition: {{partition}}
+      <ul>
+        <li>{{freeBlocks}} free / {{totalBlocks}} total Block size: {{blockSize}}</li>
+      </ul>
+    </li>
+  </ul>
+  {{/each}}
+</template>
+
+<template name="scheduleTemplate">
+  Minute:
+  <select name="minute" id="minute">
+    <option value="0">00</option>
+    <option value="15">15</option>
+    <option value="30">30</option>
+    <option value="45">45</option>
+  </select> Hour:
+  <select name="hour" id="hour">
+    <option value="0">0</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+    <option value="13">13</option>
+    <option value="14">14</option>
+    <option value="15">15</option>
+    <option value="16">16</option>
+    <option value="17">17</option>
+    <option value="18">18</option>
+    <option value="19">19</option>
+    <option value="20">20</option>
+    <option value="21">21</option>
+    <option value="22">22</option>
+    <option value="23">22</option>
+  </select>
+  <select name="dayOfWeek" id="dayOfWeek">
+    <option value="1">Sunday</option>
+    <option value="2">Monday</option>
+    <option value="3">Tuesday</option>
+    <option value="4">Wednesday</option>
+    <option value="5">Thursday</option>
+    <option value="6">Friday</option>
+    <option value="7">Saturday</option>
+  </select>
+  <select name="frequency" id="frequency">
+    <option value="weekly">Weekly</option>
+    <option value="biweekly">Bi-Weekly</option>
+    <option value="monthly">Monthly</option>
+  </select>
+</template>
+
+<template name="onceSelect">
+  Pick a time, in:
+  <select name="atTime" id="atTime">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+    <option value="15">15</option>
+    <option value="20">20</option>
+    <option value="30">30</option>
+    <option value="45">45</option>
+  </select>
+  <select name="unit" id="unit">
+    <option value="minute">Minute(s)</option>
+    <option value="hour">Hour(s)</option>
+    <option value="day">Days(s)</option>
+    <option value="week">Week(s)</option>
+  </select>
+</template>
+
+<template name="fullOnceSelect">
+  <select name="hour" id="hour">
+    <option value="0">0</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+    <option value="13">13</option>
+    <option value="14">14</option>
+    <option value="15">15</option>
+    <option value="16">16</option>
+    <option value="17">17</option>
+    <option value="18">18</option>
+    <option value="19">19</option>
+    <option value="20">20</option>
+    <option value="21">21</option>
+    <option value="22">22</option>
+    <option value="23">23</option>
+  </select>
+  <select name="minute" id="minute">
+    <option value="0">00</option>
+    <option value="15">15</option>
+    <option value="30">30</option>
+    <option value="45">45</option>
+  </select> Or Pick a time, in:
+  <select name="atTime" id="atTime">
+    <option selected value="none">None</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+    <option value="15">15</option>
+    <option value="20">20</option>
+    <option value="30">30</option>
+    <option value="45">45</option>
+  </select>
+  <select name="unit" id="unit">
+    <option value="minute">Minute(s)</option>
+    <option value="hour">Hour(s)</option>
+    <option value="day">Days(s)</option>
+    <option value="week">Week(s)</option>
+  </select>
+</template>
+
+<template name="d3vis">
+  <div class="d3board" height="150px" width="600px">
+    <svg id="d3vis"></svg>
+  </div>
+</template>

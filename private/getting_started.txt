@@ -1,0 +1,43 @@
+Requirements for the honeyb.io development environment:
+
+Meteor.js
+With root/sudo access, do this:
+curl https://install.meteor.com/ | sh
+
+Python
+F5 bigsuds
+Linux: sudo pip install bigsuds
+Mac: sudo easy_install bugsuds
+
+git access to bigdisk(10.1.10.104)
+Frequently used commands:
+git -m 'commit message'
+git add file1 file2
+git push origin master
+git pull
+git clone
+
+Atom text editor for coding
+https://atom.io/
+
+
+Structure of the app:
+/client/
+ Contains the client-side javascript files & html templates
+ basically this is all pushed to the browser to run the site
+ and query the server's mongodb
+
+/server/
+ Contains the code that is run on the server to insert data
+ into the mongodb.
+
+/private/
+  files to not be loaded by meteor. this file, and python scripts
+  that are to run SOAP calls that are not supported in the REST api
+
+MongoDB
+ Pretty much everything in the database is just taken from the bigip as-is.
+ some added stuff in methods, such as stats being dumped into their parent
+ object for ease of querying
+ Jobs DB: This is for scheduled Tasks
+ Changes DB: This is where a change gets pushed to be deployed to a device

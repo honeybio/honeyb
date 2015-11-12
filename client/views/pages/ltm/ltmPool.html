@@ -1,0 +1,191 @@
+
+<template name="ltmPools">
+  <div class="container">
+    <form class="poolMemberForm">
+      <center>Pool Form </center>
+      <div class="row">
+        <div class="col-md-8">
+          <ul>
+              {{> poolsSearchBox}}
+          </ul>
+        </div>
+        <div class="col-md-4 right-menu">
+          <a href="/ltm/pools/create">Create New</a><br>
+          <select name="deviceFilter">
+            <option value="blah">Blah</option>
+          </select><br>
+          <select name="objectAction">
+            <option value="copy">Copy</option>
+            <option value="blank">-----------</option>
+            <option value="delete">Delete(!)</option>
+          </select><br>
+          To device: <select id="to_device" name="to_device">
+            <option selected="none" value="none">none</option>
+            {{#each getDeviceList}}
+              <option value="{{_id}}">{{self.name}}</option>
+            {{/each}} </select><br>
+          Stage changes?
+          <select name="stage" id="stage">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+          </select><br>
+          <button class="submit" id="submit">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</template>
+
+<template name="ltmPoolsCreate">
+  <div class="container">
+  <center>
+    <h3>Create a new Pool</h3>
+  </center>
+  <li>
+    <form id="poolForm" class="poolForm">
+      <div id="left" class="col-md-8">
+      Pool Name: <input type="text" id="pool_name" class="pool_name"><br>
+      What device? <select id="device" name="deviceID">
+        <option selected="none" value="none">none</option>
+        {{#each getDeviceList}}
+          <option value="{{_id}}">{{self.name}}</option>
+        {{/each}} </select><br>
+      LB Method: <select id="lbMethod" name="lbMethod">
+        <option selected="round-robin" value="round-robin">round-robin</option>
+        <option value="least-connections-member">least-connections-member</option>
+        <option value="dynamic-ratio-node">dynamic-ratio-node</option>
+        <option value="fastest-app-response">fastest-app-response</option>
+        <option value="fastest-node">fastest-node</option>
+        <option value="least-connections-member">least-connections-member</option>
+        <option value="least-connections-node">least-connections-node</option>
+        <option value="observed-member">observed-member</option>
+        <option value="observed-node">observed-node</option>
+        <option value="predictive-member">predictive-member</option>
+        <option value="predictive-node">predictive-node</option>
+        <option value="least-sessions">least-sessions</option>
+        <option value="ratio-least-connections-member">ratio-least-connections-member</option>
+        <option value="ratio-least-connections-node">ratio-least-connections-node</option>
+        <option value="ratio-member">ratio-member</option>
+        <option value="ratio-node">ratio-node</option>
+        <option value="ratio-session">ratio-session</option>
+        <option value="weighted-least-connections-member">weighted-least-connections-member</option>
+        <option value="weighted-least-connections-node">weighted-least-connections-node</option>
+      </select><br>
+      <div id="monitorDrop">
+        Add Monitors Below:
+      </div>
+       <br>
+      Add Pool Members: <button class="addMore" id="addMore">Add Members</button><br>
+      {{#each inputs}}
+        {{> input}}
+      {{/each}}
+      <br><br><button class="submit" id="submit">Create</button>
+      Stage changes?  <select name="stage" id="stage">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                      </select><br>
+      </div>
+    </form>
+    <div id="right" class="col-md-4 monitor-list">
+      Select Device to get Monitor List
+      {{#each getMonitorList}}
+        <div class="monitor-box"><input type="hidden" id="monitor" name="monitor" value="{{fullPath}}">{{name}}</div>
+      {{/each}}
+    </div>
+
+  </li>
+</div>
+</template>
+
+<template name="input">
+  <input type="text" id="{{uniqid}}_ip" name="memIP">:<input type="text" id="{{uniqid}}_port" name="memPort">
+  <button id="{{uniqid}}" class='remove-input'>Remove Member</button><br>
+</template>
+
+<template name="poolDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+
+    <form class="poolForm">
+      <input type="hidden" name="poolName" value="{{_id}}">
+      <input type="hidden" name="onDevice" value="{{onDevice}}">
+      <ul>Monitor: {{monitor}}</ul>
+      LB Method: <select name="lbMethod">
+        <option selected={{loadBalancingMode}} value={{loadBalancingMode}}>{{loadBalancingMode}}</option>
+        <option value="predictive-node">predictive-node</option>
+        <option value="dynamic-ratio-node">dynamic-ratio-node</option>
+        <option value="ratio-least-connections-member">artio-least-connections-member</option>
+        <option value="fastest-app-response">fastest-app-response</option>
+        <option value="ratio-least-connections-node">ratio-least-connections-node</option>
+        <option value="fastest-node">fastest-node</option>
+        <option value="ratio-member">ratio-member</option>
+        <option value="least-connections-member">least-connections-member</option>
+        <option value="atio-node">ratio-node</option>
+        <option value="least-connections-node">least-connections-node</option>
+        <option value="ratio-session">ratio-session</option>
+        <option value="least-sessions">least-sessions</option>
+        <option value="round-robin">round-robin</option>
+        <option value="observed-member">observed-member</option>
+        <option value="weighted-least-connections-member">weighted-least-connections-member</option>
+        <option value="observed-node">observed-node"</option>
+        <option value="weighted-least-connections-node">weighted-least-connections-node</option>
+        <option value="predictive-member">predictive-member</option>
+      </select><br>
+      <button class="submit" id="submit">Submit</button>
+    </form>
+    <form class="poolMemberForm">
+      <input type="hidden" name="poolName" value="{{_id}}">
+      <input type="hidden" name="onDevice" value="{{onDevice}}">
+      <ul>
+        {{#each members}}
+          <li><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"><img src="/{{statusImg}}">{{name}} </li>
+        {{/each}}
+      </ul>
+      <select name="memberAction">
+        <option value="enable">Enable</option>
+        <option value="disable">Disable</option>
+        <option value="force">Force Offline</option>
+        <option value="blank">-----------</option>
+        <option value="delete">Delete Members(!)</option>
+      </select><br>
+      Stage changes?  <select name="stage" id="stage">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                      </select><br>
+      <button class="submit" id="submit">Submit</button>
+    </form>
+    <button type="button" data-toggle="modal" data-target="#addPoolMemberModal">
+      Add Pool Member
+    </button>
+  </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addPoolMemberModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Add a Pool Member</h4>
+          </div>
+          <div class="modal-body">
+            <form class="addPoolMemberForm">
+              <input type="hidden" name="poolID" value="{{_id}}">
+              <input type="hidden" name="onDevice" value="{{onDevice}}">
+              <input type="text" name="memIP" placeholder="IP Address" />
+              <input type="text" name="memPort" placeholder="Port" />
+              Stage changes?  <select name="stage" id="stage">
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                              </select><br>
+              <button class="submit">Submit</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</template>

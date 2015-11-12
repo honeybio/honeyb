@@ -1,0 +1,111 @@
+<template name="logout">
+  <div class="container">
+    {{#if currentUser}}
+      <h2>Signing Out...</h2>
+    {{else}}
+      <h2>Successfully logged out, click login to sign in again</h2><br>
+    {{/if}}
+  </div>
+</template>
+
+<template name="myprofile">
+  <div class="container">
+    Welcome, {{currentUser.username}}! Here you can manage your honeyb deployment.
+    <br>
+    <form id="form-signin" class="form-signin">
+      <h2 class="form-signin-heading">Create a New User</h2>
+      <input type="text" id="username" class="form-control" placeholder="Username" required autofocus><br>
+      <input type="password" id="password" class="form-control" placeholder="Password" required><br>
+      <button class="submit btn btn-lg btn-primary btn-block" id="submit">Create!</button>
+    </form>
+    <h2>Current Users</h2><br>
+    <form id="userList" class="userList">
+      <ul>
+        {{#each allUsers}}
+          <li>{{this.username}}</li>
+        {{/each}}
+      </ul>
+    </form>
+    <form id="myProfile" class="myProfile">
+    My Profile: <br>
+    Advanced:
+    <select class="profileAdvanced" id="profileAdvanced" name="profileAdvanced">
+      {{#if currentUser.profile.advanced}}
+        <option value="0">No</option>
+        <option selected="1" value="1">Yes</option>
+      {{else}}
+        <option selected="0" value="0">No</option>
+        <option value="1">Yes</option>
+      {{/if}}
+    </select>
+    <button name="submit" value="submit" id="submit">Update</button>
+    </form>
+    <h2>HoneyB Settings</h2>
+    <form id="honeySettings" class="honeySettings">
+        Display Name: <input type="text" id="honeyName" value="{{name}}"><br>
+        Update Polling Intervals:<br>
+        GTM DC: <input type="text" id="updateGtmDc" value="{{interval.updateGtmDc}}"><br>
+        GTM Server: <input type="text" id="updateGtmServer" value="{{interval.updateGtmServer}}"><br>
+        GTM VIP: <input type="text" id="updateGtmVserver" value="{{interval.updateGtmVserver}}"><br>
+        LTM VIP: <input type="text" id="updateLtmVirtual" value="{{interval.updateLtmVirtual}}"><br>
+        LTM Pool: <input type="text" id="updateLtmPool" value="{{interval.updateLtmPool}}"><br>
+        LTM Pool Mem: <input type="text" id="updateLtmPoolMember" value="{{interval.updateLtmPoolMember}}"><br>
+        Ihealth Account (We reccommend generating a unique service account)<br>
+        User: <input type="text" id="ihealthUser" value="{{ihealthUser}}"><br>
+        Pass: <input type="password" id="ihealthPass" value="{{ihealthPass}}"><br>
+      <button class="submit btn btn-lg btn-primary btn-block" id="submit">Update!</button>
+    </form>
+  </div>
+</template>
+
+<template name="settingsRoles">
+  <div class="container">
+  <center>
+    <h3>Roles</h3>
+  </center>
+  <ul>
+    {{#each getRoles}}
+      <li><a href="/settings/roles/{{_id}}">{{this.name}}</a></li>
+    {{/each}}
+  </ul>
+  <form class="roleForm">
+    <input type="text" name="roleName" id="roleName"><br>
+    <button class="submit" id="submit">Create New Role</button>
+  </form>
+</div>
+</template>
+
+<template name="settingsRolesDetails">
+  <div class="container">
+    <form>
+    <center>
+      <h3>Role: {{name}}</h3>
+    </center>
+    Permissions for roles:
+    <div id="permissionDrop" class="col-md-8">
+      Add Permissions Below:
+      <ul>
+        {{#each getRolePermissions}}
+          <li><div class="perm-box"><input type="hidden" id="permission" name="permission" value="{{permission}}">{{this}}</div></li>
+        {{/each}}
+      </ul>
+    </div>
+  </form>
+  <div id="right" class="col-md-4 monitor-list">
+    List of Permissions
+    {{perms}}
+          <div class="perm-box"><input type="hidden" id="permission" name="permission" value="{{permission}}">{{this.permission}}</div>
+  </div>
+  </div>
+</template>
+
+<template name="settingsContainers">
+  <div class="container">
+    <center>
+      <h3>Object Containers: </h3>
+    </center>
+    Containers are groups of obects that you give access roles to. For instance,
+     if you want to allow an app owner to modify their own pool, create a new container
+     and add their pool to the container. Then add their user as admin of that pool.
+  </div>
+</template>

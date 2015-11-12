@@ -1,0 +1,93 @@
+<template name="ltmProfiles">
+  <div class="container">
+  <center>
+    Profiles - Search: <input type="text" name="profileSearch">
+  </center>
+  <ul>
+    {{#each allProfiles}}
+      {{> profileList}}
+    {{/each}}
+  </ul>
+</div>
+</template>
+
+<template name="ltmProfilesUnsupportedProfile">
+  <div class="container">
+  <center>
+    <h2>On some versions on BIG-IP, APM, ASM & other profile types might not be discoverable.</h2>
+  </center>
+  <span>
+    Access your profile by either upgrading your BIG-IP to the latest version, or manually performing tasks.
+  </span>
+</div>
+</template>
+
+<template name="ltmPersistenceCookie">
+  <div class="container">
+  {{#each allCookie}}
+    <li> <input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"><a href="/ltm/profiles/{{_id}}">{{name}}</a></li>
+  {{/each}}
+</div>
+</template>
+
+<template name="ltmPersistenceUniversal">
+  <div class="container">
+  {{#each allUniversal}}
+    <li> <input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"><a href="/ltm/profiles/{{_id}}">{{name}}</a></li>
+  {{/each}}
+</div>
+</template>
+
+<template name="profilesDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <li>
+    <ul>Type: {{profType}}</ul>
+  </li>
+  {{#each myProps}}
+    <li>{{this}}: {{getThis this}}</li>
+  {{/each}}
+</div>
+</template>
+
+<template name="ltmProfilesHttp">
+  <div class="container">
+  {{#each allHttp}}
+    <li> <input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"><a href="/ltm/profiles/{{_id}}">{{name}}</a></li>
+  {{/each}}
+</div>
+</template>
+
+<template name="ltmProfilesClientssl">
+  <div class="container">
+  {{#each allclientssl}}
+    <li> <input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"><a href="/ltm/profiles/{{_id}}">{{name}}</a></li>
+  {{/each}}
+</div>
+</template>
+
+<template name="ltmProfilesTcp">
+  <div class="container">
+  {{#each allTcp}}
+    <li> <input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"><a href="/ltm/profiles/{{_id}}">{{name}}</a></li>
+  {{/each}}
+</div>
+</template>
+
+<template name="ltmProfilesOneconnect">
+  <div class="container">
+  {{#each allOneconnect}}
+    <li> <input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"><a href="/ltm/profiles/{{_id}}">{{name}}</a></li>
+  {{/each}}
+</div>
+</template>
+
+<template name="profileList">
+  <div class="container">
+  <li>
+     <input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"><a href="/ltm/profiles/{{_id}}">{{name}}</a>
+  </li>
+</div>
+</template>

@@ -1,0 +1,741 @@
+<template name="diameterMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="dnsMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="externalMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="firepassMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="ftpMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="gatewayicmpMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="httpMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}<a href="/ltm/monitors/http/create">Create New</a></h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="httpsMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="icmpMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="imapMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="inbandMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="ldapMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="modulescoreMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="mssqlMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="mysqlMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="nntpMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="noneMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="oracleMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="pop3MonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="postgresqlMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="radiusMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="radiusaccountingMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="realserverMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="rpcMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="saspMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="scriptedMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="sipMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="smbMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="smtpMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="snmpdcaMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="snmpdcabaseMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="soapMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="tcpMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="tcpechoMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="tcphalfopenMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}} <a href="/ltm/monitors/tcp-half-open/create">Create New</a></h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="udpMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="virtuallocationMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="wapMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+<template name="wmiMonitorDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{name}}</h3>
+  </center>
+  <ul>
+    <li>Parent: {{defaultsFrom}}</li>
+    <li>Send: {{send}}</li>
+    <li>Receive: {{recv}}</li>
+    <li>Interval: {{interval}}</li>
+    <li>Timeout: {{timeout}}</li>
+    <li>Manual Resume: {{manualResume}}</li>
+    <li>Time until Up: {{timeUntilUp}}</li>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>

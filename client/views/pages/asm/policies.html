@@ -1,0 +1,25 @@
+<template name="asmPolicies">
+  <div class="container">
+  <center>
+    ASM/WAF Policies<a href="/asm/policies/create">Create New</a>
+  </center>
+
+  <ul>
+  Search: {{> asmPoliciesSearchBox}}
+
+  </ul>
+</div>
+</template>
+
+<template name="asmPoliciesDetails">
+  <div class="container">
+  <center>
+    <h3>View/Edit/Update {{versionPolicyName}}</h3>
+  </center>
+  <ul>
+    {{#each myProps}}
+      <li>{{this}}: {{getThis this}}</li>
+    {{/each}}
+  </ul>
+</div>
+</template>

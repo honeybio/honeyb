@@ -1,0 +1,182 @@
+<template name="dashboardsAppview">
+  <div class="container">
+  <center>
+    Full Application View - Search: <input type="text" name="applicationSearch">
+  </center>
+  <ul>
+    {{#each allApplications}}
+      {{> applicationList}}
+      <br>
+    {{/each}}
+  </ul>
+</div>
+</template>
+
+<template name="applicationList">
+  <li>
+  <ul>
+    <li>Wideip/Application URL: <a href="/gtm/wideips/{{_id}}">{{name}}</a></li>
+    {{#each pools}}
+      {{> appGPoolList}}
+    {{/each}}
+  </ul>
+  </li>
+</template>
+
+<template name="appGPoolList">
+  <li>GTM Pool: --> <a href="/gtm/pools/{{pool_id}}">{{name}}</a></li>
+  {{#each members}}
+    {{> gtmPMembers}}
+  {{/each}}
+</template>
+
+<template name="gtmPMembers">
+  <li>GTM Pool Member (VIP): ---> <a href="/gtm/pmembers/{{pmember_id}}">{{fullPath}}</a></li>
+  <li>App IP: {{getDest fullPath}}</li>
+  <ul>
+  {{#each ltmVips fullPath}}
+    {{> vipList}}
+  {{/each}}
+  </ul>
+</template>
+
+<template name="vipList">
+  <li><img src="/{{statusImg}}"><a href="/ltm/virtuals/{{_id}}">{{name}}</a> - {{destination}}</li>
+  <ul>
+    <li>Profiles:
+      {{#if profileList}}
+      <ul>
+        {{#each profileList}}
+          <li><a href="/ltm/profiles/{{profile_id}}">{{fullPath}}</a> </li>
+        {{/each}}
+      </ul>
+      {{else}}
+        none
+      {{/if}}
+    </li>
+    <li>Pools:
+      {{#if pool}}
+      <ul>
+        {{#with getPool onDevice pool}}
+          <li> {{> poolDisplay}} </li>
+        {{/with}}
+      </ul>
+      {{else}}
+        None
+      {{/if}}
+    </li>
+  </ul>
+</template>
+
+<template name="poolDisplay">
+  <img src="/{{statusImg}}"><a href="/ltm/pools/{{_id}}">{{name}}</a>
+  <ul>
+    {{> member}}
+  </ul>
+</template>
+
+<template name="member">
+  {{#each members}}
+    {{> memberList}}
+  {{/each}}
+</template>
+
+<template name="memberList">
+  <li><img src="/{{statusImg}}">{{name}}</li>
+</template>
+
+<template name="dashboardsAdcthroughput">
+  <div class="container">
+  <center>
+    ADC Network Stats - Search: <input type="text" name="applicationSearch">
+  </center>
+  <br>
+  <canvas id="adcChart" width="800" height="200"></canvas>
+  <ul>
+    {{#each getSyncgroups}}
+      <li>
+        {{> syncGroupList}}
+      </li>
+    {{/each}}
+  </ul>
+</div>
+</template>
+
+<template name="syncGroupList">
+Sync Group: <a href="/gtm/syncgroups/{{_id}}">{{synchronizationGroupName}}</a><br>
+  <ul>
+    {{#each getDatacenters _id}}
+      <li>{{> datacenterList}}</li>
+    {{/each}}
+  </ul>
+</template>
+
+<template name="datacenterList">
+  <img src="/{{statusImg}}"><a href="/gtm/datacenters/{{_id}}">{{name}}</a>
+  Bits/Sec in: {{stats.bpsIn}} - Bits/Sec out: {{stats.bpsOut}} - Connections: {{stats.connections}}
+  <br>
+  <ul>
+    {{#each getServers fullPath}}
+      <li>{{> serverList}}</li>
+    {{/each}}
+  </ul>
+</template>
+
+<template name="serverList">
+  <img src="/{{statusImg}}"><a href="/gtm/servers/{{_id}}">{{name}}</a>
+  Bits/Sec in: {{stats.bpsIn}} - Bits/Sec out: {{stats.bpsOut}} - Connections: {{stats.connections}}
+  <ul>
+  {{#each getVservers _id}}
+    <li>{{> vserverList}}</li>
+  {{/each}}
+</ul>
+</template>
+
+<template name="vserverList">
+  <img src="/{{statusImg}}"><a href="/gtm/vservers/{{_id}}">{{name}}</a> -
+  Bits/Sec in: {{stats.bpsIn}} - Bits/Sec out: {{stats.bpsOut}} - Connections: {{stats.connections}}
+  <br>
+</template>
+
+<template name="dashboardsIhealth">
+  <div class="container">
+    iHealth.f5.com statistics
+    <button class="ihealth" id="ihealth">Refresh iHealth</button>
+    <ul>
+      {{#each getIhealth}}
+        <li><a href="/dashboards/ihealth/{{_id}}">{{this.system_information.hostname}}</a></li>
+      {{/each}}
+    </ul>
+  </div>
+</template>
+
+<template name="dashboardsIhealthDetails">
+  <div class="container">
+    iHealth.f5.com statistics for {{system_information.hostname}}
+    <ul>
+      <li>Generated on {{generation_date}}</li>
+      <li>Support Entitlement Expires on {{entitlement.expiration_date}} ({{entitlement.days_left}} days left)</li>
+      <li>Chassis Serial: {{chassis_serial}}</li>
+      <li>Running Version: {{version.version}}</li>
+      <li>System Chassis ID: {{system_information.bigip_chassis_serial_num}}</li>
+      <li>Platform Type: {{platform}}</li>
+      <li>Uploaded on: {{upload.date}}</li>
+      <li>{{> displayDiagnostics diagnostics}}</li>
+    </ul>
+  </div>
+</template>
+
+<template name="displayDiagnostics">
+   Diagnostics Found: {{hit_count}}
+  <ul>
+    {{#each diagnostic}}
+    <ul>
+      <li>{{this.name}} - {{this.run_data.h_importance}}</li>
+      <ul>
+        <li>{{this.results.h_header}}</li>
+        <li>{{this.results.h_summary}}</li>
+      </ul>
+    </ul>
+    {{/each}}
+  </ul>
+</template>

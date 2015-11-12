@@ -1,0 +1,210 @@
+<template name="changes">
+  <div class="container">
+  <center>
+    <h3>Staged Changes</h3>
+  </center>
+  <form class="changeForm">
+  <ul>
+    {{#each createdChanges}}
+      <li>{{> unscheduledChangeList}}</li>
+    {{/each}}
+  </ul>
+  <select class="changeAction" id="changeAction" name="changeAction">
+    <option value="push">Push Changes to Device</option>
+    <option value="addtoset">Add to Changeset</option>
+  </select><br>
+  {{changesetSelected}}
+  {{#if dropdownChangeset}}
+    <select class="changeSetId" id="changeSetId" name="changeSetId">
+      {{#each changesetList}}
+        <option value="{{this._id}}">{{this.name}}</option>
+      {{/each}}
+    </select><br>
+  {{/if}}
+  <button class="submit" id="submit">Submit</button>
+  </form>
+</div>
+</template>
+
+<template name="unscheduledChangeList">
+      Created on: {{dateCreated}} - <a href="/changes/{{_id}}">{{change.description}}</a>
+       - {{change.theMethod}} <input type="checkbox" id="{{_id}}" name="{{_id}}">
+</template>
+
+<template name="changesCanceled">
+  <div class="container">
+  <center>
+    <h3>Canceled Changes</h3>
+  </center>
+  <form class="changeForm">
+  <ul>
+    {{#each canceledChanges}}
+      <li>{{> canceledChangeList}}</li>
+    {{/each}}
+  </ul>
+  <select name="changeAction">
+    <option value="uncancel">uncancel Changes</option>
+  </select><br>
+  <button class="submit" id="submit">Submit</button>
+  </form>
+</div>
+</template>
+
+<template name="canceledChangeList">
+      Canceled on: {{cancelDate}} - <a href="/changes/{{_id}}">{{change.description}}</a>
+       - {{change.theMethod}} <input type="checkbox" id="{{_id}}" name="{{_id}}">
+</template>
+
+<template name="changesPushed">
+  <div class="container">
+  <center>
+    <h3>Changes Committed/Pushed to Device</h3>
+  </center>
+  <form class="changeForm">
+  <ul>
+    {{#each pushedChanges}}
+      <li>{{> pushedChangeList}}</li>
+    {{/each}}
+  </ul>
+  <select name="changeAction">
+    <option value="backout">Backout Change</option>
+  </select><br>
+  <button class="submit" id="submit">Submit</button>
+  </form>
+</div>
+</template>
+
+<template name="pushedChangeList">
+    Committed on: {{pushDate}} - <a href="/changes/{{_id}}">{{change.description}}</a>
+     - {{change.theMethod}} <input type="checkbox" id="{{_id}}" name="{{_id}}">
+</template>
+
+<template name="changesScheduled">
+  <div class="container">
+  <center>
+    <h3>Changes Scheduled</h3>
+  </center>
+  <form class="changeForm">
+  <ul>
+    {{#each scheduledChanges}}
+      <li>{{> scheduledChangeList}}</li>
+    {{/each}}
+  </ul>
+  {{> changeSelect}}
+  <button class="submit" id="submit">Submit</button>
+  </form>
+</div>
+</template>
+
+<template name="scheduledChangeList">
+    Scheduled on: {{scheduleDate}} - <a href="/changes/{{_id}}">{{change.description}}</a>
+     - {{change.theMethod}} <input type="checkbox" id="{{_id}}" name="{{_id}}">
+</template>
+
+<template name="changesApproved">
+  <div class="container">
+  <center>
+    <h3>Changes Approved</h3>
+  </center>
+  <form class="changeForm">
+  <ul>
+    {{#each approvedChanges}}
+      <li>{{> approvedChangeList}}</li>
+    {{/each}}
+  </ul>
+  {{> changeSelect}}
+  {{#if changesetSelected}}
+    hi
+  {{/if}}
+  <button class="submit" id="submit">Submit</button>
+  </form>
+</div>
+</template>
+
+<template name="changeSelect">
+  <select id="changeAction" name="changeAction">
+    <option value="push">Push Changes to Device</option>
+    <option value="schedule">Schedule Changes</option>
+    <option value="cancel">Cancel Changes</option>
+    <option value="approve">Approve Changes</option>
+    <option value="addtoset">Add to Changeset</option>
+  </select><br>
+</template>
+
+<template name="changeSetList">
+  <select name="changesetID">
+    {{#each changesetList}}
+      <option value={{_id}}>{{name}}</option>
+    {{/each}}
+  </select>
+</template>
+
+<template name="approvedChangeList">
+    Approved on {{approveDate}} - <a href="/changes/{{_id}}">{{change.description}}</a>
+     - {{change.theMethod}} <input type="checkbox" id="{{_id}}" name="{{_id}}">
+</template>
+
+<template name="changeDetails">
+  <div class="container">
+  <center>
+    <h3>Change Details</h3>
+  </center>
+  <ul>
+    <li>Created at: {{created}}</li>
+    <li>Approved: {{approved}}</li>
+    {{#if approved}}
+      <li>Approved At:</li>
+    {{/if}}
+    <li>Committed on {{pushDate}}</li>
+    <li>Title: {{change.description}}</li>
+    <li>Function: {{change.theMethod}}</li>
+  </ul>
+</div>
+</template>
+
+<template name="changeset">
+  <div class="container">
+  <center>
+    <h3>Changesets</h3>
+  </center>
+  <ul>
+    {{#each changesetList}}
+      <li><a href="/changeset/{{_id}}">{{this.name}}</a></li>
+    {{/each}}
+  </ul>
+  <form class="changesetForm">
+  <button class="submit" id="submit">Create New</button>
+  </form>
+</div>
+</template>
+
+<template name="changesetDetails">
+  <div class="container">
+  <center>
+    <h3>Changeset Details</h3>
+  </center>
+  <ul>
+    <li>{{name}}</li>
+    <li>Created at: {{created}}</li>
+    <li>Description: {{description}}</li>
+  </ul>
+  <form class="changeUpdate">
+    <ul>
+      <input type="hidden" name="changeset_id" value="{{_id}}">
+      <li>Update Name: <input type="text" id="name"></li>
+      <li>Update Description: <input type="textarea" id="description"></li>
+
+      {{#each changeList}}
+        {{#with changesetDetails this}}
+          <li><a href="/changes/{{_id}}">{{change.description}}</a></li>
+        {{/with}}
+      {{/each}}
+      <br>
+      <button class="submit" id="submit">Update</button>
+    </ul>
+  </form>
+</div>
+</template>
+
+<template name="changeInfo">
+</template>

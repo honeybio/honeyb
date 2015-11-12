@@ -1,0 +1,84 @@
+<template name="ltmMonitorsTcpHalfOpenCreate">
+  <div class="container">
+  <center>
+    <h3>Create a new TCP Half Open Monitor</h3>
+  </center>
+    <form id= "monForm" class="monForm">
+      <div id="left" class="col-md-8">
+      Monitor Name: <input type="text" id="mon_name" class="mon_name"><br>
+      Destination: <input type="text" id="destination" class="destination"><br>
+      Interval: <input type="text" id="interval" class="interval"><br>
+      Timeout: <input type="text" id="timeout" class="timeout"><br>
+      Up Interval: <input type="text" id="upInterval" class="upInterval"><br>
+      Time until Up: <input type="text" id="timeUntilUp" class="timeUntilUp"><br>
+      Manual Resume: <select name="manualResume" class="manualResume">
+        <option value="disabled">No</option>
+        <option value="enabled">Yes</option>
+      </select><br>
+      Transparent:
+      <select name="transparent" class="transparent">
+        <option value="disabled">No</option>
+        <option value="enabled">Yes</option>
+      </select><br>
+      What device? <select id="device" name="deviceID">
+        <option selected="none" value="none">none</option>
+        {{#each getDeviceList}}
+          <option value="{{_id}}">{{self.name}}</option>
+        {{/each}} </select><br>
+       <br>
+      <br><br><button class="submit" id="submit">Create</button>
+      Stage changes?  <select name="stage" id="stage">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                      </select><br>
+      </div>
+    </form>
+</div>
+</template>
+
+<template name="ltmMonitorsHttpCreate">
+  <div class="container">
+  <center>
+    <h3>Create a new HTTP Monitor</h3>
+  </center>
+    <form id= "monForm" class="monForm">
+      <div id="left" class="col-md-8">
+      Monitor Name: <input type="text" id="mon_name" class="mon_name"><br>
+      Destination: <input type="text" id="destination" class="destination"><br>
+      Interval: <input type="text" id="interval" class="interval"><br>
+      Timeout: <input type="text" id="timeout" class="timeout"><br>
+      Up Interval: <input type="text" id="upInterval" class="upInterval"><br>
+      Time until Up: <input type="text" id="timeUntilUp" class="timeUntilUp"><br>
+      Adaptive: <input type="text" id="adaptive" class="adaptive"><br>
+      AdaptiveDivergenceType: <input type="text" id="adaptiveDivergenceType" class="adaptiveDivergenceType"><br>
+      AdaptiveDivergenceValue: <input type="text" id="adaptiveDivergenceValue" class="adaptiveDivergenceValue"><br>
+      AdaptiveLimit: <input type="text" id="adaptiveLimit" class="adaptiveLimit"><br>
+      AdaptiveSamplingTimespan: <input type="text" id="adaptiveSamplingTimespan" class="adaptiveSamplingTimespan"><br>
+      ipDscp: <input type="text" id="ipDscp" class="ipDscp"><br>
+      Send: <input type="text" id="send" class="send"><br>
+      Recv: <input type="text" id="recv" class="recv"><br>
+      Reverse: <input type="text" id="reverse" class="reverse"><br>
+      Manual Resume: <select name="manualResume" class="manualResume">
+        <option value="disabled">No</option>
+        <option value="enabled">Yes</option>
+      </select><br>
+      Transparent:
+      <select name="transparent" class="transparent">
+        <option value="disabled">No</option>
+        <option value="enabled">Yes</option>
+      </select><br>
+      What device? <select id="device" name="deviceID">
+        <option selected="none" value="none">none</option>
+        {{#each getDeviceList}}
+          <option value="{{_id}}">{{self.name}}</option>
+        {{/each}} </select><br>
+       <br>
+      <br><br><button class="submit" id="submit">Create</button>
+      Stage changes?  <select name="stage" id="stage">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                      </select><br>
+      </div>
+    </form>
+</div>
+</template>
