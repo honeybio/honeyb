@@ -67,13 +67,21 @@ Template.deviceDetails.helpers({
   }
 });
 
-Template.discoverSingle.onRendered( function() {
-  Session.set('status', "Ready to Discover");
+Template.jobStatus.helpers({
+  getJob: function (jobId) {
+    var job = Jobs.findOne({_id: jobId});
+    return job;
+  }
+})
+
+Template.discoverSingle.onCreated( function() {
+  this.discoverJob = new ReactiveVar();
+  this.discoverJob.set(null);
 });
 
 Template.discoverSingle.helpers({
-  getDiscoverStatus: function () {
-    return Session.get("status");
+  getJobId: function () {
+    return Template.instance().discoverJob.get();
   }
 });
 
@@ -81,16 +89,22 @@ Template.discoverSingle.events({
   "submit form": function (event, template) {
     event.preventDefault();
     // Get value from form element
-    var mgmtip = event.target.mgmtip.value;
-    var mgmtuser = event.target.mgmtuser.value;
-    var mgmtpass = event.target.mgmtpass.value;
-    var curStatus = Session.get('status');
-    var newStat = Session.set('status', curStatus + "\nDiscovering Device... You can close this and it will run in the background");
-    // event.target.text.value = "";
-    // console.log("Form Submitted" + mgmtip + mgmtuser + mgmtpass);
-    var result = Meteor.call("discoverAllDevice", mgmtip, mgmtuser, mgmtpass);
-    Session.set('status', newStat + "\n" + result);
-    // console.log(results);
+    var device = {
+      mgmtip: event.target.mgmtip.value,
+      mgmtuser: event.target.mgmtuser.value,
+      mgmtpass: event.target.mgmtpass.value
+    };
+    var job = {
+      name: 'discoverDevice',
+      status: 'ready',
+      progress: 0
+    };
+    Meteor.call("newJob", job, function(err, res) {
+      // console.log(res);
+      this.unblock;
+      template.discoverJob.set(res);
+      Meteor.call("discoverAllDevice", device.mgmtip, device.mgmtuser, device.mgmtpass, res);
+    });
   },
   "click #form button[id=close]": function (event) {
     Session.set('status', "Ready to Discover");

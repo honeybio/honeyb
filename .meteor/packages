@@ -46,3 +46,5 @@ reactive-var
 
 npm-container
 okgrow:router-autoscroll
+perak:codemirror
+reactive-dict

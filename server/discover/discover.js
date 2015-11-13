@@ -374,12 +374,17 @@ Meteor.methods({
       return false;
     }
   },
-  discoverAllDevice: function (ip, user, pass) {
+  discoverAllDevice: function (ip, user, pass, jobId) {
     // Check if mgmt IP is added, if so, don't add again
+    //console.log(reactiveStatus);
+
+    // reactiveStatus.set('status', 'Connected!' );
+    // reactiveStatus.set('progress', 10 );
     var checkAdded = Devices.findOne({ mgmtAddress: ip}, {_id: 1, self: 1});
     if (typeof checkAdded !== 'undefined') {
       return false;
     }
+    Jobs.update({_id: jobId}, {$set: {progress: 5, status: 'Checking Provisioning...'}});
     // Get provisioned modules
     var provisioning = Meteor.call("discoverProvisioning", ip, user, pass);
     // Get device stuff
@@ -397,6 +402,7 @@ Meteor.methods({
       // certs: cert_list,
       provision_level: provisioning
     });
+    Jobs.update({_id: jobId}, {$set: {progress: 15, status: 'Basic info gathered...'}});
     Meteor.call("getDiskStats", device_id);
     Meteor.call("discoverKeys", ip, user, pass, device_id);
     Meteor.call("discoverCerts", ip, user, pass, device_id);
@@ -404,13 +410,16 @@ Meteor.methods({
     // Get sync group if not exists in db
     if(provisioning.gtm !== "none") {
       Meteor.call("discoverGTM", ip, user, pass, device_id);
+      Jobs.update({_id: jobId}, {$set: {progress: 20, status: 'Getting GTM info...'}});
     }
     // Get LTM stuff
     if (provisioning.apm !== "none") {
       Meteor.call("discoverApmProfiles", ip, user, pass, device_id);
+      Jobs.update({_id: jobId}, {$set: {progress: 25, status: 'Getting APM info...'}});
     }
     if (provisioning.asm !== "none") {
       Meteor.call("discoverAsmPolicies", device_id);
+      Jobs.update({_id: jobId}, {$set: {progress: 30, status: 'Getting ASM info...'}});
     }
     Meteor.call("discoverLtmMonitors", ip, user, pass, device_id);
     Meteor.call("discoverLtmProfiles", ip, user, pass, device_id);
@@ -419,9 +428,12 @@ Meteor.methods({
     Meteor.call("discoverEdatagroups", ip, user, pass, device_id);
     Meteor.call("discoverRules", ip, user, pass, device_id);
     Meteor.call("discoverPools", ip, user, pass, device_id);
+    Jobs.update({_id: jobId}, {$set: {progress: 50, status: 'Getting LTM info...'}});
     Meteor.call("discoverVirtuals", ip, user, pass, device_id);
     Meteor.call("getVirtualStats", ip, user, pass, device_id);
+    Jobs.update({_id: jobId}, {$set: {progress: 75, status: 'Getting LTM Stats...'}});
     Meteor.call("getPoolStats", ip, user, pass, device_id);
+    Jobs.update({_id: jobId}, {$set: {progress: 100, status: 'Complete!'}});
     /* for(var i = 0; i < wip_list.length; i++) {
       var wipObject = { onDevice: device_id};
       for(var attrname in wip_list[i]) {

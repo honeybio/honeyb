@@ -1,7 +1,25 @@
+var OnBeforeActions;
+
+OnBeforeActions = {
+    loginRequired: function(pause) {
+      if (!Meteor.userId()) {
+        this.render('login');
+        this.layout('blankLayout');
+        return;
+      }
+      else {
+        this.next();
+      }
+    }
+};
+
+Router.onBeforeAction(OnBeforeActions.loginRequired, {
+    except: ['/login']
+});
+
 Router.configure({
     layoutTemplate: 'mainLayout',
     notFoundTemplate: 'notFound'
-
 });
 
 
@@ -1098,6 +1116,7 @@ Router.route('/landing', function () {
 //
 Router.route('/notFound', function () {
     this.render('notFound');
+    this.layout('blankLayout');
 });
 
 // Default route

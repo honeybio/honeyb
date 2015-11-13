@@ -31,7 +31,9 @@
           </form>
           <br>
           <center>
-            {{getDiscoverStatus}}
+            {{#if getJobId}}
+              {{> jobStatus getJobId}}
+            {{/if}}
           </center>
         </div>
         <div class="modal-footer">
@@ -40,6 +42,19 @@
       </div>
     </div>
   </div>
+</template>
+
+<template name="jobStatus">
+  {{#with getJob name}}
+  {{name}}
+    Job Name: {{name}}<br>
+    Status: {{status}}
+    <div class="progress progress-striped active">
+      <div aria-valuemax="100" style="width: {{progress}}%" aria-valuemin="0" aria-valuenow="{{progress}}" role="progressbar" class="progress-bar progress-bar-success">
+        <span class="sr-only">{{progress}}% Complete</span>
+      </div>
+    </div>
+  {{/with}}
 </template>
 
 <template name="deviceList">
