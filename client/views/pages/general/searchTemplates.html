@@ -28,12 +28,12 @@ test
 </template>
 
 <template name="rulesSearchBox">
-{{> EasySearch.Input index=rulesIndex}}
-<ul>
-{{#EasySearch.Each index=rulesIndex}}
-<li><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"><a href="/ltm/rules/{{_id}}">{{name}}</a></li>
-{{/EasySearch.Each}}
-</ul>
+    {{> EasySearch.Input index=rulesIndex}}
+    <ul>
+      {{#EasySearch.Each index=rulesIndex}}
+        <li><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"><a href="/ltm/rules/{{_id}}">{{name}}</a></li>
+      {{/EasySearch.Each}}
+    </ul>
 </template>
 
 

@@ -1,26 +1,37 @@
 <template name="dashboardsAppview">
-  <div class="container">
-  <center>
-    Full Application View - Search: <input type="text" name="applicationSearch">
-  </center>
-  <ul>
-    {{#each allApplications}}
-      {{> applicationList}}
-      <br>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Dashboards' category='AppView' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      {{#each allApplications}}
+        {{> applicationList}}
+      {{/each}}
+    </div>
+  </div>
 </template>
 
 <template name="applicationList">
-  <li>
-  <ul>
-    <li>Wideip/Application URL: <a href="/gtm/wideips/{{_id}}">{{name}}</a></li>
-    {{#each pools}}
-      {{> appGPoolList}}
-    {{/each}}
-  </ul>
-  </li>
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Application {{name}} <small class="m-l-sm">blah blah blah</small></h5>
+        {{>iboxTools}}
+      </div>
+      <div class="ibox-content">
+        Wideip/Application URL: <a href="/gtm/wideips/{{_id}}">{{name}}</a>
+        <ul>
+          {{#each pools}}
+            {{> appGPoolList}}
+          {{/each}}
+        </ul>
+      </div>
+      <div class="ibox-footer">
+        <span class="pull-right">
+          The righ side of the footer
+        </span>
+        This is simple footer example
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="appGPoolList">
@@ -85,30 +96,55 @@
   <li><img src="/{{statusImg}}">{{name}}</li>
 </template>
 
+
 <template name="dashboardsAdcthroughput">
-  <div class="container">
-  <center>
-    ADC Network Stats - Search: <input type="text" name="applicationSearch">
-  </center>
-  <br>
-  <canvas id="adcChart" width="800" height="200"></canvas>
-  <ul>
-    {{#each getSyncgroups}}
-      <li>
-        {{> syncGroupList}}
-      </li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Dashboards' category='ADC Stats' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Network Throughput {{name}} <small class="m-l-sm">All of your devices</small></h5>
+            {{>iboxTools}}
+          </div>
+          <div class="ibox-content">
+            <canvas id="adcChart" height="300"></canvas>
+          </div>
+          <div class="ibox-footer">
+            <span class="pull-right">
+              The righ side of the footer
+            </span>
+            This is simple footer example
+          </div>
+        </div>
+      </div>
+      {{#each getSyncgroups}}
+          {{> syncGroupList}}
+      {{/each}}
+    </div>
+  </div>
 </template>
 
 <template name="syncGroupList">
-Sync Group: <a href="/gtm/syncgroups/{{_id}}">{{synchronizationGroupName}}</a><br>
-  <ul>
-    {{#each getDatacenters _id}}
-      <li>{{> datacenterList}}</li>
-    {{/each}}
-  </ul>
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Sync Group: <a href="/gtm/syncgroups/{{_id}}">{{synchronizationGroupName}}</a> <small class="m-l-sm">A set of GTMs</small></h5>
+        {{>iboxTools}}
+        <div class="ibox-content">
+          {{#each getDatacenters _id}}
+          <li>{{> datacenterList}}</li>
+          {{/each}}
+        </div>
+        <div class="ibox-footer">
+          <span class="pull-right">
+            The righ side of the footer
+          </span>
+          This is simple footer example
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="datacenterList">
