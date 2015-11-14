@@ -193,17 +193,23 @@ Meteor.methods({
     // https://localhost/mgmt/tm/util/qkview
     // -H 'Content-Type: applicatoin/json' -X POST -d '{"command":"run","utilCmdArgs":"-f dave"}'
     var device = Devices.findOne({_id: device_id});
-
+    var settings = Settings.findOne();
     var check_if_running = Meteor.call("checkQkviewPS", device_id);
     if (check_if_running) {
+      console.log('qkview running');
       return "qkview already running";
+    }
+    else if (settings.ihealthUser === undefined || settings.ihealthPass === undefined) {
+      console.log('no ihealth settings configured');
+      return 'need to set iHealth User and Pass in settings';
     }
     else {
       // var args = [device.mgmtAddress, device.sshUser];
-      var settings = Settings.findOne();
       var args = [device.mgmtAddress, 'root', settings.ihealthUser, settings.ihealthPass];
+      console.log('running qkview');
       var shellCommand = "create_and_get_qkview.sh";
       var output = Meteor.call("runShellCmd", shellCommand, args);
+      console.log('complete: ' + output);
       //Meteor.call("uploadQkview", qkFileName);
 //      var device = Devices.findOne({_id: onDevice});
 //      var lurl = 'https://localhost/mgmt/tm/util/qkview';

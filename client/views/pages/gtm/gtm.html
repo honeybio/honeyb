@@ -96,39 +96,9 @@
 
 
 <template name="wipList">
-  {{> pageHeading title='Wideips' category='GTM' }}
-  <div class="wrapper wrapper-content animated fadeIn">
-    <div class="row">
-      <form class="virtualForm">
-        <div class="col-lg-12">
-          <div class="ibox float-e-margins">
-            <div class="ibox-title">
-              <h5>GTM Wideips <small class="m-l-sm">Manage your DNS</small></h5>
-              {{>iboxTools}}
-            </div>
-            <div class="ibox-content">
-              <ul>
-                {{#each allWips}}
-                  {{> wipList}}
-                {{/each}}
-              </ul>
-            </div>
-            <div class="ibox-footer">
-              <span class="pull-right">
-                The righ side of the footer
-              </span>
-              <a href="/gtm/wideips/create">Create New</a>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-  <div class="container">
   <li>
     <a href="/gtm/wideips/{{_id}}">{{name}}</a>
   </li>
-</div>
 </template>
 
 <template name="gtmDatacenters">
@@ -176,49 +146,69 @@
 </template>
 
 <template name="gtmWideipDetails">
-  <div class="container">
-  Details for {{name}}
-  <ul>
-    <li>partition: {{partition}}</li>
-    <li>fullPath: {{fullPath}}</li>
-    <li>generation: {{generation}}</li>
-    <li>enabled: {{enabled}}</li>
-    <li>failureRcode: {{failureRcode}}</li>
-    <li>failureRcodeResponse: {{failureRcodeResponse}}</li>
-    <li>failureRcodeTtl: {{failureRcodeTtl}}</li>
-    <li>lastResortPool: {{lastResortPool}}</li>
-    <li>minimalResponse: {{minimalResponse}}</li>
-    <li>persistCidrIpv4: {{persistCidrIpv4}}</li>
-    <li>persistCidrIpv6: {{persistCidrIpv6}}</li>
-    <li>persistence: {{persistence}}</li>
-    <li>poolLbMode: {{poolLbMode}}</li>
-    <li>ttlPersistence: {{ttlPersistence}}</li>
-    <ul>
-        {{#each pools}}
-          <li>Pool Info
-            <ul>Name: {{this.name}}
-              <li>Order: {{this.order}}</li>
-              <li>Ratio: {{this.ratio}}</li>
+  {{> pageHeading title='Wideip Detail' category='GTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form class="virtualForm">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>GTM Wideip {{name}} <small class="m-l-sm">Manage your DNS</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
               <ul>
-                {{#each members}}
-                Members:
-                  <li>Name; {{this.name}}</li>
-                  <li>Path: {{this.fullPath}}</li>
-                  <li>Enabled: {{this.enabled}}</li>
-                  <li>Monitor: {{this.monitor}}</li>
-                  <li>Ratio: {{this.ratio}}</li>
-                  <li>MemberOrder: {{this.memberOrder}}</li>
-                  <li>MaxBPS: {{this.limitMaxBps}}</li>
-                  <li>Max Conn: {{this.limitMaxConnections}}</li>
-                  <li>Max Conn Stat: {{this.limitMaxConnectionsStatus}}</li>
-                {{/each}}
+                <li>partition: {{partition}}</li>
+                <li>fullPath: {{fullPath}}</li>
+                <li>generation: {{generation}}</li>
+                <li>enabled: {{enabled}}</li>
+                <li>failureRcode: {{failureRcode}}</li>
+                <li>failureRcodeResponse: {{failureRcodeResponse}}</li>
+                <li>failureRcodeTtl: {{failureRcodeTtl}}</li>
+                <li>lastResortPool: {{lastResortPool}}</li>
+                <li>minimalResponse: {{minimalResponse}}</li>
+                <li>persistCidrIpv4: {{persistCidrIpv4}}</li>
+                <li>persistCidrIpv6: {{persistCidrIpv6}}</li>
+                <li>persistence: {{persistence}}</li>
+                <li>poolLbMode: {{poolLbMode}}</li>
+                <li>ttlPersistence: {{ttlPersistence}}</li>
+                <ul>
+                    {{#each pools}}
+                      <li>Pool Info
+                        <ul>Name: {{this.name}}
+                          <li>Order: {{this.order}}</li>
+                          <li>Ratio: {{this.ratio}}</li>
+                          <ul>
+                            {{#each members}}
+                            Members:
+                              <li>Name; {{this.name}}</li>
+                              <li>Path: {{this.fullPath}}</li>
+                              <li>Enabled: {{this.enabled}}</li>
+                              <li>Monitor: {{this.monitor}}</li>
+                              <li>Ratio: {{this.ratio}}</li>
+                              <li>MemberOrder: {{this.memberOrder}}</li>
+                              <li>MaxBPS: {{this.limitMaxBps}}</li>
+                              <li>Max Conn: {{this.limitMaxConnections}}</li>
+                              <li>Max Conn Stat: {{this.limitMaxConnectionsStatus}}</li>
+                            {{/each}}
+                          </ul>
+                        </ul>
+                      </li>
+                    {{/each}}
+                </ul>
               </ul>
-            </ul>
-          </li>
-        {{/each}}
-    </ul>
-  </ul>
-</div>
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+              <a href="/gtm/wideips/create">Create New</a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
 
 <template name="gtmWideipsCreate">
@@ -256,37 +246,77 @@
 </template>
 
 <template name="gtmServerDetails">
-  <div class="container">
-  Details for {{name}}
-  <ul>
-    <li>Name: {{fullPath}}</li>
-    <li>Datacenter: {{datacenter}}</li>
-    <li>Enabled?: {{enabled}}</li>
-    <li>RouteDomains: {{exposeRouteDomains}}</li>
-    <li>Monitor: {{monitor}}</li>
-    <li>Product: {{product}}</li>
-    <li>Discover: {{virtualServerDiscovery}}</li>
-    <ul> Address:
-      {{#each addresses}}
-        <li>IP: {{this.name}}</li>
-        <li>Name: {{this.deviceName}}</li>
-      {{/each}}
-    </ul>
-  </ul>
-</div>
+  {{> pageHeading title='Server Detail' category='GTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form class="virtualForm">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>GTM Server {{name}} <small class="m-l-sm">Manage your GTM Server</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+              <ul>
+                <li>Name: {{fullPath}}</li>
+                <li>Datacenter: {{datacenter}}</li>
+                <li>Enabled?: {{enabled}}</li>
+                <li>RouteDomains: {{exposeRouteDomains}}</li>
+                <li>Monitor: {{monitor}}</li>
+                <li>Product: {{product}}</li>
+                <li>Discover: {{virtualServerDiscovery}}</li>
+                <ul> Address:
+                  {{#each addresses}}
+                    <li>IP: {{this.name}}</li>
+                    <li>Name: {{this.deviceName}}</li>
+                  {{/each}}
+                </ul>
+              </ul>
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+              <a href="/gtm/server/create">Create New</a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
 
 <template name="gtmVserverDetails">
-  <div class="container">
-  Details for {{name}}
-  <ul>
-    <li>Path: {{fullPath}}</li>
-    <li>Destination: {{destination}}</li>
-    <li>Enabled: {{enabled}}</li>
-    <li>MaxBps: {{limitMaxBps}}</li>
-    <li>Max Conns: {{limitMaxConnections}}</li>
-  </ul>
-</div>
+  {{> pageHeading title='Virtual Server Detail' category='GTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form class="virtualForm">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>GTM Virtual Server {{name}} <small class="m-l-sm">Manage your GTM Virtual Server</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+              <ul>
+                <li>Path: {{fullPath}}</li>
+                <li>Destination: {{destination}}</li>
+                <li>Enabled: {{enabled}}</li>
+                <li>MaxBps: {{limitMaxBps}}</li>
+                <li>Max Conns: {{limitMaxConnections}}</li>
+              </ul>
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+              <a href="/gtm/vserver/create">Create New</a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
 
 

@@ -164,14 +164,13 @@ Template.serverList.helpers({
 Template.dashboardsIhealth.events({
   'click .ihealth': function (event) {
     event.preventDefault();
-    console.log("clicked button");
-    Meteor.call("ihealthTest");
+    Meteor.call("ihealthUpdateData");
   }
 });
 
 Template.dashboardsIhealth.helpers({
   getIhealth: function () {
-    var result = Ihealth.find();
+    var result = Ihealth.find({ hidden: false });
     return result;
   }
 });

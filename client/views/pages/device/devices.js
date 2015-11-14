@@ -43,7 +43,9 @@ Template.deviceDetails.events({
     //else {
       // timeObj = { text: 1...};
     //}
-    Meteor.call("createAndScheduleQkview", device_id, timeObj);
+    console.log('starting qkview');
+    Meteor.call("createQkviewCommand", device_id);
+    // Meteor.call("createAndScheduleQkview", device_id, timeObj);
     // Meteor.call("taskOnce", device_id, jobName, "createQkview", timeObj, description);
     //Meteor.call("createQkview", device_id);
     // console.log(results);

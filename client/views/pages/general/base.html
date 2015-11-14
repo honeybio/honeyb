@@ -1,12 +1,74 @@
 <template name="home">
-  <div class="container">
-    <div class="jumbotron">
-      <h1>Welcome to honeyB &#128029; f5 manager!</h1>
-      <p>Get started by adding some devices!</p>
-      <p><a class="btn btn-primary btn-lg" href="/devices" role="button">Devices</a></p>
+  <div class="row  border-bottom white-bg dashboard-header">
+    <div class="col-sm-3">
+      <h2>Welcome {{currentUser.username}}</h2>
+      <small>Welcome to honeyb &#128029; f5 BIG-IP manager!</small>
+      {{> jobList}}
+    </div>
+    <div class="col-sm-6">
+      <div class="flot-chart dashboard-chart">
+        <div class="flot-chart-content" id="flot-dashboard-chart"></div>
+      </div>
+      <div class="row text-left">
+        <div class="col-xs-4">
+          <div class=" m-l-md">
+            <span class="h4 font-bold m-t block">125</span>
+            <small class="text-muted m-b block">Virtual Servers</small>
+          </div>
+        </div>
+        <div class="col-xs-4">
+          <span class="h4 font-bold m-t block">125</span>
+          <small class="text-muted m-b block">Pools</small>
+        </div>
+        <div class="col-xs-4">
+          <span class="h4 font-bold m-t block">500</span>
+          <small class="text-muted m-b block">Wideips</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="statistic-box">
+        <h4>
+          Some Status stuff
+        </h4>
+        <p>
+          A task here and there.
+        </p>
+        <div class="row text-center">
+          <div class="col-lg-6">
+            <canvas id="polarChart" width="80" height="80"></canvas>
+            <h5>LTM</h5>
+          </div>
+          <div class="col-lg-6">
+            <canvas id="doughnutChart" width="78" height="78"></canvas>
+            <h5>ASM</h5>
+          </div>
+        </div>
+        <div class="m-t">
+          <small>Blah blah F5 is cool</small>
+        </div>
+      </div>
     </div>
   </div>
 </template>
+
+<template name="jobList">
+    <ul class="list-group clear-list m-t">
+        {{#each latestJobs}}
+            {{> jobElement}}
+        {{/each}}
+    </ul>
+</template>
+
+<template name="jobElement">
+    <li class="list-group-item">
+        <span class="pull-right">
+            {{progress}}%
+        </span>
+        <span class="label label-{{labelClass}}">{{name}}</span> {{status}}
+    </li>
+</template>
+
 
 <template name="support">
   <div class="container">

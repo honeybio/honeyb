@@ -94,48 +94,58 @@
 </template>
 
 <template name="deviceDetails">
-  <div class="container">
-    <center>
-      <h3>View/Edit/Update  {{self.name}}</h3>
-    </center>
+  {{> pageHeading title='Device Details' category='Devices' }}
+  <div class="wrapper wrapper-content animated fadeIn">
     <div class="row">
-      <div class="col-md-8">
-      <ul>
-        <li>Management IP: {{mgmtAddress}}</li>
-        <li>Failover State: {{self.failoverState}}</li>
-        <li>Peer Name: {{peer.name}}</li>
-        <li>Management User: {{mgmtUser}}</li>
-        <li>Active Modules: {{self.activeModules}}</li>
-        <li>Base Mac: {{self.baseMac}}</li>
-        <li>Version: {{self.version}}</li>
-        <li>Build: {{self.build}}</li>
-        <li>Platform Name: {{self.marketingName}}</li>
-        <li>Platform ID: {{self.platform}}</li>
-        {{> provisionedModules}}
-      </ul>
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Details for {{self.name}} <small class="m-l-sm">Manage your BIG-IP devices</small></h5>
+            {{>iboxTools}}
+          </div>
+          <div class="ibox-content">
+            <ul>
+              <li>Management IP: {{mgmtAddress}}</li>
+              <li>Failover State: {{self.failoverState}}</li>
+              <li>Peer Name: {{peer.name}}</li>
+              <li>Management User: {{mgmtUser}}</li>
+              <li>Active Modules: {{self.activeModules}}</li>
+              <li>Base Mac: {{self.baseMac}}</li>
+              <li>Version: {{self.version}}</li>
+              <li>Build: {{self.build}}</li>
+              <li>Platform Name: {{self.marketingName}}</li>
+              <li>Platform ID: {{self.platform}}</li>
+              {{> provisionedModules}}
+            </ul>
+            <form class="qkviewForm">
+              <input type="hidden" name="device_id" value="{{_id}}">
+              {{> onceSelect}}
+              <input type="text" class="form-control" id="my-datepicker">
+              <button class="submit" id="submit">Create A Qkview</button>
+            </form>
+            <form class="archiveForm">
+              <input type="hidden" name="device_id" value="{{_id}}">
+              {{> scheduleTemplate}}
+              <button class="submit" id="submit">Schedule Archive</button>
+            </form>
+            <form class="scheduledJobs">
+              {{#each getJobs _id}}
+                Job: {{name}}<br>
+              {{/each}}
+            </form><br>
+            {{#with diskSpace}}
+              {{> diskUsage}}
+            {{/with}}
+          </div>
+          <div class="ibox-footer">
+            <span class="pull-right">
+              The righ side of the footer
+            </span>
+            {{> discoverSingle}}
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="col-md-4">
-      <form class="qkviewForm">
-        <input type="hidden" name="device_id" value="{{_id}}">
-        {{> onceSelect}}
-        <input type="text" class="form-control" id="my-datepicker">
-        <button class="submit" id="submit">Schedule A Qkview</button>
-      </form>
-      <form class="archiveForm">
-        <input type="hidden" name="device_id" value="{{_id}}">
-        {{> scheduleTemplate}}
-        <button class="submit" id="submit">Schedule Archive</button>
-      </form>
-      <form class="scheduledJobs">
-        {{#each getJobs _id}}
-          Job: {{name}}<br>
-        {{/each}}
-      </form><br>
-    </div>
-  </div>
-  {{#with diskSpace}}
-    {{> diskUsage}}
-  {{/with}}
   </div>
 </template>
 

@@ -72,5 +72,5 @@ fi
 $CURL_CMD -H"Content-type: application/json" --cookie-jar ${COOKIE_FILE} -o - --data-ascii "{\"user_id\": \"${IHEALTH_USER}\", \"user_secret\": \"$IHEALTH_PASS\"}" ${AUTH_URI}
 $CURL_CMD -H"Accept: application/vnd.f5.ihealth.api" --cookie ${COOKIE_FILE} --cookie-jar ${COOKIE_FILE} ${CURL_UPLOAD_OPTS} ${POST_URI}
 rm -f ${LOCAL_TMPDIR}/${OUTPUT_FILENAME}
-echo ${UPLOAD_OUT}
+echo 'complete'
 #echo "${OUTPUT_DIR}/${OUTPUT_FILENAME}"
