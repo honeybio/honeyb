@@ -162,10 +162,10 @@
   <img src="/{{statusImg}}"><a href="/gtm/servers/{{_id}}">{{name}}</a>
   Bits/Sec in: {{stats.bpsIn}} - Bits/Sec out: {{stats.bpsOut}} - Connections: {{stats.connections}}
   <ul>
-  {{#each getVservers _id}}
-    <li>{{> vserverList}}</li>
-  {{/each}}
-</ul>
+    {{#each getVservers _id}}
+      <li>{{> vserverList}}</li>
+    {{/each}}
+  </ul>
 </template>
 
 <template name="vserverList">

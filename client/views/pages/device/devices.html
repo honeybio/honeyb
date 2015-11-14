@@ -1,13 +1,28 @@
 <template name="devices">
-  <div class="container">
-  <center>
-    <p class="lead">Discovered Devices</p>
-  </center>
-  <ul>
-    {{> devicesSearchBox}}
-  </ul>
-  {{> discoverSingle}}
-</div>
+  {{> pageHeading title='Device List' category='Devices' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form class="iruleForm">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Devices <small class="m-l-sm">Manage your BIG-IP devices</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+              {{> devicesSearchBox}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+              {{> discoverSingle}}
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
 
 <template name="discoverSingle">

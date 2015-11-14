@@ -1,38 +1,46 @@
 
 <template name="ltmPools">
-  <div class="container">
-    <form class="poolMemberForm">
-      <center>Pool Form </center>
-      <div class="row">
-        <div class="col-md-8">
-          <ul>
-              {{> poolsSearchBox}}
-          </ul>
+  {{> pageHeading title='Pools' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form class="poolMemberForm">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>LTM Pools <small class="m-l-sm">Manage your LTM Pools</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+              <ul>
+                {{> poolsSearchBox}}
+              </ul>
+              <select name="objectAction">
+                <option value="copy">Copy</option>
+                <option value="blank">-----------</option>
+                <option value="delete">Delete(!)</option>
+              </select><br>
+              To device: <select id="to_device" name="to_device">
+                <option selected="none" value="none">none</option>
+                {{#each getDeviceList}}
+                  <option value="{{_id}}">{{self.name}}</option>
+                {{/each}} </select><br>
+              Stage changes?
+              <select name="stage" id="stage">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+              </select><br>
+              <button class="submit" id="submit">Submit</button>
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+              <a href="/ltm/pools/create">Create New</a>
+            </div>
+          </div>
         </div>
-        <div class="col-md-4 right-menu">
-          <a href="/ltm/pools/create">Create New</a><br>
-          <select name="deviceFilter">
-            <option value="blah">Blah</option>
-          </select><br>
-          <select name="objectAction">
-            <option value="copy">Copy</option>
-            <option value="blank">-----------</option>
-            <option value="delete">Delete(!)</option>
-          </select><br>
-          To device: <select id="to_device" name="to_device">
-            <option selected="none" value="none">none</option>
-            {{#each getDeviceList}}
-              <option value="{{_id}}">{{self.name}}</option>
-            {{/each}} </select><br>
-          Stage changes?
-          <select name="stage" id="stage">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-          </select><br>
-          <button class="submit" id="submit">Submit</button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </template>
 

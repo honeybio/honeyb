@@ -27,55 +27,98 @@
 </template>
 
 <template name="ltmIdatagroups">
-  <div class="container">
-  <center>
-    Internal Data Groups - Search: <input type="text" name="iGroupSearch">
-  </center>
-  <form class="poolMemberForm">
-    <input type="hidden" name="poolName" value="{{_id}}">
-    <input type="hidden" name="onDevice" value="{{onDevice}}">
-  <ul>
-    {{> idatagroupsSearchBox}}
-</ul>
-</form>
-</div>
+  {{> pageHeading title='Datagroups' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form class="poolMemberForm">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>LTM Datagroups <small class="m-l-sm">Manage your LTM Datagroups</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+              {{> idatagroupsSearchBox}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
 
 <template name="ltmMonitors">
-  <div class="container">
-  <center>
-    Monitors - Search: <input type="text" name="monitorSearch">
-  </center>
-  <ul>
-    <li>Type: tcp-half-open <a href="/ltm/monitors/tcp-half-open/create">Create New</a></li>
-    <li>Type: http <a href="/ltm/monitors/http/create">Create New</a></li>
-  </ul>
-  <form class="poolMemberForm">
-    <input type="hidden" name="poolName" value="{{_id}}">
-    <input type="hidden" name="onDevice" value="{{onDevice}}">
-  <ul>
-      {{> monitorsSearchBox}}
-  </ul>
-  <select name="objectAction">
-    <option value="delete">Delete(!)</option>
-  </select><br>
-  Stage changes?  <select name="stage" id="stage">
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
-                  </select><br>
-  <button class="submit" id="submit">Submit</button>
-</form>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form class="poolMemberForm">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>LTM Datagroups <small class="m-l-sm">Manage your LTM Datagroups</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+              <ul>
+                <li>Type: tcp-half-open <a href="/ltm/monitors/tcp-half-open/create">Create New</a></li>
+                <li>Type: http <a href="/ltm/monitors/http/create">Create New</a></li>
+              </ul>
+              <ul>
+                  {{> monitorsSearchBox}}
+              </ul>
+              <select name="objectAction">
+                <option value="delete">Delete(!)</option>
+              </select><br>
+              Stage changes?  <select name="stage" id="stage">
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                              </select><br>
+              <button class="submit" id="submit">Submit</button>
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
 
 <template name="ruleDetails">
-  <center>
-    <h3>View/Edit/Update {{name}} on {{onDevice}}</h3>
-    <br>
-    content:
-  </center>
-  {{> CodeMirror id="iruleBox" name="iruleBox" options=editorOptions code=apiAnonymous}}
-  <br>
+  {{> pageHeading title='iRule Details' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form class="poolMemberForm">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>LTM iRules <small class="m-l-sm">Manage your LTM iRules</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+              {{> CodeMirror id="iruleBox" name="iruleBox" options=editorOptions code=apiAnonymous}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
 
 <template name="idatagroupDetails">
