@@ -30,6 +30,8 @@ Router.route('/', function () {
   });
 });
 
+Router.route('/settings/gettingstarted');
+
 // Dashboards
 Router.route('/dashboards/appview', function () {
   this.render('dashboardsAppview', {
@@ -48,11 +50,7 @@ Router.route('/dashboards/ihealth/:_id', {
   }
 });
 
-Router.route('/myprofile', {
-  data: function() {
-    return Settings.findOne();
-  }
-});
+Router.route('/myprofile');
 
 Router.route('/logout', {
   data: function() {

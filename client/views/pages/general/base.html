@@ -3,7 +3,11 @@
     <div class="col-sm-3">
       <h2>Welcome {{currentUser.username}}</h2>
       <small>Welcome to honeyb &#128029; f5 BIG-IP manager!</small>
-      {{> jobList}}
+      {{#if getDevices}}
+        {{> jobList}}
+      {{else}}
+        {{> gettingStarted}}
+      {{/if}}
     </div>
     <div class="col-sm-6">
       <div class="flot-chart dashboard-chart">
@@ -52,12 +56,112 @@
   </div>
 </template>
 
+<template name="gettingStarted">
+  <ul class="list-group clear-list m-t">
+      Need help getting started with honeyb? <a href='/settings/gettingstarted'>Use the configuration Wizard</a>
+  </ul>
+</template>
+
 <template name="jobList">
     <ul class="list-group clear-list m-t">
         {{#each latestJobs}}
             {{> jobElement}}
         {{/each}}
     </ul>
+</template>
+
+<template name="settingsGettingstarted">
+  {{> pageHeading title='Configuring honeyb' category='Getting Started' }}
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox">
+          <div class="ibox-title">
+            <h5>Configure your honeyb Deployment</h5>
+            {{>iboxTools}}
+          </div>
+          <div class="ibox-content">
+            <h2>
+              New Application Wizard
+            </h2>
+            <p>
+              A simple way to deploy a secure, available, application.
+            </p>
+            <form id="form" action="#" class="wizard-big">
+              <h1>General Info</h1>
+              <fieldset>
+                <h2>Account Information</h2>
+                <div class="row">
+                  <div class="col-lg-8">
+                    <div class="form-group">
+                      <label>Application Name </label>
+                      <input id="appName" name="appname" type="text" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                      <label>Application Hostname *</label>
+                      <input id="appHost" name="appHost" type="text" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                      <label>Application Type</label>
+                      <select id="appType" name="appType">
+                        <option selected="https" value="https">HTTPS (Secure)</option>
+                        <option value="http">HTTP (Not Recommended: No encryption)</option>
+                        <option value="tcp">Non-HTTP (Mail, FTP, Other)</option>
+                      </select>
+                    </div>
+                  </div>
+                <div class="col-lg-4">
+                  <div class="text-center">
+                    <div style="margin-top: 20px">
+                      <i class="fa fa-sign-in" style="font-size: 180px;color: #e5e5e5 "></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <h1>Security</h1>
+            <fieldset>
+              <h2>WAF & DDoS Security</h2>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label>WAF(Layer 7 IPS-Like Signature Protection)</label>
+                    <input id="name" name="name" type="text" class="form-control required">
+                  </div>
+                  <div class="form-group">
+                    <label>DDoS (Layer 3/4 Volumetric Protection)</label>
+                    <input id="surname" name="surname" type="text" class="form-control required">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label>Email *</label>
+                    <input id="email" name="email" type="text" class="form-control required email">
+                  </div>
+                  <div class="form-group">
+                    <label>Address *</label>
+                    <input id="address" name="address" type="text" class="form-control">
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <h1>Warning</h1>
+            <fieldset>
+              <div class="text-center" style="margin-top: 120px">
+                <h2>You did it Man :-)</h2>
+              </div>
+            </fieldset>
+            <h1>Finish</h1>
+            <fieldset>
+              <h2>Terms and Conditions</h2>
+              <input id="acceptTerms" name="acceptTerms" type="checkbox" class="required"> <label for="acceptTerms">I agree with the Terms and Conditions.</label>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="jobElement">
