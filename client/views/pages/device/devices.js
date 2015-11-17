@@ -36,32 +36,18 @@ Template.deviceDetails.events({
     var device_id = event.target.device_id.value;
     var timeObj = { text: 1, number: event.target.atTime.value, unit: event.target.unit.value};
     var jobName = device_id + "_once_qkview";
-    // if (event.target.atTime.value == 'none') {
-    //  timeObj = { text: 0, min: event.target.minute.value, hr: event.target.hour.value, day: event.target.dayOfMonth.value,
-    //              month: event.target.month.value, year: event.target.year.value };
-    //}
-    //else {
-      // timeObj = { text: 1...};
-    //}
     console.log('starting qkview');
     Meteor.call("createQkviewCommand", device_id);
-    // Meteor.call("createAndScheduleQkview", device_id, timeObj);
-    // Meteor.call("taskOnce", device_id, jobName, "createQkview", timeObj, description);
-    //Meteor.call("createQkview", device_id);
-    // console.log(results);
   },
   'submit .archiveForm': function (event) {
     event.preventDefault();
     var device_id = event.target.device_id.value;
-    var timeObj = { min: event.target.minute.value, hr: event.target.hour.value, day: event.target.dayOfWeek.value,
-      freq: event.target.frequency.value };
     var description = "An archive job";
-    var jobName = device_id + "_" + timeObj.freq + "_" + "archive";
-    // taskScheduler: function(device_id, jobName, command, schedule, desc, recur) {
-    Meteor.call("taskScheduler", device_id, jobName, "schedArch", timeObj, description);
+    var jobName = device_id + "_" + "archive";
+    console.log(jobName);
+    Meteor.call("createUCSCommand", device_id);
   }
 });
-
 Template.deviceDetails.helpers({
   getJobs: function (device_id) {
     var results = Jobs.find({onDevice: device_id});

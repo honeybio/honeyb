@@ -50,7 +50,11 @@ Router.route('/dashboards/ihealth/:_id', {
   }
 });
 
-Router.route('/myprofile');
+Router.route('/myprofile', {
+  data: function () {
+    return Settings.findOne({type: 'system'});
+  }
+});
 
 Router.route('/logout', {
   data: function() {

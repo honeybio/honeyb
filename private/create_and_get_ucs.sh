@@ -1,4 +1,4 @@
-!/bin/bash -x
+#!/bin/bash -x
 
 # Copyright (C) 2014-2015 Bespin Technologies Corp. - All Rights Reserved
 

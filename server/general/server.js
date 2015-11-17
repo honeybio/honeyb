@@ -189,6 +189,13 @@ Meteor.methods({
     // callback(changeset_id);
     return changeset_id;
   },
+  createUCSCommand: function(device_id) {
+    var device = Devices.findOne({_id: device_id});
+    var settings = Settings.findOne();
+    var shellCommand = "create_and_get_ucs.sh";
+    var args = [device.mgmtAddress, 'root', device.password];
+    var output = Meteor.call("runShellCmd", shellCommand, args);
+  },
   createQkviewCommand: function(device_id) {
     // https://localhost/mgmt/tm/util/qkview
     // -H 'Content-Type: applicatoin/json' -X POST -d '{"command":"run","utilCmdArgs":"-f dave"}'
@@ -210,18 +217,6 @@ Meteor.methods({
       var shellCommand = "create_and_get_qkview.sh";
       var output = Meteor.call("runShellCmd", shellCommand, args);
       console.log('complete: ' + output);
-      //Meteor.call("uploadQkview", qkFileName);
-//      var device = Devices.findOne({_id: onDevice});
-//      var lurl = 'https://localhost/mgmt/tm/util/qkview';
-//      var dString = Meteor.call("getDateString");
-//      var qkviewName = dString + "-" + device.self.name + ".qkview";
-//      var postData = {"command":"run", "utilCmdArgs":"-f /var/tmp/" + qkviewName};
-//      Meteor.call("bigipRestPost", onDevice, lurl, postData)
-//      // returns a 400 probably due to ircd timeout, but will continue to make the qkview.
-//      // grab the qkview in 30 minutes, fail or not
-//      gtmVserverInterval = Meteor.setInterval(function(){
-//        Meteor.call("grabQkview", onDevice, qkviewName );
-//      }, 1800000);
     }
   },
   getKeyPem: function (onDevice, keyID) {
@@ -282,7 +277,7 @@ Meteor.methods({
         }
         future.return(stdout.toString());
     });
-    console.log(future);
+    // console.log(future);
     return future.wait();
   }
 });

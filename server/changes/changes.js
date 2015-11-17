@@ -555,6 +555,7 @@ Meteor.methods({
     * @param {object} A Mongo ID of the change
     * @return {boolean} returns true on success
     */
+    console.log('pushing change')
     var myChange = Changes.findOne({_id: change_id});
     var backoutChange = {}
     var changeMethod = myChange.change.theMethod;
