@@ -44,7 +44,6 @@ Template.deviceDetails.events({
     var device_id = event.target.device_id.value;
     var description = "An archive job";
     var jobName = device_id + "_" + "archive";
-    console.log(jobName);
     Meteor.call("createUCSCommand", device_id);
   }
 });
@@ -80,7 +79,9 @@ Template.discoverSingle.events({
     var device = {
       mgmtip: event.target.mgmtip.value,
       mgmtuser: event.target.mgmtuser.value,
-      mgmtpass: event.target.mgmtpass.value
+      mgmtpass: event.target.mgmtpass.value,
+      sshuser: event.target.sshuser.value,
+      sshpass: event.target.sshpass.value
     };
     var job = {
       name: 'discoverDevice',
@@ -91,11 +92,8 @@ Template.discoverSingle.events({
       // console.log(res);
       this.unblock;
       template.discoverJob.set(res);
-      Meteor.call("discoverAllDevice", device.mgmtip, device.mgmtuser, device.mgmtpass, res);
+      Meteor.call("discoverAllDevice", device, res);
     });
-  },
-  "click #form button[id=close]": function (event) {
-    Session.set('status', "Ready to Discover");
   }
 });
 

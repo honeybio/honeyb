@@ -53,6 +53,8 @@ Meteor.startup(function () {
     Settings.insert({name: "honeyB", type: "system", interval: { updateGtmDc: 10000, updateGtmServer: 30000,
     updateGtmVserver: 60000, updateLtmVirtual: 45000, updateLtmPool: 40000,
     updateLtmPoolMember: 90000 }});
+    //var pubKey = Meteor.call('generateSshKey', 'honeyb');
+    //console.log(pubKey);
   }
   // Start the cron process for recurring jobs
   SyncedCron.start();

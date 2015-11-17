@@ -39,9 +39,17 @@
         </div>
         <div class="modal-body">
           <form>
-            <input type="text" name="mgmtip" placeholder="Bigip management IP" />
-            <input type="text" name="mgmtuser" placeholder="Admin Username" />
-            <input type="password" name="mgmtpass" placeholder="Admin Password" />
+            <ul>
+              <li>
+                <input type="text" name="mgmtip" placeholder="Bigip management IP" />
+                <input type="text" name="mgmtuser" placeholder="Admin Username" />
+                <input type="password" name="mgmtpass" placeholder="Admin Password" />
+              </li>
+              <li>
+                <input type="text" name="sshuser" placeholder="SSH Username" />
+                <input type="password" name="sshpass" placeholder="SSH Password" />
+              </li>
+            </ul>
             <input type="submit" value="Discover">
           </form>
           <br>

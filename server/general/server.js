@@ -193,13 +193,19 @@ Meteor.methods({
     var device = Devices.findOne({_id: device_id});
     var settings = Settings.findOne();
     var shellCommand = "create_and_get_ucs.sh";
-    var args = [device.mgmtAddress, 'root', device.password];
+    var args = [device.mgmtAddress, device.sshUser];
     var output = Meteor.call("runShellCmd", shellCommand, args);
   },
+  generateSshKey: function(keyName) {
+    var shellCommand = "generate_ssh_key.sh";
+    var args = [keyName];
+    var output = Meteor.call("runShellCmd", shellCommand, args);
+    //
+    //var priv = Meteor.call("runShellCmd", newCmd, newArgs);
+    Settings.update({type: 'system'}, { $set: { keyName: { name: keyName, pub: output }}});
+    // return output;
+  },
   createQkviewCommand: function(device_id) {
-    // https://localhost/mgmt/tm/util/qkview
-    // -H 'Content-Type: applicatoin/json' -X POST -d '{"command":"run","utilCmdArgs":"-f dave"}'
-    var device = Devices.findOne({_id: device_id});
     var settings = Settings.findOne();
     var check_if_running = Meteor.call("checkQkviewPS", device_id);
     if (check_if_running) {
@@ -277,7 +283,6 @@ Meteor.methods({
         }
         future.return(stdout.toString());
     });
-    // console.log(future);
     return future.wait();
   }
 });

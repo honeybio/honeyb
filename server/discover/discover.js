@@ -374,7 +374,12 @@ Meteor.methods({
       return false;
     }
   },
-  discoverAllDevice: function (ip, user, pass, jobId) {
+  discoverAllDevice: function (device, jobId) {
+    var ip = device.mgmtip;
+    var user = device.mgmtuser;
+    var pass = device.mgmtpass;
+    var sshuser = device.sshuser;
+    var sshpass = device.sshpass;
     // Check if mgmt IP is added, if so, don't add again
     //console.log(reactiveStatus);
 
@@ -384,7 +389,19 @@ Meteor.methods({
     if (typeof checkAdded !== 'undefined') {
       return false;
     }
-    Jobs.update({_id: jobId}, {$set: {progress: 5, status: 'Checking Provisioning...'}});
+
+    // upload ssh key
+    settings = Settings.findOne({type: 'system'});
+    var theKey = settings.keyName.pub;
+    var sshArgs = [ip, sshuser, sshpass, theKey];
+    var sshShellCommand = "install_ssh_key.sh";
+    var output = Meteor.call("runShellCmd", sshShellCommand, sshArgs);
+    if (output === '0') {
+      Jobs.update({_id: jobId}, {$set: {progress: 5, status: 'Copied SSH Key...'}});
+    } else {
+      Jobs.update({_id: jobId}, {$set: {progress: 5, status: 'SSH Key failed to install...'}});
+    }
+    Jobs.update({_id: jobId}, {$set: {progress: 10, status: 'Checking Provisioning...'}});
     // Get provisioned modules
     var provisioning = Meteor.call("discoverProvisioning", ip, user, pass);
     // Get device stuff
@@ -396,6 +413,8 @@ Meteor.methods({
       mgmtAddress: ip,
       mgmtUser: user,
       mgmtPass: pass,
+      sshUser: sshuser,
+      sshPass: sshpass,
       self: device.items[0],
       peer: device.items[1],
       // keys: key_list,

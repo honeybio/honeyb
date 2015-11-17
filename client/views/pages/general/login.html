@@ -55,6 +55,12 @@
         Pass: <input type="password" id="ihealthPass" value="{{ihealthPass}}"><br>
       <button class="submit btn btn-lg btn-primary btn-block" id="submit">Update!</button>
     </form>
+    <h2>Honeyb SSH Settings</h2>
+    <form id="sshSettings" class="sshSettings">
+      <br>
+      SSH Key {{keyName.name}}: {{keyName.pub}}
+      <button class="submit btn btn-lg btn-primary btn-block" id="submit">Create new Key</button>
+    </form>
   </div>
 </template>
 

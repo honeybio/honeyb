@@ -31,7 +31,6 @@ Template.myprofile.events({
     }
     Meteor.users.update({_id: Meteor.userId()}, {$set: { profile: { advanced : advanced }}});
   },
-
   'submit .honeySettings': function (event) {
     event.preventDefault();
     var hname = event.target.honeyName.value;
@@ -44,6 +43,11 @@ Template.myprofile.events({
     var ihealthUser = event.target.ihealthUser.value;
     var ihealthPass = event.target.ihealthPass.value;
     Meteor.call("updateSettings", hname, dcInt, serInt, vserInt, virtInt, poolInt, memInt, ihealthUser, ihealthPass);
+  },
+  'submit .sshSettings': function (event) {
+    event.preventDefault();
+    var keyName = 'id_rsa';
+    Meteor.call("generateSshKey", keyName);
   }
 });
 Template.myprofile.helpers({
