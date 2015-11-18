@@ -210,7 +210,7 @@ Meteor.methods({
     Settings.update({type: 'system'}, { $set: { keyName: { name: keyName, pub: output }}});
     // return output;
   },
-  createQkviewCommand: function(device_id) {
+  createQkviewCommand: function(device_id, f5case) {
     var settings = Settings.findOne();
     var device = Devices.findOne({_id: device_id});
     var check_if_running = Meteor.call("checkQkviewPS", device_id);
@@ -223,8 +223,12 @@ Meteor.methods({
       return 'need to set iHealth User and Pass in settings';
     }
     else {
-      // var args = [device.mgmtAddress, device.sshUser];
-      var args = [device.mgmtAddress, 'root', settings.ihealthUser, settings.ihealthPass];
+      var args;
+      if (f5case === undefined) {
+        args = [device.mgmtAddress, device.sshUser, settings.ihealthUser, settings.ihealthPass];
+      } else {
+        args = [device.mgmtAddress, device.sshUser, settings.ihealthUser, settings.ihealthPass, f5case];
+      }
       var shellCommand = "create_and_get_qkview.sh";
       var output = Meteor.call("runShellCmd", shellCommand, args);
     }

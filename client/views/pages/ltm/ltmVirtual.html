@@ -10,7 +10,9 @@
               <h5>LTM Virtuals <small class="m-l-sm">Manage your VIPs</small></h5>
               {{>iboxTools}}
             </div>
+            <form>
             <div class="ibox-content">
+              {{> virtualSearchBox}}
               <select name="objectAction">
                 <option value="enable">Enable</option>
                 <option value="disable">Disable</option>
@@ -22,10 +24,8 @@
                                 <option value="1">Yes</option>
                               </select><br>
               <button class="submit" id="submit">Submit</button>
-              <ul>
-              Search: {{> virtualSearchBox}}
-              </ul>
             </div>
+          </form>
             <div class="ibox-footer">
               <span class="pull-right">
                 The righ side of the footer

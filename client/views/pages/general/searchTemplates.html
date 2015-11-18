@@ -1,11 +1,14 @@
 <template name="virtualSearchBox">
-  {{> EasySearch.Input index=virtualsIndex }}
+  <div>
+    {{> EasySearch.Input index=virtualsIndex}}
+  </div>
   <table class="table">
     <thead>
       <tr>
         <th>Status</th>
         <th>Virtual Name</th>
         <th>Destination</th>
+        <th>On BIG-IP</th>
         <th>Select</th>
       </tr>
     </thead>
@@ -15,6 +18,7 @@
           <th><img src="/{{this.statusImg}}"></th>
           <th><a href="/ltm/virtuals/{{this._id}}">{{this.name}}</a></th>
           <th>{{this.destination}}</th>
+          <th>{{getOnDevice this.onDevice}}</th>
           <th><input type="checkbox" id="{{this._id}}" name="{{this._id}}"></th>
         </tr>
       {{/EasySearch.Each}}
@@ -23,7 +27,9 @@
 </template>
 
 <template name="devicesSearchBox">
+  <div>
   {{> EasySearch.Input index=devicesIndex}}
+  </div>
   <table class="table">
     <thead>
       <tr>
@@ -59,22 +65,54 @@
 </template>
 
 <template name="rulesSearchBox">
+  <div>
     {{> EasySearch.Input index=rulesIndex}}
-    <ul>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>iRule Name</th>
+        <th>On BIG-IP</th>
+        <th>Select</th>
+      </tr>
+    </thead>
+    <tbody>
       {{#EasySearch.Each index=rulesIndex}}
-        <li><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"><a href="/ltm/rules/{{_id}}">{{name}}</a></li>
+        <tr>
+          <th><a href="/ltm/rules/{{_id}}">{{name}}</a></th>
+          <th>{{getOnDevice this.onDevice}}</th>
+          <th><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></th>
+        </tr>
       {{/EasySearch.Each}}
-    </ul>
+    </tbody>
+  </table>
 </template>
 
 
 <template name="poolsSearchBox">
-  {{> EasySearch.Input index=poolsIndex}}
-  <ul>
+  <div>
+    {{> EasySearch.Input index=poolsIndex}}
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Status</th>
+        <th>Pool Name</th>
+        <th>On BIG-IP</th>
+        <th>Select</th>
+      </tr>
+    </thead>
+    <tbody>
     {{#EasySearch.Each index=poolsIndex}}
-      <li><input type="checkbox" id="{{_id}}" name="{{_id}}"><img src="/{{statusImg}}"><a href="/ltm/pools/{{_id}}">{{name}}{{#if deleted}}(In Trash Bin){{/if}}</a></li>
+    <tr>
+      <th><img src="/{{statusImg}}"></th>
+      <th><a href="/ltm/pools/{{_id}}">{{name}}{{#if deleted}}(In Trash Bin){{/if}}</a></th>
+      <th>{{getOnDevice this.onDevice}}</th>
+      <th><input type="checkbox" id="{{_id}}" name="{{_id}}"></th>
+    </tr>
     {{/EasySearch.Each}}
-  </ul>
+  </tbody>
+</table>
 </template>
 
 
@@ -89,12 +127,27 @@
 
 
 <template name="monitorsSearchBox">
-  {{> EasySearch.Input index=monitorsIndex}}
-  <ul>
-    {{#EasySearch.Each index=monitorsIndex}}
-      <li><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"><a href="/ltm/monitors/{{type}}/{{_id}}">{{name}}</a></li>
-    {{/EasySearch.Each}}
-  </ul>
+  <div>
+    {{> EasySearch.Input index=monitorsIndex}}
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Monitor Name</th>
+        <th>On BIG-IP</th>
+        <th>Select</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#EasySearch.Each index=monitorsIndex}}
+      <tr>
+        <th><a href="/ltm/monitors/{{type}}/{{_id}}">{{name}}</a></th>
+        <th>{{getOnDevice this.onDevice}}</th>
+        <th><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></th>
+      </tr>
+      {{/EasySearch.Each}}
+    </tbody>
+  </table>
 </template>
 
 

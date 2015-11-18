@@ -127,14 +127,11 @@
             </ul>
             <form class="qkviewForm">
               <input type="hidden" name="device_id" value="{{_id}}">
-              {{> onceSelect}}
-              <input type="text" class="form-control" id="my-datepicker">
-              <button class="submit" id="submit">Create A Qkview</button>
+              <button class="submit" id="submit">Create and Upload a Qkview</button>
             </form>
             <form class="archiveForm">
               <input type="hidden" name="device_id" value="{{_id}}">
-              {{> scheduleTemplate}}
-              <button class="submit" id="submit">Schedule Archive</button>
+              <button class="submit" id="submit">Create an Archive</button>
             </form>
             <form class="scheduledJobs">
               {{#each getJobs _id}}

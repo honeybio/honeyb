@@ -42,7 +42,8 @@ Template.deviceDetails.events({
     // Get value from form element
     var description = "A QKview job";
     var device_id = event.target.device_id.value;
-    var timeObj = { text: 1, number: event.target.atTime.value, unit: event.target.unit.value};
+    // var caseNumber = event.target.caseNumber.value;
+    // var timeObj = { text: 1, number: event.target.atTime.value, unit: event.target.unit.value};
     var jobName = device_id + "_once_qkview";
     console.log('starting qkview');
     Meteor.call("createQkviewCommand", device_id);

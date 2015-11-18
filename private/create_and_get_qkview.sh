@@ -3,9 +3,11 @@
 # Copyright (C) 2014-2015 Bespin Technologies Corp. - All Rights Reserved
 
 function usage() {
-  echo "usage: $0 host user ihealth-username ihealth-password"
+  echo "usage: $0 host user ihealth-username ihealth-password [f5_case]"
   echo ""
   echo "This command generates a qkview and copies it to /tmp on the local machine."
+  echo "We recommend using a service accounts specifically for honeyb, and you can"
+  echo "optionally supply an F5 case number for support to locate your qkview file"
   echo "Part of the honeyb.io command line suite for functions not supported by the"
   echo "F5 REST or SOAP api. The output is the destination file name."
   exit 1
@@ -23,10 +25,29 @@ if [ -z "$2" ]
     usage
 fi
 
+if [ -z "$3" ]
+  then
+    echo "No iHealth user specified, go to https://ihealth.f5.com/ and sign up for an account"
+    usage
+fi
+
+if [ -z "$4" ]
+  then
+    echo "No iHealth password"
+    usage
+fi
+
+CASE_NUM=""
+if [ -z "$5" ]
+  then
+    CASE_NUM="-F f5_support_case=$5"
+fi
+
 HOSTNAME=$1
 USER=$2
 IHEALTH_USER=$3
 IHEALTH_PASS=$4
+
 DATE=$(date +%Y%m%d)
 SSH_CMD=$(which ssh)
 SCP_CMD=$(which scp)
@@ -38,7 +59,7 @@ OUTPUT_FILENAME=$DATE.$HOSTNAME.qkview
 LOCAL_TMPDIR=/tmp/
 CURL_CMD=$(which curl)
 COOKIE_FILE=/tmp/cookie_file.$$
-CURL_UPLOAD_OPTS="-o - -F qkview=@${LOCAL_TMPDIR}/${OUTPUT_FILENAME} -F 'visible_in_gui=True'"
+CURL_UPLOAD_OPTS="-o - -F qkview=@${LOCAL_TMPDIR}/${OUTPUT_FILENAME} -F visible_in_gui=True $CASE_NUM"
 AUTH_URI="https://api.f5.com/auth/pub/sso/login/ihealth-api"
 POST_URI="https://ihealth-api.f5.com/qkview-analyzer/api/qkviews"
 

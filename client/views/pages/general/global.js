@@ -29,3 +29,8 @@ Template.registerHelper('getThis', function(attr) {
   var tmpVar = Template.parentData(1);
   return tmpVar[attr];
 });
+
+Template.registerHelper('getOnDevice', function(device_id) {
+  var device = Devices.findOne({_id: device_id});
+  return device.self.name;
+});
