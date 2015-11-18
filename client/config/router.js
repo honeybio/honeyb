@@ -150,6 +150,9 @@ Router.route('/changeset/:_id', {
 });
 
 // Device Routes
+Router.route('/devices/archives');
+Router.route('/devices/qkviews');
+
 Router.route('/devices');
 Router.route('/devices/:_id', {
   template: 'deviceDetails',
@@ -158,6 +161,8 @@ Router.route('/devices/:_id', {
     return Devices.findOne({ _id: currentDevice});
   }
 });
+
+
 
 // GTM Routes
 Router.route('/gtm/syncgroups');

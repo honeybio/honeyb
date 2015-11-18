@@ -49,4 +49,4 @@ COPY_CMD="echo \"$PUBKEY\" >> /root/.ssh/authorized_keys"
 # Add the key to the local known_hosts file
 $SSHKEYSCAN $HOST >> ~/.ssh/known_hosts
 $SSHPASS -p $PASS $SSH_CMD $USER@$HOST $COPY_CMD
-echo $?
+echo -n $?

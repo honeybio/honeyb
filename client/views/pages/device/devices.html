@@ -328,3 +328,66 @@
     <svg id="d3vis"></svg>
   </div>
 </template>
+
+<template name="devicesArchives">
+  {{> pageHeading title='Archives(UCS)' category='Devices' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form class="iruleForm">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Devices <small class="m-l-sm">Manage your BIG-IP Archives</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+              <form class="archiveForm" name="archiveForm">
+                <ul>
+                  {{#each getArchives}}
+                    <li>{{this.name}} - {{round this.size}}
+                      <a href="{{this.url}}">Download</a>
+                      Created at: {{this.uploadedAt}} from device:
+                      <a href="/devices/{{this.metadata.onDevice}}">{{this.metadata.onDeviceName}}</a></li>
+                  {{/each}}
+                </ul>
+              </form>
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
+
+<template name="devicesQkviews">
+  {{> pageHeading title='QKViews' category='Devices' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form class="iruleForm">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Devices <small class="m-l-sm">Manage your BIG-IP QKViews</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+              <form class="qkviewForm" name="qkviewForm">
+              </form>
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>

@@ -78,8 +78,10 @@ Meteor.methods({
       var poolObject = { onDevice: device_id, members: pmem };
       for(var attrname in pool_list[i]) {
         poolObject[attrname] = pool_list[i][attrname];
-        for ( var j = 0; j < poolObject.members.length; j++) {
-          poolObject.members[j].statusImg = Meteor.call("getStatusImage", poolObject.members[j].state, poolObject.members[j].session);
+        if (poolObject.members !== undefined) {
+          for ( var j = 0; j < poolObject.members.length; j++) {
+            poolObject.members[j].statusImg = Meteor.call("getStatusImage", poolObject.members[j].state, poolObject.members[j].session);
+          }
         }
         // for (var j = 0; j < poolObject.members.length);
       };
@@ -389,9 +391,22 @@ Meteor.methods({
     if (typeof checkAdded !== 'undefined') {
       return false;
     }
-
+    Jobs.update({_id: jobId}, {$set: {progress: 2, status: 'Connecting to device...'}});
     // upload ssh key
     settings = Settings.findOne({type: 'system'});
+    if (settings.keyName === undefined) {
+      Jobs.update({_id: jobId}, {$set: {progress: 5, status: 'No SSH Key created...'}});
+    } else {
+      var theKey = settings.keyName.pub;
+      var sshArgs = [ip, sshuser, sshpass, theKey];
+      var sshShellCommand = "install_ssh_key.sh";
+      var output = Meteor.call("runShellCmd", sshShellCommand, sshArgs);
+      if (output == '0') {
+        Jobs.update({_id: jobId}, {$set: {progress: 5, status: 'Copied SSH Key...'}});
+      } else {
+        Jobs.update({_id: jobId}, {$set: {progress: 5, status: 'SSH Key failed to install...'}});
+      }
+    }
     var theKey = settings.keyName.pub;
     var sshArgs = [ip, sshuser, sshpass, theKey];
     var sshShellCommand = "install_ssh_key.sh";

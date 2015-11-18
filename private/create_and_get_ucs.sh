@@ -33,22 +33,22 @@ REMOVE_CMD=$(which rm)
 UCS_CMD="tmsh save sys ucs"
 OUTPUT_DIR=/var/tmp
 OUTPUT_FILENAME=$DATE.$HOSTNAME.ucs
-LOCAL_TMPDIR=/tmp/
+LOCAL_TMPDIR=/tmp
 
-# Create qkview
-${SSH_CMD} ${USER}@${HOSTNAME} "${UCS_CMD} ${OUTPUT_DIR}/${OUTPUT_FILENAME}"
+# Create ucs
+${SSH_CMD} ${USER}@${HOSTNAME} "${UCS_CMD} ${OUTPUT_DIR}/${OUTPUT_FILENAME} > /dev/null 2>&1"
 if [ $? ne '0' ]
   then
     echo "UCS creation failed"
-    return
+    return 1
 fi
 
-# Grab qkview
+# Grab ucs
 ${SCP_CMD} ${USER}@${HOSTNAME}:${OUTPUT_DIR}/${OUTPUT_FILENAME} ${LOCAL_TMPDIR}
 if [ $? ne '0' ]
   then
     echo "UCS copy failed"
-    return
+    return 2
 fi
 
 # Delete from Device
@@ -56,5 +56,6 @@ ${SSH_CMD} ${USER}@${HOSTNAME} "${REMOVE_CMD} ${OUTPUT_DIR}/${OUTPUT_FILENAME}"
 if [ $? ne '0' ]
   then
     echo "UCS deletion failed"
-    return
+    return 3
 fi
+echo -n "$LOCAL_TMPDIR/$OUTPUT_FILENAME"

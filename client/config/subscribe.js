@@ -26,3 +26,4 @@ Meteor.subscribe("db_ihealth");
 Meteor.subscribe("db_permissions");
 Meteor.subscribe("db_containers");
 Meteor.subscribe("db_asmpolicies");
+Meteor.subscribe("db_archives");

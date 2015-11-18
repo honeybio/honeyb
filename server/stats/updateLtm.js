@@ -19,8 +19,10 @@ Meteor.methods({
     for (i = 0; i < stats.length; i++) {
       var pmem = stats[i].membersReference.items;
       for(var attrname in stats[i]) {
-        for ( var j = 0; j < pmem.length; j++) {
-          pmem[j].statusImg = Meteor.call("getStatusImage", pmem[j].state, pmem[j].session);
+        if (pmem !== undefined) {
+          for ( var j = 0; j < pmem.length; j++) {
+            pmem[j].statusImg = Meteor.call("getStatusImage", pmem[j].state, pmem[j].session);
+          }
         }
         // for (var j = 0; j < poolObject.members.length);
       };

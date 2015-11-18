@@ -1,3 +1,11 @@
+Template.devicesArchives.helpers({
+  getArchives: function () {
+    return Archives.find();
+  },
+  round: function (size) {
+    return (size/1048576).toFixed(2) + ' MB';
+  }
+})
 Template.deviceList.events({
   'click button': function () {
     bootbox.dialog({

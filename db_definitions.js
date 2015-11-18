@@ -1,3 +1,27 @@
+Archives = new FS.Collection("db_archives", {
+  stores: [new FS.Store.FileSystem("archives")]
+});
+Certfiles = new FS.Collection("db_certfiles", {
+  stores: [new FS.Store.FileSystem("certfiles")]
+});
+if (Meteor.isServer) {
+  Archives.allow({
+    'insert': function () {
+      // add custom authentication code here
+      return true;
+    },
+    'download': function() {
+      return true;
+    }
+  });
+  Certfiles.allow({
+    'insert': function () {
+      // add custom authentication code here
+      return true;
+    }
+  });
+}
+
 Devices = new Mongo.Collection("db_devices");
 Certificates = new Mongo.Collection("db_certificates");
 Virtuals = new Mongo.Collection("db_virtuals");
@@ -29,12 +53,7 @@ Jobs = new Mongo.Collection("db_jobs");
 Tmpfiles = new FS.Collection("db_tempfiles", {
   stores: [new FS.Store.FileSystem("tempfiles")]
 });
-Archives = new FS.Collection("db_archives", {
-  stores: [new FS.Store.FileSystem("archives")]
-});
-Certfiles = new FS.Collection("db_certfiles", {
-  stores: [new FS.Store.FileSystem("certfiles")]
-});
+
 
 /*
 clean the db, copy/paste to meteor mongo shell

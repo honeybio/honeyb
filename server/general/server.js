@@ -195,6 +195,11 @@ Meteor.methods({
     var shellCommand = "create_and_get_ucs.sh";
     var args = [device.mgmtAddress, device.sshUser];
     var output = Meteor.call("runShellCmd", shellCommand, args);
+    // console.log(output);
+    var fileObj = new FS.File(output);
+    fileObj.owner = Meteor.userId();
+    fileObj.metadata = { onDevice: device_id, onDeviceName: device.self.name };
+    Archives.insert(fileObj);
   },
   generateSshKey: function(keyName) {
     var shellCommand = "generate_ssh_key.sh";
