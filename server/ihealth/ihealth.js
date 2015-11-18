@@ -24,7 +24,6 @@ Meteor.methods({
     //console.log(myHeaders);
     try {
       var qkviewList = HTTP.get(listQkviewUrl, { headers: myHeaders });
-      console.log(qkviewList.content);
       return qkviewList.content;
     } catch (e) {
       console.log(e);
@@ -44,7 +43,6 @@ Meteor.methods({
     //console.log(myHeaders);
     try {
       var qkviewDel = HTTP.del(qkviewUrl, { headers: myHeaders });
-      console.log(qkviewDel.content);
       return qkviewDel.content;
     } catch (e) {
       console.log(e);
@@ -63,7 +61,6 @@ Meteor.methods({
     var fs = Npm.require('fs');
     for (j = 0; j < myJson.id.length; j++) {
       // Get qkview data for each id
-      console.log(myJson.id[j]);
       var settings = Settings.findOne();
       var args = [settings.ihealthUser, settings.ihealthPass, myJson.id[j]];
       var shellCommand = "get_qkview_data.sh";
@@ -72,7 +69,6 @@ Meteor.methods({
       var meta_data = fs.readFileSync(meta_file, 'utf8');
       var diag_file = "/tmp/" + myJson.id[j] + ".diag.json";
       var diag_data = fs.readFileSync(diag_file, 'utf8');
-      console.log('this far...');
       var meta_json;
       try {
           meta_json = JSON.parse(meta_data);
@@ -98,11 +94,9 @@ Meteor.methods({
         meta_json.group = 'default-group';
         meta_json.hidden = false;
         Ihealth.insert(meta_json);
-        console.log('deleting good qkview');
         Meteor.call('ihealthDeleteQkview', myJson.id[j]);
       }
       else {
-        console.log('deleting corrupt qkview');
         Meteor.call('ihealthDeleteQkview', myJson.id[j]);
         // var args = [settings.ihealthUser, settings.ihealthPass, myJson.id[j]];
         // var delCmd = "del_qkview.sh";
