@@ -11,7 +11,7 @@
   {{> EasySearch.Input index=devicesIndex}}
   <ul>
     {{#EasySearch.Each index=devicesIndex}}
-      <li>{{mgmtAddress}} - <a href="/devices/{{_id}}">{{self.name}}</a> - {{self.failoverState}} <a href="https://{{mgmtAddress}}/">Open Management Console</a></li>
+      <li>{{mgmtAddress}} - <a href="/devices/{{_id}}">{{self.name}}</a> - {{self.failoverState}} <a href="https://{{mgmtAddress}}/" target="_blank">Open Management Console</a></li>
     {{/EasySearch.Each}}
   </ul>
 </template>
