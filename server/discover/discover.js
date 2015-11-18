@@ -261,8 +261,8 @@ Meteor.methods({
     }
   },
   discoverAsmPolicies: function (device_id) {
+    var asmPolicyList = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/asm/policies");
     if (asmPolicyList !== undefined) {
-      var asmPolicyList = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/asm/policies");
       for (var i = 0; i < asmPolicyList.length; i++) {
         var policyObj = { group: 'default-group', onDevice: device_id }
         for (var attrname in asmPolicyList[i]) {
