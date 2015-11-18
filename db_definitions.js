@@ -96,150 +96,175 @@ VirtualsIndex = new EasySearch.Index({
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 DevicesIndex = new EasySearch.Index({
   collection: Devices,
   fields: ['self.name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 CertificatesIndex = new EasySearch.Index({
   collection: Certificates,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 RulesIndex = new EasySearch.Index({
   collection: Rules,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 PoolsIndex = new EasySearch.Index({
   collection: Pools,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 NodesIndex = new EasySearch.Index({
   collection: Nodes,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 MonitorsIndex = new EasySearch.Index({
   collection: Monitors,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 GtmsyncgroupsIndex = new EasySearch.Index({
   collection: Gtmsyncgroups,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 GtmdatacentersIndex = new EasySearch.Index({
   collection: Gtmdatacenters,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 GtmserversIndex = new EasySearch.Index({
   collection: Gtmservers,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 GtmvserversIndex = new EasySearch.Index({
   collection: Gtmvservers,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 GtmlinksIndex = new EasySearch.Index({
   collection: Gtmlinks,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 GtmmonitorsIndex = new EasySearch.Index({
   collection: Gtmmonitors,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 WideipsIndex = new EasySearch.Index({
   collection: Wideips,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 WidepoolsIndex = new EasySearch.Index({
   collection: Widepools,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 IdatagroupsIndex = new EasySearch.Index({
   collection: Idatagroups,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 EdatagroupsIndex = new EasySearch.Index({
   collection: Edatagroups,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 ProfilesIndex = new EasySearch.Index({
   collection: Profiles,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 PersistenceIndex = new EasySearch.Index({
   collection: Persistence,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 StatisticsIndex = new EasySearch.Index({
   collection: Statistics,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 ChangesIndex = new EasySearch.Index({
   collection: Changes,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 ChangesetIndex = new EasySearch.Index({
   collection: Changeset,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 SettingsIndex = new EasySearch.Index({
   collection: Settings,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 IhealthIndex = new EasySearch.Index({
   collection: Ihealth,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 JobsIndex = new EasySearch.Index({
   collection: Jobs,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
+
 AsmPoliciesIndex = new EasySearch.Index({
   collection: Asmpolicies,
   fields: ['name'],

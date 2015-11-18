@@ -18,13 +18,12 @@
 
 
 <template name="certificatesSearchBox">
-{{> EasySearch.Input index=certificatesIndex}}
-<ul>
-{{#EasySearch.Each index=certificatesIndex}}
-
-test
-{{/EasySearch.Each}}
-</ul>
+  {{> EasySearch.Input index=certificatesIndex}}
+  <ul>
+    {{#EasySearch.Each index=certificatesIndex}}
+      test
+    {{/EasySearch.Each}}
+  </ul>
 </template>
 
 <template name="rulesSearchBox">
@@ -48,201 +47,210 @@ test
 
 
 <template name="nodesSearchBox">
-{{> EasySearch.Input index=nodesIndex}}
-<ul>
-{{#EasySearch.Each index=nodesIndex}}
-test
-{{/EasySearch.Each}}
-</ul>
+  {{> EasySearch.Input index=nodesIndex}}
+  <ul>
+    {{#EasySearch.Each index=nodesIndex}}
+      test
+    {{/EasySearch.Each}}
+  </ul>
 </template>
 
 
 <template name="monitorsSearchBox">
-{{> EasySearch.Input index=monitorsIndex}}
-<ul>
-{{#EasySearch.Each index=monitorsIndex}}
-<li><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"><a href="/ltm/monitors/{{type}}/{{_id}}">{{name}}</a></li>
-{{/EasySearch.Each}}
-</ul>
+  {{> EasySearch.Input index=monitorsIndex}}
+  <ul>
+    {{#EasySearch.Each index=monitorsIndex}}
+      <li><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"><a href="/ltm/monitors/{{type}}/{{_id}}">{{name}}</a></li>
+    {{/EasySearch.Each}}
+  </ul>
 </template>
 
 
 <template name="gtmsyncgroupsSearchBox">
-{{> EasySearch.Input index=gtmsyncgroupsIndex}}
-<ul>
-{{#EasySearch.Each index=gtmsyncgroupsIndex}}
-test
-{{/EasySearch.Each}}
-</ul>
+  {{> EasySearch.Input index=gtmsyncgroupsIndex}}
+  <ul>
+    {{#EasySearch.Each index=gtmsyncgroupsIndex}}
+      test
+    {{/EasySearch.Each}}
+  </ul>
 </template>
 
 
 <template name="gtmdatacentersSearchBox">
-{{> EasySearch.Input index=gtmdatacentersIndex}}
-<ul>
-{{#EasySearch.Each index=gtmdatacentersIndex}}
-test
-{{/EasySearch.Each}}
-</ul>
+  {{> EasySearch.Input index=gtmdatacentersIndex}}
+  <ul>
+    {{#EasySearch.Each index=gtmdatacentersIndex}}
+      test
+    {{/EasySearch.Each}}
+  </ul>
 </template>
 
 
 <template name="gtmserversSearchBox">
-{{> EasySearch.Input index=gtmserversIndex}}
-<ul>
-{{#EasySearch.Each index=gtmserversIndex}}
-test
-{{/EasySearch.Each}}
-</ul>
+  {{> EasySearch.Input index=gtmserversIndex}}
+  <ul>
+    {{#EasySearch.Each index=gtmserversIndex}}
+      test
+    {{/EasySearch.Each}}
+  </ul>
 </template>
 
 
 <template name="gtmvserversSearchBox">
-{{> EasySearch.Input index=gtmvserversIndex}}
-<ul>
-{{#EasySearch.Each index=gtmvserversIndex}}
-test
-{{/EasySearch.Each}}
-</ul>
+  {{> EasySearch.Input index=gtmvserversIndex}}
+  <ul>
+    {{#EasySearch.Each index=gtmvserversIndex}}
+      test
+    {{/EasySearch.Each}}
+  </ul>
 </template>
 
 
 <template name="gtmlinksSearchBox">
-{{> EasySearch.Input index=gtmlinksIndex}}
-<ul>
-{{#EasySearch.Each index=gtmlinksIndex}}
-test
-{{/EasySearch.Each}}
-</ul>
+  {{> EasySearch.Input index=gtmlinksIndex}}
+  <ul>
+    {{#EasySearch.Each index=gtmlinksIndex}}
+      test
+    {{/EasySearch.Each}}
+  </ul>
 </template>
 
 
 <template name="gtmmonitorsSearchBox">
-{{> EasySearch.Input index=gtmmonitorsIndex}}
-<ul>
-{{#EasySearch.Each index=gtmmonitorsIndex}}
-test
-{{/EasySearch.Each}}
-</ul>
+  {{> EasySearch.Input index=gtmmonitorsIndex}}
+  <ul>
+    {{#EasySearch.Each index=gtmmonitorsIndex}}
+      test
+    {{/EasySearch.Each}}
+  </ul>
 </template>
 
 
 <template name="wideipsSearchBox">
-{{> EasySearch.Input index=wideipsIndex}}
-<ul>
-{{#EasySearch.Each index=wideipsIndex}}
-test
-{{/EasySearch.Each}}
-</ul>
+  {{> EasySearch.Input index=wideipsIndex}}
+  <ul>
+    {{#EasySearch.Each index=wideipsIndex}}
+      test
+    {{/EasySearch.Each}}
+  </ul>
 </template>
 
 
 <template name="widepoolsSearchBox">
-{{> EasySearch.Input index=widepoolsIndex}}
-<ul>
-{{#EasySearch.Each index=widepoolsIndex}}
-test
-{{/EasySearch.Each}}
-</ul>
+  {{> EasySearch.Input index=widepoolsIndex}}
+  <ul>
+    {{#EasySearch.Each index=widepoolsIndex}}
+      test
+    {{/EasySearch.Each}}
+  </ul>
 </template>
 
 
 <template name="idatagroupsSearchBox">
-{{> EasySearch.Input index=idatagroupsIndex}}
-<ul>
-{{#EasySearch.Each index=idatagroupsIndex}}
-<li><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"><a href="/ltm/idatagroups/{{_id}}">{{name}}</a></li>
-{{/EasySearch.Each}}
-</ul>
+  {{> EasySearch.Input index=idatagroupsIndex}}
+  <ul>
+    {{#EasySearch.Each index=idatagroupsIndex}}
+      <li><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"><a href="/ltm/idatagroups/{{_id}}">{{name}}</a></li>
+    {{/EasySearch.Each}}
+  </ul>
 </template>
 
 
 <template name="edatagroupsSearchBox">
-{{> EasySearch.Input index=edatagroupsIndex}}
-<ul>
-{{#EasySearch.Each index=edatagroupsIndex}}
-test
-{{/EasySearch.Each}}
-</ul>
+  {{> EasySearch.Input index=edatagroupsIndex}}
+  <ul>
+    {{#EasySearch.Each index=edatagroupsIndex}}
+      test
+    {{/EasySearch.Each}}
+  </ul>
 </template>
 
 
 <template name="profilesSearchBox">
-{{> EasySearch.Input index=profilesIndex}}
-<ul>
-{{#EasySearch.Each index=profilesIndex}}
-test
-{{/EasySearch.Each}}
-</ul>
+  {{> EasySearch.Input index=profilesIndex}}
+  <ul>
+    {{#EasySearch.Each index=profilesIndex}}
+      test
+    {{/EasySearch.Each}}
+  </ul>
 </template>
 
 
 <template name="persistenceSearchBox">
-{{> EasySearch.Input index=persistenceIndex}}
-<ul>
-{{#EasySearch.Each index=persistenceIndex}}
-test
-{{/EasySearch.Each}}
-</ul>
+  {{> EasySearch.Input index=persistenceIndex}}
+  <ul>
+    {{#EasySearch.Each index=persistenceIndex}}
+      test
+    {{/EasySearch.Each}}
+  </ul>
 </template>
 
 
 <template name="statisticsSearchBox">
-{{> EasySearch.Input index=statisticsIndex}}
-<ul>
-{{#EasySearch.Each index=statisticsIndex}}
-test
-{{/EasySearch.Each}}
-</ul>
+  {{> EasySearch.Input index=statisticsIndex}}
+  <ul>
+    {{#EasySearch.Each index=statisticsIndex}}
+      test
+    {{/EasySearch.Each}}
+  </ul>
 </template>
 
 
 <template name="changesSearchBox">
-{{> EasySearch.Input index=changesIndex}}
-<ul>
-{{#EasySearch.Each index=changesIndex}}
-test
-{{/EasySearch.Each}}
-</ul>
+  {{> EasySearch.Input index=changesIndex}}
+  <ul>
+    {{#EasySearch.Each index=changesIndex}}
+      test
+    {{/EasySearch.Each}}
+  </ul>
 </template>
 
 
 <template name="changesetSearchBox">
-{{> EasySearch.Input index=changesetIndex}}
-<ul>
-{{#EasySearch.Each index=changesetIndex}}
-test
-{{/EasySearch.Each}}
-</ul>
+  {{> EasySearch.Input index=changesetIndex}}
+  <ul>
+    {{#EasySearch.Each index=changesetIndex}}
+      test
+    {{/EasySearch.Each}}
+  </ul>
 </template>
 
 
 <template name="settingsSearchBox">
-{{> EasySearch.Input index=settingsIndex}}
-<ul>
-{{#EasySearch.Each index=settingsIndex}}
-test
-{{/EasySearch.Each}}
-</ul>
+  {{> EasySearch.Input index=settingsIndex}}
+  <ul>
+    {{#EasySearch.Each index=settingsIndex}}
+      test
+    {{/EasySearch.Each}}
+  </ul>
 </template>
 
 
 <template name="ihealthSearchBox">
-{{> EasySearch.Input index=ihealthIndex}}
-<ul>
-{{#EasySearch.Each index=ihealthIndex}}
-test
-{{/EasySearch.Each}}
-</ul>
+  {{> EasySearch.Input index=ihealthIndex}}
+  <ul>
+    {{#EasySearch.Each index=ihealthIndex}}
+      test
+    {{/EasySearch.Each}}
+  </ul>
+</template>
+
+<template name="ihealthDiagSearchBox">
+  {{> EasySearch.Input index=ihealthDiagIndex}}
+  <ul>
+    {{#EasySearch.Each index=ihealthDiagIndex}}
+      test
+    {{/EasySearch.Each}}
+  </ul>
 </template>
 
 <template name="jobsSearchBox">
-{{> EasySearch.Input index=jobsIndex}}
-<ul>
-{{#EasySearch.Each index=jobsIndex}}
-test
-{{/EasySearch.Each}}
-</ul>
+  {{> EasySearch.Input index=jobsIndex}}
+  <ul>
+    {{#EasySearch.Each index=jobsIndex}}
+      test
+    {{/EasySearch.Each}}
+  </ul>
 </template>
 
 <template name="asmPoliciesSearchBox">

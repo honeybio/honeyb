@@ -22,7 +22,7 @@
               <span class="pull-right">
                 The righ side of the footer
               </span>
-              <a href="/gtm/pools/create">Create New</a>
+              <a href="/">Home</a>
             </div>
           </div>
         </div>
@@ -32,7 +32,7 @@
 </template>
 
 <template name="dashboardsIhealthDetails">
-  {{> pageHeading title='Details for {{system_information.hostname}}' category='iHealth' }}
+  {{> pageHeading title='Device Details' category='iHealth' }}
   <div class="wrapper wrapper-content animated fadeIn">
     <div class="row">
       <form class="virtualForm">
@@ -44,6 +44,7 @@
             </div>
             <div class="ibox-content">
               <ul>
+                <li>Host: {{system_information.hostname}}</li>
                 <li>Generated on {{generation_date}}</li>
                 <li>Support Entitlement Expires on {{entitlement.expiration_date}} ({{entitlement.days_left}} days left)</li>
                 <li>Chassis Serial: {{chassis_serial}}</li>
@@ -51,7 +52,7 @@
                 <li>System Chassis ID: {{system_information.bigip_chassis_serial_num}}</li>
                 <li>Platform Type: {{platform}}</li>
                 <li>Uploaded on: {{upload.date}}</li>
-                <li>{{> displayDiagnostics diagnostics}}</li>
+                <ul>{{> displayDiagnostics diagnostics}}</ul>
               </ul>
             </div>
             <div class="ibox-footer">
@@ -68,16 +69,23 @@
 </template>
 
 <template name="displayDiagnostics">
-   Diagnostics Found: {{hit_count}}
-  <ul>
-    {{#each diagnostic}}
-    <ul>
-      <li>{{this.name}} - {{this.run_data.h_importance}}</li>
-      <ul>
-        <li>{{this.results.h_header}}</li>
-        <li>{{this.results.h_summary}}</li>
-      </ul>
-    </ul>
-    {{/each}}
-  </ul>
+  Diagnostics Found: {{hit_count}}
+  <li>
+    <label class="checkbox-inline"><input type="checkbox" value="option1" checked="{{getCrit}}" id="critical">Critical</label>
+    <label class="checkbox-inline"><input type="checkbox" value="option2" checked="{{getHigh}}" id="high">High</label>
+    <label class="checkbox-inline"><input type="checkbox" value="option3" checked="{{getMed}}" id="medium">Medium</label>
+    <label class="checkbox-inline"><input type="checkbox" value="option3" checked="{{getLow}}" id="low">Low</label>
+  </li>
+    <li>
+      {{#each getDiagnostics diagnostic}}
+        <ul>
+          <li>{{this.name}} - {{this.run_data.h_importance}}
+            <ul>
+              <li>{{this.results.h_header}}</li>
+              <li>{{this.results.h_summary}}</li>
+            </ul>
+          </li>
+        </ul>
+      {{/each}}
+    </li>
 </template>

@@ -97,6 +97,10 @@ Template.ihealthSearchBox.helpers({
   ihealthIndex: () => IhealthIndex
 });
 
+Template.ihealthDiagSearchBox.helpers({
+  ihealthDiagIndex: () => IhealthDiagIndex
+});
+
 Template.jobsSearchBox.helpers({
   jobsIndex: () => JobsIndex
 });
