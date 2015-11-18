@@ -33,8 +33,14 @@
                         <li class="{{isActiveRoute regex='dashboardsIhealth'}}"><a href="/dashboards/ihealth">iHealth Stats</a></li>
                     </ul>
                 </li>
+                <li class="{{isActiveRoute regex='dashboardsIhealth'}}">
+                    <a href="#"><i class="fa fa-heart-o"></i> <span class="nav-label">f5 iHealth</span> <span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse {{isActiveRoute regex='dashboardsIhealth' className='in'}}">
+                        <li class="{{isActiveRoute regex='dashboardsIhealth'}}"><a href="/dashboards/ihealth">iHealth Stats</a></li>
+                    </ul>
+                </li>
                 <li class="{{isActiveRoute regex='devices|archives|qkviews'}}">
-                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Device Management</span><span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-server"></i> <span class="nav-label">Device Management</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse {{isActiveRoute regex='devices|archives|qkviews' className='in'}}">
                         <li class="{{isActiveRoute regex='devices'}}"><a href="/devices">Devices</a></li>
                         <li class="{{isActiveRoute regex='archives'}}"><a href="/devices/archives">Archives</a></li>
@@ -42,7 +48,7 @@
                     </ul>
                 </li>
                 <li class="{{isActiveRoute regex='changes|changesPushed|changesScheduled|changesApproved|changesCanceled'}}">
-                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Change Management</span><span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-calendar-check-o"></i> <span class="nav-label">Change Management</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse {{isActiveRoute regex='changes|changesPushed|changesScheduled|changesApproved|changesCanceled' className='in'}}">
                         <li class="{{isActiveRoute regex='changes'}}"><a href="/changes">Prepared Changes</a></li>
                         <li class="{{isActiveRoute regex='changesPushed'}}"><a href="/changes/pushed">Committed Changes</a></li>
@@ -52,7 +58,7 @@
                     </ul>
                 </li>
                 <li class="{{isActiveRoute regex='ltmVirtuals|ltmRules|ltmIdatagroups|ltmPools|ltmMonitors|ltmProfile'}}">
-                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Load Balancer (LTM)</span><span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-share-alt-square"></i> <span class="nav-label">Load Balancer (LTM)</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse {{isActiveRoute regex='ltmVirtuals|ltmRules|ltmIdatagroups|ltmPools|ltmMonitors|ltmProfile' className='in'}}">
                         <li class="{{isActiveRoute regex='ltmVirtuals'}}"><a href="/ltm/virtuals">Virtuals</a></li>
                         <li class="{{isActiveRoute regex='ltmRules'}}"><a href="/ltm/rules">iRules</a></li>
@@ -63,7 +69,7 @@
                     </ul>
                 </li>
                 <li class="{{isActiveRoute regex='gtmSyncgroups|gtmWideips|gtmDatacenters|gtmLinks|gtmServers|gtmVservers|gtmPools|gtmMonitors'}}">
-                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Global Load Balancer (GTM/DNS)</span><span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-globe"></i> <span class="nav-label">Global Load Balancer (GTM/DNS)</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse {{isActiveRoute regex='gtmSyncgroups|gtmWideips|gtmDatacenters|gtmLinks|gtmServers|gtmVservers|gtmPools|gtmMonitors' className='in'}}">
                         <li class="{{isActiveRoute regex='gtmSyncgroups'}}"><a href="/gtm/syncgroups">Sync Groups</a></li>
                         <li class="{{isActiveRoute regex='gtmWideips'}}"><a href="/gtm/wideips">Wide IPs</a></li>
@@ -76,7 +82,7 @@
                     </ul>
                 </li>
                 <li class="{{isActiveRoute regex='asmPolicies|asmSomething'}}">
-                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Web App Firewall (ASM)</span><span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-lock"></i> <span class="nav-label">Web App Firewall (ASM)</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse {{isActiveRoute regex='asmPolicies|asmSomething' className='in'}}">
                         <li class="{{isActiveRoute regex='asmPolicies'}}"><a href="/asm/policies">Policies</a></li>
                         <li class="{{isActiveRoute regex='asmSomething'}}"><a href="/asm/something">Something</a></li>
