@@ -186,7 +186,7 @@
               {{>iboxTools}}
             </div>
             <div class="ibox-content">
-              <button class="ihealth" id="ihealth" disabled={{buttonStateDisabled}}>Refresh iHealth</button>
+              <button class="ihealth" id="ihealth" disabled={{buttonStateDisabled}}>{{getButtonName}}</button>
               <ul>
                 {{#each getIhealth}}
                   <li><a href="/dashboards/ihealth/{{_id}}">{{this.system_information.hostname}}</a></li>
