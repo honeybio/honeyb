@@ -83,4 +83,3 @@ Template.toastrNotification.events({
 
 
 });
-
