@@ -47,14 +47,11 @@
                         <li class="{{isActiveRoute regex='Qkviews'}}"><a href="/devices/qkviews">Qkviews</a></li>
                     </ul>
                 </li>
-                <li class="{{isActiveRoute regex='changes|changesPushed|changesScheduled|changesApproved|changesCanceled'}}">
+                <li class="{{isActiveRoute regex='changes|changesPushed'}}">
                     <a href="#"><i class="fa fa-calendar-check-o"></i> <span class="nav-label">Change Management</span><span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse {{isActiveRoute regex='changes|changesPushed|changesScheduled|changesApproved|changesCanceled' className='in'}}">
+                    <ul class="nav nav-second-level collapse {{isActiveRoute regex='changes|changesPushed' className='in'}}">
                         <li class="{{isActiveRoute regex='changes'}}"><a href="/changes">Prepared Changes</a></li>
                         <li class="{{isActiveRoute regex='changesPushed'}}"><a href="/changes/pushed">Committed Changes</a></li>
-                        <li class="{{isActiveRoute regex='changesScheduled'}}"><a href="/changes/scheduled">Scheduled Changes</a></li>
-                        <li class="{{isActiveRoute regex='changesApproved'}}"><a href="/changes/approved">Approved Changes</a></li>
-                        <li class="{{isActiveRoute regex='changesCanceled'}}"><a href="/changes/canceled">Canceled Changes</a></li>
                     </ul>
                 </li>
                 <li class="{{isActiveRoute regex='ltmVirtuals|ltmRules|ltmIdatagroups|ltmPools|ltmMonitors|ltmProfile'}}">

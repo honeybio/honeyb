@@ -7,27 +7,41 @@ Meteor.methods({
       var response = HTTP.post(authUrl, {data: post_data});
       return response.headers['set-cookie'];
     } catch (e) {
-      console.log(e);
-      return false;
+      if (e.response.statusCode == '401') {
+        return 401;
+      } else {
+        console.log(e);
+        return false;
+      }
     }
   },
   ihealthGetList: function () {
     // var listQkviewUrl = "https://ihealth-api.f5.com/qkview-analyzer/api/qkviews.json";
     var listQkviewUrl = "https://ihealth-api.f5.com/qkview-analyzer/api/qkviews";
     var settings = Settings.findOne({type: "system"});
-    var cookies = Meteor.call('ihealthAuthCookie', settings.ihealthUser, settings.ihealthPass);
-    var cHeader = cookies[0].replace(/;.*/, "");
-    for (i = 1; i < cookies.length; i++) {
-      cHeader = cHeader + ';' + cookies[i].replace(/;.*/, "");
-    }
-    var myHeaders = { Accept: "application/vnd.f5.ihealth.api+json", Cookie: cHeader }
-    //console.log(myHeaders);
-    try {
-      var qkviewList = HTTP.get(listQkviewUrl, { headers: myHeaders });
-      return qkviewList.content;
-    } catch (e) {
-      console.log(e);
+    if (settings.ihealthUser === undefined || settings.ihealthPass === undefined ) {
       return false;
+    } else {
+      var cookies = Meteor.call('ihealthAuthCookie', settings.ihealthUser, settings.ihealthPass);
+      if (cookies == 401) {
+        return 'Unauthorized';
+      } else if (cookies == false) {
+        return 'unknown error'
+      } else {
+        var cHeader = cookies[0].replace(/;.*/, "");
+        for (i = 1; i < cookies.length; i++) {
+          cHeader = cHeader + ';' + cookies[i].replace(/;.*/, "");
+        }
+        var myHeaders = { Accept: "application/vnd.f5.ihealth.api+json", Cookie: cHeader }
+        //console.log(myHeaders);
+        try {
+          var qkviewList = HTTP.get(listQkviewUrl, { headers: myHeaders });
+          return qkviewList.content;
+        } catch (e) {
+          console.log(e);
+          return false;
+        }
+      }
     }
   },
   ihealthDeleteQkview: function (qkviewId) {
@@ -56,8 +70,13 @@ Meteor.methods({
     //   Ihealth.update({_id: doc._id}, {$set: { hidden: true}});
     // });
     var qk_list = Meteor.call('ihealthGetList');
-    //console.log(qk_list);
-    var myJson = JSON.parse(qk_list);
+    var myJson;
+    try {
+      myJson = JSON.parse(qk_list);
+    } catch (e) {
+      console.log(e);
+      return;
+    }
     var fs = Npm.require('fs');
     for (j = 0; j < myJson.id.length; j++) {
       // Get qkview data for each id
