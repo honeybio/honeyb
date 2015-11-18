@@ -1,19 +1,51 @@
 <template name="virtualSearchBox">
   {{> EasySearch.Input index=virtualsIndex }}
-  <ul>
-    {{#EasySearch.Each index=virtualsIndex }}
-      <li><input type="checkbox" id="{{this._id}}" name="{{this._id}}"><img src="/{{this.statusImg}}"><a href="/ltm/virtuals/{{this._id}}">{{this.name}}</a> - {{this.destination}}</li>
-    {{/EasySearch.Each}}
-  </ul>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Status</th>
+        <th>Virtual Name</th>
+        <th>Destination</th>
+        <th>Select</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#EasySearch.Each index=virtualsIndex }}
+        <tr>
+          <th><img src="/{{this.statusImg}}"></th>
+          <th><a href="/ltm/virtuals/{{this._id}}">{{this.name}}</a></th>
+          <th>{{this.destination}}</th>
+          <th><input type="checkbox" id="{{this._id}}" name="{{this._id}}"></th>
+        </tr>
+      {{/EasySearch.Each}}
+    </tbody>
+  </table>
 </template>
 
 <template name="devicesSearchBox">
   {{> EasySearch.Input index=devicesIndex}}
-  <ul>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Device Name</th>
+        <th>Device IP</th>
+        <th>Failover State</th>
+        <th>Link to GUI</th>
+        <th>Select</th>
+      </tr>
+    </thead>
+    <tbody>
     {{#EasySearch.Each index=devicesIndex}}
-      <li>{{mgmtAddress}} - <a href="/devices/{{_id}}">{{self.name}}</a> - {{self.failoverState}} <a href="https://{{mgmtAddress}}/" target="_blank">Open Management Console</a></li>
-    {{/EasySearch.Each}}
-  </ul>
+      <tr>
+        <th><a href="/devices/{{_id}}">{{self.name}}</a></th>
+        <th>{{mgmtAddress}}</th>
+        <th>{{self.failoverState}}</th>
+        <th><a href="https://{{mgmtAddress}}/" target="_blank">Open Management Console</a></th>
+        <th><input type="checkbox" id="{{this._id}}" name="{{this._id}}"></th>
+      </tr>
+      {{/EasySearch.Each}}
+    </tbody>
+  </table>
 </template>
 
 

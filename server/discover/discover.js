@@ -248,14 +248,28 @@ Meteor.methods({
       }
     };
   },
-  discoverAsmPolicies: function (device_id) {
-    var asmPolicyList = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/asm/policies");
-    for (var i = 0; i < asmPolicyList.length; i++) {
-      var policyObj = { group: 'default-group', onDevice: device_id }
-      for (var attrname in asmPolicyList[i]) {
-        policyObj[attrname] = asmPolicyList[i][attrname]
+  discoverVirtualAddress: function (device_id) {
+    var virtualAddressList = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/ltm/virtual-address");
+    if (virtualAddressList !== undefined) {
+      for (var i = 0; i < virtualAddressList.length; i++) {
+        var virtualAddressObj = { group: 'default-group', onDevice: device_id }
+        for (var attrname in virtualAddressList[i]) {
+          virtualAddressObj[attrname] = virtualAddressList[i][attrname];
+        }
+        Virtualaddresses.insert(virtualAddressObj);
       }
-      Asmpolicies.insert(policyObj);
+    }
+  },
+  discoverAsmPolicies: function (device_id) {
+    if (asmPolicyList !== undefined) {
+      var asmPolicyList = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/asm/policies");
+      for (var i = 0; i < asmPolicyList.length; i++) {
+        var policyObj = { group: 'default-group', onDevice: device_id }
+        for (var attrname in asmPolicyList[i]) {
+          policyObj[attrname] = asmPolicyList[i][attrname]
+        }
+        Asmpolicies.insert(policyObj);
+      }
     }
   },
   discoverApmProfiles: function (ip, user, pass, device_id) {
@@ -376,6 +390,14 @@ Meteor.methods({
       return false;
     }
   },
+  discoverTrafficGroups: function (device_id) {
+    var trafficGroupList = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/cm/traffic-group");
+    if (trafficGroupList !== undefined) {
+      return trafficGroupList;
+    } else {
+      return [];
+    }
+  },
   discoverAllDevice: function (device, jobId) {
     var ip = device.mgmtip;
     var user = device.mgmtuser;
@@ -387,7 +409,7 @@ Meteor.methods({
 
     // reactiveStatus.set('status', 'Connected!' );
     // reactiveStatus.set('progress', 10 );
-    var checkAdded = Devices.findOne({ mgmtAddress: ip}, {_id: 1, self: 1});
+    var checkAdded = Devices.findOne({mgmtAddress: ip}, {_id: 1, self: 1});
     if (typeof checkAdded !== 'undefined') {
       return false;
     }
@@ -395,7 +417,8 @@ Meteor.methods({
     // upload ssh key
     settings = Settings.findOne({type: 'system'});
     if (settings.keyName === undefined) {
-      Jobs.update({_id: jobId}, {$set: {progress: 5, status: 'No SSH Key created...'}});
+      Jobs.update({_id: jobId}, {$set: {progress: 5, status: 'No SSH Key created... Please create one in your honeyb settings'}});
+      return false;
     } else {
       var theKey = settings.keyName.pub;
       var sshArgs = [ip, sshuser, sshpass, theKey];
@@ -407,15 +430,6 @@ Meteor.methods({
         Jobs.update({_id: jobId}, {$set: {progress: 5, status: 'SSH Key failed to install...'}});
       }
     }
-    var theKey = settings.keyName.pub;
-    var sshArgs = [ip, sshuser, sshpass, theKey];
-    var sshShellCommand = "install_ssh_key.sh";
-    var output = Meteor.call("runShellCmd", sshShellCommand, sshArgs);
-    if (output === '0') {
-      Jobs.update({_id: jobId}, {$set: {progress: 5, status: 'Copied SSH Key...'}});
-    } else {
-      Jobs.update({_id: jobId}, {$set: {progress: 5, status: 'SSH Key failed to install...'}});
-    }
     Jobs.update({_id: jobId}, {$set: {progress: 10, status: 'Checking Provisioning...'}});
     // Get provisioned modules
     var provisioning = Meteor.call("discoverProvisioning", ip, user, pass);
@@ -423,21 +437,44 @@ Meteor.methods({
     var device = Meteor.call("discoverDevice", ip, user, pass);
     // var wip_list = Meteor.call("discoverWips", ip, user, pass);
     // console.log(pool_list);
-    var device_id = Devices.insert({
-      group: 'default-group',
-      mgmtAddress: ip,
-      mgmtUser: user,
-      mgmtPass: pass,
-      sshUser: sshuser,
-      sshPass: sshpass,
-      self: device.items[0],
-      peer: device.items[1],
-      // keys: key_list,
-      // certs: cert_list,
-      provision_level: provisioning
-    });
+    var device_id;
+    if (device.items[0].managementIp == ip) {
+      device_id = Devices.insert({
+        group: 'default-group',
+        mgmtAddress: ip,
+        mgmtUser: user,
+        mgmtPass: pass,
+        sshUser: sshuser,
+        sshPass: sshpass,
+        self: device.items[0],
+        peer: device.items[1],
+        // keys: key_list,
+        // certs: cert_list,
+        provision_level: provisioning
+      });
+    } else if (device.items[1] !== undefined) {
+      if (device.items[1].managementIp == ip) {
+        device_id = Devices.insert({
+          group: 'default-group',
+          mgmtAddress: ip,
+          mgmtUser: user,
+          mgmtPass: pass,
+          sshUser: sshuser,
+          sshPass: sshpass,
+          self: device.items[1],
+          peer: device.items[0],
+          // keys: key_list,
+          // certs: cert_list,
+          provision_level: provisioning
+        });
+      }
+    }
     Jobs.update({_id: jobId}, {$set: {progress: 15, status: 'Basic info gathered...'}});
     Meteor.call("getDiskStats", device_id);
+
+    var trafGroups = Meteor.call("discoverTrafficGroups", device_id);
+    Devices.update({_id: device_id}, {$set: {trafficGroups: trafGroups}});
+
     Meteor.call("discoverKeys", ip, user, pass, device_id);
     Meteor.call("discoverCerts", ip, user, pass, device_id);
 
@@ -464,6 +501,8 @@ Meteor.methods({
     Meteor.call("discoverPools", ip, user, pass, device_id);
     Jobs.update({_id: jobId}, {$set: {progress: 50, status: 'Getting LTM info...'}});
     Meteor.call("discoverVirtuals", ip, user, pass, device_id);
+    Meteor.call("discoverVirtualAddress", device_id);
+    Jobs.update({_id: jobId}, {$set: {progress: 650, status: 'Discovered LTM objects...'}});
     Meteor.call("getVirtualStats", ip, user, pass, device_id);
     Jobs.update({_id: jobId}, {$set: {progress: 75, status: 'Getting LTM Stats...'}});
     Meteor.call("getPoolStats", ip, user, pass, device_id);

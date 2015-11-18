@@ -342,21 +342,34 @@
             </div>
             <div class="ibox-content">
               <form class="archiveForm" name="archiveForm">
-                <ul>
-                  {{#each getArchives}}
-                    <li>{{this.name}} - {{round this.size}}
-                      <a href="{{this.url}}">Download</a>
-                      Created at: {{this.uploadedAt}} from device:
-                      <a href="/devices/{{this.metadata.onDevice}}">{{this.metadata.onDeviceName}}</a></li>
-                  {{/each}}
-                </ul>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Device</th>
+                      <th>Save as</th>
+                      <th>UCS Name</th>
+                      <th>Size</th>
+                      <th>Created</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each getArchives}}
+                      <tr>
+                        <td><a href="/devices/{{this.metadata.onDevice}}">{{this.metadata.onDeviceName}}</a></td>
+                        <td><a href="{{this.url}}">Download</a></td>
+                        <td>{{this.name}}</td>
+                        <td>{{round this.size}}</td>
+                        <td>{{this.uploadedAt}}</td>
+                      </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
               </form>
             </div>
             <div class="ibox-footer">
               <span class="pull-right">
                 The righ side of the footer
               </span>
-
             </div>
           </div>
         </div>

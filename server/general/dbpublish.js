@@ -1,3 +1,11 @@
+Meteor.publish("db_virtualaddresses", function () {
+  if (this.userId == null) {
+    return [];
+  }
+  else {
+    return Virtualaddresses.find();
+  }
+});
 Meteor.publish("db_settings", function () {
   if (this.userId == null) {
     return [];

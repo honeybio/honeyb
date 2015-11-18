@@ -22,6 +22,7 @@ if (Meteor.isServer) {
   });
 }
 
+Virtualaddresses = new Mongo.Collection("db_virtualaddresses");
 Devices = new Mongo.Collection("db_devices");
 Certificates = new Mongo.Collection("db_certificates");
 Virtuals = new Mongo.Collection("db_virtuals");
@@ -267,6 +268,13 @@ JobsIndex = new EasySearch.Index({
 
 AsmPoliciesIndex = new EasySearch.Index({
   collection: Asmpolicies,
+  fields: ['name'],
+  engine: new EasySearch.Minimongo(),
+  defaultSearchOptions: { limit: 50 }
+});
+
+VirtualAddressIndex = new EasySearch.Index({
+  collection: Virtualaddresses,
   fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
