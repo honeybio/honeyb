@@ -97,6 +97,7 @@ Meteor.methods({
         Meteor.call('ihealthDeleteQkview', myJson.id[j]);
       }
       else {
+        console.log('something busted in qkview, deleting');
         Meteor.call('ihealthDeleteQkview', myJson.id[j]);
         // var args = [settings.ihealthUser, settings.ihealthPass, myJson.id[j]];
         // var delCmd = "del_qkview.sh";

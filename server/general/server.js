@@ -212,6 +212,7 @@ Meteor.methods({
   },
   createQkviewCommand: function(device_id) {
     var settings = Settings.findOne();
+    var device = Devices.findOne({_id: device_id});
     var check_if_running = Meteor.call("checkQkviewPS", device_id);
     if (check_if_running) {
       console.log('qkview running');
@@ -224,10 +225,8 @@ Meteor.methods({
     else {
       // var args = [device.mgmtAddress, device.sshUser];
       var args = [device.mgmtAddress, 'root', settings.ihealthUser, settings.ihealthPass];
-      console.log('running qkview');
       var shellCommand = "create_and_get_qkview.sh";
       var output = Meteor.call("runShellCmd", shellCommand, args);
-      console.log('complete: ' + output);
     }
   },
   getKeyPem: function (onDevice, keyID) {
