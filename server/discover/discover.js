@@ -390,9 +390,40 @@ Meteor.methods({
       return false;
     }
   },
+  getActiveTrafficGroup: function (device_id) {
+    var device = Devices.findOne({_id: device_id});
+    for (var i = 0; i < device.trafficGroups.length; i++) {
+      if (device.trafficGroups[i].isFloating) {
+        // check if self is active
+        var link = device.trafficGroups[i].selfLink.replace(/\?.*/, '');
+
+      }
+    }
+  },
   discoverTrafficGroups: function (device_id) {
+    var device = Devices.findOne({_id: device_id});
     var trafficGroupList = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/cm/traffic-group");
     if (trafficGroupList !== undefined) {
+      for (var i = 0; i < trafficGroupList.length; i++) {
+        if (trafficGroupList[i].isFloating == 'true') {
+          var link = trafficGroupList[i].selfLink.replace(/\?.*/, '/stats');
+          var response = Meteor.call("bigipRestGetv2", device_id, link);
+          if (response !== undefined) {
+            if (response.entries.deviceName === undefined) {
+              for (var entry in response.entries) {
+                if (response.entries[entry].nestedStats.entries.deviceName.description === device.self.fullPath) {
+                  if (response.entries[entry].nestedStats.entries.failoverState.description === 'active') {
+                    trafficGroupList[i].isActive = true;
+                  } else {
+                    trafficGroupList[i].isActive = false;
+                  }
+                }
+              }
+              trafficGroupList[i].isActive = true;
+            }
+          }
+        }
+      }
       return trafficGroupList;
     } else {
       return [];
@@ -411,6 +442,7 @@ Meteor.methods({
     // reactiveStatus.set('progress', 10 );
     var checkAdded = Devices.findOne({mgmtAddress: ip}, {_id: 1, self: 1});
     if (typeof checkAdded !== 'undefined') {
+      Jobs.update({_id: jobId}, {$set: {progress: 0, status: 'Device already added...'}});
       return false;
     }
     Jobs.update({_id: jobId}, {$set: {progress: 2, status: 'Connecting to device...'}});
@@ -468,13 +500,14 @@ Meteor.methods({
           provision_level: provisioning
         });
       }
+    } else {
+      Jobs.update({_id: jobId}, {$set: {progress: 15, status: 'Management IP required, not self IP'}});
+      return;
     }
     Jobs.update({_id: jobId}, {$set: {progress: 15, status: 'Basic info gathered...'}});
     Meteor.call("getDiskStats", device_id);
-
     var trafGroups = Meteor.call("discoverTrafficGroups", device_id);
     Devices.update({_id: device_id}, {$set: {trafficGroups: trafGroups}});
-
     Meteor.call("discoverKeys", ip, user, pass, device_id);
     Meteor.call("discoverCerts", ip, user, pass, device_id);
 
@@ -502,7 +535,7 @@ Meteor.methods({
     Jobs.update({_id: jobId}, {$set: {progress: 50, status: 'Getting LTM info...'}});
     Meteor.call("discoverVirtuals", ip, user, pass, device_id);
     Meteor.call("discoverVirtualAddress", device_id);
-    Jobs.update({_id: jobId}, {$set: {progress: 650, status: 'Discovered LTM objects...'}});
+    Jobs.update({_id: jobId}, {$set: {progress: 65, status: 'Discovered LTM objects...'}});
     Meteor.call("getVirtualStats", ip, user, pass, device_id);
     Jobs.update({_id: jobId}, {$set: {progress: 75, status: 'Getting LTM Stats...'}});
     Meteor.call("getPoolStats", ip, user, pass, device_id);

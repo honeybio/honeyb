@@ -103,7 +103,6 @@ Template.discoverSingle.events({
       template.discoverJob.set(res);
       Meteor.call("discoverAllDevice", device, res);
     });
-    template.find("form").reset();
   },
   "click #close": function (event, template) {
     template.find("form").reset();
