@@ -10,11 +10,7 @@
               {{>iboxTools}}
             </div>
             <div class="ibox-content">
-              <ul>
-                {{#each allWips}}
-                  {{> wipList}}
-                {{/each}}
-              </ul>
+              {{> wideipsSearchBox}}
             </div>
             <div class="ibox-footer">
               <span class="pull-right">
@@ -41,11 +37,7 @@
               {{>iboxTools}}
             </div>
             <div class="ibox-content">
-              <ul>
-                {{#each getSyncGroups}}
-                  <li><a href="/gtm/syncgroups/{{_id}}">{{synchronizationGroupName}}</a></li>
-                {{/each}}
-              </ul>
+              {{> gtmsyncgroupsSearchBox}}
             </div>
             <div class="ibox-footer">
               <span class="pull-right">

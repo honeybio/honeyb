@@ -152,82 +152,202 @@
 
 
 <template name="gtmsyncgroupsSearchBox">
-  {{> EasySearch.Input index=gtmsyncgroupsIndex}}
-  <ul>
+  <div>
+    {{> EasySearch.Input index=gtmsyncgroupsIndex}}
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>GTM Syncgroup Name</th>
+        <th>On BIG-IP</th>
+        <th>Select</th>
+      </tr>
+    </thead>
+    <tbody>
     {{#EasySearch.Each index=gtmsyncgroupsIndex}}
-      test
+    <tr>
+      <th><a href="/gtm/syncgroup/{{_id}}">{{name}}</a></th>
+      <th>{{getOnDevice this.onDevice}}</th>
+      <th><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></th>
+    </tr>
     {{/EasySearch.Each}}
-  </ul>
+  </tbody>
+</table>
 </template>
 
 
 <template name="gtmdatacentersSearchBox">
-  {{> EasySearch.Input index=gtmdatacentersIndex}}
-  <ul>
+  <div>
+    {{> EasySearch.Input index=gtmdatacentersIndex}}
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>GTM Datacenter Name</th>
+        <th>On Syncgroup</th>
+        <th>Select</th>
+      </tr>
+    </thead>
+    <tbody>
     {{#EasySearch.Each index=gtmdatacentersIndex}}
-      test
+    <tr>
+      <th><a href="/gtm/datacenters/{{_id}}">{{name}}</a></th>
+      <th><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></th>
+      <th><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></th>
+    </tr>
     {{/EasySearch.Each}}
-  </ul>
+  </tbody>
+</table>
 </template>
 
 
 <template name="gtmserversSearchBox">
-  {{> EasySearch.Input index=gtmserversIndex}}
-  <ul>
+  <div>
+    {{> EasySearch.Input index=gtmserversIndex}}
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>GTM Server Name</th>
+        <th>On Syncgroup</th>
+        <th>Select</th>
+      </tr>
+    </thead>
+    <tbody>
     {{#EasySearch.Each index=gtmserversIndex}}
-      test
+    <tr>
+      <th><a href="/gtm/servers/{{_id}}">{{name}}</a></th>
+      <th><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></th>
+      <th><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></th>
+    </tr>
     {{/EasySearch.Each}}
-  </ul>
+  </tbody>
+</table>
 </template>
 
 
 <template name="gtmvserversSearchBox">
-  {{> EasySearch.Input index=gtmvserversIndex}}
-  <ul>
+  <div>
+    {{> EasySearch.Input index=gtmvserversIndex}}
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>GTM Virtual Server Name</th>
+        <th>On Syncgroup</th>
+        <th>Select</th>
+      </tr>
+    </thead>
+    <tbody>
     {{#EasySearch.Each index=gtmvserversIndex}}
-      test
+    <tr>
+      <th><a href="/gtm/vservers/{{_id}}">{{name}}</a></th>
+      <th><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></th>
+      <th><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></th>
+    </tr>
     {{/EasySearch.Each}}
-  </ul>
+  </tbody>
+</table>
 </template>
 
 
 <template name="gtmlinksSearchBox">
-  {{> EasySearch.Input index=gtmlinksIndex}}
-  <ul>
+  <div>
+    {{> EasySearch.Input index=gtmlinksIndex}}
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>GTM Link Name</th>
+        <th>On Syncgroup</th>
+        <th>Select</th>
+      </tr>
+    </thead>
+    <tbody>
     {{#EasySearch.Each index=gtmlinksIndex}}
-      test
+    <tr>
+      <th><a href="/gtm/links/{{_id}}">{{name}}</a></th>
+      <th><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></th>
+      <th><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></th>
+    </tr>
     {{/EasySearch.Each}}
-  </ul>
+  </tbody>
+</table>
 </template>
 
 
 <template name="gtmmonitorsSearchBox">
-  {{> EasySearch.Input index=gtmmonitorsIndex}}
-  <ul>
+  <div>
+    {{> EasySearch.Input index=gtmmonitorsIndex}}
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>GTM Monitor Name</th>
+        <th>On Syncgroup</th>
+        <th>Select</th>
+      </tr>
+    </thead>
+    <tbody>
     {{#EasySearch.Each index=gtmmonitorsIndex}}
-      test
+    <tr>
+      <th><a href="/gtm/monitors/{{_id}}">{{name}}</a></th>
+      <th><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></th>
+      <th><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></th>
+    </tr>
     {{/EasySearch.Each}}
-  </ul>
+  </tbody>
+</table>
 </template>
 
 
 <template name="wideipsSearchBox">
-  {{> EasySearch.Input index=wideipsIndex}}
-  <ul>
+  <div>
+    {{> EasySearch.Input index=wideipsIndex}}
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>GTM Wideip Name</th>
+        <th>On Syncgroup</th>
+        <th>Select</th>
+      </tr>
+    </thead>
+    <tbody>
     {{#EasySearch.Each index=wideipsIndex}}
-      test
+    <tr>
+      <th><a href="/gtm/wideips/{{_id}}">{{name}}</a></th>
+      <th><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></th>
+      <th><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></th>
+    </tr>
     {{/EasySearch.Each}}
-  </ul>
+  </tbody>
+</table>
 </template>
 
 
 <template name="widepoolsSearchBox">
-  {{> EasySearch.Input index=widepoolsIndex}}
-  <ul>
+  <div>
+    {{> EasySearch.Input index=widepoolsIndex}}
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>GTM Pool Name</th>
+        <th>On Syncgroup</th>
+        <th>Select</th>
+      </tr>
+    </thead>
+    <tbody>
     {{#EasySearch.Each index=widepoolsIndex}}
-      test
+    <tr>
+      <th><a href="/gtm/pools/{{_id}}">{{name}}</a></th>
+      <th><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></th>
+      <th><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></th>
+    </tr>
     {{/EasySearch.Each}}
-  </ul>
+  </tbody>
+</table>
 </template>
 
 
@@ -252,12 +372,28 @@
 
 
 <template name="profilesSearchBox">
-  {{> EasySearch.Input index=profilesIndex}}
-  <ul>
+  <div>
+    {{> EasySearch.Input index=profilesIndex}}
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Profile Name</th>
+        <th>Type</th>
+        <th>On Device</th>
+        <th>Select</th>
+      </tr>
+    </thead>
+    <tbody>
     {{#EasySearch.Each index=profilesIndex}}
-      test
+    <tr>
+      <th><a href="/ltm/profiles/{{type}}/{{_id}}">{{name}}</a></th>
+      <th>{{getOnDevice this.onDevice}}</th>
+      <th><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></th>
+    </tr>
     {{/EasySearch.Each}}
-  </ul>
+  </tbody>
+</table>
 </template>
 
 
