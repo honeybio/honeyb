@@ -5,7 +5,7 @@ Template.login.events({
     var pass = event.target.password.value;
     Meteor.loginWithPassword(user, pass, function(err,result) {
       if (!err) {
-        Router.go('/devices')
+        Router.go('/settings/honeyb')
       } else {
         console.log(err.reason)
       }
@@ -30,6 +30,19 @@ Template.myprofile.events({
       advanced = false;
     }
     Meteor.users.update({_id: Meteor.userId()}, {$set: { profile: { advanced : advanced }}});
+  }
+});
+Template.myprofile.helpers({
+  getUsers: function () {
+    var result = Meteor.users.find();
+    return result;
+  }
+});
+
+Template.settingsHoneyb.events({
+  'submit .scheduler': function (event) {
+    event.preventDefault();
+    Meteor.call("updateSchedule", event.target.archives.value, event.target.qkviews.value);
   },
   'submit .honeySettings': function (event) {
     event.preventDefault();
@@ -50,11 +63,8 @@ Template.myprofile.events({
     Meteor.call("generateSshKey", keyName);
   }
 });
-Template.myprofile.helpers({
-  getUsers: function () {
-    var result = Meteor.users.find();
-    return result;
-  },
+
+Template.settingsHoneyb.helpers({
   getSettings: function () {
     var result = Meteor.settings.findOne();
     return result;

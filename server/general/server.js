@@ -102,6 +102,9 @@ Meteor.methods({
     }});
     return update;
   },
+  updateSchedule: function (archiveFreq, qkviewFreq) {
+    Settings.update({type: "system"}, { $set: { archiveSchedule: archiveFreq, qkviewSchedul: qkviewFreq}});
+  },
   schedArch: function() {
     console.log("scheduler running");
     return "success!";

@@ -31,6 +31,12 @@ Router.route('/', function () {
 });
 
 Router.route('/settings/gettingstarted');
+Router.route('/settings/honeyb', {
+  data: function () {
+    return Settings.findOne({type: 'system'});
+  }
+});
+
 
 // Dashboards
 Router.route('/dashboards/appview', function () {

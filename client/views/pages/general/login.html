@@ -1,3 +1,42 @@
+<template name="settingsHoneyb">
+  <h2>HoneyB Settings</h2>
+  <form id="scheduler" class="scheduler">
+    Archive Schedule:
+    <select name="archives">
+      <option value="nightly">Nightly @2am</option>
+      <option value="weekly">Each Sat @2am</option>
+      <option value="biweekly">1st & 15th @2am</option>
+      <option value="monthly">15th @2am</option>
+    </select><br>
+    QKview Schedule:
+    <select name="qkviews">
+      <option value="weekly">Sat @2am</option>
+      <option value="biweekly">1st & 15th @2am</option>
+      <option value="monthly">15th @2am</option>
+    </select><br>
+    <button class="submit" id="submit">Update schedule</button><br><br>
+  </form>
+  <form id="honeySettings" class="honeySettings">
+    Display Name: <input type="text" id="honeyName" value="{{name}}"><br>
+    Update Polling Intervals:<br>
+    GTM DC: <input type="text" id="updateGtmDc" value="{{interval.updateGtmDc}}"><br>
+    GTM Server: <input type="text" id="updateGtmServer" value="{{interval.updateGtmServer}}"><br>
+    GTM VIP: <input type="text" id="updateGtmVserver" value="{{interval.updateGtmVserver}}"><br>
+    LTM VIP: <input type="text" id="updateLtmVirtual" value="{{interval.updateLtmVirtual}}"><br>
+    LTM Pool: <input type="text" id="updateLtmPool" value="{{interval.updateLtmPool}}"><br>
+    LTM Pool Mem: <input type="text" id="updateLtmPoolMember" value="{{interval.updateLtmPoolMember}}"><br>
+    Ihealth Account (We recommend generating a unique service account)<br>
+    User: <input type="text" id="ihealthUser" value="{{ihealthUser}}"><br>
+    Pass: <input type="password" id="ihealthPass" value="{{ihealthPass}}"><br>
+    <button class="submit btn btn-lg btn-primary btn-block" id="submit">Update!</button>
+  </form>
+  <h2>Honeyb SSH Settings</h2>
+  <form id="sshSettings" class="sshSettings">
+    <br>
+    SSH Key {{keyName.name}}: {{keyName.pub}}
+    <button class="submit btn btn-lg btn-primary btn-block" id="submit">Create new Key</button>
+  </form>
+</template>
 <template name="logout">
   <div class="container">
     {{#if currentUser}}
@@ -39,27 +78,6 @@
       {{/if}}
     </select>
     <button name="submit" value="submit" id="submit">Update</button>
-    </form>
-    <h2>HoneyB Settings</h2>
-    <form id="honeySettings" class="honeySettings">
-        Display Name: <input type="text" id="honeyName" value="{{name}}"><br>
-        Update Polling Intervals:<br>
-        GTM DC: <input type="text" id="updateGtmDc" value="{{interval.updateGtmDc}}"><br>
-        GTM Server: <input type="text" id="updateGtmServer" value="{{interval.updateGtmServer}}"><br>
-        GTM VIP: <input type="text" id="updateGtmVserver" value="{{interval.updateGtmVserver}}"><br>
-        LTM VIP: <input type="text" id="updateLtmVirtual" value="{{interval.updateLtmVirtual}}"><br>
-        LTM Pool: <input type="text" id="updateLtmPool" value="{{interval.updateLtmPool}}"><br>
-        LTM Pool Mem: <input type="text" id="updateLtmPoolMember" value="{{interval.updateLtmPoolMember}}"><br>
-        Ihealth Account (We recommend generating a unique service account)<br>
-        User: <input type="text" id="ihealthUser" value="{{ihealthUser}}"><br>
-        Pass: <input type="password" id="ihealthPass" value="{{ihealthPass}}"><br>
-      <button class="submit btn btn-lg btn-primary btn-block" id="submit">Update!</button>
-    </form>
-    <h2>Honeyb SSH Settings</h2>
-    <form id="sshSettings" class="sshSettings">
-      <br>
-      SSH Key {{keyName.name}}: {{keyName.pub}}
-      <button class="submit btn btn-lg btn-primary btn-block" id="submit">Create new Key</button>
     </form>
   </div>
 </template>
