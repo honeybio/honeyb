@@ -105,19 +105,27 @@ Meteor.methods({
           var diag_json = null;
       }
       if (meta_json !== null || diag_json !== null) {
-        meta_json.sha1 = diag_json.sha1;
+        meta_json.qkviewId = myJson.id[j];
+        // meta_json.sha1 = diag_json.sha1;
         meta_json.version = diag_json.version;
         meta_json.diagnostics = diag_json.diagnostics;
         meta_json.system_information = diag_json.system_information;
 
         meta_json.group = 'default-group';
         meta_json.hidden = false;
-        Ihealth.insert(meta_json);
-        Meteor.call('ihealthDeleteQkview', myJson.id[j]);
+        var qkId = Ihealth.findOne({qkviewId: myJson.id[j]});
+        if (qkId === undefined) {
+          Ihealth.insert(meta_json);
+        } else {
+          console.log(qkId._id);
+          Ihealth.remove({_id: qkId._id});
+          // Ihealth.insert(meta_json);
+        }
+        // Meteor.call('ihealthDeleteQkview', myJson.id[j]);
       }
       else {
         console.log('something busted in qkview, deleting');
-        Meteor.call('ihealthDeleteQkview', myJson.id[j]);
+        // Meteor.call('ihealthDeleteQkview', myJson.id[j]);
         // var args = [settings.ihealthUser, settings.ihealthPass, myJson.id[j]];
         // var delCmd = "del_qkview.sh";
         // var output = Meteor.call("runShellCmd", shellCommand, args);

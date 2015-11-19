@@ -5,7 +5,8 @@ Template.devicesArchives.helpers({
   round: function (size) {
     return (size/1048576).toFixed(2) + ' MB';
   }
-})
+});
+
 Template.deviceList.events({
   'click button': function () {
     bootbox.dialog({
@@ -23,6 +24,13 @@ Template.deviceList.events({
         },
       }
     });
+  }
+});
+
+Template.devicesArchives.events({
+  'click #archiveAll': function () {
+    event.preventDefault();
+    Meteor.call("archiveAllTask");
   }
 });
 

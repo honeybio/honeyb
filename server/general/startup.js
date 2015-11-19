@@ -40,6 +40,16 @@ Meteor.startup(function () {
         guestPermList.permissionList.push({ permission: "read." + gmod + "." + gobj });
       }
     }
+    var opRoles = [ 'read', 'enable', 'disable', 'force'];
+    var operatorRole = Roles.createRole("operator");
+    var operatorPermList = { onRole: "operator", permissionList: []};
+    for (var myAction in opRoles) {
+      for (var omod in ChangeFunction[myAction]) {
+        for (var oobj in ChangeFunction[myAction][omod]) {
+          operatorPermList.permissionList.push({ permission: myAction + "." + omod + "." + oobj});
+        }
+      }
+    }
     var guestPermId = Permissions.insert(guestPermList);
     var adminId = Accounts.createUser({username: "admin", password: "honeyb"});
     var guestId = Accounts.createUser({username: "guest", password: "honeyb"});
@@ -52,10 +62,23 @@ Meteor.startup(function () {
   } else {
     Settings.insert({name: "honeyB", type: "system", interval: { updateGtmDc: 10000, updateGtmServer: 30000,
     updateGtmVserver: 60000, updateLtmVirtual: 45000, updateLtmPool: 40000,
-    updateLtmPoolMember: 90000 }});
+    updateLtmPoolMember: 90000, archiveSchedule: "nightly", qkviewSchedule: "weekly" }});
     //var pubKey = Meteor.call('generateSshKey', 'honeyb');
     //console.log(pubKey);
   }
   // Start the cron process for recurring jobs
   SyncedCron.start();
+
+  // Start archive task
+  SyncedCron.add({
+    name: 'backup_all_devices',
+    schedule: function(parser) {
+    // parser is a later.parse object
+      return parser.recur().on('02:00:00').time();
+    },
+    job: function() {
+      var output = Meteor.call('archiveAllTask');
+      return output;
+    }
+  });
 });

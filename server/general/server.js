@@ -103,11 +103,22 @@ Meteor.methods({
     return update;
   },
   updateSchedule: function (archiveFreq, qkviewFreq) {
-    Settings.update({type: "system"}, { $set: { archiveSchedule: archiveFreq, qkviewSchedul: qkviewFreq}});
+    Settings.update({type: "system"}, { $set: { archiveSchedule: archiveFreq, qkviewSchedule: qkviewFreq}})
   },
   schedArch: function() {
     console.log("scheduler running");
     return "success!";
+  },
+  archiveAllTask: function() {
+    this.unblock();
+    bigip_devices = Devices.find();
+    bigip_devices.forEach(function (eachDevice) {
+      Meteor.call("createUCSCommand", eachDevice._id);
+    });
+  },
+  getNextArchiveDate: function (jobName) {
+    var d = SyncedCron.nextScheduledAtDate(jobName);
+    return d;
   },
   taskScheduler: function(device_id, jobName, command, jobSchedule, desc) {
     command = 'schedArch';
