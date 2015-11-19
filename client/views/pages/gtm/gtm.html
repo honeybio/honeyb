@@ -105,15 +105,11 @@
               {{>iboxTools}}
             </div>
             <div class="ibox-content">
-              <ul>
-                {{#each allDCs}}
-                  {{> dcList}}
-                {{/each}}
-              </ul>
+              {{> gtmdatacentersSearchBox}}
             </div>
             <div class="ibox-footer">
               <span class="pull-right">
-                The righ side of the footer
+                The right side of the footer
               </span>
             </div>
           </div>
@@ -324,11 +320,7 @@
               {{>iboxTools}}
             </div>
             <div class="ibox-content">
-              <ul>
-                {{#each allLinks}}
-                  <li>{{name}}</li>
-                {{/each}}
-              </ul>
+              {{> gtmlinksSearchBox}}
             </div>
             <div class="ibox-footer">
               <span class="pull-right">
@@ -355,11 +347,7 @@
               {{>iboxTools}}
             </div>
             <div class="ibox-content">
-              <ul>
-                {{#each allServers}}
-                  <li><a href="/gtm/servers/{{_id}}">{{name}}</a></li>
-                {{/each}}
-              </ul>
+              {{> gtmserversSearchBox}}
             </div>
             <div class="ibox-footer">
               <span class="pull-right">
@@ -386,11 +374,7 @@
               {{>iboxTools}}
             </div>
             <div class="ibox-content">
-              <ul>
-                {{#each allVservers}}
-                  {{serverName}}:<a href="/gtm/vservers/{{_id}}">{{name}}</a><li>{{name}} - {{destination}}</li>
-                {{/each}}
-              </ul>
+              {{> gtmvserversSearchBox}}
             </div>
             <div class="ibox-footer">
               <span class="pull-right">
@@ -417,11 +401,7 @@
               {{>iboxTools}}
             </div>
             <div class="ibox-content">
-              <ul>
-                {{#each allPools}}
-                  <li><a href="/gtm/pools/{{_id}}">{{name}}</a></li>
-                {{/each}}
-              </ul>
+              {{> widepoolsSearchBox}}
             </div>
             <div class="ibox-footer">
               <span class="pull-right">
@@ -523,10 +503,27 @@
 </template>
 
 <template name="gtmMonitors">
-  <div class="container">
-    GTM monitors
-    <ul>
-      monitors
-    </ul>
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form class="virtualForm">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>GTM Monitors <small class="m-l-sm">Manage your DNS Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+              {{> monitorsSearchBox}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+              <a href="/gtm/pools/create">Create New</a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
