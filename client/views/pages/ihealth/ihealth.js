@@ -69,6 +69,19 @@ Template.displayDiagnostics.events({
 });
 
 Template.displayDiagnostics.helpers({
+  getLevel: function (level) {
+    if (level == 'CRITICAL') {
+      return "label-danger";
+    } else if (level == 'HIGH') {
+      return "label-danger";
+    } else if (level == 'MEDIUM') {
+      return "label-warning";
+    } else if (level == 'LOW') {
+      return "label-info";
+    } else {
+      return "";
+    }
+  },
   getCrit: function () {
     return Template.instance().critical.get();
   },

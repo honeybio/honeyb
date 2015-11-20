@@ -113,7 +113,7 @@
     {{#each getDiagnostics diagnostic}}
     <div class="ibox collapsed float-e-margins">
       <div class="ibox-title">
-        <h5><span class="label label-warning">{{this.run_data.h_importance}}</span><span style="padding-left:10px">{{this.name}}</span></h5>
+        <h5><span class="label {{getLevel this.run_data.h_importance}}">{{this.run_data.h_importance}}</span><span style="padding-left:10px">{{this.name}}</span></h5>
         {{>iboxTools}}
       </div>
       <div class="ibox-content">
