@@ -85,6 +85,14 @@
                         <li class="{{isActiveRoute regex='asmSomething'}}"><a href="/asm/something">Something</a></li>
                     </ul>
                 </li>
+                <li class="{{isActiveRoute regex='settingsHoneyb|settingsUser'}}">
+                    <a href="#"><i class="fa fa-gear"></i> <span class="nav-label">Settings</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse {{isActiveRoute regex='settingsHoneyb|settingsUser' className='in'}}">
+                      <li class="{{isActiveRoute regex='settingsGettingstarted'}}"><a href="/settings/gettingstarted">Configuration Wizard</a></li>
+                        <li class="{{isActiveRoute regex='settingsHoneyb'}}"><a href="/settings/honeyb">System Settings</a></li>
+                        <li class="{{isActiveRoute regex='settingsUser'}}"><a href="/settings/user">My User</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </nav>

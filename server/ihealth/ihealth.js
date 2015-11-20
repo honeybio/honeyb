@@ -1,6 +1,5 @@
 Meteor.methods({
   ihealthAuthCookie: function (user, password) {
-    // {"user_id": "j.smith@example.com", "user_secret": "Secret!P@ssw@rd"}
     var post_data = { user_id: user, user_secret: password };
     var authUrl = "https://api.f5.com/auth/pub/sso/login/ihealth-api";
     try {
@@ -16,7 +15,6 @@ Meteor.methods({
     }
   },
   ihealthGetList: function () {
-    // var listQkviewUrl = "https://ihealth-api.f5.com/qkview-analyzer/api/qkviews.json";
     var listQkviewUrl = "https://ihealth-api.f5.com/qkview-analyzer/api/qkviews";
     var settings = Settings.findOne({type: "system"});
     if (settings.ihealthUser === undefined || settings.ihealthPass === undefined ) {
@@ -124,7 +122,7 @@ Meteor.methods({
         // Meteor.call('ihealthDeleteQkview', myJson.id[j]);
       }
       else {
-        console.log('something busted in qkview, deleting');
+        console.log('something busted in qkview, ignoring');
         // Meteor.call('ihealthDeleteQkview', myJson.id[j]);
         // var args = [settings.ihealthUser, settings.ihealthPass, myJson.id[j]];
         // var delCmd = "del_qkview.sh";

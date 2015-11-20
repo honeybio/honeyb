@@ -63,7 +63,7 @@ Router.route('/dashboards/ihealth/:_id', {
   }
 });
 
-Router.route('/myprofile', {
+Router.route('/settings/user', {
   data: function () {
     return Settings.findOne({type: 'system'});
   }
