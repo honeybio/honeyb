@@ -100,7 +100,7 @@ VirtualsIndex = new EasySearch.Index({
 
 DevicesIndex = new EasySearch.Index({
   collection: Devices,
-  fields: ['self.name'],
+  fields: ['self.name', 'mgmtAddress', 'self.failoverState'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });

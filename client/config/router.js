@@ -48,6 +48,13 @@ Router.route('/dashboards/appview', function () {
 Router.route('/applications/create');
 Router.route('/dashboards/adcthroughput');
 Router.route('/dashboards/ihealth');
+Router.route('/dashboards/ihealth/test/:_id', {
+  template: 'dashboardsIhealthTest',
+  data: function(){
+    var currentIhealth = this.params._id;
+    return Ihealth.findOne({ _id: currentIhealth});
+  }
+});
 Router.route('/dashboards/ihealth/:_id', {
   template: 'dashboardsIhealthDetails',
   data: function(){
