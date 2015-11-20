@@ -5,7 +5,7 @@ Template.login.events({
     var pass = event.target.password.value;
     Meteor.loginWithPassword(user, pass, function(err,result) {
       if (!err) {
-        Router.go('/settings/honeyb')
+        Router.go('/')
       } else {
         console.log(err.reason)
       }
@@ -13,7 +13,7 @@ Template.login.events({
   }
 });
 
-Template.myprofile.events({
+Template.settingsUser.events({
   'submit .form-signin': function (event, template) {
     event.preventDefault();
     var user = event.target.username.value;
@@ -32,7 +32,7 @@ Template.myprofile.events({
     Meteor.users.update({_id: Meteor.userId()}, {$set: { profile: { advanced : advanced }}});
   }
 });
-Template.myprofile.helpers({
+Template.settingsUser.helpers({
   getUsers: function () {
     var result = Meteor.users.find();
     return result;
