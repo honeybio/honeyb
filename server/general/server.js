@@ -93,17 +93,24 @@ Meteor.methods({
       return false;
     }
   },
-  updateSettings: function (hname, dcInt, serInt, vserInt, virtInt, poolInt, memInt, iUser, iPass) {
+  updateIntervalSettings: function (dcInt, serInt, vserInt, virtInt, poolInt, memInt) {
     //
-    var update = Settings.update({type: "system"}, { $set: { name: hname, ihealthUser: iUser,
-      ihealthPass: iPass, interval: { updateGtmDc: dcInt, updateGtmServer: serInt,
-      updateGtmVserver: vserInt, updateLtmVirtual: virtInt, updateLtmPool: poolInt,
-      updateLtmPoolMember: memInt },
+    var update = Settings.update({type: "system"}, { $set: { interval: {
+      updateGtmDc: dcInt * 1000, updateGtmServer: serInt * 1000, updateGtmVserver: vserInt * 1000,
+      updateLtmVirtual: virtInt * 1000, updateLtmPool: poolInt * 1000, updateLtmPoolMember: memInt * 1000 },
     }});
+    return update;
+  },
+  updateSystemSettings: function(hname, ihealthUser, ihealthPass, ihealthFreq) {
+    var update = Settings.update({type: "system"}, { $set: { name: hname, ihealthUser: ihealthUser,
+      ihealthPass: ihealthPass, ihealthFreq: ihealthFreq }});
     return update;
   },
   updateSchedule: function (archiveFreq, qkviewFreq) {
     Settings.update({type: "system"}, { $set: { archiveSchedule: archiveFreq, qkviewSchedule: qkviewFreq}})
+  },
+  updateChangeSettings: function (enable) {
+    Settings.update({type: "system"}, { $set: { changeControl: enable }});
   },
   schedArch: function() {
     console.log("scheduler running");

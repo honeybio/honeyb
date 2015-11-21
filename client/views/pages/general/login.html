@@ -1,42 +1,162 @@
+<template name="settingsTest">
+  {{this.data}}
+  poo
+</template>
+
 <template name="settingsHoneyb">
   <h2>HoneyB Settings</h2>
-  <form id="scheduler" class="scheduler">
-    Archive Schedule:
-    <select name="archives">
-      <option value="nightly">Nightly @2am</option>
-      <option value="weekly">Each Sat @2am</option>
-      <option value="biweekly">1st & 15th @2am</option>
-      <option value="monthly">15th @2am</option>
-    </select><br>
-    QKview Schedule:
-    <select name="qkviews">
-      <option value="weekly">Sat @2am</option>
-      <option value="biweekly">1st & 15th @2am</option>
-      <option value="monthly">15th @2am</option>
-    </select><br>
-    <button class="submit" id="submit">Update schedule</button><br><br>
-  </form>
-  <form id="honeySettings" class="honeySettings">
-    Display Name: <input type="text" id="honeyName" value="{{name}}"><br>
-    Update Polling Intervals:<br>
-    GTM DC: <input type="text" id="updateGtmDc" value="{{interval.updateGtmDc}}"><br>
-    GTM Server: <input type="text" id="updateGtmServer" value="{{interval.updateGtmServer}}"><br>
-    GTM VIP: <input type="text" id="updateGtmVserver" value="{{interval.updateGtmVserver}}"><br>
-    LTM VIP: <input type="text" id="updateLtmVirtual" value="{{interval.updateLtmVirtual}}"><br>
-    LTM Pool: <input type="text" id="updateLtmPool" value="{{interval.updateLtmPool}}"><br>
-    LTM Pool Mem: <input type="text" id="updateLtmPoolMember" value="{{interval.updateLtmPoolMember}}"><br>
-    Ihealth Account (We recommend generating a unique service account)<br>
-    User: <input type="text" id="ihealthUser" value="{{ihealthUser}}"><br>
-    Pass: <input type="password" id="ihealthPass" value="{{ihealthPass}}"><br>
-    <button class="submit btn btn-lg btn-primary btn-block" id="submit">Update!</button>
-  </form>
-  <h2>Honeyb SSH Settings</h2>
-  <form id="sshSettings" class="sshSettings">
-    <br>
-    SSH Key {{keyName.name}}: {{keyName.pub}}
-    <button class="submit btn btn-lg btn-primary btn-block" id="submit">Create new Key</button>
-  </form>
+  {{> pageHeading title='Settings' category='honeyb' }}
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox collapsed float-e-margins">
+          <div class="ibox-title"><h5>honeyb System Settings</h5>{{>iboxTools}}</div>
+          <div class="ibox-content">
+            <form id="system-settings" class="form-horizontal">
+              <div class="form-group"><label class="col-sm-2 control-label">System Display Name</label>
+                <div class="col-sm-4"><input type="text" id="honeyName" class="form-control"></div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">iHealth Statistics Refresh</label>
+                <div class="col-sm-4">
+                  <select id="ihealthFreq" class="form-control m-b" name="archives">
+                    <option value="nightly">Nightly @6am</option>
+                    <option value="otherNightly">Each Other Night @6am</option>
+                    <option value="weekly">Sunday @6am</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">iHealth User</label>
+                <div class="col-sm-4"><input type="text" id="ihealthUser" value="{{ihealthUser}}" class="form-control"></div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">iHealth Password</label>
+                <div class="col-sm-4"><input type="password" id="ihealthPass" value="{{ihealthPass}}" class="form-control"></div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <button class="btn btn-white" type="submit">Cancel</button>
+                  <button class="btn btn-primary" type="submit">Save changes</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <div class="ibox collapsed float-e-margins">
+          <div class="ibox-title"><h5>BIG-IP Real-Time Data Interval Settings</h5>{{>iboxTools}}</div>
+          <div class="ibox-content">
+            <form id="interval-settings" class="form-horizontal">
+              <div class="form-group"><label class="col-sm-2 control-label">GTM Datacenter</label>
+                <div class="col-sm-4"><input type="text" id="updateGtmDc" value="{{msecToSec interval.updateGtmDc}}" class="form-control"></div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">GTM Servers</label>
+                <div class="col-sm-4"><input type="text" id="updateGtmServer" value="{{msecToSec interval.updateGtmServer}}" class="form-control"></div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">GTM Virtuals</label>
+                <div class="col-sm-4"><input type="text" id="updateGtmVserver" value="{{msecToSec interval.updateGtmVserver}}" class="form-control"></div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">LTM Virtuals</label>
+                <div class="col-sm-4"><input type="text" id="updateLtmVirtual" value="{{msecToSec interval.updateLtmVirtual}}" class="form-control"></div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">LTM Pools</label>
+                <div class="col-sm-4"><input type="text" id="updateLtmPool" value="{{msecToSec interval.updateLtmPool}}" class="form-control"></div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">LTM Pool Members</label>
+                <div class="col-sm-4"><input type="text" id="updateLtmPoolMember" value="{{msecToSec interval.updateLtmPoolMember}}" class="form-control"></div>
+              </div>
+              <div class="hr-line-dashed"></div>
+              <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <button class="btn btn-white" type="submit">Cancel</button>
+                  <button class="btn btn-primary" type="submit">Save changes</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <div class="ibox collapsed float-e-margins">
+          <div class="ibox-title"><h5>Archive & iHealth Schedule Settings</h5>{{>iboxTools}}</div>
+          <div class="ibox-content">
+            <form id="scheduler" class="form-horizontal">
+              <div class="form-group"><label class="col-sm-2 control-label">Archive Schedule:</label>
+                <div class="col-sm-4">
+                  <select class="form-control m-b" name="archives">
+                    <option value="nightly">Nightly @2am</option>
+                    <option value="weekly">Each Sat @2am</option>
+                    <option value="biweekly">1st & 15th @2am</option>
+                    <option value="monthly">15th @2am</option>
+                  </select>
+                </div>
+              </div>
+              <div class="hr-line-dashed"></div>
+              <div class="form-group"><label class="col-sm-2 control-label">iHealth/QKView Creation Schedule:</label>
+                <div class="col-sm-4">
+                  <select class="form-control m-b" name="archives">
+                    <option value="weekly">Sat @2am</option>
+                    <option value="biweekly">1st & 15th @2am</option>
+                    <option value="monthly">15th @2am</option>
+                  </select>
+                </div>
+              </div>
+              <div class="hr-line-dashed"></div>
+              <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <button class="btn btn-white" type="submit">Cancel</button>
+                  <button class="btn btn-primary" type="submit">Save changes</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <div class="ibox collapsed float-e-margins">
+          <div class="ibox-title"><h5>SSH Settings</h5>{{>iboxTools}}</div>
+          <div class="ibox-content">
+            <form id="ssh-settings" class="form-horizontal">
+              <div class="form-group"><label class="col-sm-2 control-label">SSH Key Name: {{keyName.name}}</label>
+                <div class="col-sm-8"><textarea name="sshPubKey">{{keyName.pub}}</textarea></div>
+              </div>
+              <div class="hr-line-dashed"></div>
+              <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <button class="btn btn-primary" type="submit">Create SSH Key</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <div class="ibox collapsed float-e-margins">
+          <div class="ibox-title"><h5>Change Management Settings</h5>{{>iboxTools}}</div>
+          <div class="ibox-content">
+            <form id="change-settings" class="form-horizontal">
+              <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-10">
+                  <label class="checkbox-inline i-checks">
+                    <input type="checkbox" id="changeControl">Enable Change Control & Staging
+                  </label>
+                </div>
+              </div>
+              <div class="hr-line-dashed"></div>
+              <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <button class="btn btn-white" type="submit">Cancel</button>
+                  <button class="btn btn-primary" type="submit">Save changes</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
+
 <template name="logout">
   <div class="container">
     {{#if currentUser}}

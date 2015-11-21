@@ -39,35 +39,67 @@ Template.settingsUser.helpers({
   }
 });
 
+Template.settingsHoneyb.rendered = function(){
+  $("#settings-tabs").steps({
+    enableFinishButton: false,
+    enablePagination: false,
+    enableAllSteps: true,
+    titleTemplate: "#title#",
+    headerTag: "h3",
+    bodyTag: "section",
+    transitionEffect: "slideLeft",
+    enableFinishButton: false,
+    enablePagination: false,
+    enableAllSteps: true,
+    titleTemplate: "#title#",
+    cssClass: "tabcontrol"
+  });
+}
+
+Template.settingsTest.onCreated(function() {
+    this.data = Settings.findOne({type: 'system'});
+});
+
+Template.settingsHoneyb.helpers({
+  msecToSec: function (msec) {
+    if (msec === undefined) {
+      return 0;
+    }
+    return msec/1000;
+  }
+});
+
 Template.settingsHoneyb.events({
   'submit .scheduler': function (event) {
     event.preventDefault();
     Meteor.call("updateSchedule", event.target.archives.value, event.target.qkviews.value);
   },
-  'submit .honeySettings': function (event) {
+  'submit #system-settings': function (event) {
     event.preventDefault();
     var hname = event.target.honeyName.value;
+    var ihealthUser = event.target.ihealthUser.value;
+    var ihealthPass = event.target.ihealthPass.value;
+    var ihealthFreq = event.target.ihealthFreq.value;
+    Meteor.call("updateSystemSettings", hname, ihealthUser, ihealthPass, ihealthFreq);
+  },
+  'submit #interval-settings': function (event) {
+    event.preventDefault();
     var dcInt = event.target.updateGtmDc.value;
     var serInt = event.target.updateGtmServer.value;
     var vserInt = event.target.updateGtmVserver.value;
     var virtInt = event.target.updateLtmVirtual.value;
     var poolInt = event.target.updateLtmPool.value;
     var memInt = event.target.updateLtmPoolMember.value;
-    var ihealthUser = event.target.ihealthUser.value;
-    var ihealthPass = event.target.ihealthPass.value;
-    Meteor.call("updateSettings", hname, dcInt, serInt, vserInt, virtInt, poolInt, memInt, ihealthUser, ihealthPass);
+    Meteor.call("updateIntervalSettings", dcInt, serInt, vserInt, virtInt, poolInt, memInt);
   },
-  'submit .sshSettings': function (event) {
+  'submit #ssh-settings': function (event) {
     event.preventDefault();
     var keyName = 'id_rsa';
     Meteor.call("generateSshKey", keyName);
-  }
-});
-
-Template.settingsHoneyb.helpers({
-  getSettings: function () {
-    var result = Meteor.settings.findOne();
-    return result;
+  },
+  'submit #change-settings': function (event) {
+    event.preventDefault();
+    Meteor.call("updateChangeSettings", event.target.changeControl.checked);
   }
 });
 
