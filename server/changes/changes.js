@@ -361,6 +361,7 @@ ChangeFunction.enable.ltm.virtual = function(argList) {
     } else {
       Meteor.call("bigipRestPut", device_id, vipLink, put_data);
     }
+    Meteor.call("getOneVirtualStats", device_id, vipLink, argList.objId);
 }
 
 ChangeFunction.enable.ltm.pool_member = function(argList) {
@@ -382,6 +383,7 @@ ChangeFunction.disable.ltm.virtual = function(argList) {
   } else {
     Meteor.call("bigipRestPut", device_id, vipLink, put_data);
   }
+  Meteor.call("getOneVirtualStats", device_id, vipLink, argList.objId);
 }
 ChangeFunction.disable.ltm.pool_member = function(argList) {
   var poolMember = argList.poolMember;
@@ -569,16 +571,15 @@ Meteor.methods({
     * @param {object} A Mongo ID of the change
     * @return {boolean} returns true on success
     */
-    console.log('pushing change')
     var myChange = Changes.findOne({_id: change_id});
     var backoutChange = {}
     var changeMethod = myChange.change.theMethod;
-    console.log(changeMethod);
     var argList = myChange.change.argList;
     // Apply method will take array of args
     checkAuth(change_id, myChange.change.theMethod, function (err, res) {
       if (res) {
         ChangeFunction[changeMethod.action][changeMethod.module][changeMethod.object](argList);
+
       }
       else {
         console.log("unauthorized");

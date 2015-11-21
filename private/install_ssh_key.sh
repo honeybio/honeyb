@@ -16,24 +16,28 @@ if [ -z "$1" ]
   then
     echo "No host specified"
     usage
+    return 1
 fi
 
 if [ -z "$2" ]
   then
     echo "No user specified"
     usage
+    return 1
 fi
 
 if [ -z "$3" ]
   then
     echo "No password specified"
     usage
+    return 1
 fi
 
 if [ -z "$4" ]
   then
     echo "No public key specified"
     usage
+    return 1
 fi
 
 HOST=$1

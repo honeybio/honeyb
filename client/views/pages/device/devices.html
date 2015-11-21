@@ -38,26 +38,32 @@
           <h4 class="modal-title" id="myModalLabel">Add a device</h4>
         </div>
         <div class="modal-body">
-          <form>
-            <ul>
-              <li>
-                <input type="text" name="mgmtip" placeholder="Bigip management IP" />
-                <input type="text" name="mgmtuser" placeholder="Admin Username" />
-                <input type="password" name="mgmtpass" placeholder="Admin Password" />
-              </li>
-              <li>
-                <input type="text" name="sshuser" placeholder="SSH Username" />
-                <input type="password" name="sshpass" placeholder="SSH Password" />
-              </li>
-            </ul>
-            <input type="submit" value="Discover">
+          <form class="form-horizontal">
+            <div class="form-group"><label class="col-sm-4 control-label">BIG-IP Management IP</label>
+              <div class="col-sm-4"><input type="text" name="mgmtip" class="form-control"/></div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group"><label class="col-sm-4 control-label">Admin User</label>
+              <div class="col-sm-4"><input type="text" name="mgmtuser" class="form-control"/></div>
+            </div>
+            <div class="form-group"><label class="col-sm-4 control-label">Admin Password</label>
+              <div class="col-sm-4"><input type="password" name="mgmtpass" class="form-control"/></div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group"><label class="col-sm-4 control-label">SSH User</label>
+              <div class="col-sm-4"><input type="text" name="sshuser" class="form-control"/></div>
+            </div>
+            <div class="form-group"><label class="col-sm-4 control-label">SSH Password</label>
+              <div class="col-sm-4"><input type="password" name="sshpass" class="form-control"/></div>
+            </div>
+            <center>
+              {{#if getJobId}}
+                {{> jobStatus getJobId}}
+              {{/if}}
+            </center>
+            <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Add</strong></button>
           </form>
           <br>
-          <center>
-            {{#if getJobId}}
-              {{> jobStatus getJobId}}
-            {{/if}}
-          </center>
         </div>
         <div class="modal-footer">
           <button type="button" id="close" class="btn btn-default" data-dismiss="modal">Close</button>

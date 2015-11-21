@@ -15,12 +15,14 @@ if [ -z "$1" ]
   then
     echo "No host specified"
     usage
+    return 1
 fi
 
 if [ -z "$2" ]
   then
     echo "No user specified"
     usage
+    return 1
 fi
 
 HOSTNAME=$1

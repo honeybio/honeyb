@@ -15,18 +15,21 @@ if [ -z "$1" ]
   then
     echo "No user specified"
     usage
+    return 1
 fi
 
 if [ -z "$2" ]
   then
     echo "No password specified"
     usage
+    return 1
 fi
 
 if [ -z "$3" ]
   then
     echo "No qkview ID specified"
     usage
+    return 1
 fi
 
 IHEALTH_USER=$1

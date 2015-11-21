@@ -213,7 +213,7 @@ Meteor.methods({
   },
   createUCSCommand: function(device_id) {
     var device = Devices.findOne({_id: device_id});
-    var settings = Settings.findOne();
+    var settings = Settings.findOne({type: 'system'});
     var shellCommand = "create_and_get_ucs.sh";
     var args = [device.mgmtAddress, device.sshUser];
     var output = Meteor.call("runShellCmd", shellCommand, args);
@@ -233,7 +233,7 @@ Meteor.methods({
     // return output;
   },
   createQkviewCommand: function(device_id, f5case) {
-    var settings = Settings.findOne();
+    var settings = Settings.findOne({type: 'system'});
     var device = Devices.findOne({_id: device_id});
     var check_if_running = Meteor.call("checkQkviewPS", device_id);
     if (check_if_running) {

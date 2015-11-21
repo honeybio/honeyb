@@ -76,9 +76,12 @@ Meteor.methods({
       return;
     }
     var fs = Npm.require('fs');
+    if (myJson.id === undefined) {
+      return false;
+    }
     for (j = 0; j < myJson.id.length; j++) {
       // Get qkview data for each id
-      var settings = Settings.findOne();
+      var settings = Settings.findOne({type: 'system'});
       var args = [settings.ihealthUser, settings.ihealthPass, myJson.id[j]];
       var shellCommand = "get_qkview_data.sh";
       var output = Meteor.call("runShellCmd", shellCommand, args);

@@ -17,24 +17,28 @@ if [ -z "$1" ]
   then
     echo "No host specified"
     usage
+    return 1
 fi
 
 if [ -z "$2" ]
   then
     echo "No user specified"
     usage
+    return 1
 fi
 
 if [ -z "$3" ]
   then
     echo "No iHealth user specified, go to https://ihealth.f5.com/ and sign up for an account"
     usage
+    return 1
 fi
 
 if [ -z "$4" ]
   then
     echo "No iHealth password"
     usage
+    return 1
 fi
 
 CASE_NUM=""

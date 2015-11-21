@@ -157,7 +157,7 @@ Meteor.methods({
     var monId = Monitors.insert(monObject);
     return monId;
   },
-  discoverOneVirtual: function(device_id, vipLink) {
+  discoverOneVirtual: function(device_id, vipLink, vipId) {
     var aVip = Meteor.call("bigipRestGetv2", device_id, vipLink);
     var profile_list = Meteor.call("bigipRestGetItems", device_id, aVip.profilesReference.link);
     for (var j = 0; j < profile_list.length; j++) {
@@ -174,8 +174,14 @@ Meteor.methods({
       vipObject[attrname] = aVip[attrname];
     };
     vipObject.group = 'default-group';
-    var vipID = Virtuals.insert(vipObject);
-    return vipID;
+    if (vipId === undefined) {
+      var vipId = Virtuals.insert(vipObject);
+      return vipId;
+    } else {
+      for(var attrname in vipObject) {
+        Virtuals.update({_id: vipId}, {$set: { attrname: vipObject[attrname] }});
+      };
+    }
   },
   discoverRules: function (ip, user, pass, device_id) {
     var rule_list = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/ltm/rule");

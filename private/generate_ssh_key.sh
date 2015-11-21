@@ -16,6 +16,7 @@ if [ -z "$1" ]
   then
     echo "No file specified"
     usage
+    return 1
 fi
 
 FILE=$1

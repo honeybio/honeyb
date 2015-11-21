@@ -13,7 +13,8 @@ Meteor.methods({
       theMethod: methodName,
       argList: {
         vipLink: vip.selfLink,
-        onDevice: vip.onDevice
+        onDevice: vip.onDevice,
+        objId: vip_id
       }
     };
     var change_id = Meteor.call('createStagedChange', theChange);

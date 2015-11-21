@@ -113,13 +113,18 @@
     {{#each getDiagnostics diagnostic}}
     <div class="ibox collapsed float-e-margins">
       <div class="ibox-title">
-        <h5><span class="label {{getLevel this.run_data.h_importance}}">{{this.run_data.h_importance}}</span><span style="padding-left:10px">{{this.name}}</span></h5>
+        <h5><span class="label {{getLevel this.run_data.h_importance}}">{{this.run_data.h_importance}}</span><span style="padding-left:10px">{{this.name}} - {{this.results.h_header}}</span></h5>
         {{>iboxTools}}
       </div>
       <div class="ibox-content">
         <a href="{{this.results.solution}}">F5 KB SOL</a><br>
-        {{this.results.h_header}}<br><br>
         {{this.results.h_summary}}
+        {{#if output}}
+          <br><br>Command Output:<br>
+          {{#each output}}
+            <code>{{this}}</code><br>
+          {{/each}}
+        {{/if}}
       </div>
     </div>
     {{/each}}

@@ -57,10 +57,10 @@ Meteor.startup(function () {
     Roles.addUsersToRoles(guestId, ['guest'], 'default-group');
     // Roles.update({id: adminID}, { $set: { permissions: [ { all: 1 } ] }});
   }
-  if (Settings.findOne()) {
+  if (Settings.findOne({type: 'system'})) {
     // Basic settings exist
   } else {
-    Settings.insert({name: "honeyB", type: "system", interval: { updateGtmDc: 10000, updateGtmServer: 30000,
+    Settings.insert({name: "honeyb.io", type: "system", interval: { updateGtmDc: 10000, updateGtmServer: 30000,
     updateGtmVserver: 60000, updateLtmVirtual: 45000, updateLtmPool: 40000,
     updateLtmPoolMember: 90000, archiveSchedule: "nightly", qkviewSchedule: "weekly" }});
     //var pubKey = Meteor.call('generateSshKey', 'honeyb');

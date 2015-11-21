@@ -77,6 +77,22 @@ Meteor.methods({
       // Virtuals.update()
     }
   },
+  getOneVirtualStats: function (device_id, vipLink, vipId) {
+    this.unblock();
+    var link = vipLink.replace(/\?.*/, "\/stats");
+    var stats = Meteor.call("bigipRestGetv2", device_id, link);
+    for (var entry in stats.entries) {
+      var virtualStatObject = { onDevice: device_id, objType: "virtual", object: entry };
+      virtualStatObject.availabilityState = stats.entries[entry].nestedStats.entries['status.availabilityState'].description;
+      virtualStatObject.enabledState = stats.entries[entry].nestedStats.entries['status.enabledState'].description;
+      //virtualStatObject.objFullPath = stats.entries[entry].nestedStats.entries.tmName.description;
+      //virtualStatObject.group = 'default-group';
+      // Statistics.insert(virtualStatObject);
+      var imgName = Meteor.call("getStatusImage", virtualStatObject.availabilityState, virtualStatObject.enabledState);
+      Virtuals.update({ _id: vipId}, { $set: {statusImg: imgName} });
+      // Virtuals.update()
+    }
+  },
   getPoolStats: function (ip, user, pass, device_id) {
     this.unblock();
     var stats = Meteor.call("bigipRestGetv2", device_id, "https://localhost/mgmt/tm/ltm/pool/stats");
