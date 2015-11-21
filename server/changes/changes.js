@@ -351,9 +351,16 @@ ChangeFunction.delete.apm.policy = function(argList) { }
 ChangeFunction.delete.aam.policy = function(argList) { }
 ChangeFunction.enable.ltm.virtual = function(argList) {
     var vipLink = argList.vipLink;
-    var device_id = argList.device_id;
+    var device_id = argList.onDevice;
     var put_data = { "enabled": true };
-    Meteor.call("bigipRestPut", device_id, virtual, put_data);
+    var re = /\?ver=12/i;
+    var v12 = vipLink.match(re);
+    if (v12) {
+      var newLink = vipLink.replace(/\?ver.*/, "?ver=11.6.0");
+      Meteor.call("bigipRestPut", device_id, newLink, put_data);
+    } else {
+      Meteor.call("bigipRestPut", device_id, vipLink, put_data);
+    }
 }
 
 ChangeFunction.enable.ltm.pool_member = function(argList) {
@@ -365,9 +372,16 @@ ChangeFunction.enable.ltm.pool_member = function(argList) {
 
 ChangeFunction.disable.ltm.virtual = function(argList) {
   var vipLink = argList.vipLink;
-  var device_id = argList.device_id;
+  var device_id = argList.onDevice;
   var put_data = { "disabled": true };
-  Meteor.call("bigipRestPut", device_id, vipLink, put_data);
+  var re = /\?ver=12/i;
+  var v12 = vipLink.match(re);
+  if (v12) {
+    var newLink = vipLink.replace(/\?ver.*/, "?ver=11.6.0");
+    Meteor.call("bigipRestPut", device_id, newLink, put_data);
+  } else {
+    Meteor.call("bigipRestPut", device_id, vipLink, put_data);
+  }
 }
 ChangeFunction.disable.ltm.pool_member = function(argList) {
   var poolMember = argList.poolMember;
@@ -559,6 +573,7 @@ Meteor.methods({
     var myChange = Changes.findOne({_id: change_id});
     var backoutChange = {}
     var changeMethod = myChange.change.theMethod;
+    console.log(changeMethod);
     var argList = myChange.change.argList;
     // Apply method will take array of args
     checkAuth(change_id, myChange.change.theMethod, function (err, res) {

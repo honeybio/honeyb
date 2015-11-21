@@ -54,7 +54,7 @@ Meteor.methods({
     var theChange = {
       description: "Delete Virtual " + vipObj.fullPath + " on device: " + device.self.name,
       theMethod: methodName,
-      args: {
+      argList: {
         on_device: vipObj.onDevice,
         selfLink: vipObj.selfLink,
         obj_id: vip_id
@@ -78,7 +78,7 @@ Meteor.methods({
     var theChange = {
       description: "Delete Profile " + obj.fullPath + " on device: " + device.self.name,
       theMethod: methodName,
-      args: {
+      argList: {
         device_id: obj.onDevice,
         selfLink: obj.selfLink,
         obj_id: profile_id
@@ -102,7 +102,7 @@ Meteor.methods({
     var theChange = {
       description: "Delete Monitor " + obj.fullPath + " on device: " + device.self.name,
       theMethod: methodName,
-      args: {
+      argList: {
         device_id: obj.onDevice,
         selfLink: obj.selfLink,
         obj_id: profile_id

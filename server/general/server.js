@@ -110,7 +110,8 @@ Meteor.methods({
     Settings.update({type: "system"}, { $set: { archiveSchedule: archiveFreq, qkviewSchedule: qkviewFreq}})
   },
   updateChangeSettings: function (enable) {
-    Settings.update({type: "system"}, { $set: { changeControl: enable }});
+    Settings.update({type: 'system'}, { $set: { changeControl: enable }});
+    Settings.update({type: 'navigation'}, { $set: { showChange: enable }});
   },
   schedArch: function() {
     console.log("scheduler running");

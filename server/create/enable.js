@@ -10,13 +10,13 @@ Meteor.methods({
     var theChange = {
       description: "Enable Pool Member " + pmem_name + " on device: " + device.self.name,
       theMethod: methodName,
-      args: {
+      argList: {
         poolMember: poolMember,
         device_id: device_id
       }
     };
     var change_id = Meteor.call('createStagedChange', theChange);
-    if (stage == "1") {
+    if (stage) {
       return;
     }
     var result = Meteor.call('pushChange', change_id);
@@ -35,7 +35,7 @@ Meteor.methods({
       theMethod: methodName,
       argList: {
         vipLink: vip.selfLink,
-        on_device: vip.onDevice
+        onDevice: vip.onDevice
       }
     };
     var change_id = Meteor.call('createStagedChange', theChange);

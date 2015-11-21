@@ -13,7 +13,7 @@ Meteor.methods({
       theMethod: methodName,
       argList: {
         vipLink: vip.selfLink,
-        on_device: vip.onDevice
+        onDevice: vip.onDevice
       }
     };
     var change_id = Meteor.call('createStagedChange', theChange);
@@ -28,7 +28,7 @@ Meteor.methods({
     var methodName = {
       action: "disable",
       module: "ltm",
-      object: "member"
+      object: "pool_member"
     };
     var pmem_name = poolMember.replace(/https:\/\/localhost\/mgmt\/tm\/ltm\/pool\//, "");
     var theChange = {
@@ -40,7 +40,7 @@ Meteor.methods({
       }
     };
     var change_id = Meteor.call('createStagedChange', theChange);
-    if (stage == "1") {
+    if (stage) {
       return;
     }
     var result = Meteor.call('pushChange', change_id);

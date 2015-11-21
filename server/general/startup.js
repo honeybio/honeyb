@@ -65,6 +65,8 @@ Meteor.startup(function () {
     updateLtmPoolMember: 90000, archiveSchedule: "nightly", qkviewSchedule: "weekly" }});
     //var pubKey = Meteor.call('generateSshKey', 'honeyb');
     //console.log(pubKey);
+    Settings.insert({name: "navigation", type: "navigation", showWaf: true, showChange: true,
+      showGSLB: true, showLB: true, showDevice: true, showIhealth: true, showDashboards: true });
   }
   // Start the cron process for recurring jobs
   SyncedCron.start();

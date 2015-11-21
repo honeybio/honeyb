@@ -1,10 +1,3 @@
-Template.virtualSearchBox.helpers({
-  virtualsIndex: () => VirtualsIndex,
-  logme: function (object) {
-    console.log(object);
-  }
-});
-
 Template.devicesSearchBox.helpers({
   devicesIndex: () => DevicesIndex
 });

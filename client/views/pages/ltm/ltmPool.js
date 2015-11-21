@@ -30,45 +30,59 @@ Template.ltmPools.events({
 });
 
 Template.poolDetails.events({
-  'submit .poolMemberForm': function (event, template) {
+  'submit #pool-members': function (event, template) {
     event.preventDefault();
     var onDevice = event.target.onDevice.value;
     var the_action = event.target.memberAction.value;
     var pool_id = event.target.poolName.value;
     var checkedList = [];
-    $('input[type=checkbox]:checked').each(function(index){
-      checkedList.push($(this)[0].name);
+    var stage = false;
+    $('#pool-members :input[type=checkbox]:checked').each(function(index){
+      checkedList.push($(this)[0].id);
     });
+    if (checkedList.length === undefined) {
+      return;
+    }
     for (var i = 0; i < checkedList.length; i++) {
       if (the_action == "enable") {
-        Meteor.call("enablePoolMember", checkedList[i], onDevice, event.target.stage.value);
+        Meteor.call("enablePoolMember", checkedList[i], onDevice, stage);
       }
       else if (the_action == "disable") {
-        Meteor.call("disablePoolMember", checkedList[i], onDevice, event.target.stage.value);
+        Meteor.call("disablePoolMember", checkedList[i], onDevice, stage);
       }
       else if (the_action == "force") {
-        Meteor.call("forcePoolMember", checkedList[i], onDevice, event.target.stage.value);
+        Meteor.call("forcePoolMember", checkedList[i], onDevice, stage);
       }
       else if (the_action == "delete") {
-        Meteor.call("deletePoolMember", checkedList[i], onDevice, pool_id, event.target.stage.value);
+        Meteor.call("deletePoolMember", checkedList[i], onDevice, pool_id, stage);
       }
     }
     Meteor.call("updatePoolMemberStatus", onDevice, pool_id);
   },
-  'submit .addPoolMemberForm': function (event, template) {
+  'submit #pool-settings': function (event, template) {
+    event.preventDefault();
+    console.log(event.target.onDevice.value);
+    // Meteor.call("addPoolMember", event.target.onDevice.value, memberObj, stage);
+  },
+  'submit #pool-member-add': function (event, template) {
     event.preventDefault();
     var memberObj = {
       ipAddr: event.target.memIP.value,
       port: event.target.memPort.value,
       pool_id: event.target.poolID.value
     }
-    Meteor.call("addPoolMember", event.target.onDevice.value, memberObj, event.target.stage.value);
+    var stage = false
+    $('#modal-pool-member-form').modal('hide');
+    Meteor.call("addPoolMember", event.target.onDevice.value, memberObj, stage);
   }
 });
 
 Template.poolDetails.helpers({
   lmethods: function () {
-    var result = Profiles.find({})
+    return Profiles.find({onDevice: onDevice})
+  },
+  getMonitorList: function (onDevice) {
+    return Monitors.find({onDevice: onDevice});;
   }
 });
 

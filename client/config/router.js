@@ -142,7 +142,7 @@ Router.route('/login', function () {
 
 // Change routes
 Router.route('/changes');
-Router.route('/changes/pushed');
+Router.route('/changes/committed');
 Router.route('/changes/scheduled');
 Router.route('/changes/approved');
 Router.route('/changes/canceled');

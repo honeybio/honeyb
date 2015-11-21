@@ -121,7 +121,23 @@ RulesIndex = new EasySearch.Index({
 
 PoolsIndex = new EasySearch.Index({
   collection: Pools,
-  fields: ['name'],
+  fields: ['name', 'membersReference'],
+  // Fix this to search subfield array
+  selectorPerField: function (field, searchString) {
+    if ('membersReference' === field) {
+      return {
+        membersReference: {
+          items: {
+            $elemMatch: {
+              name: { '$regex' : '.*' + searchString + '.*', '$options' : 'i' }
+            }
+          }
+        }
+      };
+    }
+    // use the default otherwise
+    return this.defaultConfiguration().selectorPerField(field, searchString);
+  },
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
@@ -142,7 +158,7 @@ MonitorsIndex = new EasySearch.Index({
 
 GtmsyncgroupsIndex = new EasySearch.Index({
   collection: Gtmsyncgroups,
-  fields: ['name'],
+  fields: ['synchronizationGroupName'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });
@@ -233,7 +249,7 @@ StatisticsIndex = new EasySearch.Index({
 
 ChangesIndex = new EasySearch.Index({
   collection: Changes,
-  fields: ['name'],
+  fields: ['change.description'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });

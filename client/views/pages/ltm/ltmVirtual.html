@@ -3,38 +3,66 @@
   {{> pageHeading title='Virtual Servers' category='LTM' }}
   <div class="wrapper wrapper-content animated fadeIn">
     <div class="row">
-      <form class="virtualForm">
-        <div class="col-lg-12">
-          <div class="ibox float-e-margins">
-            <div class="ibox-title">
-              <h5>LTM Virtuals <small class="m-l-sm">Manage your VIPs</small></h5>
-              {{>iboxTools}}
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>LTM Virtuals <small class="m-l-sm">Virtual Servers</small></h5>
+            {{>iboxTools}}
+          </div>
+          <div class="ibox-content">
+            <div class="form-group"><label class="col-sm-2 control-label">Search: </label>
+              <div class="col-sm-2">{{> EasySearch.Input index=virtualsIndex}}</div>
             </div>
-            <form>
-            <div class="ibox-content">
-              {{> virtualSearchBox}}
-              <select name="objectAction">
-                <option value="enable">Enable</option>
-                <option value="disable">Disable</option>
-                <option value="blank">-----------</option>
-                <option value="delete">Delete(!)</option>
-              </select><br>
-              Stage changes?  <select name="stage" id="stage">
-                                <option value="0">No</option>
-                                <option value="1">Yes</option>
-                              </select><br>
-              <button class="submit" id="submit">Submit</button>
-            </div>
-          </form>
-            <div class="ibox-footer">
-              <span class="pull-right">
-                The righ side of the footer
-              </span>
-              <a href="/ltm/virtuals/create">Create New</a>
-            </div>
+            <div class="hr-line-dashed"></div>
+            <form id="virtual-servers" class="form-horizontal">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Status</th>
+                    <th>Virtual Name</th>
+                    <th>Destination</th>
+                    <th>On BIG-IP</th>
+                    <th>Select</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#EasySearch.Each index=virtualsIndex }}
+                    <tr>
+                      <th><img src="/{{this.statusImg}}"></th>
+                      <th><a href="/ltm/virtuals/{{this._id}}">{{this.name}}</a></th>
+                      <th>{{this.destination}}</th>
+                      <th>{{getOnDevice this.onDevice}}</th>
+                      <th><input type="checkbox" id="{{this._id}}" name="{{this._id}}"></th>
+                    </tr>
+                  {{/EasySearch.Each}}
+                </tbody>
+              </table>
+              <div class="hr-line-dashed"></div>
+              <div class="form-group"><label class="col-sm-2 control-label">Action</label>
+                <div class="col-sm-4">
+                  <select id="objectAction" class="form-control m-b">
+                    <option value="enable">Enable</option>
+                    <option value="disable">Disable</option>
+                    <option value="blank">-----------</option>
+                    <option value="delete">Delete(!)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <button class="btn btn-primary" type="submit">Update</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="ibox-footer">
+            <span class="pull-right">
+              The righ side of the footer
+            </span>
+            <a href="/ltm/virtuals/create">Create New</a>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </template>

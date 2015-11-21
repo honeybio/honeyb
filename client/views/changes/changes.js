@@ -46,6 +46,10 @@ Template.changes.events({
   }
 });
 
+Template.changesCommitted.helpers({
+  changesIndex: () => ChangesIndex
+});
+
 Template.changes.onCreated( function() {
   Session.set('changesetSelected', 0);
 });
@@ -58,12 +62,6 @@ Template.changesPushed.helpers({
   }
 });
 
-Template.changesCanceled.helpers({
-  canceledChanges: function () {
-    var result = Changes.find({canceled: true});
-    return result;
-  }
-});
 
 Template.changesScheduled.helpers({
   scheduledChanges: function () {

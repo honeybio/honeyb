@@ -1,99 +1,96 @@
 <template name="navigation">
-    <nav class="navbar-default navbar-static-side" role="navigation">
-        <div class="sidebar-collapse">
+  <nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
 
-            <!-- Close canvas menu used only on OffCanvas page -->
-            <!-- You can remove this tag if you dont use offCanvas menu -->
-            <a class="close-canvas-menu"><i class="fa fa-times"></i></a>
-            <!-- End offCanvas menu toggle -->
+      <!-- Close canvas menu used only on OffCanvas page -->
+      <!-- You can remove this tag if you dont use offCanvas menu -->
+      <a class="close-canvas-menu"><i class="fa fa-times"></i></a>
+      <!-- End offCanvas menu toggle -->
 
-            <ul class="nav metismenu" id="side-menu">
-                <li class="nav-header">
-                    <div class="dropdown profile-element"> <span>
-
-                             </span>
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{currentUser.username}}</strong>
-                            </span> <span class="text-muted text-xs block">{{currentUser.displayName}}<b class="caret"></b></span> </span> </a>
-                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a href="/myprofile">Profile</a></li>
-                            <li class="divider"></li>
-                            <li><a href="/logout">Logout</a></li>
-                        </ul>
-                    </div>
-                    <div class="logo-element">
-                        hb
-                    </div>
-                </li>
-                <li class="{{isActiveRoute regex='dashboardsAppview|dashboardsAdcthroughput|dashboardsIhealth'}}">
-                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span> <span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse {{isActiveRoute regex='dashboardsAppview|dashboardsAdcthroughput|dashboardsIhealth' className='in'}}">
-                        <li class="{{isActiveRoute regex='dashboardsAppview'}}"><a href="/dashboards/appview">App View</a></li>
-                        <li class="{{isActiveRoute regex='dashboardsAdcthroughput'}}"><a href="/dashboards/adcthroughput">ADC Throughput</a></li>
-                        <li class="{{isActiveRoute regex='dashboardsIhealth'}}"><a href="/dashboards/ihealth">iHealth Stats</a></li>
-                    </ul>
-                </li>
-                <li class="{{isActiveRoute regex='dashboardsIhealth'}}">
-                    <a href="#"><i class="fa fa-heart-o"></i> <span class="nav-label">f5 iHealth</span> <span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse {{isActiveRoute regex='dashboardsIhealth' className='in'}}">
-                        <li class="{{isActiveRoute regex='dashboardsIhealth'}}"><a href="/dashboards/ihealth">iHealth Stats</a></li>
-                    </ul>
-                </li>
-                <li class="{{isActiveRoute regex='devices|archives|qkviews'}}">
-                    <a href="#"><i class="fa fa-server"></i> <span class="nav-label">Device Management</span><span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse {{isActiveRoute regex='devices|archives|qkviews' className='in'}}">
-                        <li class="{{isActiveRoute regex='devices'}}"><a href="/devices">Devices</a></li>
-                        <li class="{{isActiveRoute regex='archives'}}"><a href="/devices/archives">Archives</a></li>
-                        <li class="{{isActiveRoute regex='Qkviews'}}"><a href="/devices/qkviews">Qkviews</a></li>
-                    </ul>
-                </li>
-                <li class="{{isActiveRoute regex='changes|changesPushed'}}">
-                    <a href="#"><i class="fa fa-calendar-check-o"></i> <span class="nav-label">Change Management</span><span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse {{isActiveRoute regex='changes|changesPushed' className='in'}}">
-                        <li class="{{isActiveRoute regex='changes'}}"><a href="/changes">Prepared Changes</a></li>
-                        <li class="{{isActiveRoute regex='changesPushed'}}"><a href="/changes/pushed">Committed Changes</a></li>
-                    </ul>
-                </li>
-                <li class="{{isActiveRoute regex='ltmVirtuals|ltmRules|ltmIdatagroups|ltmPools|ltmMonitors|ltmProfile'}}">
-                    <a href="#"><i class="fa fa-share-alt-square"></i> <span class="nav-label">Load Balancer<br>LTM)</span><span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse {{isActiveRoute regex='ltmVirtuals|ltmRules|ltmIdatagroups|ltmPools|ltmMonitors|ltmProfile' className='in'}}">
-                        <li class="{{isActiveRoute regex='ltmVirtuals'}}"><a href="/ltm/virtuals">Virtuals</a></li>
-                        <li class="{{isActiveRoute regex='ltmRules'}}"><a href="/ltm/rules">iRules</a></li>
-                        <li class="{{isActiveRoute regex='ltmIdatagroups'}}"><a href="/ltm/idatagroups">Internal Data-Groups</a></li>
-                        <li class="{{isActiveRoute regex='ltmPools'}}"><a href="/ltm/pools">Pools</a></li>
-                        <li class="{{isActiveRoute regex='ltmMonitors'}}"><a href="/ltm/monitors">Monitors</a></li>
-                        <li class="{{isActiveRoute regex='ltmProfile'}}"><a href="/ltm/profiles">All Profiles</a></li>
-                    </ul>
-                </li>
-                <li class="{{isActiveRoute regex='gtmSyncgroups|gtmWideips|gtmDatacenters|gtmLinks|gtmServers|gtmVservers|gtmPools|gtmMonitors'}}">
-                    <a href="#"><i class="fa fa-globe"></i> <span class="nav-label">Global Load Balancer<br>(GTM/DNS)</span><span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse {{isActiveRoute regex='gtmSyncgroups|gtmWideips|gtmDatacenters|gtmLinks|gtmServers|gtmVservers|gtmPools|gtmMonitors' className='in'}}">
-                        <li class="{{isActiveRoute regex='gtmSyncgroups'}}"><a href="/gtm/syncgroups">Sync Groups</a></li>
-                        <li class="{{isActiveRoute regex='gtmWideips'}}"><a href="/gtm/wideips">Wide IPs</a></li>
-                        <li class="{{isActiveRoute regex='gtmDatacenters'}}"><a href="/gtm/datacenters">Datacenters</a></li>
-                        <li class="{{isActiveRoute regex='gtmLinks'}}"><a href="/gtm/links">Links</a></li>
-                        <li class="{{isActiveRoute regex='gtmServers'}}"><a href="/gtm/servers">Servers</a></li>
-                        <li class="{{isActiveRoute regex='gtmVservers'}}"><a href="/gtm/vservers">Virtual Servers</a></li>
-                        <li class="{{isActiveRoute regex='gtmPools'}}"><a href="/gtm/pools">Pools</a></li>
-                        <li class="{{isActiveRoute regex='gtmMonitors'}}"><a href="/gtm/monitors">Monitors</a></li>
-                    </ul>
-                </li>
-                <li class="{{isActiveRoute regex='asmPolicies|asmSomething'}}">
-                    <a href="#"><i class="fa fa-lock"></i> <span class="nav-label">Web App Firewall<br> (ASM)</span><span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse {{isActiveRoute regex='asmPolicies|asmSomething' className='in'}}">
-                        <li class="{{isActiveRoute regex='asmPolicies'}}"><a href="/asm/policies">Policies</a></li>
-                        <li class="{{isActiveRoute regex='asmSomething'}}"><a href="/asm/something">Something</a></li>
-                    </ul>
-                </li>
-                <li class="{{isActiveRoute regex='settingsHoneyb|settingsUser'}}">
-                    <a href="#"><i class="fa fa-gear"></i> <span class="nav-label">Settings</span><span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse {{isActiveRoute regex='settingsHoneyb|settingsUser' className='in'}}">
-                      <li class="{{isActiveRoute regex='settingsGettingstarted'}}"><a href="/settings/gettingstarted">Configuration Wizard</a></li>
-                        <li class="{{isActiveRoute regex='settingsHoneyb'}}"><a href="/settings/honeyb">System Settings</a></li>
-                        <li class="{{isActiveRoute regex='settingsUser'}}"><a href="/settings/user">My User</a></li>
-                    </ul>
-                </li>
+      <ul class="nav metismenu" id="side-menu">
+        <li class="nav-header">
+          <div class="dropdown profile-element"> <span>
+               </span>
+            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+              <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{currentUser.username}}</strong>
+              </span> <span class="text-muted text-xs block">{{currentUser.displayName}}<b class="caret"></b></span> </span> </a>
+            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+              <li><a href="/myprofile">Profile</a></li>
+              <li class="divider"></li>
+              <li><a href="/logout">Logout</a></li>
             </ul>
-        </div>
-    </nav>
+          </div>
+          <div class="logo-element">
+            hb
+          </div>
+        </li>
+        <li class="{{isActiveRoute regex='dashboardsAppview|dashboardsAdcthroughput'}}">
+          <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span> <span class="fa arrow"></span></a>
+          <ul class="nav nav-second-level collapse {{isActiveRoute regex='dashboardsAppview|dashboardsAdcthroughput' className='in'}}">
+            <li class="{{isActiveRoute regex='dashboardsAppview'}}"><a href="/dashboards/appview">App View</a></li>
+            <li class="{{isActiveRoute regex='dashboardsAdcthroughput'}}"><a href="/dashboards/adcthroughput">ADC Throughput</a></li>
+          </ul>
+        </li>
+        <li class="{{isActiveRoute regex='dashboardsIhealth'}}">
+          <a href="#"><i class="fa fa-heart-o"></i> <span class="nav-label">f5 iHealth</span> <span class="fa arrow"></span></a>
+          <ul class="nav nav-second-level collapse {{isActiveRoute regex='dashboardsIhealth' className='in'}}">
+            <li class="{{isActiveRoute regex='dashboardsIhealth'}}"><a href="/dashboards/ihealth">iHealth Stats</a></li>
+          </ul>
+        </li>
+        <li class="{{isActiveRoute regex='devices|archives'}}">
+          <a href="#"><i class="fa fa-server"></i> <span class="nav-label">Device Management</span><span class="fa arrow"></span></a>
+          <ul class="nav nav-second-level collapse {{isActiveRoute regex='devices|archives' className='in'}}">
+            <li class="{{isActiveRoute regex='devices'}}"><a href="/devices">Devices</a></li>
+            <li class="{{isActiveRoute regex='archives'}}"><a href="/devices/archives">Archives</a></li>
+          </ul>
+        </li>
+        <li class="{{isActiveRoute regex='changes|changesCommitted'}}">
+          <a href="#"><i class="fa fa-calendar-check-o"></i> <span class="nav-label">Change Management</span><span class="fa arrow"></span></a>
+          <ul class="nav nav-second-level collapse {{isActiveRoute regex='changes|changesCommitted' className='in'}}">
+            <li class="{{isActiveRoute regex='changes'}}"><a href="/changes">All Changes</a></li>
+            <li class="{{isActiveRoute regex='changesPushed'}}"><a href="/changes/committed">Committed Changes</a></li>
+          </ul>
+        </li>
+        <li class="{{isActiveRoute regex='ltmVirtuals|ltmRules|ltmIdatagroups|ltmPools|ltmMonitors|ltmProfile'}}">
+          <a href="#"><i class="fa fa-share-alt-square"></i> <span class="nav-label">Load Balancer<br>LTM)</span><span class="fa arrow"></span></a>
+          <ul class="nav nav-second-level collapse {{isActiveRoute regex='ltmVirtuals|ltmRules|ltmIdatagroups|ltmPools|ltmMonitors|ltmProfile' className='in'}}">
+            <li class="{{isActiveRoute regex='ltmVirtuals'}}"><a href="/ltm/virtuals">Virtuals</a></li>
+            <li class="{{isActiveRoute regex='ltmRules'}}"><a href="/ltm/rules">iRules</a></li>
+            <li class="{{isActiveRoute regex='ltmIdatagroups'}}"><a href="/ltm/idatagroups">Internal Data-Groups</a></li>
+            <li class="{{isActiveRoute regex='ltmPools'}}"><a href="/ltm/pools">Pools</a></li>
+            <li class="{{isActiveRoute regex='ltmMonitors'}}"><a href="/ltm/monitors">Monitors</a></li>
+            <li class="{{isActiveRoute regex='ltmProfile'}}"><a href="/ltm/profiles">All Profiles</a></li>
+          </ul>
+        </li>
+        <li class="{{isActiveRoute regex='gtmSyncgroups|gtmWideips|gtmDatacenters|gtmLinks|gtmServers|gtmVservers|gtmPools|gtmMonitors'}}">
+          <a href="#"><i class="fa fa-globe"></i> <span class="nav-label">Global Load Balancer<br>(GTM/DNS)</span><span class="fa arrow"></span></a>
+          <ul class="nav nav-second-level collapse {{isActiveRoute regex='gtmSyncgroups|gtmWideips|gtmDatacenters|gtmLinks|gtmServers|gtmVservers|gtmPools|gtmMonitors' className='in'}}">
+            <li class="{{isActiveRoute regex='gtmSyncgroups'}}"><a href="/gtm/syncgroups">Sync Groups</a></li>
+            <li class="{{isActiveRoute regex='gtmWideips'}}"><a href="/gtm/wideips">Wide IPs</a></li>
+            <li class="{{isActiveRoute regex='gtmDatacenters'}}"><a href="/gtm/datacenters">Datacenters</a></li>
+            <li class="{{isActiveRoute regex='gtmLinks'}}"><a href="/gtm/links">Links</a></li>
+            <li class="{{isActiveRoute regex='gtmServers'}}"><a href="/gtm/servers">Servers</a></li>
+            <li class="{{isActiveRoute regex='gtmVservers'}}"><a href="/gtm/vservers">Virtual Servers</a></li>
+            <li class="{{isActiveRoute regex='gtmPools'}}"><a href="/gtm/pools">Pools</a></li>
+            <li class="{{isActiveRoute regex='gtmMonitors'}}"><a href="/gtm/monitors">Monitors</a></li>
+          </ul>
+        </li>
+        <li class="{{isActiveRoute regex='asmPolicies|asmSomething'}}">
+          <a href="#"><i class="fa fa-lock"></i> <span class="nav-label">Web App Firewall<br> (ASM)</span><span class="fa arrow"></span></a>
+          <ul class="nav nav-second-level collapse {{isActiveRoute regex='asmPolicies|asmSomething' className='in'}}">
+            <li class="{{isActiveRoute regex='asmPolicies'}}"><a href="/asm/policies">Policies</a></li>
+            <li class="{{isActiveRoute regex='asmSomething'}}"><a href="/asm/something">Something</a></li>
+          </ul>
+        </li>
+        <li class="{{isActiveRoute regex='settingsHoneyb|settingsUser'}}">
+          <a href="#"><i class="fa fa-gear"></i> <span class="nav-label">Settings</span><span class="fa arrow"></span></a>
+          <ul class="nav nav-second-level collapse {{isActiveRoute regex='settingsHoneyb|settingsUser' className='in'}}">
+            <li class="{{isActiveRoute regex='settingsGettingstarted'}}"><a href="/settings/gettingstarted">Configuration Wizard</a></li>
+            <li class="{{isActiveRoute regex='settingsHoneyb'}}"><a href="/settings/honeyb">System Settings</a></li>
+            <li class="{{isActiveRoute regex='settingsUser'}}"><a href="/settings/user">My User</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
 </template>

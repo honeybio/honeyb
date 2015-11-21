@@ -55,23 +55,55 @@
        - {{change.theMethod}} <input type="checkbox" id="{{_id}}" name="{{_id}}">
 </template>
 
-<template name="changesPushed">
-  <div class="container">
-  <center>
-    <h3>Changes Committed/Pushed to Device</h3>
-  </center>
-  <form class="changeForm">
-  <ul>
-    {{#each pushedChanges}}
-      <li>{{> pushedChangeList}}</li>
-    {{/each}}
-  </ul>
-  <select name="changeAction">
-    <option value="backout">Backout Change</option>
-  </select><br>
-  <button class="submit" id="submit">Submit</button>
-  </form>
-</div>
+<template name="changesCommitted">
+  {{> pageHeading title='Committed Configuration Changes' category='Change Management' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Audit Log<small class="m-l-sm">Your changelogs</small></h5>
+            {{>iboxTools}}
+          </div>
+          <div class="ibox-content">
+            {{> EasySearch.Input index=changesIndex}}
+            <form id="change-list" class="form-horizontal">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Action</th>
+                    <th>Module</th>
+                    <th>Object Type</th>
+                    <th>Description</th>
+                    <th>User</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#EasySearch.Each index=changesIndex}}
+                    <tr>
+                      <th>{{this.created}}</th>
+                      <th>{{this.change.theMethod.action}}</th>
+                      <th>{{this.change.theMethod.module}}</th>
+                      <th>{{this.change.theMethod.object}}</th>
+                      <th>{{this.change.description}}</th>
+                      <th>admin</th>
+                    </tr>
+                  {{/EasySearch.Each}}
+                </tbody>
+              </table>
+            </form>
+          </div>
+          <div class="ibox-footer">
+            <span class="pull-right">
+              The righ side of the footer
+            </span>
+            <a href="/ltm/pools/create">Create New</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="pushedChangeList">

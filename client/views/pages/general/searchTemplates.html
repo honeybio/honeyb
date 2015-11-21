@@ -1,31 +1,3 @@
-<template name="virtualSearchBox">
-  <div>
-    {{> EasySearch.Input index=virtualsIndex}}
-  </div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Status</th>
-        <th>Virtual Name</th>
-        <th>Destination</th>
-        <th>On BIG-IP</th>
-        <th>Select</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#EasySearch.Each index=virtualsIndex }}
-        <tr>
-          <th><img src="/{{this.statusImg}}"></th>
-          <th><a href="/ltm/virtuals/{{this._id}}">{{this.name}}</a></th>
-          <th>{{this.destination}}</th>
-          <th>{{getOnDevice this.onDevice}}</th>
-          <th><input type="checkbox" id="{{this._id}}" name="{{this._id}}"></th>
-        </tr>
-      {{/EasySearch.Each}}
-    </tbody>
-  </table>
-</template>
-
 <template name="devicesSearchBox">
   <div>
   {{> EasySearch.Input index=devicesIndex}}
@@ -159,15 +131,15 @@
     <thead>
       <tr>
         <th>GTM Syncgroup Name</th>
-        <th>On BIG-IP</th>
+        <th>Peer Leader</th>
         <th>Select</th>
       </tr>
     </thead>
     <tbody>
     {{#EasySearch.Each index=gtmsyncgroupsIndex}}
     <tr>
-      <th><a href="/gtm/syncgroup/{{_id}}">{{name}}</a></th>
-      <th>{{getOnDevice this.onDevice}}</th>
+      <th><a href="/gtm/syncgroups/{{_id}}">{{synchronizationGroupName}}</a></th>
+      <th>{{this.peerLeader}}</th>
       <th><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></th>
     </tr>
     {{/EasySearch.Each}}

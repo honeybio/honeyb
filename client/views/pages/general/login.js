@@ -39,27 +39,6 @@ Template.settingsUser.helpers({
   }
 });
 
-Template.settingsHoneyb.rendered = function(){
-  $("#settings-tabs").steps({
-    enableFinishButton: false,
-    enablePagination: false,
-    enableAllSteps: true,
-    titleTemplate: "#title#",
-    headerTag: "h3",
-    bodyTag: "section",
-    transitionEffect: "slideLeft",
-    enableFinishButton: false,
-    enablePagination: false,
-    enableAllSteps: true,
-    titleTemplate: "#title#",
-    cssClass: "tabcontrol"
-  });
-}
-
-Template.settingsTest.onCreated(function() {
-    this.data = Settings.findOne({type: 'system'});
-});
-
 Template.settingsHoneyb.helpers({
   msecToSec: function (msec) {
     if (msec === undefined) {

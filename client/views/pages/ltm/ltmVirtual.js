@@ -6,29 +6,34 @@ Template.ltmVirtuals.helpers({
   getDeviceList: function () {
     var result = Devices.find({});
     return result;
+  },
+  virtualsIndex: () => VirtualsIndex,
+  logme: function (object) {
+    console.log(object);
   }
 });
 
 Template.ltmVirtuals.events({
-  'submit .vipForm': function (event, template) {
+  'submit #virtual-servers': function (event, template) {
     event.preventDefault();
     var the_action = event.target.objectAction.value;
     var checkedList = [];
-    $('input[type=checkbox]:checked').each(function(index){
+    var stage = false;
+    $('#virtual-servers :input[type=checkbox]:checked').each(function(index){
       checkedList.push($(this)[0].name);
     });
     for (var i = 0; i < checkedList.length; i++) {
       if (the_action == "delete") {
-        Meteor.call("deleteVirtual", checkedList[i], event.target.stage.value);
+        Meteor.call("deleteVirtual", checkedList[i], stage);
       }
       else if (the_action == "copy") {
-        Meteor.call("copyVirtual", checkedList[i], event.target.stage.value);
+        Meteor.call("copyVirtual", checkedList[i], stage);
       }
       else if (the_action == "enable") {
-        Meteor.call("enableVirtual", checkedList[i], event.target.stage.value);
+        Meteor.call("enableVirtual", checkedList[i], stage);
       }
       else if (the_action == "disable") {
-        Meteor.call("disableVirtual", checkedList[i], event.target.stage.value);
+        Meteor.call("disableVirtual", checkedList[i], stage);
       }
     }
   }
