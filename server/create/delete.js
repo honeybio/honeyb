@@ -55,7 +55,7 @@ Meteor.methods({
       description: "Delete Virtual " + vipObj.fullPath + " on device: " + device.self.name,
       theMethod: methodName,
       argList: {
-        on_device: vipObj.onDevice,
+        onDevice: vipObj.onDevice,
         selfLink: vipObj.selfLink,
         obj_id: vip_id
       }

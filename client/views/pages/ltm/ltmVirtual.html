@@ -27,13 +27,16 @@
                 </thead>
                 <tbody>
                   {{#EasySearch.Each index=virtualsIndex }}
-                    <tr>
-                      <th><img src="/{{this.statusImg}}"></th>
-                      <th><a href="/ltm/virtuals/{{this._id}}">{{this.name}}</a></th>
-                      <th>{{this.destination}}</th>
-                      <th>{{getOnDevice this.onDevice}}</th>
-                      <th><input type="checkbox" id="{{this._id}}" name="{{this._id}}"></th>
-                    </tr>
+                    {{#if deleted}}
+                    {{else}}
+                      <tr>
+                        <th><img src="/{{this.statusImg}}"></th>
+                        <th><a href="/ltm/virtuals/{{this._id}}">{{this.name}}</a></th>
+                        <th>{{this.destination}}</th>
+                        <th>{{getOnDevice this.onDevice}}</th>
+                        <th><input type="checkbox" id="{{this._id}}" name="{{this._id}}"></th>
+                      </tr>
+                    {{/if}}
                   {{/EasySearch.Each}}
                 </tbody>
               </table>
