@@ -55,14 +55,14 @@ Template.changes.onCreated( function() {
 });
 
 
-Template.changesPushed.helpers({
+Template.changesCommitted.helpers({
   pushedChanges: function () {
     var result = Changes.find({pushed: true});
     return result;
   }
 });
 
-
+/*
 Template.changesScheduled.helpers({
   scheduledChanges: function () {
     var result = Changes.find({scheduled: true});
@@ -76,9 +76,9 @@ Template.changesApproved.helpers({
     return result;
   }
 });
+*/
 
-
-Template.changesPushed.events({
+Template.changesCommitted.events({
   'submit .changeForm': function (event) {
     event.preventDefault();
     var action = event.target.changeAction.value;
@@ -93,7 +93,7 @@ Template.changesPushed.events({
     }
   }
 });
-
+/*
 Template.changesCanceled.events({
   'submit .changeForm': function (event) {
     event.preventDefault();
@@ -198,3 +198,5 @@ Template.changesetDetails.helpers({
     return Changes.findOne({_id: id});
   }
 });
+
+*/
