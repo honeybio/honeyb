@@ -1,3 +1,25 @@
+
+Template.dashboardsDeviceHealth.helpers({
+  getDevices: function () {
+    var result = Devices.find();
+    return result;
+  },
+  getUsage: function (idle) {
+    return 100 - idle;
+  },
+  getColor: function (idle) {
+    if (idle > 75) {
+      return "navy-bg";
+    } else if (idle > 60) {
+      return "lazur-bg";
+    } else if (idle > 50) {
+      return "yellow-bg"
+    } else {
+      return "red-bg"
+    }
+  }
+});
+
 Template.gtmPMembers.helpers({
   getDest: function (fullPath) {
     var result = Gtmvservers.findOne({serverFullPath: fullPath});

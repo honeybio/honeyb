@@ -24,15 +24,16 @@
             hb
           </div>
         </li>
-        <li class="{{isActiveRoute regex='dashboardsAppview|dashboardsAdcthroughput'}}">
+        <li class="{{isActiveRoute regex='dashboardsDeviceHealth|dashboardsAppview|dashboardsAdcthroughput'}}">
           <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span> <span class="fa arrow"></span></a>
-          <ul class="nav nav-second-level collapse {{isActiveRoute regex='dashboardsAppview|dashboardsAdcthroughput' className='in'}}">
+          <ul class="nav nav-second-level collapse {{isActiveRoute regex='dashboardsDeviceHealth|dashboardsAppview|dashboardsAdcthroughput' className='in'}}">
+            <li class="{{isActiveRoute regex='dashboardsDeviceHealth'}}"><a href="/dashboards/device/health">Device Health</a></li>
             <li class="{{isActiveRoute regex='dashboardsAppview'}}"><a href="/dashboards/appview">App View</a></li>
             <li class="{{isActiveRoute regex='dashboardsAdcthroughput'}}"><a href="/dashboards/adcthroughput">ADC Throughput</a></li>
           </ul>
         </li>
         <li class="{{isActiveRoute regex='dashboardsIhealth'}}">
-          <a href="#"><i class="fa fa-heart-o"></i> <span class="nav-label">f5 iHealth</span> <span class="fa arrow"></span></a>
+          <a href="#"><i class="fa fa-heartbeat"></i> <span class="nav-label">f5 iHealth</span> <span class="fa arrow"></span></a>
           <ul class="nav nav-second-level collapse {{isActiveRoute regex='dashboardsIhealth' className='in'}}">
             <li class="{{isActiveRoute regex='dashboardsIhealth'}}"><a href="/dashboards/ihealth">iHealth Stats</a></li>
           </ul>

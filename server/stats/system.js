@@ -11,6 +11,37 @@ Meteor.methods({
       Meteor.call("updateDeviceStats", eachDevice._id);
     });
   },
+  setCurrentCpu(cpuStat, device_id) {
+    var curStats = {
+      fiveMinAvgIdle: 0,
+      fiveMinAvgIowait: 0,
+      fiveMinAvgIrq: 0,
+      fiveMinAvgSoftirq: 0,
+      fiveMinAvgStolen: 0,
+      fiveMinAvgSystem: 0,
+      fiveMinAvgUser: 0
+    };
+    var count = 0;
+    for (var cpu in cpuStat) {
+      curStats.fiveMinAvgIdle    += cpuStat[cpu].fiveMinAvgIdle;
+      curStats.fiveMinAvgIowait  += cpuStat[cpu].fiveMinAvgIowait;
+      curStats.fiveMinAvgIrq     += cpuStat[cpu].fiveMinAvgIrq;
+      curStats.fiveMinAvgSoftirq += cpuStat[cpu].fiveMinAvgSoftirq;
+      curStats.fiveMinAvgStolen  += cpuStat[cpu].fiveMinAvgStolen;
+      curStats.fiveMinAvgSystem  += cpuStat[cpu].fiveMinAvgSystem;
+      curStats.fiveMinAvgUser    += cpuStat[cpu].fiveMinAvgUser;
+      count++;
+    }
+    curStats.fiveMinAvgIdle    /= count;
+    curStats.fiveMinAvgIowait  /= count;
+    curStats.fiveMinAvgIrq     /= count;
+    curStats.fiveMinAvgSoftirq /= count;
+    curStats.fiveMinAvgStolen  /= count;
+    curStats.fiveMinAvgSystem  /= count;
+    curStats.fiveMinAvgUser    /= count;
+
+    Devices.update({_id: device_id}, {$set: {cpuUsage: curStats}});
+  },
   updateDeviceStats(device_id) {
     var today = new Date();
     var minute = today.getHours() * 60 + today.getMinutes();
@@ -19,6 +50,8 @@ Meteor.methods({
     today.setSeconds(0);
     today.setMilliseconds(0);
     var cpuStat = Meteor.call("getCpuStats", device_id);
+    Meteor.call("setCurrentCpu", cpuStat, device_id);
+
     var stat = Statistics.findOne({timestamp_day: today, device: device_id, type: 'cpu'})
     if (stat === undefined) {
       var statObj = {};

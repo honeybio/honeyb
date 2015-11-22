@@ -1,3 +1,26 @@
+<template name="dashboardsDeviceHealth">
+  {{> pageHeading title='Device Health' }}
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      {{#each getDevices}}
+      <div class="col-lg-3">
+        <div class="widget style1 {{getColor this.cpuUsage.fiveMinAvgIdle}}">
+          <div class="row">
+            <div class="col-xs-4">
+              <i class="fa fa-tachometer fa-5x"></i>
+            </div>
+            <div class="col-xs-8 text-right">
+              <span> {{this.self.name}} </span>
+              <h2 class="font-bold">{{getUsage this.cpuUsage.fiveMinAvgIdle}} %</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</template>
+
 <template name="dashboardsAppview">
   {{> pageHeading title='Dashboards' category='AppView' }}
   <div class="wrapper wrapper-content animated fadeIn">
