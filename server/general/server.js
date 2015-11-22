@@ -27,19 +27,27 @@ Meteor.methods({
     var output = Meteor.call('bigipRestGetv2', onDevice, link);
     if (output.status == 'COMPLETED') {
       // insert policy export into fs
-      // console.log(output.result.file);
+      var device = Devices.findOne({_id: onDevice});
+      var policy = Asmpolicies.findOne({_id: policy_id});
       var fileObj = new FS.File();
-      fileObj.metadata = { onDevice: onDevice, policyId: policy_id };
+      fileObj.metadata = {
+        onDevice: onDevice,
+        onDeviceName: device.self.name,
+        policyName: policy.versionPolicyName,
+        policyId: policy_id
+      };
 
       var buffer = Buffer(output.result.file.length);
 
       for (var i = 0; i < output.result.file.length; i++) {
         buffer[i] = output.result.file.charCodeAt(i);
       }
-      fileObj.metadata = { onDevice: onDevice, policyId: policy_id };
-      fileObj.attachData(buffer, {type: 'text/xml'});
+      var rightNow = new Date();
+      var res = rightNow.toISOString().slice(0,10).replace(/-/g,"");
+      myFileName = res + '.' + policy.versionPolicyName.replace(/\//g, '') + '.' + device.self.name + '.xml';
+      fileObj.name(myFileName);
+      fileObj.attachData(buffer, {type: 'application/xml'});
       Asmpolicyfile.insert(fileObj);
-      console.log('perhaps inserted');
     }
     else {
       Meteor.setTimeout(function() {

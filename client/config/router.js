@@ -247,6 +247,7 @@ Router.route('/gtm/monitors/:_id', {
 });
 // ASM Routes
 Router.route('/asm/policies');
+Router.route('/asm/policies/exported');
 Router.route('/asm/policies/create');
 Router.route('/asm/policies/:_id', {
   template: 'asmPoliciesDetails',

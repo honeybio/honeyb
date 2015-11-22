@@ -18,3 +18,12 @@ Template.asmPolicies.events({
     }
   },
 });
+
+Template.asmPoliciesExported.helpers({
+  getPolicyExports: function () {
+    return Asmpolicyfile.find();
+  },
+  round: function (size) {
+    return (size/1048576).toFixed(2) + ' MB';
+  }
+});

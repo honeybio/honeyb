@@ -68,7 +68,7 @@ Template.dashboardsAdcthroughput.onRendered(function() {
   // console.log("setting interval");
   // console.log(Meteor);
   // console.log(this.view.template.helpers);
-
+/*
   gtmDcInterval = Meteor.setInterval(function(){
     Meteor.call("updateGtmStatsServer");
   }, 7654);
@@ -81,6 +81,7 @@ Template.dashboardsAdcthroughput.onRendered(function() {
   poolMemberStatsInterval = Meteor.setInterval(function() {
     Meteor.call("updateAllPoolMemberStats");
   }, 67654);
+  */
   // updateStats();
   // Meteor.call("  updateStats");
   //Meteor.call("updateGtmVserverStats");

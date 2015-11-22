@@ -88,3 +88,53 @@
     </div>
   </div>
 </template>
+
+<template name="asmPoliciesExported">
+  {{> pageHeading title='Exported ASM Policies' category='ASM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Devices <small class="m-l-sm">Manage your BIG-IP WAF</small></h5>
+            {{>iboxTools}}
+          </div>
+          <div class="ibox-content">
+            <form id="asm-policy-form" class="form-horizontal">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Policy Name</th>
+                    <th>Device</th>
+                    <th>Save as</th>
+                    <th>File Name</th>
+                    <th>Size</th>
+                    <th>Created</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each getPolicyExports}}
+                    <tr>
+                      <td><a href="/asm/policies/{{this.metadata.policyId}}">{{this.metadata.policyName}}</a></td>
+                      <td><a href="/devices/{{this.metadata.onDevice}}">{{this.metadata.onDeviceName}}</a></td>
+                      <td><a href="{{this.url}}">Download</a></td>
+                      <td>{{this.name}}</td>
+                      <td>{{round this.size}}</td>
+                      <td>{{this.uploadedAt}}</td>
+                    </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+            </form>
+          </div>
+          <div class="ibox-footer">
+            <button id="delete">Delete Policy Archive</button>
+            <span class="pull-right">
+              Next Backup:
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

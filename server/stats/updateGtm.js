@@ -77,9 +77,14 @@ Meteor.methods({
     this.unblock();
     var vServers = Gtmvservers.find();
     vServers.forEach(function (eachVserver) {
+      console.log(eachVserver.name);
       var tmpUrl = eachVserver.selfLink;
       var url = tmpUrl.replace(/\?ver.*/, "");
-      Meteor.call("getGtmvserverStats", eachVserver.stats.onDevice, url);
+      if (eachVserver.stats === undefined) {
+        //console.log(eachVserver);
+      } else {
+        Meteor.call("getGtmvserverStats", eachVserver.stats.onDevice, url);
+      }
     });
     return "updated";
   }

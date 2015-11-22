@@ -75,11 +75,11 @@
             <li class="{{isActiveRoute regex='gtmMonitors'}}"><a href="/gtm/monitors">Monitors</a></li>
           </ul>
         </li>
-        <li class="{{isActiveRoute regex='asmPolicies|asmSomething'}}">
+        <li class="{{isActiveRoute regex='asmPolicies|asmPoliciesExported'}}">
           <a href="#"><i class="fa fa-lock"></i> <span class="nav-label">Web App Firewall<br> (ASM)</span><span class="fa arrow"></span></a>
           <ul class="nav nav-second-level collapse {{isActiveRoute regex='asmPolicies|asmSomething' className='in'}}">
             <li class="{{isActiveRoute regex='asmPolicies'}}"><a href="/asm/policies">Policies</a></li>
-            <li class="{{isActiveRoute regex='asmSomething'}}"><a href="/asm/something">Something</a></li>
+            <li class="{{isActiveRoute regex='asmPoliciesExported'}}"><a href="/asm/policies/exported">Exported Policies</a></li>
           </ul>
         </li>
         <li class="{{isActiveRoute regex='settingsHoneyb|settingsUser'}}">
