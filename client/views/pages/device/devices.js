@@ -62,6 +62,11 @@ Template.deviceDetails.events({
     var description = "An archive job";
     var jobName = device_id + "_" + "archive";
     Meteor.call("createUCSCommand", device_id);
+  },
+  'submit #stats-form': function (event) {
+    event.preventDefault();
+    var device_id = event.target.device_id.value;
+    Meteor.call("getInterfaceStats", device_id);
   }
 });
 Template.deviceDetails.helpers({
