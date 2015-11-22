@@ -1,11 +1,27 @@
 Archives = new FS.Collection("db_archives", {
   stores: [new FS.Store.FileSystem("archives")]
 });
+
 Certfiles = new FS.Collection("db_certfiles", {
   stores: [new FS.Store.FileSystem("certfiles")]
 });
+
+Asmpolicyfile = new FS.Collection("db_asmpolicyfile", {
+  stores: [new FS.Store.FileSystem("asmpolicy")]
+});
+
+
 if (Meteor.isServer) {
   Archives.allow({
+    'insert': function () {
+      // add custom authentication code here
+      return true;
+    },
+    'download': function() {
+      return true;
+    }
+  });
+  Asmpolicyfile.allow({
     'insert': function () {
       // add custom authentication code here
       return true;

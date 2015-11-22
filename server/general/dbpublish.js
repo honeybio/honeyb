@@ -246,6 +246,15 @@ Meteor.publish("db_archives", function () {
     return Archives.find();
   }
 });
+Meteor.publish("db_asmpolicyfile", function () {
+  if (this.userId == null) {
+    return [];
+  }
+  else {
+    return Asmpolicyfile.find();
+  }
+});
+
 
 
 // Publish all users to admins

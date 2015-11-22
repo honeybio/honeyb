@@ -11,6 +11,42 @@ Meteor.methods({
       username: Meteor.user().username
     });
   },
+  exportAsmPolicy: function (policy_id) {
+    this.unblock();
+    var policy = Asmpolicies.findOne({_id: policy_id});
+    var policyLink = "https://localhost/mgmt/tm/asm/policies/" + policy.id;
+    var policyExportLink = "https://localhost/mgmt/tm/asm/tasks/export-policy";
+    // generate inline download of policy
+    var post_data = { inline: true, policyReference: { link: policyLink } };
+    var output = Meteor.call('bigipRestPost', policy.onDevice, policyExportLink, post_data );
+    Meteor.setTimeout(function() {
+      Meteor.call("getAsmPolicy", policy_id, policy.onDevice, output.data.selfLink);
+    }, 30000);
+  },
+  getAsmPolicy: function (policy_id, onDevice, link) {
+    var output = Meteor.call('bigipRestGetv2', onDevice, link);
+    if (output.status == 'COMPLETED') {
+      // insert policy export into fs
+      // console.log(output.result.file);
+      var fileObj = new FS.File();
+      fileObj.metadata = { onDevice: onDevice, policyId: policy_id };
+
+      var buffer = Buffer(output.result.file.length);
+
+      for (var i = 0; i < output.result.file.length; i++) {
+        buffer[i] = output.result.file.charCodeAt(i);
+      }
+      fileObj.metadata = { onDevice: onDevice, policyId: policy_id };
+      fileObj.attachData(buffer, {type: 'text/xml'});
+      Asmpolicyfile.insert(fileObj);
+      console.log('perhaps inserted');
+    }
+    else {
+      Meteor.setTimeout(function() {
+        Meteor.call("getAsmPolicy", policy_id, onDevice, link);
+      }, 60000);
+    }
+  },
   myLog: function(toLog) {
     console.log(toLog);
   },
