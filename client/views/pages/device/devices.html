@@ -114,17 +114,18 @@
 </template>
 
 <template name="deviceDetails">
-  {{> pageHeading title='Device Details' category='Devices' }}
+  {{> pageHeading title="Device Details" category='Devices' }}
   <div class="wrapper wrapper-content animated fadeIn">
     <div class="row">
       <div class="col-lg-12">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
-            <h5>Details for {{self.name}} <small class="m-l-sm">Manage your BIG-IP devices</small></h5>
+            <h5>{{self.name}} CPU Usage & Diskspace <small class="m-l-sm">Manage your BIG-IP devices</small></h5>
             {{>iboxTools}}
           </div>
           <div class="ibox-content">
             <div class="row">
+              CPU Usage
               <div class="col-lg-4">
                 <canvas id="donutChart" height="100"></canvas>
               </div>
@@ -134,22 +135,115 @@
                 {{/with}}
               </div>
             </div>
-            <div class="row">
-              {{> deviceNetworkChart}}
-            </div>
-            <ul>
-              <li>Management IP: {{mgmtAddress}}</li>
-              <li>Failover State: {{self.failoverState}}</li>
-              <li>Peer Name: {{peer.name}}</li>
-              <li>Management User: {{mgmtUser}}</li>
-              <li>Active Modules: {{self.activeModules}}</li>
-              <li>Base Mac: {{self.baseMac}}</li>
-              <li>Version: {{self.version}}</li>
-              <li>Build: {{self.build}}</li>
-              <li>Platform Name: {{self.marketingName}}</li>
-              <li>Platform ID: {{self.platform}}</li>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Network Traffic <small class="m-l-sm">Manage your BIG-IP devices</small></h5>
+            {{>iboxTools}}
+          </div>
+          <div class="ibox-content" style="height: 350px;">
+            {{> deviceNetworkChart}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+              <h5>Configuration Details</h5>
+              {{>iboxTools}}
+          </div>
+          <div class="ibox-content">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Management IP</th>
+                  <th>Base MAC</th>
+                  <th>Failover State</th>
+                  <th>Peer Name</th>
+                  <th>REST User</th>
+                  <th>SSH User</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>{{mgmtAddress}}</th>
+                  <th>{{self.baseMac}}</th>
+                  <th>{{self.failoverState}}</th>
+                  <th>{{peer.name}}</th>
+                  <th>{{mgmtUser}}</th>
+                  <th>{{sshUser}}</th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+              <h5>Software/Hardware Details</h5>
+              {{>iboxTools}}
+          </div>
+          <div class="ibox-content">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Version</th>
+                  <th>Build</th>
+                  <th>End of Support</th>
+                  <th>Platform Name</th>
+                  <th>Platform ID</th>
+                  <th>End of Support</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>{{mgmtAddress}}</th>
+                  <th>{{self.version}}</th>
+                  <th>{{self.build}}</th>
+                  <th>{{self.marketingName}}</th>
+                  <th>{{self.platform}}</th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+              <h5>Provisioning & License Details</h5>
+              {{>iboxTools}}
+          </div>
+          <div class="ibox-content">
+            <dl>
+              <dt>Licensed Features:</dt>
+              <dd>{{self.activeModules}}</dd>
               {{> provisionedModules}}
-            </ul>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Create Archives & QKviews<small class="m-l-sm">Manage your BIG-IP devices</small></h5>
+            {{>iboxTools}}
+          </div>
+          <div class="ibox-content">
             <form class="qkviewForm">
               <input type="hidden" name="device_id" value="{{_id}}">
               <button class="submit" id="submit">Create and Upload a Qkview</button>
@@ -160,7 +254,7 @@
             </form>
             <form id="stats-form">
               <input type="hidden" name="device_id" value="{{_id}}">
-              <button class="submit" id="get-stats">Get Stats</button>
+              <button class="submit" id="get-stats">Testing Button</button>
             </form>
             <form class="scheduledJobs">
               {{#each getJobs _id}}
