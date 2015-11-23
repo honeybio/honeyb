@@ -76,7 +76,7 @@ Meteor.methods({
     } else {
        var logMe = Statistics.update({_id: stat._id}, { $set: { [`values.${minute}`]: cpuStat }});
     }
-    var last = Math.floor(minute /1) * 1 - 1;
+    var last = Math.floor(minute /5) * 5 - 5;
     var my = "values." + last.toString();
     var interfaceStat = Meteor.call("getInterfaceStats", device_id);
     var stat = Statistics.findOne({timestamp_day: today, device: device_id, type: 'interface'}, {fields: {[`${my}`]: 1}});

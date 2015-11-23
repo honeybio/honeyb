@@ -88,7 +88,7 @@ Meteor.startup(function () {
     name: 'get_device_stats',
     schedule: function(parser) {
     // parser is a later.parse object
-      return parser.recur().every(1).minute();
+      return parser.recur().every(5).minute();
     },
     job: function() {
       var output = Meteor.call('updateAllDeviceStats');
