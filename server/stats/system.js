@@ -42,36 +42,19 @@ Meteor.methods({
 
     Devices.update({_id: device_id}, {$set: {cpuUsage: curStats}});
   },
-  updateStatClick(device_id) {
-    var today = new Date();
-    var minute = today.getHours() * 60 + today.getMinutes();
-    today.setHours(0);
-    today.setMinutes(0);
-    today.setSeconds(0);
-    today.setMilliseconds(0);
-    // var last = minute - 5;
-    var last = Math.floor(minute /5) * 5 - 5;
-    var my = "values." + last.toString();
-    var interfaceStat = Meteor.call("getInterfaceStats", device_id);
-    var stat = Statistics.findOne({timestamp_day: today, device: device_id, type: 'interface'}, {fields: {[`${my}`]: 1}});
-    if (stat === undefined) {
-      var statObj = {};
-      statObj[minute] = interfaceStat;
-      stat = Statistics.insert({timestamp_day: today, device: device_id, type: 'interface', values: statObj});
-    } else {
-      var bps = Meteor.call("getBps", stat.values[last], interfaceStat);
-      interfaceStat.throughput = bps;
-      Statistics.update({_id: stat._id}, { $set: { [`values.${minute}`]: interfaceStat }});
-    }
-  },
+
   getBps(lastStat, curStat) {
     var bpsObj = { };
     for (var object in curStat) {
-      bpsObj[object] = { };
-      bpsObj[object].bpsIn = Math.round((curStat[object].bitsIn - lastStat[object].bitsIn) / 300);
-      bpsObj[object].bpsOut = Math.round((curStat[object].bitsOut - lastStat[object].bitsOut) / 300);
-      bpsObj[object].ppsIn = Math.round((curStat[object].pktsIn - lastStat[object].pktsIn) / 300);
-      bpsObj[object].ppsOut = Math.round((curStat[object].pktsOut - lastStat[object].pktsOut) / 300);
+      if (lastStat === undefined) {
+        return null;
+      } else {
+        bpsObj[object] = { };
+        bpsObj[object].bpsIn = Math.round((curStat[object].bitsIn - lastStat[object].bitsIn) / 300);
+        bpsObj[object].bpsOut = Math.round((curStat[object].bitsOut - lastStat[object].bitsOut) / 300);
+        bpsObj[object].ppsIn = Math.round((curStat[object].pktsIn - lastStat[object].pktsIn) / 300);
+        bpsObj[object].ppsOut = Math.round((curStat[object].pktsOut - lastStat[object].pktsOut) / 300);
+      }
     }
     return bpsObj;
   },
@@ -93,7 +76,7 @@ Meteor.methods({
     } else {
        var logMe = Statistics.update({_id: stat._id}, { $set: { [`values.${minute}`]: cpuStat }});
     }
-    var last = Math.floor(minute /5) * 5 - 5;
+    var last = Math.floor(minute /1) * 1 - 1;
     var my = "values." + last.toString();
     var interfaceStat = Meteor.call("getInterfaceStats", device_id);
     var stat = Statistics.findOne({timestamp_day: today, device: device_id, type: 'interface'}, {fields: {[`${my}`]: 1}});
@@ -102,9 +85,13 @@ Meteor.methods({
       statObj[minute] = interfaceStat;
       stat = Statistics.insert({timestamp_day: today, device: device_id, type: 'interface', values: statObj});
     } else {
-      var bps = Meteor.call("getBps", stat.values[last], interfaceStat);
-      interfaceStat.throughput = bps;
-      Statistics.update({_id: stat._id}, { $set: { [`values.${minute}`]: interfaceStat }});
+      if (stat === undefined) {
+        Statistics.update({_id: stat._id}, { $set: { [`values.${minute}`]: interfaceStat }});
+      } else {
+        var bps = Meteor.call("getBps", stat.values[last], interfaceStat);
+        interfaceStat.throughput = bps;
+        Statistics.update({_id: stat._id}, { $set: { [`values.${minute}`]: interfaceStat }});
+      }
     }
   },
   getCpuStats: function (device_id) {
