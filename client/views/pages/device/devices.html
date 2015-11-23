@@ -107,6 +107,12 @@
   </div>
 </template>
 
+<template name="deviceNetworkChart">
+  <div class="col-lg-11">
+      <canvas id="lineChart" height="70"></canvas>
+  </div>
+</template>
+
 <template name="deviceDetails">
   {{> pageHeading title='Device Details' category='Devices' }}
   <div class="wrapper wrapper-content animated fadeIn">
@@ -118,6 +124,19 @@
             {{>iboxTools}}
           </div>
           <div class="ibox-content">
+            <div class="row">
+              <div class="col-lg-4">
+                <canvas id="donutChart" height="100"></canvas>
+              </div>
+              <div class="col-lg-8">
+                {{#with diskSpace}}
+                  {{> diskUsage}}
+                {{/with}}
+              </div>
+            </div>
+            <div class="row">
+              {{> deviceNetworkChart}}
+            </div>
             <ul>
               <li>Management IP: {{mgmtAddress}}</li>
               <li>Failover State: {{self.failoverState}}</li>
@@ -148,9 +167,6 @@
                 Job: {{name}}<br>
               {{/each}}
             </form><br>
-            {{#with diskSpace}}
-              {{> diskUsage}}
-            {{/with}}
           </div>
           <div class="ibox-footer">
             <span class="pull-right">
