@@ -9,7 +9,6 @@ iron:router
 fortawesome:fontawesome
 zimme:iron-router-active
 jquery
-dbarrett:dropzonejs
 
 twbs:bootstrap@3.3.5
 standard-minifiers
@@ -33,7 +32,6 @@ cfs:filesystem
 cfs:gridfs
 cfs:standard-packages
 easy:search
-dandv:http-more
 ecmascript
 es5-shim
 json
@@ -48,3 +46,8 @@ npm-container
 okgrow:router-autoscroll
 perak:codemirror
 reactive-dict
+cfs:ui
+raix:ui-dropped-event
+http
+cfs:http-methods
+vsivsi:file-collection

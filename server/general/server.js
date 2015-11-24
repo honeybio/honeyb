@@ -25,6 +25,7 @@ Meteor.methods({
   },
   getAsmPolicy: function (policy_id, onDevice, link) {
     var output = Meteor.call('bigipRestGetv2', onDevice, link);
+    this.unblock();
     if (output.status == 'COMPLETED') {
       // insert policy export into fs
       var device = Devices.findOne({_id: onDevice});

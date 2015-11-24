@@ -1,15 +1,27 @@
 Archives = new FS.Collection("db_archives", {
-  stores: [new FS.Store.FileSystem("archives")]
+  stores: [new FS.Store.GridFS("archives")]
 });
 
 Certfiles = new FS.Collection("db_certfiles", {
-  stores: [new FS.Store.FileSystem("certfiles")]
+  stores: [new FS.Store.GridFS("certfiles")]
 });
 
 Asmpolicyfile = new FS.Collection("db_asmpolicyfile", {
-  stores: [new FS.Store.FileSystem("asmpolicy")]
+  stores: [new FS.Store.GridFS("asmpolicy")]
 });
 
+Softwareimages = new FileCollection('softwareimages',
+  { resumable: true,   // Enable built-in resumable.js upload support
+    http: [
+      { method: 'get',
+        path: '/:md5',  // this will be at route "/gridfs/myFiles/:md5"
+        lookup: function (params, query) {  // uses express style url params
+          return { md5: params.md5 };       // a query mapping url to myFiles
+        }
+      }
+    ]
+  }
+);
 
 if (Meteor.isServer) {
   Archives.allow({
@@ -33,6 +45,20 @@ if (Meteor.isServer) {
   Certfiles.allow({
     'insert': function () {
       // add custom authentication code here
+      return true;
+    }
+  });
+  Softwareimages.allow({
+    insert: function(){
+      return true;
+    },
+    remove: function(){
+      return true;
+    },
+    read: function(){
+      return true;
+    },
+    write: function(){
       return true;
     }
   });
@@ -70,42 +96,6 @@ Jobs = new Mongo.Collection("db_jobs");
 Tmpfiles = new FS.Collection("db_tempfiles", {
   stores: [new FS.Store.FileSystem("tempfiles")]
 });
-
-
-/*
-clean the db, copy/paste to meteor mongo shell
-  db.db_devices.drop()
-  db.db_certificates.drop()
-  db.db_virtuals.drop()
-  db.db_rules.drop()
-  db.db_pools.drop()
-  db.db_monitors.drop()
-  db.db_gtmsyncgroup.drop()
-  db.db_gtmdatacenters.drop()
-  db.db_gtmservers.drop()
-  db.db_gtmvservers.drop()
-  db.db_gtmlinks.drop()
-  db.db_gtmmonitors.drop()
-  db.db_wideips.drop()
-  db.db_wpools.drop()
-  db.db_idatagroups.drop()
-  db.db_edatagroups.drop()
-  db.db_ltmprofiles.drop()
-  db.db_ltmpersistence.drop()
-  db.db_statistics.drop()
-  db.db_nodes.drop()
-  db.db_changes.drop()
-  db.db_changeset.drop()
-  db.db_tempfiles.drop()
-  db.db_archives.drop()
-  db.db_certfiles.drop()
-  db.db_statistics.drop()
-  db.db_jobs.drop()
-  db.db_ihealth.drop()
-  db.fs.chunks
-  db.fs.files
-  show collections
-*/
 
 VirtualsIndex = new EasySearch.Index({
   collection: Virtuals,

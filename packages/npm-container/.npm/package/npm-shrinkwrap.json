@@ -13,7 +13,7 @@
               "version": "2.0.4",
               "dependencies": {
                 "core-util-is": {
-                  "version": "1.0.1"
+                  "version": "1.0.2"
                 },
                 "inherits": {
                   "version": "2.0.1"
@@ -63,7 +63,7 @@
           }
         },
         "node-uuid": {
-          "version": "1.4.3"
+          "version": "1.4.7"
         },
         "qs": {
           "version": "5.2.0"
@@ -72,7 +72,7 @@
           "version": "0.4.1"
         },
         "tough-cookie": {
-          "version": "2.2.0"
+          "version": "2.2.1"
         },
         "http-signature": {
           "version": "0.11.0",
@@ -92,7 +92,7 @@
           "version": "0.8.0"
         },
         "hawk": {
-          "version": "3.1.1",
+          "version": "3.1.2",
           "dependencies": {
             "hoek": {
               "version": "2.16.3"
@@ -126,7 +126,7 @@
           "version": "0.1.2"
         },
         "har-validator": {
-          "version": "2.0.2",
+          "version": "2.0.3",
           "dependencies": {
             "chalk": {
               "version": "1.1.1",
@@ -189,10 +189,10 @@
               }
             },
             "pinkie-promise": {
-              "version": "1.0.0",
+              "version": "2.0.0",
               "dependencies": {
                 "pinkie": {
-                  "version": "1.0.0"
+                  "version": "2.0.1"
                 }
               }
             }

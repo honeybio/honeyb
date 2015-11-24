@@ -37,6 +37,19 @@ Router.route('/settings/honeyb', {
   }
 });
 
+Router.route('/software/upgrade');
+
+Router.route('/software/hotfixes', {
+  data: function () {
+    return Softwareimages.find({type: 'hotfix'});
+  }
+});
+
+Router.route('/software/images', {
+  data: function () {
+    return Softwareimages.find({type: 'base'});
+  }
+});
 
 // Dashboards
 Router.route('/dashboards/appview', function () {
@@ -684,7 +697,7 @@ Router.route('/notFound', function () {
 
 // Default route
 // You can use direct this.render('template')
-// We use Router.go method because dashboard1 is our nested view in menu
+// We use Router.go method because dashboardsAppview is our nested view in menu
 // Router.route('/', function () {
-//     Router.go('dashboard1');
+//     Router.go('dashboardsAppview');
 // });

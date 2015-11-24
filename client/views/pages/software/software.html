@@ -1,0 +1,145 @@
+<template name="softwareImages">
+  {{> pageHeading title='BIG-IP Base Image' category='Software' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Images <small class="m-l-sm">Upgrade your BIG-IP</small></h5>
+            {{>iboxTools}}
+          </div>
+          <div class="ibox-content">
+            <form id="software-image-form" class="form-horizontal">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Download</th>
+                    <th>Name</th>
+                    <th>Size</th>
+                    <th>Date Uploaded</th>
+                    <th>Version</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each getImages}}
+                  <tr>
+                    <td><a href="/gridfs/softwareimages/{{this.md5}}?filename={{this.filename}}" download="{{this.filename}}">Download</a></td>
+                    <td>{{this.filename}}</td>
+                    <td>{{round this.length}}</td>
+                    <td>{{this.uploadDate}}</td>
+                    <td>{{getVersion this.md5}}</td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+            </form>
+          </div>
+          <div class="ibox-footer">
+            <button id="delete">Delete Software Image</button>
+            <span class="pull-right">
+              Next Backup:
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Upload <small class="m-l-sm">Add New Image</small></h5>
+            {{>iboxTools}}
+          </div>
+          <div class="ibox-content">
+            {{> uploadForm}}
+          </div>
+          <div class="ibox-footer">
+            <button id="delete">Delete Software Image</button>
+            <span class="pull-right">
+              Next Backup:
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="uploadForm">
+  <div class="row">
+    <input style="display:none;" type="file" id="upload">
+    <div id="filedrop" class="filedrop" style="text-align: center;">
+      Drop file to upload or Click here to select
+    </div>
+    {{#if getProgress}}
+      <center>Progress: {{getProgress}} %</center>
+    {{/if}}
+
+  </div>
+</template>
+
+<template name="softwareHotfixes">
+  {{> pageHeading title='BIG-IP Hotfixes' category='Software' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Images <small class="m-l-sm">Upgrade your BIG-IP</small></h5>
+            {{>iboxTools}}
+          </div>
+          <div class="ibox-content">
+            <form id="software-image-form" class="form-horizontal">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Download</th>
+                    <th>Name</th>
+                    <th>Size</th>
+                    <th>Date Uploaded</th>
+                    <th>Version</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each getHotfixes}}
+                  <tr>
+                    <td><a href="/gridfs/softwareimages/{{this.md5}}?filename={{this.filename}}" download="{{this.filename}}">Download</a></td>
+                    <td>{{this.filename}}</td>
+                    <td>{{round this.length}}</td>
+                    <td>{{this.uploadDate}}</td>
+                    <td>{{getVersion this.md5}}</td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+            </form>
+          </div>
+          <div class="ibox-footer">
+            <button id="delete">Delete Software Image</button>
+            <span class="pull-right">
+              Next Backup:
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Upload <small class="m-l-sm">Add New Image</small></h5>
+            {{>iboxTools}}
+          </div>
+          <div class="ibox-content">
+            {{> uploadForm}}
+          </div>
+          <div class="ibox-footer">
+            <button id="delete">Delete Software Image</button>
+            <span class="pull-right">
+              Next Backup:
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="softwareUpgrade">
+</template>

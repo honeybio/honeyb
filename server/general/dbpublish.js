@@ -238,7 +238,7 @@ Meteor.publish("db_asmpolicies", function () {
     return Asmpolicies.find();
   }
 });
-Meteor.publish("db_archives", function () {
+Meteor.publish("archives", function () {
   if (this.userId == null) {
     return [];
   }
@@ -254,6 +254,23 @@ Meteor.publish("db_asmpolicyfile", function () {
     return Asmpolicyfile.find();
   }
 });
+Meteor.publish("softwareimages", function () {
+  if (this.userId == null) {
+    return [];
+  }
+  else {
+    return Softwareimages.find({'metadata._Resumable': { $exists: false }});
+  }
+});
+Meteor.publish("pkifiles", function () {
+  if (this.userId == null) {
+    return [];
+  }
+  else {
+    return Pkifiles.find();
+  }
+});
+
 
 
 
