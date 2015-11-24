@@ -1,17 +1,18 @@
-Archives = new FS.Collection("db_archives", {
+Archives = new FS.Collection("fs_archives", {
   stores: [new FS.Store.GridFS("archives")]
 });
 
-Certfiles = new FS.Collection("db_certfiles", {
-  stores: [new FS.Store.GridFS("certfiles")]
+Pkifiles = new FS.Collection("fs_pkifiles", {
+  stores: [new FS.Store.GridFS("pkifiles")]
 });
 
-Asmpolicyfile = new FS.Collection("db_asmpolicyfile", {
+Asmpolicyfile = new FS.Collection("fs_asmpolicyfile", {
   stores: [new FS.Store.GridFS("asmpolicy")]
 });
 
-Softwareimages = new FileCollection('softwareimages',
+Softwareimages = new FileCollection('fc_softwareimages',
   { resumable: true,   // Enable built-in resumable.js upload support
+    chunkSize: 20*1024*1024 - 1024,
     http: [
       { method: 'get',
         path: '/:md5',  // this will be at route "/gridfs/myFiles/:md5"
@@ -42,7 +43,7 @@ if (Meteor.isServer) {
       return true;
     }
   });
-  Certfiles.allow({
+  Pkifiles.allow({
     'insert': function () {
       // add custom authentication code here
       return true;

@@ -307,7 +307,7 @@ Meteor.methods({
     var args = [ device.mgmtAddress, device.mgmtUser, device.mgmtPass, key.fullPath ];
     var result = Meteor.call("runPythonCmd", pythonCmd, args);
     Certificates.update({_id: keyID}, { $set: { pemFormat: result}});
-    // var obj = Certfiles.insert(result, function (err, fileObj) {
+    // var obj = Pkifiles.insert(result, function (err, fileObj) {
       // stuff
     // });
   },

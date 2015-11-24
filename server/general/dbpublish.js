@@ -1,11 +1,3 @@
-Meteor.publish("db_virtualaddresses", function () {
-  if (this.userId == null) {
-    return [];
-  }
-  else {
-    return Virtualaddresses.find();
-  }
-});
 Meteor.publish("db_settings", function () {
   if (this.userId == null) {
     return [];
@@ -62,6 +54,8 @@ Meteor.publish("db_changeset", function () {
     return Changeset.find();
   }
 });
+
+// Device Level stuff
 Meteor.publish("db_devices", function () {
   if (this.userId == null) {
     return [];
@@ -78,6 +72,16 @@ Meteor.publish("db_certificates", function () {
     return Certificates.find();
   }
 });
+Meteor.publish("db_ltmprofiles", function () {
+  if (this.userId == null) {
+    return [];
+  }
+  else {
+    return Profiles.find();
+  }
+});
+
+// LTM Level Stuff
 Meteor.publish("db_virtuals", function () {
   if (this.userId == null) {
     return [];
@@ -110,6 +114,40 @@ Meteor.publish("db_monitors", function () {
     return Monitors.find();
   }
 });
+Meteor.publish("db_virtualaddresses", function () {
+  if (this.userId == null) {
+    return [];
+  }
+  else {
+    return Virtualaddresses.find();
+  }
+});
+Meteor.publish("db_idatagroups", function () {
+  if (this.userId == null) {
+    return [];
+  }
+  else {
+    return Idatagroups.find();
+  }
+});
+Meteor.publish("db_edatagroups", function () {
+  if (this.userId == null) {
+    return [];
+  }
+  else {
+    return Edatagroups.find();
+  }
+});
+Meteor.publish("db_ltmpersistence", function () {
+  if (this.userId == null) {
+    return [];
+  }
+  else {
+    return Persistence.find();
+  }
+});
+
+// GTM Level Stuff
 Meteor.publish("db_gtmsyncgroup", function () {
   if (this.userId == null) {
     return [];
@@ -174,38 +212,9 @@ Meteor.publish("db_wpools", function () {
     return Widepools.find();
   }
 });
-Meteor.publish("db_idatagroups", function () {
-  if (this.userId == null) {
-    return [];
-  }
-  else {
-    return Idatagroups.find();
-  }
-});
-Meteor.publish("db_edatagroups", function () {
-  if (this.userId == null) {
-    return [];
-  }
-  else {
-    return Edatagroups.find();
-  }
-});
-Meteor.publish("db_ltmprofiles", function () {
-  if (this.userId == null) {
-    return [];
-  }
-  else {
-    return Profiles.find();
-  }
-});
-Meteor.publish("db_ltmpersistence", function () {
-  if (this.userId == null) {
-    return [];
-  }
-  else {
-    return Persistence.find();
-  }
-});
+
+
+// General Statistics Stuff
 Meteor.publish("db_statistics", function () {
   if (this.userId == null) {
     return [];
@@ -214,6 +223,8 @@ Meteor.publish("db_statistics", function () {
     return Statistics.find();
   }
 });
+
+// iHealth exported info
 Meteor.publish("db_ihealth", function () {
   if (this.userId == null) {
     return [];
@@ -230,6 +241,8 @@ Meteor.publish("roles", function () {
     return Rolelist.find();
   }
 });
+
+// ASM level stuff
 Meteor.publish("db_asmpolicies", function () {
   if (this.userId == null) {
     return [];
@@ -238,7 +251,9 @@ Meteor.publish("db_asmpolicies", function () {
     return Asmpolicies.find();
   }
 });
-Meteor.publish("archives", function () {
+
+// FS (CollectionFS) stuff
+Meteor.publish("fs_archives", function () {
   if (this.userId == null) {
     return [];
   }
@@ -246,7 +261,7 @@ Meteor.publish("archives", function () {
     return Archives.find();
   }
 });
-Meteor.publish("db_asmpolicyfile", function () {
+Meteor.publish("fs_asmpolicyfile", function () {
   if (this.userId == null) {
     return [];
   }
@@ -254,20 +269,22 @@ Meteor.publish("db_asmpolicyfile", function () {
     return Asmpolicyfile.find();
   }
 });
-Meteor.publish("softwareimages", function () {
-  if (this.userId == null) {
-    return [];
-  }
-  else {
-    return Softwareimages.find({'metadata._Resumable': { $exists: false }});
-  }
-});
-Meteor.publish("pkifiles", function () {
+Meteor.publish("fs_pkifiles", function () {
   if (this.userId == null) {
     return [];
   }
   else {
     return Pkifiles.find();
+  }
+});
+
+// Filecollection Stuff
+Meteor.publish("fc_softwareimages", function () {
+  if (this.userId == null) {
+    return [];
+  }
+  else {
+    return Softwareimages.find({'metadata._Resumable': { $exists: false }});
   }
 });
 

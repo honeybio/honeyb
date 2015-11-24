@@ -41,9 +41,9 @@ Template.softwareImages.helpers({
   },
   getVersion: function (md5sum) {
     if (md5sum === '89ebf4e55306f4c6e449f77c7aea562b') {
-      return '<strong>Verified: </strong>BIGIP-12.0.0.0.0.606.iso';
+      return 'F5 Verified: BIGIP-12.0.0.0.0.606.iso';
     } else if (md5sum === '5a4fda25c0c40bd7c132b001a17e055b') {
-      return '<strong>Verified: </strong>BIGIP-11.6.0.0.0.401.iso';
+      return 'F5 Verified: BIGIP-11.6.0.0.0.401.iso';
     } else {
       return 'Unknown';
     }
@@ -62,9 +62,9 @@ Template.softwareHotfixes.helpers({
   },
   getVersion: function (md5sum) {
     if (md5sum === '8f5b4b2ff9f65845620897f65077f854') {
-      return '<strong>Verified: </strong>Hotfix-BIGIP-11.6.0.5.0.429-HF5.iso';
+      return 'F5 Verified: Hotfix-BIGIP-11.6.0.5.0.429-HF5.iso';
     } else if (md5sum === '9ec4112ac204a747ea4e58469b21dca2') {
-      return '<strong>Verified: </strong>Hotfix-BIGIP-11.5.2.1.0.169-HF1.iso';
+      return 'F5 Verified: Hotfix-BIGIP-11.5.2.1.0.169-HF1.iso';
     } else {
       return 'Unknown';
     }
