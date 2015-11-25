@@ -69,7 +69,7 @@ Meteor.methods({
       virtualStatObject.enabledState = stats.entries[entry].nestedStats.entries['status.enabledState'].description;
       virtualStatObject.objFullPath = stats.entries[entry].nestedStats.entries.tmName.description;
       virtualStatObject.group = 'default-group';
-      Statistics.insert(virtualStatObject);
+      Objectstatus.insert(virtualStatObject);
       var imgName = Meteor.call("getStatusImage", virtualStatObject.availabilityState, virtualStatObject.enabledState);
       var tmpPath = entry.replace(/\/stats/, "\\?ver");
       var vipObject = tmpPath.replace(/\//g, "\\/");
@@ -87,7 +87,7 @@ Meteor.methods({
       virtualStatObject.enabledState = stats.entries[entry].nestedStats.entries['status.enabledState'].description;
       //virtualStatObject.objFullPath = stats.entries[entry].nestedStats.entries.tmName.description;
       //virtualStatObject.group = 'default-group';
-      // Statistics.insert(virtualStatObject);
+      // Objectstatus.insert(virtualStatObject);
       var imgName = Meteor.call("getStatusImage", virtualStatObject.availabilityState, virtualStatObject.enabledState);
       Virtuals.update({ _id: vipId}, { $set: {statusImg: imgName} });
       // Virtuals.update()
@@ -102,7 +102,7 @@ Meteor.methods({
       poolStatObject.enabledState = stats.entries[entry].nestedStats.entries['status.enabledState'].description;
       poolStatObject.objFullPath = stats.entries[entry].nestedStats.entries.tmName.description;
       poolStatObject.group = 'default-group';
-      Statistics.insert(poolStatObject);
+      Objectstatus.insert(poolStatObject);
       var imgName = Meteor.call("getStatusImage", poolStatObject.availabilityState, poolStatObject.enabledState);
       var tmpPath = entry.replace(/\/stats/, "\\?ver");
       var poolObject = tmpPath.replace(/\//g, "\\/");

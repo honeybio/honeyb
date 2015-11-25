@@ -23,11 +23,11 @@
                 <tbody>
                   {{#each getImages}}
                   <tr>
-                    <td><a href="/gridfs/softwareimages/{{this.md5}}?filename={{this.filename}}" download="{{this.filename}}">Download</a></td>
-                    <td>{{this.filename}}</td>
-                    <td>{{round this.length}}</td>
-                    <td>{{this.uploadDate}}</td>
-                    <td>{{getVersion this.md5}}</td>
+                    <td><a href="{{this.url}}">Download</a></td>
+                    <td>{{this.name}}</td>
+                    <td>{{round this.size}}</td>
+                    <td>{{this.uploadedAt}}</td>
+                    <td><a href="{{this.url}}" download="{{this.filename}}">Download</a></td>
                   </tr>
                   {{/each}}
                 </tbody>
@@ -69,10 +69,11 @@
     <div id="filedrop" class="filedrop" style="text-align: center;">
       Drop file to upload or Click here to select
     </div>
-    {{#if getProgress}}
-      <center>Progress: {{getProgress}} %</center>
-    {{/if}}
-
+    {{#each getImages}}
+      {{#unless this.isUploaded}}
+        {{> FS.UploadProgressBar bootstrap=true class='progress-bar-success progress-bar-striped active' showPercent=true}}
+      {{/unless}}
+    {{/each}}
   </div>
 </template>
 
@@ -91,8 +92,8 @@
               <table class="table">
                 <thead>
                   <tr>
-                    <th>Download</th>
                     <th>Name</th>
+                    <th>Download</th>
                     <th>Size</th>
                     <th>Date Uploaded</th>
                     <th>Version</th>
@@ -100,13 +101,13 @@
                 </thead>
                 <tbody>
                   {{#each getHotfixes}}
-                  <tr>
-                    <td><a href="/gridfs/softwareimages/{{this.md5}}?filename={{this.filename}}" download="{{this.filename}}">Download</a></td>
-                    <td>{{this.filename}}</td>
-                    <td>{{round this.length}}</td>
-                    <td>{{this.uploadDate}}</td>
-                    <td>{{getVersion this.md5}}</td>
-                  </tr>
+                    <tr>
+                      <td><a href="/asm/policies/{{this.metadata.policyId}}">{{this.metadata.policyName}}</a></td>
+                      <td><a href="{{this.url}}">Download</a></td>
+                      <td>{{this.name}}</td>
+                      <td>{{round this.size}}</td>
+                      <td>{{this.uploadedAt}}</td>
+                    </tr>
                   {{/each}}
                 </tbody>
               </table>

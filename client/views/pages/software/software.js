@@ -1,32 +1,27 @@
-Template.uploadForm.rendered = function() {
-  Softwareimages.resumable.assignDrop($("#filedrop"));
-  Softwareimages.resumable.assignBrowse($("#upload"));
-};
-
-Template.uploadForm.onCreated( function() {
-  this.progress = new ReactiveVar();
-  this.progress.set(null);
-});
-
 Template.uploadForm.events({
   'click #filedrop': function(e, t) {
     event.preventDefault();
     $("#upload").click();
+  },
+  'dropped #filedrop': function(e, t) {
+    FS.Utility.eachFile(event, function(file) {
+      Softwareimages.insert(file, function (err, fileObj) {
+        // Inserted new doc with ID fileObj._id, and kicked off the data upload using HTTP
+      });
+    });
+  },
+  'change #upload': function(e, t) {
+    FS.Utility.eachFile(event, function(file) {
+      Softwareimages.insert(file, function (err, fileObj) {
+        // Inserted new doc with ID fileObj._id, and kicked off the data upload using HTTP
+      });
+    });
   }
 });
 
 Template.uploadForm.helpers({
-  getProgress: function () {
-    // return (Session.get('imageUpload') * 100).toFixed(2);
-    var progress = Session.get('imageUpload');
-    var rounded = (progress * 100).toFixed(0);
-    if (Session.get('imageUpload') === 1) {
-      return null;
-    } else if (Session.get('imageUpload') === undefined) {
-      return null;
-    } else {
-        return rounded;
-    }
+  getImages: function () {
+    return Softwareimages.find();
   }
 })
 Template.softwareImages.helpers({

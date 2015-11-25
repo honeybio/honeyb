@@ -12,7 +12,7 @@ Meteor.methods({
       datacenterStatObject.connections = stats.entries[entry].nestedStats.entries['metrics.connections'].value;
       datacenterStatObject.packetsOut = stats.entries[entry].nestedStats.entries['metrics.pktsPerSecIn'].value;
       datacenterStatObject.packetsIn = stats.entries[entry].nestedStats.entries['metrics.pktsPerSecOut'].value;
-      // Statistics.insert(datacenterStatObject);
+      // Objectstatus.insert(datacenterStatObject);
       var imgName = Meteor.call("getStatusImage", datacenterStatObject.availabilityState, datacenterStatObject.enabledState);
       var tmpPath = entry.replace(/\/stats/, "\\?ver");
       var dcObject = tmpPath.replace(/\//g, "\\/");
@@ -34,7 +34,7 @@ Meteor.methods({
       gtmserverStatObject.connections = stats.entries[entry].nestedStats.entries['metrics.connections'].value;
       gtmserverStatObject.packetsOut = stats.entries[entry].nestedStats.entries['metrics.pktsPerSecIn'].value;
       gtmserverStatObject.packetsIn = stats.entries[entry].nestedStats.entries['metrics.pktsPerSecOut'].value;
-      // Statistics.insert(gtmserverStatObject);
+      // Objectstatus.insert(gtmserverStatObject);
       var imgName = Meteor.call("getStatusImage", gtmserverStatObject.availabilityState, gtmserverStatObject.enabledState);
       var tmpPath = entry.replace(/\/stats/, "\\?ver");
       var serverObject = tmpPath.replace(/\//g, "\\/");
@@ -55,7 +55,7 @@ Meteor.methods({
       gtmserverStatObject.connections = stats.entries[entry].nestedStats.entries['metrics.connections'].value;
       gtmserverStatObject.packetsOut = stats.entries[entry].nestedStats.entries['metrics.pktsPerSecIn'].value;
       gtmserverStatObject.packetsIn = stats.entries[entry].nestedStats.entries['metrics.pktsPerSecOut'].value;
-      // Statistics.insert(gtmserverStatObject);
+      // Objectstatus.insert(gtmserverStatObject);
       var imgName = Meteor.call("getStatusImage", gtmserverStatObject.availabilityState, gtmserverStatObject.enabledState);
       var tmpPath = entry.replace(/\/stats$/, "");
       var serverObject = tmpPath.replace(/\//g, "\\/");

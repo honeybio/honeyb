@@ -10,6 +10,11 @@ Asmpolicyfile = new FS.Collection("fs_asmpolicyfile", {
   stores: [new FS.Store.GridFS("asmpolicy")]
 });
 
+Softwareimages = new FS.Collection("fs_softwareimages", {
+  stores: [new FS.Store.FileSystem("softwareimages")]
+});
+
+/*
 Softwareimages = new FileCollection('fc_softwareimages',
   { resumable: true,   // Enable built-in resumable.js upload support
     chunkSize: 20*1024*1024 - 1024,
@@ -23,6 +28,7 @@ Softwareimages = new FileCollection('fc_softwareimages',
     ]
   }
 );
+*/
 
 if (Meteor.isServer) {
   Archives.allow({
@@ -47,19 +53,17 @@ if (Meteor.isServer) {
     'insert': function () {
       // add custom authentication code here
       return true;
+    },
+    'download': function() {
+      return true;
     }
   });
   Softwareimages.allow({
-    insert: function(){
+    'insert': function () {
+      // add custom authentication code here
       return true;
     },
-    remove: function(){
-      return true;
-    },
-    read: function(){
-      return true;
-    },
-    write: function(){
+    'download': function() {
       return true;
     }
   });
@@ -73,7 +77,12 @@ Rules = new Mongo.Collection("db_rules");
 Pools = new Mongo.Collection("db_pools");
 Nodes = new Mongo.Collection("db_nodes");
 Monitors = new Mongo.Collection("db_monitors");
+Idatagroups = new Mongo.Collection("db_idatagroups");
+Edatagroups = new Mongo.Collection("db_edatagroups");
+Persistence = new Mongo.Collection("db_ltmpersistence");
+
 Asmpolicies = new Mongo.Collection("db_asmpolicies");
+
 Gtmsyncgroups = new Mongo.Collection("db_gtmsyncgroup");
 Gtmdatacenters = new Mongo.Collection("db_gtmdatacenters");
 Gtmservers = new Mongo.Collection("db_gtmservers");
@@ -82,10 +91,10 @@ Gtmlinks = new Mongo.Collection("db_gtmlinks");
 Gtmmonitors = new Mongo.Collection("db_gtmmonitors");
 Wideips = new Mongo.Collection("db_wideips");
 Widepools = new Mongo.Collection("db_wpools");
-Idatagroups = new Mongo.Collection("db_idatagroups");
-Edatagroups = new Mongo.Collection("db_edatagroups");
+
 Profiles = new Mongo.Collection("db_ltmprofiles");
-Persistence = new Mongo.Collection("db_ltmpersistence");
+
+Objectstatus = new Mongo.Collection("db_objectstatus");
 Statistics = new Mongo.Collection("db_statistics");
 Changes = new Mongo.Collection("db_changes");
 Changeset = new Mongo.Collection("db_changeset");

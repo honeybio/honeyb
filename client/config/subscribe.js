@@ -27,6 +27,7 @@ Meteor.subscribe("db_permissions");
 Meteor.subscribe("db_containers");
 Meteor.subscribe("db_asmpolicies");
 Meteor.subscribe("db_virtualaddresses");
+Meteor.subscribe("db_objectstatus");
 
 // CollectionFS stores
 Meteor.subscribe("fs_asmpolicyfile");
@@ -34,4 +35,4 @@ Meteor.subscribe("fs_archives");
 Meteor.subscribe("fs_pkifiles");
 
 // Filecollection stores
-Meteor.subscribe("fc_softwareimages");
+Meteor.subscribe("fs_softwareimages");

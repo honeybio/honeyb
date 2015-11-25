@@ -213,8 +213,16 @@ Meteor.publish("db_wpools", function () {
   }
 });
 
-
 // General Statistics Stuff
+Meteor.publish("db_objectstatus", function () {
+  if (this.userId == null) {
+    return [];
+  }
+  else {
+    return Objectstatus.find();
+  }
+});
+
 Meteor.publish("db_statistics", function () {
   if (this.userId == null) {
     return [];
@@ -279,12 +287,12 @@ Meteor.publish("fs_pkifiles", function () {
 });
 
 // Filecollection Stuff
-Meteor.publish("fc_softwareimages", function () {
+Meteor.publish("fs_softwareimages", function () {
   if (this.userId == null) {
     return [];
   }
   else {
-    return Softwareimages.find({'metadata._Resumable': { $exists: false }});
+    return Softwareimages.find();
   }
 });
 
