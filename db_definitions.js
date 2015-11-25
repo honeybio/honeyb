@@ -32,38 +32,58 @@ Softwareimages = new FileCollection('fc_softwareimages',
 
 if (Meteor.isServer) {
   Archives.allow({
-    'insert': function () {
-      // add custom authentication code here
+    insert: function(){
       return true;
     },
-    'download': function() {
+    update: function(){
+      return true;
+    },
+    remove: function(){
+      return true;
+    },
+    download: function(){
       return true;
     }
   });
   Asmpolicyfile.allow({
-    'insert': function () {
-      // add custom authentication code here
+    insert: function(){
       return true;
     },
-    'download': function() {
+    update: function(){
+      return true;
+    },
+    remove: function(){
+      return true;
+    },
+    download: function(){
       return true;
     }
   });
   Pkifiles.allow({
-    'insert': function () {
-      // add custom authentication code here
+    insert: function(){
       return true;
     },
-    'download': function() {
+    update: function(){
+      return true;
+    },
+    remove: function(){
+      return true;
+    },
+    download: function(){
       return true;
     }
   });
   Softwareimages.allow({
-    'insert': function () {
-      // add custom authentication code here
+    insert: function(){
       return true;
     },
-    'download': function() {
+    update: function(){
+      return true;
+    },
+    remove: function(){
+      return true;
+    },
+    download: function(){
       return true;
     }
   });
