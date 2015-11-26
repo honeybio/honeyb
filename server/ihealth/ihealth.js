@@ -99,7 +99,7 @@ Meteor.methods({
         try {
             meta_json = JSON.parse(meta_data);
         } catch (e) {
-            // invalid json input, set to null
+            throw new Meteor.Error(500, 'Error 500', 'Unknown Error');
             console.log(e);
             meta_json = null;
         }
@@ -107,7 +107,7 @@ Meteor.methods({
         try {
           diag_json = JSON.parse(diag_data);
         } catch (e) {
-            // invalid json input, set to null
+            throw new Meteor.Error(500, 'Error 500', 'Unknown Error');
             console.log(e);
             var diag_json = null;
         }

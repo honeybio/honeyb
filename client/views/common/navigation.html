@@ -45,10 +45,9 @@
             <li class="{{isActiveRoute regex='archives'}}"><a href="/devices/archives">Archives</a></li>
           </ul>
         </li>
-        <li class="{{isActiveRoute regex='changes|changesCommitted'}}">
+        <li class="{{isActiveRoute regex='changesCommitted'}}">
           <a href="#"><i class="fa fa-calendar-check-o"></i> <span class="nav-label">Change Management</span><span class="fa arrow"></span></a>
-          <ul class="nav nav-second-level collapse {{isActiveRoute regex='changes|changesCommitted' className='in'}}">
-            <li class="{{isActiveRoute regex='changes'}}"><a href="/changes">All Changes</a></li>
+          <ul class="nav nav-second-level collapse {{isActiveRoute regex='changesCommitted' className='in'}}">
             <li class="{{isActiveRoute regex='changesPushed'}}"><a href="/changes/committed">Committed Changes</a></li>
           </ul>
         </li>

@@ -292,7 +292,7 @@ ChangeFunction.delete.ltm.node = function(argList) { }
 ChangeFunction.delete.ltm.monitor = function(argList) {
   var device_id = argList.device_id;
   var selfLink = argList.selfLink;
-  var mon_id = arglist.monitor_id;
+  var mon_id = argList.monitor_id;
   var response = Meteor.call("bigipRestDelete", device_id, selfLink );
   if (response == true) {
     Monitors.update({_id : argList.obj_id}, {$set: {deleted: true}});
@@ -526,6 +526,9 @@ var checkAuth = function(change_id, cmethod, cb) {
 
 
 Meteor.methods({
+  getUserInfo: function() {
+    return { userId: Meteor.user()._id, username: Meteor.user().username }
+  },
   // A "change"
   //  var theChange = { description: event.target.stageDescription.value, theMethod: "setStatusPoolMember",
   //  args: [ the_action, checkedList[i], onDevice ]};
@@ -537,7 +540,16 @@ Meteor.methods({
     * @param {object} A change object
     * @return {string} Mongo ID of the change
     */
-    var result = Changes.insert({created: new Date(), group: 'default-group', approved: false, scheduled: false, pushed: false, canceled: false, change});
+    var userObj = Meteor.call("getUserInfo");
+    var result = Changes.insert({
+      created: new Date(),
+      createdBy: userObj,
+      group: 'default-group',
+      approved: false,
+      scheduled: false,
+      pushed: false,
+      canceled: false,
+      change });
     return result;
   },
   createPushedChange: function(change) {
@@ -548,7 +560,15 @@ Meteor.methods({
     * @param {object} A change object
     * @return {string} Mongo ID of the change
     */
-    var newChange = Changes.insert({created: new Date(), group: 'default-group', approved: false, scheduled: false, pushed: false, canceled: false, change});
+    var userObj = Meteor.call("getUserInfo");
+    var newChange = Changes.insert({
+      created: new Date(),
+      group: 'default-group',
+      approved: false,
+      scheduled: false,
+      pushed: false,
+      canceled: false,
+      change });
     var result = pushChange(newChange);
     return result;
   },
@@ -560,7 +580,8 @@ Meteor.methods({
     * @param {object} A Mongo ID of the change
     * @return {boolean} returns true on success
     */
-    var result = Changes.update({_id: change_id}, { $set: {canceled: true, cancelDate: new Date(), scheduled: false}});
+    var userObj = Meteor.call("getUserInfo");
+    var result = Changes.update({_id: change_id}, { $set: {canceled: true, cancelDate: new Date(), cancelledBy: userObj, scheduled: false}});
     return result;
   },
   pushChange: function(change_id) {
@@ -571,6 +592,7 @@ Meteor.methods({
     * @param {object} A Mongo ID of the change
     * @return {boolean} returns true on success
     */
+    var userObj = Meteor.call("getUserInfo");
     var myChange = Changes.findOne({_id: change_id});
     var backoutChange = {}
     var changeMethod = myChange.change.theMethod;
@@ -579,10 +601,12 @@ Meteor.methods({
     checkAuth(change_id, myChange.change.theMethod, function (err, res) {
       if (res) {
         ChangeFunction[changeMethod.action][changeMethod.module][changeMethod.object](argList);
-
+        Changes.update({_id: change_id}, { $set: {pushed: true, pushedBy: userObj }});
       }
       else {
+        throw new Meteor.Error(401, 'Error 401', 'Unauthorized');
         console.log("unauthorized");
+        return 401;
       }
     });
   },
@@ -594,6 +618,7 @@ Meteor.methods({
     * @param {object} A Mongo ID of the change
     * @return {string} returns id of backout change
     */
+    var userObj = Meteor.call("getUserInfo");
     var myChange = Changes.findOne({_id: change_id});
     // Apply method will take array of args
     var backoutMethod = Meteor.call(getBackout);
@@ -609,7 +634,8 @@ Meteor.methods({
     * @param {object} A Mongo ID of the change
     * @return {boolean} returns true if success
     */
-    var result = Changes.update({_id: change_id}, { $set: {approved: true, approveDate: new Date()}});
+    var userObj = Meteor.call("getUserInfo");
+    var result = Changes.update({_id: change_id}, { $set: {approved: true, approvedBy: userObj, approveDate: new Date()}});
     return result;
   },
   scheduleChange: function(change_id, pushDate) {

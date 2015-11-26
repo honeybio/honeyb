@@ -285,7 +285,7 @@ StatisticsIndex = new EasySearch.Index({
 
 ChangesIndex = new EasySearch.Index({
   collection: Changes,
-  fields: ['change.description'],
+  fields: ['name', 'change.description'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });

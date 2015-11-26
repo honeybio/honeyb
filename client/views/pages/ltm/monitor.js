@@ -4,6 +4,32 @@ Template.ltmMonitors.helpers({
     return result;
   }
 });
+
+Template.ltmMonitors.events({
+  "submit #ltm-monitors": function (event, template) {
+    event.preventDefault();
+    var the_action = event.target.objectAction.value;
+    var checkedList = [];
+    $('#ltm-monitors :input[type=checkbox]:checked').each(function(index){
+      checkedList.push($(this)[0].name);
+    });
+    for (var i = 0; i < checkedList.length; i++) {
+      if (the_action == "delete") {
+        Meteor.call("deleteMonitor", checkedList[i], 0, function (err, res) {
+          if (err) {
+            toastr.error(err.details, err.reason)
+          } else {
+            toastr.success('Successfully deleted Monitor', res)
+          }
+        });
+      }
+      else if (the_action == "copy") {
+        // Meteor.call("copyPool", checkedList[i], event.target.to_device.value, event.target.stage.value);
+      }
+    }
+  }
+});
+
 Template.ltmMonitorsTcpHalfOpenCreate.helpers({
   getDeviceList: function () {
     var result = Devices.find({});
@@ -27,8 +53,14 @@ Template.ltmMonitorsTcpHalfOpenCreate.events({
       manualResume: event.target.manualResume.value,
       transparent: event.target.transparent.value
     }
-    Meteor.call("addTcpHalfOpenMonitor", device_id, monObj, stage);
-  },
+    Meteor.call("addTcpHalfOpenMonitor", device_id, monObj, stage, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success('Successfully created ' + name, res)
+      }
+    });
+  }
 });
 
 Template.ltmMonitorsHttpCreate.helpers({

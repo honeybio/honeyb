@@ -112,11 +112,13 @@
     </thead>
     <tbody>
       {{#EasySearch.Each index=monitorsIndex}}
+      {{#unless deleted}}
       <tr>
         <th><a href="/ltm/monitors/{{type}}/{{_id}}">{{name}}</a></th>
         <th>{{getOnDevice this.onDevice}}</th>
-        <th><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></th>
+        <th><input type="checkbox" id="{{_id}}" name="{{_id}}"></th>
       </tr>
+      {{/unless}}
       {{/EasySearch.Each}}
     </tbody>
   </table>
@@ -390,12 +392,29 @@
 
 
 <template name="changesSearchBox">
-  {{> EasySearch.Input index=changesIndex}}
-  <ul>
+  <div class="form-group"><label class="col-sm-2 control-label">Search: </label>
+    <div class="col-sm-2">{{> EasySearch.Input index=changesIndex}}</div>
+  </div>
+  <div class="hr-line-dashed"></div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Change Name</th>
+        <th>Change User</th>
+        <th>Data Commmitted</th>
+      </tr>
+    </thead>
+    <tbody>
     {{#EasySearch.Each index=changesIndex}}
-      test
-    {{/EasySearch.Each}}
-  </ul>
+      <tr>
+        <th><a href="/changes/{{_id}}">{{name}}</a></th>
+        <th>{{mgmtAddress}}</th>
+        <th>{{self.failoverState}}</th>
+      </tr>
+      {{/EasySearch.Each}}
+    </tbody>
+  </table>
+  <div class="hr-line-dashed"></div>
 </template>
 
 

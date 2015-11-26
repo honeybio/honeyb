@@ -61,7 +61,7 @@ Meteor.publish("db_devices", function () {
     return [];
   }
   else {
-    return Devices.find({}, {mgmtPass: 0});
+    return Devices.find({}, {fields: { mgmtPass: false, sshPass: false }});
   }
 });
 Meteor.publish("db_certificates", function () {

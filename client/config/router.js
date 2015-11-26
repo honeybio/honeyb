@@ -156,7 +156,6 @@ Router.route('/login', function () {
 
 
 // Change routes
-Router.route('/changes');
 Router.route('/changes/committed');
 Router.route('/changes/scheduled');
 Router.route('/changes/approved');

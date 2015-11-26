@@ -91,8 +91,8 @@ Meteor.methods({
     var result = Meteor.call('pushChange', change_id);
     return result;
   },
-  deleteMonitor: function(profile_id, stage) {
-    var obj = Monitors.findOne({_id: profile_id});
+  deleteMonitor: function(objId, stage) {
+    var obj = Monitors.findOne({_id: objId});
     var device = Devices.findOne({_id: obj.onDevice});
     var methodName = {
       action: "delete",
@@ -105,7 +105,7 @@ Meteor.methods({
       argList: {
         device_id: obj.onDevice,
         selfLink: obj.selfLink,
-        obj_id: profile_id
+        obj_id: objId
       }
     };
     var change_id = Meteor.call('createStagedChange', theChange);
@@ -113,7 +113,12 @@ Meteor.methods({
       return;
     }
     var result = Meteor.call('pushChange', change_id);
-    return result;
+    if (result === 401) {
+      console.log(result);
+      throw new Meteor.Error(401, 'Error 401', 'Unauthorized');
+    } else {
+      return result;
+    }
   },
   deleteGmember: function(sync_id, gMemberObj, memberLink, stage) {
     /**

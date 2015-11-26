@@ -38,7 +38,11 @@ Meteor.methods({
       return;
     }
     var result = Meteor.call('pushChange', change_id);
-    return result;
+    if (result === 401) {
+      throw new Meteor.Error(401, 'Error 401', 'Unauthorized');
+    } else {
+      return 200;
+    }
   },
   addHttpMonitor: function(device_id, monObj, stage) {
     /**
