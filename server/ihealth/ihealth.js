@@ -18,13 +18,13 @@ Meteor.methods({
     var listQkviewUrl = "https://ihealth-api.f5.com/qkview-analyzer/api/qkviews";
     var settings = Settings.findOne({type: "system"});
     if (settings.ihealthUser === undefined || settings.ihealthPass === undefined ) {
-      return false;
+      return 400;
     } else {
       var cookies = Meteor.call('ihealthAuthCookie', settings.ihealthUser, settings.ihealthPass);
       if (cookies == 401) {
-        return 'Unauthorized';
+        return 401;
       } else if (cookies == false) {
-        return 'unknown error'
+        return 500;
       } else {
         var cHeader = cookies[0].replace(/;.*/, "");
         for (i = 1; i < cookies.length; i++) {
@@ -62,75 +62,77 @@ Meteor.methods({
     }
   },
   ihealthUpdateData: function () {
-    //console.log('ihealthUpdateData function running');
-    // hide old qkviews:
-    // Ihealth.find({hidden: false}).forEach(function(doc){
-    //   Ihealth.update({_id: doc._id}, {$set: { hidden: true}});
-    // });
     var qk_list = Meteor.call('ihealthGetList');
-    var myJson;
-    try {
-      myJson = JSON.parse(qk_list);
-    } catch (e) {
-      console.log(e);
+    if (qk_list == 400) {
+      throw new Meteor.Error(400, 'Error 400', 'iHealth user or password not configured');
       return;
     }
-    var fs = Npm.require('fs');
-    if (myJson.id === undefined) {
-      return false;
-    }
-    for (j = 0; j < myJson.id.length; j++) {
-      // Get qkview data for each id
-      var settings = Settings.findOne({type: 'system'});
-      var args = [settings.ihealthUser, settings.ihealthPass, myJson.id[j]];
-      var shellCommand = "get_qkview_data.sh";
-      var output = Meteor.call("runShellCmd", shellCommand, args);
-      var meta_file = "/tmp/" + myJson.id[j] + ".meta.json";
-      var meta_data = fs.readFileSync(meta_file, 'utf8');
-      var diag_file = "/tmp/" + myJson.id[j] + ".diag.json";
-      var diag_data = fs.readFileSync(diag_file, 'utf8');
-      var meta_json;
+    if (qk_list == 401) {
+      throw new Meteor.Error(401, 'Error 401', 'Unauthorized iHealth user or password');
+      return;
+    } else if (qk_list == 500) {
+      throw new Meteor.Error(500, 'Error 500', 'Unknown Error');
+      return;
+    } else {
+      var myJson;
       try {
-          meta_json = JSON.parse(meta_data);
+        myJson = JSON.parse(qk_list);
       } catch (e) {
-          // invalid json input, set to null
-          console.log(e);
-          meta_json = null;
+        console.log(e);
+        return;
       }
-      var diag_json;
-      try {
-        diag_json = JSON.parse(diag_data);
-      } catch (e) {
-          // invalid json input, set to null
-          console.log(e);
-          var diag_json = null;
+      var fs = Npm.require('fs');
+      if (myJson.id === undefined) {
+        throw new Meteor.Error(500, 'Error 500', 'Unknown Error');
       }
-      if (meta_json !== null || diag_json !== null) {
-        meta_json.qkviewId = myJson.id[j];
-        // meta_json.sha1 = diag_json.sha1;
-        meta_json.version = diag_json.version;
-        meta_json.diagnostics = diag_json.diagnostics;
-        meta_json.system_information = diag_json.system_information;
-
-        meta_json.group = 'default-group';
-        meta_json.hidden = false;
-        var qkId = Ihealth.findOne({qkviewId: myJson.id[j]});
-        if (qkId === undefined) {
-          Ihealth.insert(meta_json);
-        } else {
-          Ihealth.remove({_id: qkId._id});
-          Ihealth.insert(meta_json);
+      for (j = 0; j < myJson.id.length; j++) {
+        // Get qkview data for each id
+        var settings = Settings.findOne({type: 'system'});
+        var args = [settings.ihealthUser, settings.ihealthPass, myJson.id[j]];
+        var shellCommand = "get_qkview_data.sh";
+        var output = Meteor.call("runShellCmd", shellCommand, args);
+        var meta_file = "/tmp/" + myJson.id[j] + ".meta.json";
+        var meta_data = fs.readFileSync(meta_file, 'utf8');
+        var diag_file = "/tmp/" + myJson.id[j] + ".diag.json";
+        var diag_data = fs.readFileSync(diag_file, 'utf8');
+        var meta_json;
+        try {
+            meta_json = JSON.parse(meta_data);
+        } catch (e) {
+            // invalid json input, set to null
+            console.log(e);
+            meta_json = null;
         }
-        // Meteor.call('ihealthDeleteQkview', myJson.id[j]);
-      }
-      else {
-        console.log('something busted in qkview, ignoring');
-        // Meteor.call('ihealthDeleteQkview', myJson.id[j]);
-        // var args = [settings.ihealthUser, settings.ihealthPass, myJson.id[j]];
-        // var delCmd = "del_qkview.sh";
-        // var output = Meteor.call("runShellCmd", shellCommand, args);
-        // Delete the qkview
+        var diag_json;
+        try {
+          diag_json = JSON.parse(diag_data);
+        } catch (e) {
+            // invalid json input, set to null
+            console.log(e);
+            var diag_json = null;
+        }
+        if (meta_json !== null || diag_json !== null) {
+          meta_json.qkviewId = myJson.id[j];
+          // meta_json.sha1 = diag_json.sha1;
+          meta_json.version = diag_json.version;
+          meta_json.diagnostics = diag_json.diagnostics;
+          meta_json.system_information = diag_json.system_information;
+
+          meta_json.group = 'default-group';
+          meta_json.hidden = false;
+          var qkId = Ihealth.findOne({qkviewId: myJson.id[j]});
+          if (qkId === undefined) {
+            Ihealth.insert(meta_json);
+          } else {
+            Ihealth.remove({_id: qkId._id});
+            Ihealth.insert(meta_json);
+          }
+        }
+        else {
+          throw new Meteor.Error(500, 'Error 500', 'Unknown Error');
+        }
       }
     }
+    return 'Success!';
   }
 });

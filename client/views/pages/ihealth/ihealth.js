@@ -13,7 +13,13 @@ Template.dashboardsIhealth.events({
       instance.buttonName.set('Refresh iHealth');
       }, 20000);
     toastr.success('Updating iHealth in the background','Data will automatically update!')
-    Meteor.call("ihealthUpdateData");
+    Meteor.call("ihealthUpdateData", function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success(res)
+      }
+    });
   }
 });
 

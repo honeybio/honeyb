@@ -52,3 +52,4 @@ http
 cfs:http-methods
 sacha:spin
 tdamsma:meteor-accounts-ldap
+zuuk:stale-session
