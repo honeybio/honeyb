@@ -50,3 +50,5 @@ cfs:ui
 raix:ui-dropped-event
 http
 cfs:http-methods
+sacha:spin
+tdamsma:meteor-accounts-ldap

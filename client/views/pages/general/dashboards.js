@@ -17,6 +17,29 @@ Template.dashboardsDeviceHealth.helpers({
     } else {
       return "red-bg"
     }
+  },
+  getIhealth: function (hostname) {
+    var ihealthReport = Ihealth.findOne({'system_information.hostname': hostname});
+    if (ihealthReport === undefined) {
+      return;
+    } else {
+      return ihealthReport.diagnostics.hit_count;
+    }
+  },
+  getiHealthColor: function (hostname) {
+    var ihealthReport = Ihealth.findOne({'system_information.hostname': hostname});
+    if (ihealthReport.diagnostics.hit_count < 10) {
+      return "navy-bg";
+    } else if (ihealthReport.diagnostics.hit_count < 30) {
+      return "lazur-bg";
+    } else if (ihealthReport.diagnostics.hit_count < 45) {
+      return "yellow-bg"
+    } else {
+      return "red-bg"
+    }
+  },
+  logme: function (object) {
+    console.log(object);
   }
 });
 

@@ -40,7 +40,7 @@ Template.devices.helpers({
   }
 });
 
-Template.deviceDetails.rendered=function() {
+Template.deviceDetails.rendered = function() {
     $('#my-datepicker').datepicker();
 }
 

@@ -118,9 +118,8 @@ Meteor.methods({
         if (qkId === undefined) {
           Ihealth.insert(meta_json);
         } else {
-          console.log(qkId._id);
           Ihealth.remove({_id: qkId._id});
-          // Ihealth.insert(meta_json);
+          Ihealth.insert(meta_json);
         }
         // Meteor.call('ihealthDeleteQkview', myJson.id[j]);
       }

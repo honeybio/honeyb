@@ -1,3 +1,9 @@
+var ERRORS_KEY = 'signinErrors';
+
+Template.login.onCreated(function() {
+  Session.set(ERRORS_KEY, {});
+});
+
 Template.login.events({
   'submit #form-signin': function (event) {
     event.preventDefault();
@@ -7,11 +13,19 @@ Template.login.events({
       if (!err) {
         Router.go('/')
       } else {
-        console.log(err.reason)
+        if (err) {
+          return Session.set(ERRORS_KEY, {'none': err.reason});
+        }
       }
     });
   }
 });
+
+Template.login.helpers({
+  errorMessages: function() {
+    return _.values(Session.get(ERRORS_KEY));
+  }
+})
 
 Template.settingsUser.events({
   'submit .form-signin': function (event, template) {
@@ -20,7 +34,7 @@ Template.settingsUser.events({
     var pass = event.target.password.value;
     Meteor.call("createNewUser", user, pass);
   },
-  'submit .myProfile': function (event) {
+  'submit #myProfile': function (event) {
     event.preventDefault();
     var advanced = event.target.profileAdvanced.value;
     if (advanced == "1") {
@@ -29,6 +43,7 @@ Template.settingsUser.events({
     else {
       advanced = false;
     }
+
     Meteor.users.update({_id: Meteor.userId()}, {$set: { profile: { advanced : advanced }}});
   }
 });
@@ -79,6 +94,11 @@ Template.settingsHoneyb.events({
   'submit #change-settings': function (event) {
     event.preventDefault();
     Meteor.call("updateChangeSettings", event.target.changeControl.checked);
+  },
+  'submit #authentication-form': function (e, t) {
+    event.preventDefault();
+    var authObj = { adAuth: event.target.adAuth.checked };
+    Meteor.call("setAdAuth", authObj);
   }
 });
 

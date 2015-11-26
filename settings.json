@@ -1,0 +1,25 @@
+{
+  "ldap": {
+    "debug": true,
+    "domain": "test.com",
+    "baseDn": "DC=ad,DC=localhost,DC=edu",
+    "url": "ldap://ad.localhost:2222",
+    "bindCn": "CN=localhost,DC=com",
+    "bindPassword": "secret",
+    "autopublishFields": [
+      "displayName",
+      "givenName",
+      "department",
+      "employeeNumber",
+      "mail",
+      "title",
+      "address",
+      "phone"
+    ],
+    "groupMembership": [
+      "Employees",
+      "Administrators",
+      "Editors"
+    ]
+  }
+}

@@ -19,7 +19,8 @@ Router.onBeforeAction(OnBeforeActions.loginRequired, {
 
 Router.configure({
     layoutTemplate: 'mainLayout',
-    notFoundTemplate: 'notFound'
+    notFoundTemplate: 'notFound',
+    loadingTemplate: 'loading'
 });
 
 

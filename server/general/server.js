@@ -1,4 +1,12 @@
 Meteor.methods({
+  setAdAuth: function (authObject) {
+    console.log(authObject);
+    if (authObject.adAuth) {
+      Settings.update({type: 'system'}, {$set: {adAuthentication: authObject.adAuth}});
+    } else {
+      Settings.update({type: 'system'}, {$set: {adAuthentication: authObject.adAuth}});
+    }
+  },
   addTask: function (text) {
     // Make sure the user is logged in before inserting a task
     if (! Meteor.userId()) {

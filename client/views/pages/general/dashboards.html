@@ -16,6 +16,21 @@
           </div>
         </div>
       </div>
+      {{#if getIhealth this.self.name}}
+      <div class="col-lg-3">
+        <div class="widget style1 {{getiHealthColor this.self.name}}">
+          <div class="row">
+            <div class="col-xs-4">
+              <i class="fa fa-heart fa-5x"></i>
+            </div>
+            <div class="col-xs-8 text-right">
+              <span>{{this.self.name}} iHealth</span>
+              <h2 class="font-bold">{{getIhealth this.self.name}} Bad things</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{/if}}
       {{/each}}
     </div>
   </div>
