@@ -1,3 +1,76 @@
+Template.gettingStartedWizard.events({
+  'click #intro': function (e, t) {
+    $('#ssh-settings').hide();
+    $('#ihealth-settings').hide();
+    $('#authentication-settings').hide();
+    $('#archive-settings').hide();
+    $('#add-device').hide();
+    $('#introduction').show();
+  },
+  'click #ssh': function (e, t) {
+    $('#introduction').hide();
+    $('#ihealth-settings').hide();
+    $('#authentication-settings').hide();
+    $('#archive-settings').hide();
+    $('#add-device').hide();
+    $('#ssh-settings').show();
+  },
+  'click #ihealth': function (e, t) {
+    $('#introduction').hide();
+    $('#ssh-settings').hide();
+    $('#authentication-settings').hide();
+    $('#archive-settings').hide();
+    $('#add-device').hide();
+    $('#ihealth-settings').show();
+  },
+  'click #authentication': function (e, t) {
+    $('#introduction').hide();
+    $('#ihealth-settings').hide();
+    $('#archive-settings').hide();
+    $('#add-device').hide();
+    $('#ssh-settings').hide();
+    $('#authentication-settings').show();
+  },
+  'click #archive': function (e, t) {
+    $('#introduction').hide();
+    $('#ihealth-settings').hide();
+    $('#authentication-settings').hide();
+    $('#add-device').hide();
+    $('#ssh-settings').hide();
+    $('#archive-settings').show();
+  },
+  'click #add-devices': function (e, t) {
+    $('#introduction').hide();
+    $('#ihealth-settings').hide();
+    $('#authentication-settings').hide();
+    $('#archive-settings').hide();
+    $('#ssh-settings').hide();
+    $('#add-device').show();
+  },
+  'click #generate-ssh-key': function (e, t) {
+    event.preventDefault();
+    var keyName = 'id_rsa';
+    Meteor.call("generateSshKey", keyName);
+  },
+  'submit #settings-wizard-form': function (e, t) {
+    event.preventDefault();
+  },
+  'change #authenticationType': function(event, target) {
+    Session.set('auth_type', authenticationType.options[authenticationType.selectedIndex].value);
+  }
+});
+
+Template.gettingStartedWizard.helpers({
+  adAuthSelected: function () {
+    if (Session.get('auth_type') == 'activedirectory') {
+      return true;
+    } else { return false; }
+  },
+  getAuthSettings: function () {
+    return Settings.findOne({type: 'authentication'});
+  }
+});
+
 Template.jobList.helpers({
   latestJobs: function () {
     var jobs = Jobs.find();
@@ -16,7 +89,7 @@ Template.home.helpers({
     }
   }
 });
-Template.home.rendered = function(){
+Template.homeChart.rendered = function(){
   // Options, data for doughnut chart
   var doughnutData = [
     {
@@ -167,66 +240,4 @@ Template.home.rendered = function(){
       .text(values.join(","))
       .change()
   }, 1000);
-};
-
-Template.settingsGettingstarted.rendered = function(){
-  // Initialize steps plugin
-  $("#wizard").steps();
-  $("#form").steps({
-    bodyTag: "fieldset",
-    onStepChanging: function (event, currentIndex, newIndex) {
-      // Always allow going backward even if the current step contains invalid fields!
-      if (currentIndex > newIndex) {
-          return true;
-      }
-      // Forbid suppressing "Warning" step if the user is to young
-      if (newIndex === 3 && Number($("#age").val()) < 18) {
-          return false;
-      }
-
-      var form = $(this);
-      // Clean up if user went backward before
-        if (currentIndex < newIndex) {
-          // To remove error styles
-          $(".body:eq(" + newIndex + ") label.error", form).remove();
-            $(".body:eq(" + newIndex + ") .error", form).removeClass("error");
-        }
-        // Disable validation on fields that are disabled or hidden.
-        form.validate().settings.ignore = ":disabled,:hidden";
-        // Start validation; Prevent going forward if false
-        return form.valid();
-      },
-      onStepChanged: function (event, currentIndex, priorIndex) {
-        // Suppress (skip) "Warning" step if the user is old enough.
-        if (currentIndex === 2 && Number($("#age").val()) >= 18) {
-              $(this).steps("next");
-        }
-        // Suppress (skip) "Warning" step if the user is old enough and wants to the previous step.
-        if (currentIndex === 2 && priorIndex === 3) {
-          $(this).steps("previous");
-        }
-      },
-      onFinishing: function (event, currentIndex) {
-        var form = $(this);
-        // Disable validation on fields that are disabled.
-        // At this point it's recommended to do an overall check (mean ignoring only disabled fields)
-        form.validate().settings.ignore = ":disabled";
-        // Start validation; Prevent form submission if false
-        return form.valid();
-      },
-      onFinished: function (event, currentIndex) {
-        var form = $(this);
-        // Submit form input
-        form.submit();
-      }
-    }).validate({
-      errorPlacement: function (error, element) {
-        element.before(error);
-      },
-      rules: {
-        confirm: {
-          equalTo: "#password"
-        }
-      }
-    });
 };

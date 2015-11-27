@@ -27,11 +27,19 @@ Router.configure({
 Router.route('/', function () {
   this.render('Home', {
     name: 'home',
-    template: 'home'
+    template: 'home',
+    data: function () {
+      return Settings.findOne({type: 'system'});
+    }
   });
 });
 
-Router.route('/settings/gettingstarted');
+Router.route('/settings/gettingstarted', {
+  data: function () {
+    return Settings.findOne({type: 'system'});
+  }
+});
+
 Router.route('/settings/honeyb', {
   data: function () {
     return Settings.findOne({type: 'system'});

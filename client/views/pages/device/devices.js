@@ -252,6 +252,7 @@ Template.discoverSingle.events({
       // console.log(res);
       this.unblock;
       template.discoverJob.set(res);
+      console.log(res);
       Meteor.call("discoverAllDevice", device, res);
     });
   },

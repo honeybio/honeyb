@@ -63,14 +63,50 @@ Meteor.startup(function () {
   if (Settings.findOne({type: 'system'})) {
     // Basic settings exist
   } else {
-    Settings.insert({name: 'honeyb.io', type: 'system', interval: { updateGtmDc: 10000, updateGtmServer: 30000,
+    Settings.insert({name: 'honeyb.io', type: 'system', firstRun: true, interval: { updateGtmDc: 10000, updateGtmServer: 30000,
     updateGtmVserver: 60000, updateLtmVirtual: 45000, updateLtmPool: 40000,
     updateLtmPoolMember: 90000, archiveSchedule: 'nightly', qkviewSchedule: 'weekly' }});
     //var pubKey = Meteor.call('generateSshKey', 'honeyb');
     //console.log(pubKey);
     Settings.insert({name: 'navigation', type: 'navigation', showWaf: true, showChange: true,
       showGSLB: true, showLB: true, showDevice: true, showIhealth: true, showDashboards: true });
+      Settings.insert({name: 'authentication', type: 'authentication', ldap: false, ldapDebug: false,
+        ldapDomain: "ad.bespintech.com", ldapBaseDn: "DC=ad,DC=bespintech,DC=com",
+        ldapUrl: "ldap://10.100.21.51:389", ldapBindCn: "CN=service account,CN=Managed Service Accounts,DC=ad,DC=bespintech,DC=com",
+        ldapBindPassword: "whatthefuck!23", ldapAuthPublishFields: ["displayName"],
+        ldapGroupMembership: ["Administrators"], timeout: true,  staleSessionInactivityTimeout: 1800000,
+        staleSessionHeartbeatInterval: 180000, staleSessionPurgeInterval: 60000,
+        staleSessionActivityEvents: "mousemove click keydown"
+      });
   }
+  var mySettings = Settings.findOne({type: "authentication"});
+  if (mySettings !== undefined) {
+    if (mySettings.ldap) {
+      _.defaults(Meteor.settings, {
+        ldap: {
+          debug: mySettings.ldapDebug,
+          domain: mySettings.ldapDomain,
+          baseDn: mySettings.ldapBaseDn,
+          url: mySettings.ldapUrl,
+          bindCn: mySettings.ldapBindCn,
+          bindPassword: mySettings.ldapBindPassword,
+          autopublishFields: mySettings.ldapAutopublishFields,
+          groupMembership: mySettings.ldapGroupMembership
+        }
+      });
+    }
+    if (mySettings.timeout) {
+      _.defaults(Meteor.settings, {
+        public: {
+          staleSessionInactivityTimeout: mySettings.staleSessionInactivityTimeout,
+          staleSessionHeartbeatInterval: mySettings.staleSessionHeartbeatInterval,
+          staleSessionPurgeInterval: mySettings.staleSessionPurgeInterval,
+          staleSessionActivityEvents: mySettings.staleSessionActivityEvents
+        }
+      });
+    }
+  }
+
   // Start the cron process for recurring jobs
   SyncedCron.start();
 
@@ -87,6 +123,7 @@ Meteor.startup(function () {
     }
   });
   // Start Devices stats task
+
   SyncedCron.add({
     name: 'get_device_stats',
     schedule: function(parser) {
