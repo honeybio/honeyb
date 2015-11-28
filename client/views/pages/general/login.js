@@ -4,18 +4,47 @@ Template.login.onCreated(function() {
   Session.set(ERRORS_KEY, {});
 });
 
+Meteor.loginWithLdap = function(username, password, callback) {
+  Accounts.callLoginMethod({
+    methodArguments: [{
+      username: username,
+      pass: password,
+      ldap: true
+    }],
+    validateResult: function(result) {},
+    userCallback: callback
+  });
+};
+
 Template.login.events({
   'submit #form-signin': function (event) {
     event.preventDefault();
     var user = event.target.username.value;
     var pass = event.target.password.value;
-    Meteor.loginWithPassword(user, pass, function(err,result) {
-      if (!err) {
-        Router.go('/')
-      } else {
-        if (err) {
-          return Session.set(ERRORS_KEY, {'none': err.reason});
-        }
+    Meteor.call("getAuthType", function (err, res) {
+      if (err) {
+        console.log(err);
+      } else if (res == 'local' || user == 'admin') {
+        Meteor.loginWithPassword(user, pass, function(err,result) {
+          if (!err) {
+            Router.go('/')
+          } else {
+            if (err) {
+              return Session.set(ERRORS_KEY, {'none': err.reason});
+            }
+          }
+        });
+      } else if (res == 'ad') {
+        Meteor.loginWithLdap(user, pass, function(err, result) {
+          if (!err) {
+            Meteor.call("updateRoles");
+            Router.go('/')
+          } else {
+            if (err) {
+              return Session.set(ERRORS_KEY, {'none': err.reason});
+            }
+          }
+        });
       }
     });
   }
@@ -60,7 +89,15 @@ Template.settingsHoneyb.helpers({
       return 0;
     }
     return msec/1000;
-  }
+  },
+  getAuthSettings: function () {
+    return Settings.findOne({type: 'authentication'});
+  },
+  adAuthSelected: function () {
+    if (Session.get('auth_type') == 'activedirectory') {
+      return true;
+    } else { return false; }
+  },
 });
 
 Template.settingsHoneyb.events({
@@ -97,8 +134,21 @@ Template.settingsHoneyb.events({
   },
   'submit #authentication-form': function (e, t) {
     event.preventDefault();
-    var authObj = { adAuth: event.target.adAuth.checked };
-    Meteor.call("setAdAuth", authObj);
+    if (Session.get('auth_type') == 'activedirectory') {
+      var authObj = {
+        debug: event.target.debug.value,
+        ldapDomain: event.target.ldapDomain.value,
+        ldapBaseDn: event.target.ldapBaseDn.value,
+        ldapUrl: event.target.ldapUrl.value,
+        ldapBindCn: event.target.ldapBindCn.value,
+        ldapBindPassword: event.target.ldapBindPassword.value,
+        defaultAdminGroup: event.target.defaultAdminGroup.value
+       };
+       Meteor.call("setAdAuth", authObj);
+    }
+  },
+  'change #authenticationType': function(event, target) {
+    Session.set('auth_type', authenticationType.options[authenticationType.selectedIndex].value);
   }
 });
 

@@ -72,6 +72,8 @@
                     <th>User</th>
                     <th>Change Action</th>
                     <th>Description</th>
+                    <th>Succeeded</th>
+                    <th>Output Details</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -81,6 +83,12 @@
                       <th>{{this.pushedBy.username}}</th>
                       <th>{{this.change.theMethod.action}}.{{this.change.theMethod.module}}.{{this.change.theMethod.object}}</th>
                       <th>{{this.change.description}}</th>
+                      {{#if this.success}}
+                      <th>Succeeded</th>
+                      {{else}}
+                      <th>Failed</th>
+                      {{/if}}
+                      <th>{{this.successOutput}}</th>
                     </tr>
                   {{/EasySearch.Each}}
                 </tbody>

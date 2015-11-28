@@ -43,7 +43,7 @@ Meteor.publish("db_changes", function () {
     return [];
   }
   else {
-    return Changes.find();
+    return Changes.find({}, {fields: {'change.argList': 0}});
   }
 });
 Meteor.publish("db_changeset", function () {

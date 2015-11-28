@@ -157,13 +157,43 @@
         <div class="ibox collapsed float-e-margins">
           <div class="ibox-title"><h5>Change Authentication Settings</h5>{{>iboxTools}}</div>
           <div class="ibox-content">
+            {{#with getAuthSettings}}
             <form id="authentication-form" class="form-horizontal">
               <div class="form-group">
-                <label class="col-sm-2 control-label"></label>
                 <div class="col-sm-10">
-                  <label class="checkbox-inline i-checks">
-                    <input type="checkbox" id="adAuth">Use AD Authentication
-                  </label>
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <select class="form-control m-b" name="authenticationType" id="authenticationType">
+                        <option value="local">Local</option>
+                        <option value="activedirectory">Active Directory</option>
+                      </select>
+                    </div>
+                  </div>
+                  {{#if adAuthSelected}}
+                  <div class="row">
+                    <div class="form-group"><label class="col-sm-2 control-label">AD Domain</label>
+                      <div class="col-sm-6"><input type="text" id="ldapDomain" value="{{adAuthentication.ldapDomain}}" class="form-control"></div>
+                    </div>
+                    <div class="form-group"><label class="col-sm-2 control-label">AD Base DN</label>
+                      <div class="col-sm-6"><input type="text" id="ldapBaseDn" value="{{adAuthentication.ldapBaseDn}}" class="form-control"></div>
+                    </div>
+                    <div class="form-group"><label class="col-sm-2 control-label">AD Base URL</label>
+                      <div class="col-sm-6"><input type="text" id="ldapUrl" value="{{adAuthentication.ldapUrl}}" class="form-control"></div>
+                    </div>
+                    <div class="form-group"><label class="col-sm-2 control-label">Service Account DN</label>
+                      <div class="col-sm-6"><input type="text" id="ldapBindCn" value="{{adAuthentication.ldapBindCn}}" class="form-control"></div>
+                    </div>
+                    <div class="form-group"><label class="col-sm-2 control-label">Service Account Password</label>
+                      <div class="col-sm-6"><input type="text" id="ldapBindPassword" value="{{adAuthentication.ldapBindPassword}}" class="form-control"></div>
+                    </div>
+                    <div class="form-group"><label class="col-sm-2 control-label">honeyb Admin AD Group</label>
+                      <div class="col-sm-6"><input type="text" id="defaultAdminGroup" value="{{adAuthentication.defaultAdminGroup}}" class="form-control"></div>
+                    </div>
+                    <div class="form-group"><label class="col-sm-2 control-label">Debug Log Messages</label>
+                      <div class="col-sm-6"><input type="text" id="debug" value="{{adAuthentication.debug}}" class="form-control"></div>
+                    </div>
+                  </div>
+                  {{/if}}
                 </div>
               </div>
               <div class="hr-line-dashed"></div>
@@ -174,6 +204,7 @@
                 </div>
               </div>
             </form>
+            {{/with}}
           </div>
         </div>
       </div>

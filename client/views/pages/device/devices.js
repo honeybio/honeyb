@@ -253,7 +253,13 @@ Template.discoverSingle.events({
       this.unblock;
       template.discoverJob.set(res);
       console.log(res);
-      Meteor.call("discoverAllDevice", device, res);
+      Meteor.call("discoverAllDevice", device, res, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        } else {
+          toastr.success(res)
+        }
+      });
     });
   },
   "click #close": function (event, template) {

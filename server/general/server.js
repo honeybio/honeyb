@@ -1,10 +1,71 @@
+rebuildUserRoles = function () {
+  // Clear roles in case they change between logins
+  var myUser = Meteor.user();
+  var myGroups = Roles.getGroupsForUser(myUser._id);
+  for (var group in myGroups) {
+    var roles = Roles.getRolesForUser(myUser._id, myGroups[group]);
+    Roles.removeUsersFromRoles(myUser._id, roles, myGroups[group]);
+  }
+  // Roles.removeUsersFromRoles(myUser._id, 'default-group', 'default-group');
+  // console.log(Meteor.user());
+  //return;
+  var adSettings = Settings.findOne({type: 'authentication'});
+  //console.log(Meteor.user());
+  if (myUser.memberOf !== undefined) {
+    for (var i = 0; i < myUser.memberOf.length; i++) {
+      if (myUser.memberOf[i] == adSettings.adAuthentication.defaultAdminGroup) {
+        Roles.addUsersToRoles(myUser._id, ['admin'], 'default-group');
+      } else if (myUser.memberOf[i] == 'CN=F5Operator,CN=Users,DC=ad,DC=bespintech,DC=com') {
+        Roles.addUsersToRoles(myUser._id, ['operator'], 'default-group');
+      }
+    }
+  }
+}
+
 Meteor.methods({
-  setAdAuth: function (authObject) {
-    console.log(authObject);
-    if (authObject.adAuth) {
-      Settings.update({type: 'system'}, {$set: {adAuthentication: authObject.adAuth}});
+  updateRoles: function () {
+    rebuildUserRoles();
+  },
+  getAuthType: function () {
+    auth = Settings.findOne({type: 'authentication'});
+    if (auth.ldap) {
+      return 'ad';
     } else {
-      Settings.update({type: 'system'}, {$set: {adAuthentication: authObject.adAuth}});
+      return 'local';
+    }
+  },
+  setAdAuth: function (authObject) {
+    // check if admin
+    Settings.update(
+      {type: 'authentication'},
+      {$set: {
+        ldap: true,
+        adAuthentication: authObject
+      }
+    });
+    Meteor.settings.ldap = { };
+    Meteor.settings.ldap.debug = true;
+    Meteor.settings.ldap.domain = authObject.ldapDomain;
+    Meteor.settings.ldap.domain = authObject.ldapDomain;
+    Meteor.settings.ldap.baseDn = authObject.ldapBaseDn;
+    Meteor.settings.ldap.url = authObject.ldapUrl;
+    Meteor.settings.ldap.bindCn = authObject.ldapBindCn;
+    Meteor.settings.ldap.bindPassword = authObject.ldapBindPassword;
+    Meteor.settings.ldap.autopublishFields = [ 'displayName' ];
+    if (Meteor.settings.ldap.groupMembership === undefined) {
+      Meteor.settings.ldap.groupMembership = [
+        authObject.defaultAdminGroup
+      ]
+    } else {
+      var myFlag = true;
+      for (var i = 0; i < Meteor.settings.ldap.groupMembership.length; i++) {
+        if (Meteor.settings.ldap.groupMembership[i] == authObject.defaultAdminGroup) {
+          myFlag = false;
+        }
+      }
+      if (myFlag) {
+        Meteor.settings.ldap.groupMembership.push(authObject.defaultAdminGroup);
+      }
     }
   },
   exportAsmPolicy: function (policy_id) {
@@ -240,14 +301,33 @@ Meteor.methods({
     fileObj.metadata = { onDevice: device_id, onDeviceName: device.self.name };
     Archives.insert(fileObj);
   },
+  isHoneybAdmin: function() {
+    if (Roles.userIsInRole(Meteor.user(), 'admin', 'default-group')) {
+      return true;
+    } else {
+      return false;
+    }
+  },
   generateSshKey: function(keyName) {
-    var shellCommand = "generate_ssh_key.sh";
-    var args = [keyName];
-    var output = Meteor.call("runShellCmd", shellCommand, args);
-    //
-    //var priv = Meteor.call("runShellCmd", newCmd, newArgs);
-    Settings.update({type: 'system'}, { $set: { keyName: { name: keyName, pub: output }}});
-    // return output;
+    if (Meteor.call('isHoneybAdmin')) {
+      var shellCommand = "generate_ssh_key.sh";
+      var args = [keyName];
+      var output = Meteor.call("runShellCmd", shellCommand, args);
+      //
+      //var priv = Meteor.call("runShellCmd", newCmd, newArgs);
+      Settings.update({
+        type: 'system'
+      },
+      {
+        $set: {
+          keyName: {
+            name: keyName,
+            pub: output
+          }
+        }
+      });
+      // return output;
+    }
   },
   createQkviewCommand: function(device_id, f5case) {
     var settings = Settings.findOne({type: 'system'});

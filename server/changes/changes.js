@@ -1,5 +1,6 @@
 ChangeFunction = { };
 ChangeFunction.create = { };
+ChangeFunction.create.honeyb = { };
 ChangeFunction.create.device = { };
 ChangeFunction.create.ltm = { };
 ChangeFunction.create.gtm = { };
@@ -8,6 +9,7 @@ ChangeFunction.create.apm = { };
 ChangeFunction.create.aam = { };
 ChangeFunction.create.vcmp = { };
 ChangeFunction.read = { };
+ChangeFunction.read.honeyb = { };
 ChangeFunction.read.device = { };
 ChangeFunction.read.ltm = { };
 ChangeFunction.read.gtm = { };
@@ -16,6 +18,7 @@ ChangeFunction.read.apm = { };
 ChangeFunction.read.aam = { };
 ChangeFunction.read.vcmp = { };
 ChangeFunction.update = { };
+ChangeFunction.update.honeyb = { };
 ChangeFunction.update.device = { };
 ChangeFunction.update.ltm = { };
 ChangeFunction.update.gtm = { };
@@ -24,6 +27,7 @@ ChangeFunction.update.apm = { };
 ChangeFunction.update.aam = { };
 ChangeFunction.update.vcmp = { };
 ChangeFunction.delete = { };
+ChangeFunction.delete.honeyb = { };
 ChangeFunction.delete.device = { };
 ChangeFunction.delete.ltm = { };
 ChangeFunction.delete.gtm = { };
@@ -165,84 +169,6 @@ ChangeFunction.read.ltm.node = function(argList) { }
 ChangeFunction.read.ltm.profile = function(argList) { }
 ChangeFunction.read.ltm.irule = function(argList) { }
 ChangeFunction.read.ltm.idatagroup = function(argList) { }
-ChangeFunction.create.ltm.monitor = function(argList) {
-  /**
-  * Method that builds an http monitor
-  *
-  * @method addTcpHalfOpenMonitorCommand
-  * @param {object} JSON object containing all monitor values
-  * @return {boolean} returns true if success
-  */
-  var device_id = argList.device_id;
-  if (argList.type == "http") {
-    var post_data = {
-      defaultsFrom: "/Common/http",
-      kind: "tm:ltm:monitor:http:httpstate",
-      adaptive: "disabled",
-      adaptiveDivergenceType: "relative",
-      adaptiveDivergenceValue: 25,
-      adaptiveLimit: 200,
-      adaptiveSamplingTimespan: 300,
-      ipDscp: 0,
-      reverse: "disabled"
-    };
-    for (var attrname in argList) {
-      post_data[attrname] = argList[attrname];
-    }
-    for (var i in post_data.argList) {
-      if (post_data.argList[i] == null) {
-        delete test[i];
-      }
-    }
-    var requrl = "https://localhost/mgmt/tm/ltm/monitor/http";
-    var result = Meteor.call("bigipRestPost", device_id, requrl, post_data);
-    var db_id = Meteor.call("discoverOneMonitor", device_id, result.data.selfLink);
-    return result;
-  }
-  else if (argList.type == "https") {
-    var post_data = {
-      defaultsFrom: "/Common/https",
-      kind: "tm:ltm:monitor:https:httpsstate",
-      adaptive: "disabled",
-      adaptiveDivergenceType: "relative",
-      adaptiveDivergenceValue: 25,
-      adaptiveLimit: 200,
-      adaptiveSamplingTimespan: 300,
-      cipherlist: "DEFAULT:+SHA:+3DES:+kEDH",
-      compatibility: "enabled",
-      ipDscp: 0,
-      reverse: "disabled"
-    };
-    for (var attrname in argList) {
-      post_data[attrname] = argList[attrname];
-    }
-    for (var i in post_data.argList) {
-      if (post_data.argList[i] == null) {
-        delete test[i];
-      }
-    }
-    var requrl = "https://localhost/mgmt/tm/ltm/monitor/https";
-    var result = Meteor.call("bigipRestPost", device_id, requrl, post_data);
-    var db_id = Meteor.call("discoverOneMonitor", device_id, result.data.selfLink);
-    return result;
-  } else if (argList.type == "tcp-half-open") {
-    var post_data = {
-      defaultsFrom: "/Common/tcp_half_open",
-      kind: "tm:ltm:monitor:tcp-half-open:tcp-half-openstate",
-    };
-    for (var attrname in argList) {
-      post_data[attrname] = argList[attrname];
-    }
-    for (var i in post_data.argList) {
-      if (post_data.argList[i] == null) {
-        delete test[i];
-      }
-    }
-    var requrl = "https://localhost/mgmt/tm/ltm/monitor/tcp-half-open";
-    var result = Meteor.call("bigipRestPost", device_id, requrl, post_data);
-    var db_id = Meteor.call("discoverOneMonitor", device_id, result.data.selfLink);
-  }
-}
 ChangeFunction.read.gtm.wideip = function(argList) { }
 ChangeFunction.read.gtm.server = function(argList) { }
 ChangeFunction.read.gtm.monitor = function(argList) { }
@@ -376,14 +302,12 @@ ChangeFunction.enable.ltm.virtual = function(argList) {
     }
     Meteor.call("getOneVirtualStats", device_id, vipLink, argList.objId);
 }
-
 ChangeFunction.enable.ltm.pool_member = function(argList) {
   var poolMember = argList.poolMember;
   var device_id = argList.device_id;
   var put_data = {"state": "user-up", "session": "user-enabled"};
   Meteor.call("bigipRestPut", device_id, poolMember, put_data);
 }
-
 ChangeFunction.disable.ltm.virtual = function(argList) {
   var vipLink = argList.vipLink;
   var device_id = argList.onDevice;
@@ -410,7 +334,6 @@ ChangeFunction.force.ltm.pool_member = function(argList) {
   var put_data = {"state": "user-down", "session": "user-disabled"};
   Meteor.call("bigipRestPut", device_id, putUrl, put_data);
 }
-
 ChangeFunction.create.ltm.pool = function(argList) {
   /**
   * Method that pushes out adding an LTM pool
@@ -512,13 +435,90 @@ ChangeFunction.create.ltm.node = function(argList) { }
 ChangeFunction.create.ltm.profile = function(argList) { }
 ChangeFunction.create.ltm.irule = function(argList) { }
 ChangeFunction.create.ltm.idatagroup = function(argList) { }
+ChangeFunction.create.ltm.monitor = function(argList) {
+  /**
+  * Method that builds an http monitor
+  *
+  * @method addTcpHalfOpenMonitorCommand
+  * @param {object} JSON object containing all monitor values
+  * @return {boolean} returns true if success
+  */
+  var device_id = argList.device_id;
+  if (argList.type == "http") {
+    var post_data = {
+      defaultsFrom: "/Common/http",
+      kind: "tm:ltm:monitor:http:httpstate",
+      adaptive: "disabled",
+      adaptiveDivergenceType: "relative",
+      adaptiveDivergenceValue: 25,
+      adaptiveLimit: 200,
+      adaptiveSamplingTimespan: 300,
+      ipDscp: 0,
+      reverse: "disabled"
+    };
+    for (var attrname in argList) {
+      post_data[attrname] = argList[attrname];
+    }
+    for (var i in post_data.argList) {
+      if (post_data.argList[i] == null) {
+        delete test[i];
+      }
+    }
+    var requrl = "https://localhost/mgmt/tm/ltm/monitor/http";
+    var result = Meteor.call("bigipRestPost", device_id, requrl, post_data);
+    var db_id = Meteor.call("discoverOneMonitor", device_id, result.data.selfLink);
+    return result;
+  }
+  else if (argList.type == "https") {
+    var post_data = {
+      defaultsFrom: "/Common/https",
+      kind: "tm:ltm:monitor:https:httpsstate",
+      adaptive: "disabled",
+      adaptiveDivergenceType: "relative",
+      adaptiveDivergenceValue: 25,
+      adaptiveLimit: 200,
+      adaptiveSamplingTimespan: 300,
+      cipherlist: "DEFAULT:+SHA:+3DES:+kEDH",
+      compatibility: "enabled",
+      ipDscp: 0,
+      reverse: "disabled"
+    };
+    for (var attrname in argList) {
+      post_data[attrname] = argList[attrname];
+    }
+    for (var i in post_data.argList) {
+      if (post_data.argList[i] == null) {
+        delete test[i];
+      }
+    }
+    var requrl = "https://localhost/mgmt/tm/ltm/monitor/https";
+    var result = Meteor.call("bigipRestPost", device_id, requrl, post_data);
+    var db_id = Meteor.call("discoverOneMonitor", device_id, result.data.selfLink);
+    return result;
+  } else if (argList.type == "tcp-half-open") {
+    var post_data = {
+      defaultsFrom: "/Common/tcp_half_open",
+      kind: "tm:ltm:monitor:tcp-half-open:tcp-half-openstate",
+    };
+    for (var attrname in argList) {
+      post_data[attrname] = argList[attrname];
+    }
+    for (var i in post_data.argList) {
+      if (post_data.argList[i] == null) {
+        delete test[i];
+      }
+    }
+    var requrl = "https://localhost/mgmt/tm/ltm/monitor/tcp-half-open";
+    var result = Meteor.call("bigipRestPost", device_id, requrl, post_data);
+    var db_id = Meteor.call("discoverOneMonitor", device_id, result.data.selfLink);
+  }
+}
 ChangeFunction.create.device.archive = function(argList) { }
 ChangeFunction.create.device.qkview = function(argList) { }
 ChangeFunction.create.device.route = function(argList) { }
 ChangeFunction.create.device.selfip = function(argList) { }
 ChangeFunction.create.device.license = function(argList) { }
 ChangeFunction.create.device.certificate = function(argList) { }
-
 ChangeFunction.discover.device.all = function(argList) {
   var ip = argList.device.mgmtip;
   var user = argList.device.mgmtuser;
@@ -650,6 +650,14 @@ var checkAuth = function(change_id, cmethod, cb) {
   var myChange = Changes.findOne({_id: change_id});
   var theRole = Roles.getRolesForUser(Accounts.user(), myChange.group);
   var group = Permissions.findOne({onRole: theRole[0]});
+  if (group === undefined) {
+    cb(null, false);
+    return;
+  }
+  if (group.permissionList === undefined) {
+    cb(null, false);
+    return;
+  }
   for(var perm in group.permissionList) {
     if (group.permissionList[perm].permission == cmethod.action + "." + cmethod.module + "." + cmethod.object) {
       cb(null, true);
@@ -687,9 +695,47 @@ Meteor.methods({
         Changes.update({_id: change_id}, { $set: {pushed: true, pushedBy: userObj }});
       }
       else {
+        Changes.update({_id: change_id}, {
+          $set: {
+            pushed: true,
+            pushedBy: userObj,
+            success: false,
+            successOutput: 'Unauthorized'
+          }
+        });
         throw new Meteor.Error(401, 'Error 401', 'Unauthorized');
-        console.log("unauthorized");
-        return 401;
+      }
+    });
+  },
+  pushChange: function(change_id) {
+    /**
+    * Method that pushes a change from being staged to deployed.
+    *
+    * @method pushChange
+    * @param {object} A Mongo ID of the change
+    * @return {boolean} returns true on success
+    */
+    var userObj = Meteor.call("getUserInfo");
+    var myChange = Changes.findOne({_id: change_id});
+    var backoutChange = {}
+    var changeMethod = myChange.change.theMethod;
+    var argList = myChange.change.argList;
+    // Apply method will take array of args
+    checkAuth(change_id, myChange.change.theMethod, function (err, res) {
+      if (res) {
+        ChangeFunction[changeMethod.action][changeMethod.module][changeMethod.object](argList);
+        Changes.update({_id: change_id}, { $set: {pushed: true, pushedBy: userObj }});
+      } else {
+        console.log('error, updating change to failed');
+        Changes.update({_id: change_id}, {
+          $set: {
+            pushed: true,
+            pushedBy: userObj,
+            success: false,
+            successOutput: 'Unauthorized'
+          }
+        });
+        throw new Meteor.Error(401, 'Error 401', 'Unauthorized');
       }
     });
   },
@@ -748,32 +794,7 @@ Meteor.methods({
     var result = Changes.update({_id: change_id}, { $set: {canceled: true, cancelDate: new Date(), cancelledBy: userObj, scheduled: false}});
     return result;
   },
-  pushChange: function(change_id) {
-    /**
-    * Method that pushes a change from being staged to deployed.
-    *
-    * @method pushChange
-    * @param {object} A Mongo ID of the change
-    * @return {boolean} returns true on success
-    */
-    var userObj = Meteor.call("getUserInfo");
-    var myChange = Changes.findOne({_id: change_id});
-    var backoutChange = {}
-    var changeMethod = myChange.change.theMethod;
-    var argList = myChange.change.argList;
-    // Apply method will take array of args
-    checkAuth(change_id, myChange.change.theMethod, function (err, res) {
-      if (res) {
-        ChangeFunction[changeMethod.action][changeMethod.module][changeMethod.object](argList);
-        Changes.update({_id: change_id}, { $set: {pushed: true, pushedBy: userObj }});
-      }
-      else {
-        throw new Meteor.Error(401, 'Error 401', 'Unauthorized');
-        console.log("unauthorized");
-        return 401;
-      }
-    });
-  },
+
   backoutChange: function(change_id) {
     /**
     * Method that creates a new changeid that runs the opposite of the orig change.

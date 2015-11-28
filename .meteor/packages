@@ -54,3 +54,4 @@ sacha:spin
 zuuk:stale-session
 bespintech:meteor-accounts-ldap
 differential:workers
+bespintech:soap

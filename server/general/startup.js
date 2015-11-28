@@ -10,7 +10,7 @@ Meteor.startup(function () {
   var fs = Meteor.npmRequire('fs');
 
   // Set admin/honeyb password
-  if ( Meteor.users.findOne({username: 'admin'})) {
+  if (Meteor.users.findOne({username: 'admin'})) {
     // Admin account exists
   } else {
     // First run or restart to reset admin user/password
@@ -43,7 +43,10 @@ Meteor.startup(function () {
     var guestPermId = Permissions.insert(guestPermList);
     var opRoles = [ 'read', 'enable', 'disable', 'force'];
     var operatorRole = Roles.createRole('operator');
-    var operatorPermList = { onRole: "operator", permissionList: []};
+    var operatorPermList = {
+      onRole: "operator",
+      permissionList: []
+    };
     for (var myAction in opRoles) {
       for (var omod in ChangeFunction[myAction]) {
         for (var oobj in ChangeFunction[myAction][omod]) {
@@ -52,9 +55,18 @@ Meteor.startup(function () {
       }
     }
     var opPermId = Permissions.insert(operatorPermList);
-    var adminId = Accounts.createUser({username: 'admin', password: 'honeyb'});
-    var guestId = Accounts.createUser({username: 'guest', password: 'honeyb'});
-    var operatorId = Accounts.createUser({username: 'operator', password: 'honeyb'});
+    var adminId = Accounts.createUser({
+      username: 'admin',
+      password: 'honeyb'
+    });
+    var guestId = Accounts.createUser({
+      username: 'guest',
+      password: 'honeyb'
+    });
+    var operatorId = Accounts.createUser({
+      username: 'operator',
+      password: 'honeyb'
+    });
     Roles.addUsersToRoles(adminId, ['admin'], 'default-group');
     Roles.addUsersToRoles(guestId, ['guest'], 'default-group');
     Roles.addUsersToRoles(operatorId, ['operator'], 'default-group');
@@ -63,38 +75,64 @@ Meteor.startup(function () {
   if (Settings.findOne({type: 'system'})) {
     // Basic settings exist
   } else {
-    Settings.insert({name: 'honeyb.io', type: 'system', firstRun: true, interval: { updateGtmDc: 10000, updateGtmServer: 30000,
-    updateGtmVserver: 60000, updateLtmVirtual: 45000, updateLtmPool: 40000,
-    updateLtmPoolMember: 90000, archiveSchedule: 'nightly', qkviewSchedule: 'weekly' }});
+    Settings.insert({
+      name: 'honeyb.io',
+      type: 'system',
+      firstRun: true,
+      interval: {
+        updateGtmDc: 10000,
+        updateGtmServer: 30000,
+        updateGtmVserver: 60000,
+        updateLtmVirtual: 45000,
+        updateLtmPool: 40000,
+        updateLtmPoolMember: 90000,
+        archiveSchedule: 'nightly',
+        qkviewSchedule: 'weekly'
+      }
+    });
     //var pubKey = Meteor.call('generateSshKey', 'honeyb');
     //console.log(pubKey);
     Settings.insert({name: 'navigation', type: 'navigation', showWaf: true, showChange: true,
       showGSLB: true, showLB: true, showDevice: true, showIhealth: true, showDashboards: true });
-      Settings.insert({name: 'authentication', type: 'authentication', ldap: false, ldapDebug: false,
-        ldapDomain: "ad.bespintech.com", ldapBaseDn: "DC=ad,DC=bespintech,DC=com",
-        ldapUrl: "ldap://10.100.21.51:389", ldapBindCn: "CN=service account,CN=Managed Service Accounts,DC=ad,DC=bespintech,DC=com",
-        ldapBindPassword: "whatthefuck!23", ldapAuthPublishFields: ["displayName"],
-        ldapGroupMembership: ["Administrators"], timeout: true,  staleSessionInactivityTimeout: 1800000,
-        staleSessionHeartbeatInterval: 180000, staleSessionPurgeInterval: 60000,
-        staleSessionActivityEvents: "mousemove click keydown"
+      Settings.insert({
+        name: 'authentication',
+        type: 'authentication',
+        ldap: false,
+        adAuthentication : {
+          debug: true,
+          ldapDomain: 'ad.bespintech.com',
+          ldapBaseDn: 'DC=ad,DC=bespintech,DC=com',
+          ldapUrl: 'ldap://10.100.21.51:389',
+          ldapBindCn: 'CN=service account,CN=Managed Service Accounts,DC=ad,DC=bespintech,DC=com',
+          ldapBindPassword: 'whatthefuck!23',
+          defaultAdminGroup: 'CN=F5Admin,CN=Users,DC=ad,DC=bespintech,DC=com'
+        },
+        ldapAuthPublishFields: ['displayName'],
+        ldapGroupMembership: ['CN=F5Admin,CN=Users,DC=ad,DC=bespintech,DC=com'],
+        timeout: true,
+        staleSessionInactivityTimeout: 1800000,
+        staleSessionHeartbeatInterval: 180000,
+        staleSessionPurgeInterval: 60000,
+        staleSessionActivityEvents: 'mousemove click keydown'
       });
   }
-  var mySettings = Settings.findOne({type: "authentication"});
+  var mySettings = Settings.findOne({type: 'authentication'});
   if (mySettings !== undefined) {
     if (mySettings.ldap) {
       _.defaults(Meteor.settings, {
         ldap: {
-          debug: mySettings.ldapDebug,
-          domain: mySettings.ldapDomain,
-          baseDn: mySettings.ldapBaseDn,
-          url: mySettings.ldapUrl,
-          bindCn: mySettings.ldapBindCn,
-          bindPassword: mySettings.ldapBindPassword,
-          autopublishFields: mySettings.ldapAutopublishFields,
+          debug: true,
+          domain: mySettings.adAuthentication.ldapDomain,
+          baseDn: mySettings.adAuthentication.ldapBaseDn,
+          url: mySettings.adAuthentication.ldapUrl,
+          bindCn: mySettings.adAuthentication.ldapBindCn,
+          bindPassword: mySettings.adAuthentication.ldapBindPassword,
+          autopublishFields: mySettings.ldapAuthPublishFields,
           groupMembership: mySettings.ldapGroupMembership
         }
       });
     }
+    // console.log(Meteor.settings.ldap);
     if (mySettings.timeout) {
       _.defaults(Meteor.settings, {
         public: {

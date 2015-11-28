@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Honeyb.io - Bigip Manager
 
 Template:
