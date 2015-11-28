@@ -28,6 +28,9 @@ Router.route('/', function () {
   this.render('Home', {
     name: 'home',
     template: 'home',
+    waitOn: function () {
+      return Meteor.userId();
+    },
     data: function () {
       return Settings.findOne({type: 'system'});
     }

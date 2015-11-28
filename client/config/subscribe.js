@@ -1,3 +1,5 @@
+Meteor.subscribe("users");
+Meteor.subscribe("db_jobs");
 Meteor.subscribe("db_devices");
 Meteor.subscribe("db_certificates");
 Meteor.subscribe("db_virtuals");
@@ -19,9 +21,7 @@ Meteor.subscribe("db_ltmpersistence");
 Meteor.subscribe("db_statistics");
 Meteor.subscribe("db_changes");
 Meteor.subscribe("db_changeset");
-Meteor.subscribe("users");
 Meteor.subscribe("db_settings");
-Meteor.subscribe("db_jobs");
 Meteor.subscribe("db_ihealth");
 Meteor.subscribe("db_permissions");
 Meteor.subscribe("db_containers");
