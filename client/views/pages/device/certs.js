@@ -1,7 +1,15 @@
 Template.sslCerts.helpers({
+  certificatesIndex: () => CertificatesIndex,
   allCerts: function () {
     var result = Certificates.find({ssltype: "certificate"});
     return result;
+  },
+  isCert: function (type) {
+    if (type == 'certificate') {
+      return true;
+    } else {
+      return false;
+    }
   },
   expiresIn: function () {
     // Calculate the expiration

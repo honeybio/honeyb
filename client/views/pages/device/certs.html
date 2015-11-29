@@ -1,16 +1,70 @@
 <template name="sslCerts">
-  <div class="container">
-  <center>
-    <h3>Certificate Management</h3>
-  </center>
-  <ul>
-    {{#each allCerts}}
-      <li>
-        <a href="/ssl/certs/{{_id}}">{{name}}</a> - {{commonName}} - {{apiRawValues.expiration}}
-      </li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Certificates' category='SSL' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>SSL Certificates <small class="m-l-sm">SSL</small></h5>
+            {{>iboxTools}}
+          </div>
+          <div class="ibox-content">
+            <div class="form-group"><label class="col-sm-2 control-label">Search: </label>
+              <div class="col-sm-2">{{> EasySearch.Input index=certificatesIndex}}</div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <form id="virtual-servers" class="form-horizontal">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Common Name</th>
+                    <th>Destination</th>
+                    <th>On BIG-IP</th>
+                    <th>Expiration</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#EasySearch.Each index=certificatesIndex }}
+                    {{#if isCert ssltype}}
+                      <tr>
+                        <th><a href="/ssl/certs/{{_id}}">{{name}}</a></th>
+                        <th>{{commonName}}</th>
+                        <th>{{getOnDevice this.onDevice}}</th>
+                        <th>{{apiRawValues.expiration}}</th>
+                      </tr>
+                    {{/if}}
+                  {{/EasySearch.Each}}
+                </tbody>
+              </table>
+              <div class="hr-line-dashed"></div>
+              <div class="form-group"><label class="col-sm-2 control-label">Action</label>
+                <div class="col-sm-4">
+                  <select id="objectAction" class="form-control m-b">
+                    <option value="enable">Enable</option>
+                    <option value="disable">Disable</option>
+                    <option value="blank">-----------</option>
+                    <option value="delete">Delete(!)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <button class="btn btn-primary" type="submit">Update</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="ibox-footer">
+            <span class="pull-right">
+              The righ side of the footer
+            </span>
+            <a href="/ltm/virtuals/create">Create New</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="sslKeys">

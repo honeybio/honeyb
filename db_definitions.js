@@ -128,7 +128,7 @@ DevicesIndex = new EasySearch.Index({
 
 CertificatesIndex = new EasySearch.Index({
   collection: Certificates,
-  fields: ['name'],
+  fields: ['name', 'commonName'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });

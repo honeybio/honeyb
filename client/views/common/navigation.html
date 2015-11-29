@@ -51,6 +51,15 @@
             <li class="{{isActiveRoute regex='changesPushed'}}"><a href="/changes/committed">Committed Changes</a></li>
           </ul>
         </li>
+        <li class="{{isActiveRoute regex='sslCerts|sslKeys|sslCsrs|sslProfiles'}}">
+          <a href="#"><i class="fa fa-certificate"></i> <span class="nav-label">Certificate Management</span><span class="fa arrow"></span></a>
+          <ul class="nav nav-second-level collapse {{isActiveRoute regex='sslCerts|sslKeys|sslCsrs|sslProfiles' className='in'}}">
+            <li class="{{isActiveRoute regex='sslCerts'}}"><a href="/ssl/certs">Certificates</a></li>
+            <li class="{{isActiveRoute regex='sslKeys'}}"><a href="/ssl/keys">Keys</a></li>
+            <li class="{{isActiveRoute regex='sslCsrs'}}"><a href="/ssl/csrs">Signing Requests</a></li>
+            <li class="{{isActiveRoute regex='sslProfiles'}}"><a href="/ssl/profiles">SSL Profiles</a></li>
+          </ul>
+        </li>
         <li class="{{isActiveRoute regex='ltmVirtuals|ltmRules|ltmIdatagroups|ltmPools|ltmMonitors|ltmProfile'}}">
           <a href="#"><i class="fa fa-share-alt-square"></i> <span class="nav-label">Load Balancer<br>LTM)</span><span class="fa arrow"></span></a>
           <ul class="nav nav-second-level collapse {{isActiveRoute regex='ltmVirtuals|ltmRules|ltmIdatagroups|ltmPools|ltmMonitors|ltmProfile' className='in'}}">
