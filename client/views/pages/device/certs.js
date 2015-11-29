@@ -46,6 +46,14 @@ Template.keyDetails.events({
 });
 
 Template.sslProfiles.helpers({
+  profilesIndex: () => ProfilesIndex,
+  isSsl: function (type) {
+    if (type == 'client-ssl') {
+      return true;
+    } else {
+      return false;
+    }
+  },
   allClientsslProfiles: function () {
     var result = Profiles.find({profType: "client-ssl"});
     console.log(result);

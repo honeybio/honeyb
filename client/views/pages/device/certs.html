@@ -148,18 +148,64 @@
 </template>
 
 <template name="sslProfiles">
-  <div class="container">
-  <center>
-    <h3>Client (user-connected) SSL Profiles</h3>
-  </center>
-  <ul>
-    {{#each allClientsslProfiles}}
-      <li>
-        <a href="/ssl/profiles/{{_id}}">{{name}}</a>
-      </li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Profiles' category='SSL' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>SSL Profiles <small class="m-l-sm">SSL</small></h5>
+            {{>iboxTools}}
+          </div>
+          <div class="ibox-content">
+            <div class="form-group"><label class="col-sm-2 control-label">Search: </label>
+              <div class="col-sm-2">{{> EasySearch.Input index=profilesIndex}}</div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <form id="virtual-servers" class="form-horizontal">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>On BIG-IP</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#EasySearch.Each index=profilesIndex }}
+                    {{#if isSsl profType}}
+                      <tr>
+                        <th><a href="/ssl/profiles/{{_id}}">{{name}}</a></th>
+                        <th>{{getOnDevice this.onDevice}}</th>
+                      </tr>
+                    {{/if}}
+                  {{/EasySearch.Each}}
+                </tbody>
+              </table>
+              <div class="hr-line-dashed"></div>
+              <div class="form-group"><label class="col-sm-2 control-label">Action</label>
+                <div class="col-sm-4">
+                  <select id="objectAction" class="form-control m-b">
+                    <option value="delete">Delete(!)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <button class="btn btn-primary" type="submit">Update</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="ibox-footer">
+            <span class="pull-right">
+              The righ side of the footer
+            </span>
+            <a href="/ltm/virtuals/create">Create New</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="keyDetails">
@@ -189,13 +235,24 @@
 </template>
 
 <template name="sslprofileDetails">
-  <div class="container">
-  <center>
-    <h3>SSL Details</h3>
-    {{name}}
-  </center>
-  Certificate: {{cert}}<br>
-  Key: {{key}}<br>
-  Cipher List: {{ciphers}}<br>
-</div>
+  {{> pageHeading title='Profiles' category='SSL' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>SSL Profile {{name}} <small class="m-l-sm">SSL</small></h5>
+            {{>iboxTools}}
+          </div>
+          <div class="ibox-content">
+            {{name}}
+            Certificate: {{cert}}
+            Key: {{key}}
+            Cipher List: {{ciphers}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </template>
