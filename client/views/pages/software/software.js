@@ -5,14 +5,14 @@ Template.uploadForm.events({
   },
   'dropped #filedrop': function(e, t) {
     FS.Utility.eachFile(event, function(file) {
-      Softwareimages.insert(file, function (err, fileObj) {
+      Images.insert(file, function (err, fileObj) {
         // Inserted new doc with ID fileObj._id, and kicked off the data upload using HTTP
       });
     });
   },
   'change #upload': function(e, t) {
     FS.Utility.eachFile(event, function(file) {
-      Softwareimages.insert(file, function (err, fileObj) {
+      Images.insert(file, function (err, fileObj) {
         // Inserted new doc with ID fileObj._id, and kicked off the data upload using HTTP
       });
     });
@@ -21,15 +21,24 @@ Template.uploadForm.events({
 
 Template.uploadForm.helpers({
   getImages: function () {
-    return Softwareimages.find();
+    return Images.find();
   }
 })
+
+Template.softwareImages.events({
+  'click #delete': function(e, t) {
+    event.preventDefault();
+    Meteor.call('deleteImage');
+  }
+});
+
 Template.softwareImages.helpers({
   getImages: function () {
-    return Softwareimages.find();
+    console.log(Images.find().fetch());
+    return Images.find();
   },
   allFiles: function () {
-    return Softwareimages.find();
+    return Images.find();
   },
   round: function (size) {
     return (size/1048576).toFixed(2) + ' MB';
@@ -47,10 +56,10 @@ Template.softwareImages.helpers({
 
 Template.softwareHotfixes.helpers({
   getHotfixes: function () {
-    return Softwareimages.find();
+    return Images.find();
   },
   allFiles: function () {
-    return Softwareimages.find();
+    return Images.find();
   },
   round: function (size) {
     return (size/1048576).toFixed(2) + ' MB';

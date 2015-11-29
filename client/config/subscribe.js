@@ -34,5 +34,4 @@ Meteor.subscribe("fs_asmpolicyfile");
 Meteor.subscribe("fs_archives");
 Meteor.subscribe("fs_pkifiles");
 
-// Filecollection stores
-Meteor.subscribe("fs_softwareimages");
+Meteor.subscribe('images');

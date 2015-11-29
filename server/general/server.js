@@ -23,6 +23,10 @@ rebuildUserRoles = function () {
 }
 
 Meteor.methods({
+  deleteImage: function () {
+    var isos = Images.find().fetch();
+    console.log(isos);
+  },
   updateRoles: function () {
     rebuildUserRoles();
   },

@@ -287,12 +287,12 @@ Meteor.publish("fs_pkifiles", function () {
 });
 
 // Filecollection Stuff
-Meteor.publish("fs_softwareimages", function () {
+Meteor.publish("images", function () {
   if (this.userId == null) {
     return [];
   }
   else {
-    return Softwareimages.find();
+    return Images.find();
   }
 });
 

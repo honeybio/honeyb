@@ -1,18 +1,3 @@
-Archives = new FS.Collection("fs_archives", {
-  stores: [new FS.Store.GridFS("archives")]
-});
-
-Pkifiles = new FS.Collection("fs_pkifiles", {
-  stores: [new FS.Store.GridFS("pkifiles")]
-});
-
-Asmpolicyfile = new FS.Collection("fs_asmpolicyfile", {
-  stores: [new FS.Store.GridFS("asmpolicy")]
-});
-
-Softwareimages = new FS.Collection("fs_softwareimages", {
-  stores: [new FS.Store.FileSystem("softwareimages")]
-});
 
 /*
 Softwareimages = new FileCollection('fc_softwareimages',
@@ -73,7 +58,7 @@ if (Meteor.isServer) {
       return true;
     }
   });
-  Softwareimages.allow({
+  Images.allow({
     insert: function(){
       return true;
     },

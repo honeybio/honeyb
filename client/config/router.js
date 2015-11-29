@@ -53,13 +53,13 @@ Router.route('/software/upgrade');
 
 Router.route('/software/hotfixes', {
   data: function () {
-    return Softwareimages.find({type: 'hotfix'});
+    return Images.find({type: 'hotfix'});
   }
 });
 
 Router.route('/software/images', {
   data: function () {
-    return Softwareimages.find({type: 'base'});
+    return Images.find({type: 'base'});
   }
 });
 
