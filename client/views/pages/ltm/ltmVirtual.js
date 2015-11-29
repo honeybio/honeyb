@@ -13,6 +13,15 @@ Template.ltmVirtuals.helpers({
   }
 });
 
+Template.virtualDetails.helpers({
+  getAllrules: function (device) {
+    return Rules.find({onDevice: device})
+  },
+  getAllvlans: function (device) {
+    return [];
+  }
+});
+
 Template.ltmVirtuals.events({
   'submit #virtual-servers': function (event, template) {
     event.preventDefault();
