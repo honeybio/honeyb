@@ -17,9 +17,17 @@ Template.sslCerts.helpers({
 });
 
 Template.sslKeys.helpers({
+  certificatesIndex: () => CertificatesIndex,
   allKeys: function () {
     var result = Certificates.find({ssltype: "key"});
     return result;
+  },
+  isKey: function (type) {
+    if (type == 'key') {
+      return true;
+    } else {
+      return false;
+    }
   },
   expiresIn: function () {
     // Calculate the expiration
