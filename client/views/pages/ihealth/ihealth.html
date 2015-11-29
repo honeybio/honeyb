@@ -121,9 +121,11 @@
         {{this.results.h_summary}}
         {{#if output}}
           <br><br>Command Output:<br>
+          <pre>
           {{#each output}}
-            <code>{{this}}</code><br>
+            {{this}}
           {{/each}}
+          </pre>
         {{/if}}
       </div>
     </div>
