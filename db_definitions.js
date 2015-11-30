@@ -142,23 +142,7 @@ RulesIndex = new EasySearch.Index({
 
 PoolsIndex = new EasySearch.Index({
   collection: Pools,
-  fields: ['name', 'membersReference'],
-  // Fix this to search subfield array
-  selectorPerField: function (field, searchString) {
-    if ('membersReference' === field) {
-      return {
-        membersReference: {
-          items: {
-            $elemMatch: {
-              name: { '$regex' : '.*' + searchString + '.*', '$options' : 'i' }
-            }
-          }
-        }
-      };
-    }
-    // use the default otherwise
-    return this.defaultConfiguration().selectorPerField(field, searchString);
-  },
+  fields: ['name'],
   engine: new EasySearch.Minimongo(),
   defaultSearchOptions: { limit: 50 }
 });

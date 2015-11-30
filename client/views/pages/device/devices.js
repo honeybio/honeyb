@@ -219,7 +219,7 @@ Template.jobStatus.helpers({
     var job = Jobs.findOne({_id: jobId});
     return job;
   }
-})
+});
 
 Template.discoverSingle.onCreated( function() {
   this.discoverJob = new ReactiveVar();
@@ -303,35 +303,3 @@ Template.diskUsage.helpers({
     return Session.get("status");
   }
 });
-
-Template.d3vis.created = function () {
-  // Defer to make sure we manipulate DOM
-  _.defer(function () {
-    // Use this as a global variable
-    window.d3vis = {}
-    Deps.autorun(function () {
-
-      // On first run, set up the visualiation
-      if (Deps.currentComputation.firstRun) {
-        window.d3vis.margin = {top: 15, right: 5, bottom: 5, left: 5},
-          window.d3vis.width = 600 - window.d3vis.margin.left - window.d3vis.margin.right,
-          window.d3vis.height = 120 - window.d3vis.margin.top - window.d3vis.margin.bottom;
-
-          window.d3vis.x = d3.scale.ordinal()
-              .rangeRoundBands([0, window.d3vis.width], .1);
-
-          window.d3vis.y = d3.scale.linear()
-              .range([window.d3vis.height-2, 0]);
-
-          window.d3vis.color = d3.scale.category10();
-
-          window.d3vis.svg = d3.select('#d3vis')
-              .attr("width", window.d3vis.width + window.d3vis.margin.left + window.d3vis.margin.right)
-              .attr("height", window.d3vis.height + window.d3vis.margin.top + window.d3vis.margin.bottom)
-            .append("g")
-              .attr("class", "wrapper")
-              .attr("transform", "translate(" + window.d3vis.margin.left + "," + window.d3vis.margin.top + ")");
-        }
-    });
-  });
-}

@@ -10,7 +10,7 @@ Template.ltmPools.helpers({
 });
 
 Template.ltmPools.events({
-  'submit .poolMemberForm': function (event, template) {
+  'submit #poolMemberForm': function (event, template) {
     event.preventDefault();
     var the_action = event.target.objectAction.value;
     var checkedList = [];

@@ -310,11 +310,6 @@ Router.route('/ltm/pools/:_id', {
   }
 });
 Router.route('/ltm/profiles');
-Router.route('/ltm/profiles/unsupported_profile');
-Router.route('/ltm/profiles/clientssl');
-Router.route('/ltm/profiles/http');
-Router.route('/ltm/profiles/tcp');
-Router.route('/ltm/profiles/oneconnect');
 Router.route('/ltm/profiles/:_id', {
   template: 'profilesDetails',
   data: function(){

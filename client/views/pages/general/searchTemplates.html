@@ -63,7 +63,7 @@
 
 <template name="poolsSearchBox">
   <div>
-    {{> EasySearch.Input index=poolsIndex}}
+
   </div>
   <table class="table">
     <thead>
@@ -326,12 +326,27 @@
 
 
 <template name="idatagroupsSearchBox">
-  {{> EasySearch.Input index=idatagroupsIndex}}
-  <ul>
-    {{#EasySearch.Each index=idatagroupsIndex}}
-      <li><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"><a href="/ltm/idatagroups/{{_id}}">{{name}}</a></li>
-    {{/EasySearch.Each}}
-  </ul>
+  <div>
+    {{> EasySearch.Input index=idatagroupsIndex}}
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Data Group Name</th>
+        <th>On BIG-IP</th>
+        <th>Select</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#EasySearch.Each index=idatagroupsIndex}}
+        <tr>
+          <th><a href="/ltm/idatagroups/{{_id}}">{{name}}</a></th>
+          <th>{{getOnDevice this.onDevice}}</th>
+          <th><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></th>
+        </tr>
+      {{/EasySearch.Each}}
+    </tbody>
+  </table>
 </template>
 
 
@@ -361,7 +376,7 @@
     <tbody>
     {{#EasySearch.Each index=profilesIndex}}
     <tr>
-      <th><a href="/ltm/profiles/{{type}}/{{_id}}">{{name}}</a></th>
+      <th><a href="/ltm/profiles/{{_id}}">{{name}}</a></th>
       <th>{{getOnDevice this.onDevice}}</th>
       <th><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></th>
     </tr>

@@ -85,12 +85,12 @@ Meteor.methods({
         authObject.defaultAdminGroup,
         authObject.defaultOperatorGroup,
         authObject.defaultGuestGroup
-      ]
+      ];
     } else {
       Meteor.settings.ldap.groupMembership = [
         authObject.defaultAdminGroup,
         authObject.defaultOperatorGroup,
-        defaultGuestGroup
+        authObject.defaultGuestGroup
       ];
     }
   },

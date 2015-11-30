@@ -2,7 +2,7 @@
   {{> pageHeading title='Pools' category='LTM' }}
   <div class="wrapper wrapper-content animated fadeIn">
     <div class="row">
-      <form class="poolMemberForm">
+      <form id="poolMemberForm" class="form-horizontal">
         <div class="col-lg-12">
           <div class="ibox float-e-margins">
             <div class="ibox-title">
@@ -11,22 +11,30 @@
             </div>
             <div class="ibox-content">
               {{> poolsSearchBox}}
-              <select name="objectAction">
-                <option value="copy">Copy</option>
-                <option value="blank">-----------</option>
-                <option value="delete">Delete(!)</option>
-              </select><br>
-              To device: <select id="to_device" name="to_device">
-                <option selected="none" value="none">none</option>
-                {{#each getDeviceList}}
-                  <option value="{{_id}}">{{self.name}}</option>
-                {{/each}} </select><br>
-              Stage changes?
-              <select name="stage" id="stage">
-                <option value="0">No</option>
-                <option value="1">Yes</option>
-              </select><br>
-              <button class="submit" id="submit">Submit</button>
+              <div class="form-group"><label class="col-sm-2 control-label">Action</label>
+                <div class="col-sm-4">
+                  <select name="objectAction">
+                    <option value="copy">Copy</option>
+                    <option value="blank">-----------</option>
+                    <option value="delete">Delete(!)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">Destination Device</label>
+                <div class="col-sm-4">
+                  <select id="to_device" name="to_device">
+                    <option selected="none" value="none">none</option>
+                    {{#each getDeviceList}}
+                      <option value="{{_id}}">{{self.name}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <button class="btn btn-primary" type="submit">Update</button>
+                </div>
+              </div>
             </div>
             <div class="ibox-footer">
               <span class="pull-right">

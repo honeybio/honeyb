@@ -164,6 +164,7 @@ ChangeFunction.read.device.selfip = function(argList) { }
 ChangeFunction.read.device.license = function(argList) { }
 ChangeFunction.read.device.certificate = function(argList) { }
 ChangeFunction.read.ltm.virtual = function(argList) { }
+ChangeFunction.read.ltm.pool = function(argList) { }
 ChangeFunction.read.ltm.monitor = function(argList) { }
 ChangeFunction.read.ltm.node = function(argList) { }
 ChangeFunction.read.ltm.profile = function(argList) { }
