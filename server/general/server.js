@@ -82,18 +82,16 @@ Meteor.methods({
     Meteor.settings.ldap.autopublishFields = [ 'displayName' ];
     if (Meteor.settings.ldap.groupMembership === undefined) {
       Meteor.settings.ldap.groupMembership = [
-        authObject.defaultAdminGroup
+        authObject.defaultAdminGroup,
+        authObject.defaultOperatorGroup,
+        authObject.defaultGuestGroup
       ]
     } else {
-      var myFlag = true;
-      for (var i = 0; i < Meteor.settings.ldap.groupMembership.length; i++) {
-        if (Meteor.settings.ldap.groupMembership[i] == authObject.defaultAdminGroup) {
-          myFlag = false;
-        }
-      }
-      if (myFlag) {
-        Meteor.settings.ldap.groupMembership.push(authObject.defaultAdminGroup);
-      }
+      Meteor.settings.ldap.groupMembership = [
+        authObject.defaultAdminGroup,
+        authObject.defaultOperatorGroup,
+        defaultGuestGroup
+      ];
     }
   },
   exportAsmPolicy: function (policy_id) {
