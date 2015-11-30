@@ -29,11 +29,11 @@
                     {{#if deleted}}
                     {{else}}
                       <tr>
-                        <th><img src="/{{this.statusImg}}"></th>
-                        <th><a href="/ltm/virtuals/{{this._id}}">{{this.name}}</a></th>
-                        <th>{{this.destination}}</th>
-                        <th>{{getOnDevice this.onDevice}}</th>
-                        <th><input type="checkbox" id="{{this._id}}" name="{{this._id}}"></th>
+                        <th><img src="/{{statusImg}}"></th>
+                        <th><a href="/ltm/virtuals/{{_id}}">{{name}}</a></th>
+                        <th>{{destination}}</th>
+                        <th>{{getOnDevice onDevice}}</th>
+                        <th><input type="checkbox" id="{{_id}}" name="{{_id}}"></th>
                       </tr>
                     {{/if}}
                   {{/EasySearch.Each}}

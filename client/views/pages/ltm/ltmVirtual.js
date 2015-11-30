@@ -1,11 +1,9 @@
 Template.ltmVirtuals.helpers({
   allVirtuals: function () {
-    var result = Virtuals.find();
-    return result;
+    return Virtuals.find();
   },
   getDeviceList: function () {
-    var result = Devices.find({});
-    return result;
+    return Devices.find({});
   },
   virtualsIndex: () => VirtualsIndex,
   logme: function (object) {
@@ -50,28 +48,22 @@ Template.ltmVirtuals.events({
 
 Template.tcpProfileDropdown.helpers({
   allclientssl: function () {
-    var result = Profiles.find({profType: "client-ssl"});
-    return result;
+    return Profiles.find({profType: "client-ssl"});
   },
   allHttp: function () {
-    var result = Profiles.find({profType: "http"});
-    return result;
+    return Profiles.find({profType: "http"});
   },
   allTcp: function () {
-    var result = Profiles.find({profType: "tcp"});
-    return result;
+    return Profiles.find({profType: "tcp"});
   },
   allOneconnect: function () {
-    var result = Profiles.find({profType: "one-connect"});
-    return result;
+    return Profiles.find({profType: "one-connect"});
   },
   allCookie: function () {
-    var result = Persistence.find({profType: "cookie"});
-    return result;
+    return Persistence.find({profType: "cookie"});
   },
   allUniversal: function () {
-    var result = Persistence.find({profType: "universal"});
-    return result;
+    return Persistence.find({profType: "universal"});
   },
 });
 
@@ -205,14 +197,12 @@ Template.ltmVirtualsCreate.onCreated( function() {
 
 Template.ltmVirtualsCreate.helpers({
   getDeviceList: function () {
-    var result = Devices.find({});
-    return result;
+    return Devices.find({});
   },
   getPoolList: function () {
     var device = Session.get("onDevice");
     if (device !== undefined) {
-      var poolList = Pools.find({onDevice: device});
-      return poolList;
+      return Pools.find({onDevice: device});
     }
     else {
       return [ "none" ];
@@ -221,8 +211,7 @@ Template.ltmVirtualsCreate.helpers({
   getMonitorList: function () {
     var device = Session.get("onDevice");
     if (device !== undefined) {
-      var monList = Monitors.find({onDevice: device});
-      return monList;
+      return Monitors.find({onDevice: device});
     }
     else {
       return [ "none" ];
@@ -234,8 +223,7 @@ Template.ltmVirtualsCreate.helpers({
   getPersistenceList: function () {
     var device = Session.get("onDevice");
     if (device !== undefined) {
-      var persList = Persistence.find({onDevice: device});
-      return persList;
+      return Persistence.find({onDevice: device});
     }
     else {
       return [ "none" ];
