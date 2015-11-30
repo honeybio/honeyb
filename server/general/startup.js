@@ -149,6 +149,11 @@ Meteor.startup(function () {
         }
       });
     }
+    _.defaults(Meteor.settings, {
+      IPGeocoder: {
+        databaseUrl: '/tmp/GeoLite2-City.mmdb'
+      }
+    });
   }
 
   // Start the cron process for recurring jobs
@@ -179,4 +184,7 @@ Meteor.startup(function () {
       return output;
     }
   });
+
+  // Start Geo database
+  IPGeocoder.load('/tmp/GeoLite2-City.mmdb');
 });

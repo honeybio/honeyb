@@ -66,7 +66,7 @@ Template.deviceDetails.events({
   'submit #stats-form': function (event) {
     event.preventDefault();
     var device_id = event.target.device_id.value;
-    Meteor.call("getReadGroups");
+    Meteor.call("getCurConns", device_id);
   }
 });
 

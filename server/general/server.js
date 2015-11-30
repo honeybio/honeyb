@@ -184,6 +184,56 @@ Meteor.methods({
       }
       return avail;
   },
+  getMarkers: function (deviceId) {
+    var allConnections = Meteor.call("getCurConns", deviceId);
+    var markers = {
+      device: allConnections.onDevice,
+      conns: allConnections.totalConns,
+      data: []
+    };
+    for (var i = 0; i < allConnections.connections.length; i++) {
+      if (allConnections.connections[i].geo !== null) {
+        mark = {
+          latLng: [
+            allConnections.connections[i].geo.location.latitude,
+            allConnections.connections[i].geo.location.longitude
+          ],
+          name: allConnections.connections[i].geo.city.name + ', ' + allConnections.connections[i].geo.country.code
+        }
+        markers.data.push(mark);
+      }
+    }
+    return markers;
+  },
+  getCurConns: function (deviceId) {
+    var output = Meteor.call('bigipRestGetv2', deviceId, 'https://localhost/mgmt/tm/sys/connection/stats');
+    var lines = output.apiRawValues.apiAnonymous.split("\n");
+    var total = lines[lines.length - 2].split(' ');
+    var totalConnections = {
+      onDevice: deviceId,
+      totalConns: total[3],
+      connections: []
+    };
+    for (var i = 1; i < lines.length - 2; i++) {
+      var entry = lines[i].split(/ +/);
+      var stat = {
+        csClientIP: entry[0].split(":")['0'],
+        csClientPort: entry[0].split(":")['1'],
+        csServerIP: entry[1].split(":")['0'],
+        csClientPort: entry[1].split(":")['1'],
+        ssClientIP: entry[2].split(":")['0'],
+        ssClientPort: entry[2].split(":")['1'],
+        ssServerIP: entry[3].split(":")['0'],
+        ssClientPort: entry[3].split(":")['1'],
+        proto: entry[4],
+        connEntry: entry[5],
+        tmm: entry[6]
+      }
+      stat.geo = IPGeocoder.geocode(stat.csClientIP);
+      totalConnections.connections.push(stat);
+    }
+    return totalConnections;
+  },
   updateLtmStats: function () {
     device_list = Devices.find();
   },

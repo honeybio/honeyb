@@ -24,10 +24,11 @@
             hb
           </div>
         </li>
-        <li class="{{isActiveRoute regex='dashboardsDeviceHealth|dashboardsAppview|dashboardsAdcthroughput'}}">
+        <li class="{{isActiveRoute regex='dashboardsMap|dashboardsDeviceHealth|dashboardsAppview|dashboardsAdcthroughput'}}">
           <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span> <span class="fa arrow"></span></a>
-          <ul class="nav nav-second-level collapse {{isActiveRoute regex='dashboardsDeviceHealth|dashboardsAppview|dashboardsAdcthroughput' className='in'}}">
+          <ul class="nav nav-second-level collapse {{isActiveRoute regex='dashboardsMap|dashboardsDeviceHealth|dashboardsAppview|dashboardsAdcthroughput' className='in'}}">
             <li class="{{isActiveRoute regex='dashboardsDeviceHealth'}}"><a href="/dashboards/device/health">Device Health</a></li>
+            <li class="{{isActiveRoute regex='dashboardsMap'}}"><a href="/dashboards/map">Connection Maps</a></li>
             <li class="{{isActiveRoute regex='dashboardsAppview'}}"><a href="/dashboards/appview">App View</a></li>
             <li class="{{isActiveRoute regex='dashboardsAdcthroughput'}}"><a href="/dashboards/adcthroughput">ADC Throughput</a></li>
           </ul>

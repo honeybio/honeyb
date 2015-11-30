@@ -71,6 +71,7 @@ Router.route('/dashboards/appview', function () {
   });
 });
 Router.route('/applications/create');
+Router.route('/dashboards/map');
 Router.route('/dashboards/adcthroughput');
 Router.route('/dashboards/device/health');
 Router.route('/dashboards/ihealth');

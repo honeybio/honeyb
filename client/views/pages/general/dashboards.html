@@ -211,3 +211,30 @@
   Bits/Sec in: {{stats.bpsIn}} - Bits/Sec out: {{stats.bpsOut}} - Connections: {{stats.connections}}
   <br>
 </template>
+
+<template name="dashboardsMap">
+  {{> pageHeading title='Connection Map' }}
+  <div class="wrapper wrapper-content animated fadeInRight">
+    {{#each getDevices}}
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Connection Map<small class="m-l-sm">{{this.self.name}} </small></h5>
+            {{>iboxTools}}
+            <div class="ibox-content">
+            {{> eachMap}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</template>
+
+<template name="eachMap">
+  <h2>Connection Map</h2>
+  <small>Connections to your BIG-IP</small>
+  <div id="world-map-{{_id}}" style="height: 300px;"></div>
+</template>

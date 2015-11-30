@@ -1,8 +1,7 @@
 
 Template.dashboardsDeviceHealth.helpers({
   getDevices: function () {
-    var result = Devices.find();
-    return result;
+    return Devices.find();
   },
   getUsage: function (idle) {
     return 100 - idle;
@@ -205,4 +204,46 @@ Template.serverList.helpers({
     var result = Gtmvservers.find({serverId: server});
     return result;
   }
+});
+
+Template.dashboardsMap.helpers({
+  getDevices: function () {
+    return Devices.find();
+  }
+});
+
+Template.eachMap.onRendered(function(){
+  var mapMarkers = [];
+  Meteor.call("getMarkers", this.data._id, function (err, res) {
+    if (err) {
+      console.log(err);
+    } else if (res) {
+      $('#world-map-' + res.device).vectorMap({
+          map: 'world_mill_en',
+          backgroundColor: "transparent",
+          regionStyle: {
+              initial: {
+                  fill: '#e4e4e4',
+                  "fill-opacity": 1,
+                  stroke: 'none',
+                  "stroke-width": 0,
+                  "stroke-opacity": 0
+              }
+          },
+          series: {
+              regions: [{
+                  scale: ["#1ab394", "#22d6b1"],
+                  normalizeFunction: 'polynomial'
+              }]
+          },
+          markerStyle: {
+            initial: {
+              fill: '#F8E23B',
+              stroke: '#383f47'
+            }
+          },
+          markers: res.data,
+      });
+    }
+  });
 });
