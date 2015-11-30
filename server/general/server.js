@@ -15,14 +15,38 @@ rebuildUserRoles = function () {
     for (var i = 0; i < myUser.memberOf.length; i++) {
       if (myUser.memberOf[i] == adSettings.adAuthentication.defaultAdminGroup) {
         Roles.addUsersToRoles(myUser._id, ['admin'], 'default-group');
-      } else if (myUser.memberOf[i] == 'CN=F5Operator,CN=Users,DC=ad,DC=bespintech,DC=com') {
+      } else if (myUser.memberOf[i] == adSettings.adAuthentication.defaultOperatorGroup) {
         Roles.addUsersToRoles(myUser._id, ['operator'], 'default-group');
+      } else if (myUser.memberOf[i] == adSettings.adAuthentication.defaultGuestGroup) {
+        Roles.addUsersToRoles(myUser._id, ['guest'], 'default-group');
       }
     }
   }
 }
 
 Meteor.methods({
+  getReadGroups: function (object) {
+    //return array of groups with read access
+    var readGroups = [];
+    var myGroups = Roles.getGroupsForUser(Meteor.user());
+    for (var theGroup in myGroups) {
+
+      var roles = Roles.getRolesForUser(Meteor.user(), myGroups[theGroup]);
+      for (role in roles) {
+        // console.log(roles[role]);
+        var permList = Permissions.findOne({onRole: roles[role]})
+        if (permList !== undefined) {
+          for (permission in permList.permissionList) {
+            // console.log(object + " equals " + permList.permissionList[permission].permission);
+            if (object === permList.permissionList[permission].permission) {
+              readGroups.push(myGroups[theGroup]);
+            }
+          }
+        }
+      }
+    }
+    return readGroups;
+  },
   deleteImage: function () {
     var isos = Images.find().fetch();
     console.log(isos);

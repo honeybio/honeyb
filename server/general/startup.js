@@ -105,10 +105,16 @@ Meteor.startup(function () {
           ldapUrl: 'ldap://10.100.21.51:389',
           ldapBindCn: 'CN=service account,CN=Managed Service Accounts,DC=ad,DC=bespintech,DC=com',
           ldapBindPassword: 'whatthefuck!23',
-          defaultAdminGroup: 'CN=F5Admin,CN=Users,DC=ad,DC=bespintech,DC=com'
+          defaultAdminGroup: 'CN=F5Admin,CN=Users,DC=ad,DC=bespintech,DC=com',
+          defaultOperatorGroup: 'CN=F5Operator,CN=Users,DC=ad,DC=bespintech,DC=com',
+          defaultGuestGroup: 'CN=F5Guest,CN=Users,DC=ad,DC=bespintech,DC=com'
         },
         ldapAuthPublishFields: ['displayName'],
-        ldapGroupMembership: ['CN=F5Admin,CN=Users,DC=ad,DC=bespintech,DC=com'],
+        ldapGroupMembership: [
+          'CN=F5Admin,CN=Users,DC=ad,DC=bespintech,DC=com',
+          'CN=F5Operator,CN=Users,DC=ad,DC=bespintech,DC=com',
+          'CN=F5Guest,CN=Users,DC=ad,DC=bespintech,DC=com'
+        ],
         timeout: true,
         staleSessionInactivityTimeout: 1800000,
         staleSessionHeartbeatInterval: 180000,

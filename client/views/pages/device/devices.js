@@ -66,7 +66,7 @@ Template.deviceDetails.events({
   'submit #stats-form': function (event) {
     event.preventDefault();
     var device_id = event.target.device_id.value;
-    Meteor.call("updateStatClick", device_id);
+    Meteor.call("getReadGroups");
   }
 });
 

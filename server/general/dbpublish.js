@@ -3,6 +3,7 @@ Meteor.publish("db_settings", function () {
     return [];
   }
   else {
+    // if Admin user, publish
     return Settings.find();
   }
 });
@@ -61,6 +62,8 @@ Meteor.publish("db_devices", function () {
     return [];
   }
   else {
+    // if read access, publish
+
     return Devices.find({}, {fields: { mgmtPass: false, sshPass: false }});
   }
 });
@@ -87,7 +90,8 @@ Meteor.publish("db_virtuals", function () {
     return [];
   }
   else {
-    return Virtuals.find();
+    var readObjects = Meteor.call("getReadGroups", 'read.ltm.virtual');
+    return Virtuals.find({group: { $in: readObjects }});
   }
 });
 Meteor.publish("db_rules", function () {
@@ -95,7 +99,8 @@ Meteor.publish("db_rules", function () {
     return [];
   }
   else {
-    return Rules.find();
+    var readObjects = Meteor.call("getReadGroups", 'read.ltm.irule');
+    return Rules.find({group: { $in: readObjects }});
   }
 });
 Meteor.publish("db_pools", function () {
@@ -103,7 +108,8 @@ Meteor.publish("db_pools", function () {
     return [];
   }
   else {
-    return Pools.find();
+    var readObjects = Meteor.call("getReadGroups", 'read.ltm.pool');
+    return Pools.find({group: { $in: readObjects }});
   }
 });
 Meteor.publish("db_monitors", function () {
@@ -111,7 +117,8 @@ Meteor.publish("db_monitors", function () {
     return [];
   }
   else {
-    return Monitors.find();
+    var readObjects = Meteor.call("getReadGroups", 'read.ltm.monitor');
+    return Monitors.find({group: { $in: readObjects }});
   }
 });
 Meteor.publish("db_virtualaddresses", function () {
@@ -153,6 +160,7 @@ Meteor.publish("db_gtmsyncgroup", function () {
     return [];
   }
   else {
+
     return Gtmsyncgroups.find();
   }
 });
@@ -169,7 +177,8 @@ Meteor.publish("db_gtmservers", function () {
     return [];
   }
   else {
-    return Gtmservers.find();
+    var readObjects = Meteor.call("getReadGroups", 'read.gtm.server');
+    return Gtmservers.find({group: { $in: readObjects }});
   }
 });
 Meteor.publish("db_gtmvservers", function () {
@@ -177,7 +186,8 @@ Meteor.publish("db_gtmvservers", function () {
     return [];
   }
   else {
-    return Gtmvservers.find();
+    var readObjects = Meteor.call("getReadGroups", 'read.gtm.vserver');
+    return Gtmvservers.find({group: { $in: readObjects }});
   }
 });
 Meteor.publish("db_gtmlinks", function () {
@@ -193,7 +203,8 @@ Meteor.publish("db_gtmmonitors", function () {
     return [];
   }
   else {
-    return Gtmmonitors.find();
+    var readObjects = Meteor.call("getReadGroups", 'read.gtm.monitor');
+    return Gtmmonitors.find({group: { $in: readObjects }});
   }
 });
 Meteor.publish("db_wideips", function () {
@@ -201,7 +212,8 @@ Meteor.publish("db_wideips", function () {
     return [];
   }
   else {
-    return Wideips.find();
+    var readObjects = Meteor.call("getReadGroups", 'read.gtm.wideip');
+    return Wideips.find({group: { $in: readObjects }});
   }
 });
 Meteor.publish("db_wpools", function () {
@@ -209,7 +221,8 @@ Meteor.publish("db_wpools", function () {
     return [];
   }
   else {
-    return Widepools.find();
+    var readObjects = Meteor.call("getReadGroups", 'read.gtm.pool');
+    return Widepools.find({group: { $in: readObjects }});
   }
 });
 
@@ -256,7 +269,8 @@ Meteor.publish("db_asmpolicies", function () {
     return [];
   }
   else {
-    return Asmpolicies.find();
+    var readObjects = Meteor.call("getReadGroups", 'read.asm.policy');
+    return Asmpolicies.find({group: { $in: readObjects }});
   }
 });
 

@@ -142,7 +142,9 @@ Template.settingsHoneyb.events({
         ldapUrl: event.target.ldapUrl.value,
         ldapBindCn: event.target.ldapBindCn.value,
         ldapBindPassword: event.target.ldapBindPassword.value,
-        defaultAdminGroup: event.target.defaultAdminGroup.value
+        defaultAdminGroup: event.target.defaultAdminGroup.value,
+        defaultOperatorGroup: event.target.defaultOperatorGroup.value,
+        defaultGuestGroup: event.target.defaultGuestGroup.value
        };
        Meteor.call("setAdAuth", authObj);
     }
