@@ -24,6 +24,14 @@ rebuildUserRoles = function () {
   }
 }
 
+var checkIP4 = function (ip) {
+  if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ip)) {
+  return true;
+} else {
+  return false;
+  }
+}
+
 Meteor.methods({
   getReadGroups: function (object) {
     //return array of groups with read access
@@ -229,8 +237,12 @@ Meteor.methods({
         connEntry: entry[5],
         tmm: entry[6]
       }
-      stat.geo = IPGeocoder.geocode(stat.csClientIP);
-      totalConnections.connections.push(stat);
+      if (checkIP4(stat.csClientIP)) {
+        stat.geo = IPGeocoder.geocode(stat.csClientIP);
+        totalConnections.connections.push(stat);
+      } else {
+        // probably ip6 address, ignore for now
+      }
     }
     return totalConnections;
   },
