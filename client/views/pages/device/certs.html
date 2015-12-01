@@ -173,8 +173,8 @@
                   {{#EasySearch.Each index=profilesIndex }}
                     {{#if isSsl profType}}
                       <tr>
-                        <th><a href="/ssl/profiles/{{_id}}">{{name}}</a></th>
-                        <th>{{getOnDevice this.onDevice}}</th>
+                        <th><a href="/ltm/profiles/{{_id}}">{{name}}</a></th>
+                        <th>{{getOnDevice onDevice}}</th>
                       </tr>
                     {{/if}}
                   {{/EasySearch.Each}}
