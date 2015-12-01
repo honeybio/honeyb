@@ -19,7 +19,6 @@
                   <tr>
                     <th>Name</th>
                     <th>Common Name</th>
-                    <th>Destination</th>
                     <th>On BIG-IP</th>
                     <th>Expiration</th>
                   </tr>
@@ -30,7 +29,7 @@
                       <tr>
                         <th><a href="/ssl/certs/{{_id}}">{{name}}</a></th>
                         <th>{{commonName}}</th>
-                        <th>{{getOnDevice this.onDevice}}</th>
+                        <th>{{getOnDevice onDevice}}</th>
                         <th>{{apiRawValues.expiration}}</th>
                       </tr>
                     {{/if}}
