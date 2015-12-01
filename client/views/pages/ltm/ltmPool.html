@@ -10,7 +10,29 @@
               {{>iboxTools}}
             </div>
             <div class="ibox-content">
-              {{> poolsSearchBox}}
+              <div class="form-group"><label class="col-sm-2 control-label">Search: </label>
+                <div class="col-sm-2">{{> EasySearch.Input index=poolsIndex}}</div>
+              </div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Status</th>
+                    <th>Pool Name</th>
+                    <th>On BIG-IP</th>
+                    <th>Select</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {{#EasySearch.Each index=poolsIndex}}
+                <tr>
+                  <th><img src="/{{statusImg}}"></th>
+                  <th><a href="/ltm/pools/{{_id}}">{{name}}{{#if deleted}}(In Trash Bin){{/if}}</a></th>
+                  <th>{{getOnDevice this.onDevice}}</th>
+                  <th><input type="checkbox" id="{{_id}}" name="{{_id}}"></th>
+                </tr>
+                {{/EasySearch.Each}}
+              </tbody>
+            </table>
               <div class="form-group"><label class="col-sm-2 control-label">Action</label>
                 <div class="col-sm-4">
                   <select name="objectAction">
