@@ -6,7 +6,8 @@ Template.ltmPools.helpers({
   getDeviceList: function () {
     var result = Devices.find({});
     return result;
-  }
+  },
+  poolsIndex: () => PoolsIndex
 });
 
 Template.ltmPools.events({

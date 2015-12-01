@@ -2,15 +2,32 @@
   {{> pageHeading title='Datagroups' category='LTM' }}
   <div class="wrapper wrapper-content animated fadeIn">
     <div class="row">
-      <form class="data-group-form">
+      <form id="dataGroupForm" class="form-horizontal">
         <div class="col-lg-12">
           <div class="ibox float-e-margins">
             <div class="ibox-title">
               <h5>LTM Datagroups <small class="m-l-sm">Manage your LTM Datagroups</small></h5>
               {{>iboxTools}}
             </div>
-            <div class="ibox-content">
+            <div class="ibox-content"><label class="col-sm-2 control-label">Search: </label>
               {{> idatagroupsSearchBox}}
+              <div class="form-group"><label class="col-sm-2 control-label">Action</label>
+                <div class="col-sm-4">
+                  <select id="objectAction" class="form-control m-b">
+                    <option value="delete">Delete(!)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <button class="btn btn-primary" type="submit">Update</button>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <button type="button" class="btn btn-white" data-toggle="modal" data-target="#modal-pool-member-form">Add Data Group</button>
+                </div>
+              </div>
             </div>
             <div class="ibox-footer">
               <span class="pull-right">
@@ -31,12 +48,12 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="ibox float-e-margins">
-          <div class="ibox-title"><h5>Update Data Group Configuration for {{name}}</h5>{{>iboxTools}}</div>
+          <div class="ibox-title"><h5>Update Configuration for Data Group {{name}}</h5>{{>iboxTools}}</div>
           <div class="ibox-content">
             <form id="pool-settings" class="form-horizontal">
               <input type="hidden" name="dataGroupName" value="{{_id}}">
               <input type="hidden" name="onDevice" value="{{onDevice}}">
-              <div class="form-group"><label class="col-sm-2 control-label">Monitor</label>
+              <div class="form-group"><label class="col-sm-2 control-label">Data Group Content</label>
                 <div class="col-sm-6">
                   <select id="monitor" class="form-control m-b" name="monitor" multiple>
                     {{#each records}}
