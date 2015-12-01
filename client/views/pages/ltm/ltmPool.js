@@ -20,10 +20,22 @@ Template.ltmPools.events({
     });
     for (var i = 0; i < checkedList.length; i++) {
       if (the_action == "delete") {
-        Meteor.call("deletePool", checkedList[i], event.target.stage.value);
+        Meteor.call("deletePool", checkedList[i], event.target.stage.value, function (err, res) {
+          if (err) {
+            toastr.error(err.details, err.reason)
+          } else {
+            toastr.success(res.message, res.subject);
+          }
+        });
       }
       else if (the_action == "copy") {
-        Meteor.call("copyPool", checkedList[i], event.target.to_device.value, event.target.stage.value);
+        Meteor.call("copyPool", checkedList[i], event.target.to_device.value, event.target.stage.value, function (err, res) {
+          if (err) {
+            toastr.error(err.details, err.reason)
+          } else {
+            toastr.success(res.message, res.subject);
+          }
+        });
       }
     }
       // Meteor.call("updatePoolList", onDevice, pool_id);
@@ -46,16 +58,42 @@ Template.poolDetails.events({
     }
     for (var i = 0; i < checkedList.length; i++) {
       if (the_action == "enable") {
-        Meteor.call("enablePoolMember", checkedList[i], onDevice, stage);
+        Meteor.call("enablePoolMember", checkedList[i], onDevice, stage, function (err, res) {
+          if (err) {
+            toastr.error(err.details, err.reason)
+          }
+          if (res) {
+            toastr.success(res.message, res.subject);
+          }
+        });
       }
       else if (the_action == "disable") {
-        Meteor.call("disablePoolMember", checkedList[i], onDevice, stage);
+        Meteor.call("disablePoolMember", checkedList[i], onDevice, stage, function (err, res) {
+          if (err) {
+            toastr.error(err.details, err.reason)
+          }
+          if (res) {
+            toastr.success(res.message, res.subject);
+          }
+        });
       }
       else if (the_action == "force") {
-        Meteor.call("forcePoolMember", checkedList[i], onDevice, stage);
+        Meteor.call("forcePoolMember", checkedList[i], onDevice, stage, function (err, res) {
+          if (err) {
+            toastr.error(err.details, err.reason)
+          } else {
+            toastr.success(res.message, res.subject);
+          }
+        });
       }
       else if (the_action == "delete") {
-        Meteor.call("deletePoolMember", checkedList[i], onDevice, pool_id, stage);
+        Meteor.call("deletePoolMember", checkedList[i], onDevice, pool_id, stage, function (err, res) {
+          if (err) {
+            toastr.error(err.details, err.reason)
+          } else {
+            toastr.success(res.message, res.subject);
+          }
+        });
       }
     }
     Meteor.call("updatePoolMemberStatus", onDevice, pool_id);
@@ -74,7 +112,13 @@ Template.poolDetails.events({
     }
     var stage = false
     $('#modal-pool-member-form').modal('hide');
-    Meteor.call("addPoolMember", event.target.onDevice.value, memberObj, stage);
+    Meteor.call("addPoolMember", event.target.onDevice.value, memberObj, stage, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success(res.message, res.subject);
+      }
+    });
   }
 });
 
@@ -180,6 +224,12 @@ Template.ltmPoolsCreate.events({
       slowRampTime : null
     };
     // addLtmPool: function(device_id, pool_name, lbMethod, monitor, members)
-    Meteor.call("createLtmPool", device_id, poolObject, toStage);
+    Meteor.call("createLtmPool", device_id, poolObject, toStage, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success(res.message, res.subject);
+      }
+    });
   }
 });

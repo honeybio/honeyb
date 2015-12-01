@@ -75,10 +75,22 @@ Template.gtmPoolsCreate.events({
     // addLtmPool: function(device_id, pool_name, lbMethod, monitor, members)
 
     if (event.target.pool_type.value === "a") {
-      Meteor.call("createGtmAPool", syncid, poolObject, toStage);
+      Meteor.call("createGtmAPool", syncid, poolObject, toStage, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        } else {
+          toastr.success(res.message, res.subject);
+        }
+      });
     }
     else if (event.target.pool_type.value === "aaaa") {
-      Meteor.call("createGtmAAAAPool", syncid, poolObject, toStage);
+      Meteor.call("createGtmAAAAPool", syncid, poolObject, toStage, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        } else {
+          toastr.success(res.message, res.subject);
+        }
+      });
     }
   }
 });
@@ -113,10 +125,22 @@ Template.gtmWideipsCreate.events({
     };
     if (event.target.wip_type.value === "a") {
       console.log('calling a method');
-      Meteor.call("createGtmAWideip", syncid, wipObject, toStage);
+      Meteor.call("createGtmAWideip", syncid, wipObject, toStage, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        } else {
+          toastr.success(res.message, res.subject);
+        }
+      });
     }
     else if (event.target.wip_type.value === "aaaa") {
-      Meteor.call("createGtmAAAAPool", syncid, wipObject, toStage);
+      Meteor.call("createGtmAAAAPool", syncid, wipObject, toStage, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        } else {
+          toastr.success(res.message, res.subject);
+        }
+      });
     }
   }
 });
@@ -139,7 +163,13 @@ Template.gtmPoolsDetails.events({
       onPool: pool_id,
       name: virtual
     };
-    Meteor.call("addGmember", syncid, gMemberObj, toStage);
+    Meteor.call("addGmember", syncid, gMemberObj, toStage, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success(res.message, res.subject);
+      }
+    });
   },
   'submit #members': function (event, template) {
     event.preventDefault();
@@ -154,7 +184,13 @@ Template.gtmPoolsDetails.events({
       checkedList.push($(this)[0].name);
     });
     for (var i = 0; i < checkedList.length; i++) {
-        Meteor.call("deleteGmember", syncid, gMemberObj, checkedList[i], event.target.stage.value);
+      Meteor.call("deleteGmember", syncid, gMemberObj, checkedList[i], event.target.stage.value, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        } else {
+          toastr.success(res.message, res.subject);
+        }
+      });
     }
   }
 });

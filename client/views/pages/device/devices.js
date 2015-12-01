@@ -54,14 +54,26 @@ Template.deviceDetails.events({
     // var timeObj = { text: 1, number: event.target.atTime.value, unit: event.target.unit.value};
     var jobName = device_id + "_once_qkview";
     console.log('starting qkview');
-    Meteor.call("createQkviewCommand", device_id);
+    Meteor.call("createQkviewCommand", device_id, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success(res.message, res.subject);
+      }
+    });
   },
   'submit .archiveForm': function (event) {
     event.preventDefault();
     var device_id = event.target.device_id.value;
     var description = "An archive job";
     var jobName = device_id + "_" + "archive";
-    Meteor.call("createUCSCommand", device_id);
+    Meteor.call("createUCSCommand", device_id, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success(res.message, res.subject);
+      }
+    });
   },
   'submit #stats-form': function (event) {
     event.preventDefault();
@@ -254,7 +266,6 @@ Template.discoverSingle.events({
       // console.log(res);
       this.unblock;
       template.discoverJob.set(res);
-      console.log(res);
       Meteor.call("discoverAllDevice", device, res, function (err, res) {
         if (err) {
           toastr.error(err.details, err.reason)

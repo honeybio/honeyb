@@ -14,7 +14,13 @@ Template.asmPolicies.events({
       return;
     }
     for (var i = 0; i < checkedList.length; i++) {
-      Meteor.call('exportAsmPolicy', checkedList[i]);
+      Meteor.call('exportAsmPolicy', checkedList[i], function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason);
+        } else if (res) {
+          toastr.success(res.message, res.subject);
+        }
+      });
     }
   },
 });

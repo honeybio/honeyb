@@ -41,7 +41,8 @@ Meteor.methods({
     if (result === 401) {
       throw new Meteor.Error(401, 'Error 401', 'Unauthorized');
     } else {
-      return 200;
+      var myRes = { subject: 'Success!', message: result };
+      return myRes;
     }
   },
   addHttpMonitor: function(device_id, monObj, stage) {
@@ -79,7 +80,8 @@ Meteor.methods({
       return;
     }
     var result = Meteor.call('pushChange', change_id);
-    return result;
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
   },
   addHttpsMonitor: function(device_id, monObj, stage) {
     /**
@@ -119,6 +121,7 @@ Meteor.methods({
       return;
     }
     var result = Meteor.call('pushChange', change_id);
-    return result;
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
   }
 });

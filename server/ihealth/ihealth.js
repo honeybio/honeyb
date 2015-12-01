@@ -133,6 +133,6 @@ Meteor.methods({
         }
       }
     }
-    return 'Success!';
+    return { subject: 'Success!', message: 'iHealth Data retrieved!' };
   }
 });

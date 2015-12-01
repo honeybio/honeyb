@@ -21,7 +21,8 @@ Meteor.methods({
       return;
     }
     var result = Meteor.call('pushChange', change_id);
-    return result;
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
   },
   deletePool: function(pool_id, stage) {
     var poolObj = Pools.findOne({_id: pool_id});
@@ -41,7 +42,8 @@ Meteor.methods({
       return;
     }
     var result = Meteor.call('pushChange', change_id);
-    return result;
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
   },
   deleteVirtual: function(vip_id, stage) {
     var vipObj = Virtuals.findOne({_id: vip_id});
@@ -65,7 +67,8 @@ Meteor.methods({
       return;
     }
     var result = Meteor.call('pushChange', change_id);
-    return result;
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
   },
   deleteProfile: function(profile_id, stage) {
     var obj = Profiles.findOne({_id: profile_id});
@@ -89,7 +92,8 @@ Meteor.methods({
       return;
     }
     var result = Meteor.call('pushChange', change_id);
-    return result;
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
   },
   deleteMonitor: function(objId, stage) {
     var obj = Monitors.findOne({_id: objId});
@@ -117,7 +121,8 @@ Meteor.methods({
       console.log(result);
       throw new Meteor.Error(401, 'Error 401', 'Unauthorized');
     } else {
-      return result;
+      var myRes = { subject: 'Success!', message: result };
+      return myRes;
     }
   },
   deleteGmember: function(sync_id, gMemberObj, memberLink, stage) {
@@ -149,6 +154,7 @@ Meteor.methods({
       return;
     }
     var result = Meteor.call('pushChange', change_id);
-    return result;
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
   }
 });

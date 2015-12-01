@@ -31,16 +31,40 @@ Template.ltmVirtuals.events({
     });
     for (var i = 0; i < checkedList.length; i++) {
       if (the_action == "delete") {
-        Meteor.call("deleteVirtual", checkedList[i], stage);
+        Meteor.call("deleteVirtual", checkedList[i], stage, function (err, res) {
+          if (err) {
+            toastr.error(err.details, err.reason)
+          } else {
+            toastr.success(res.message, res.subject);
+          }
+        });
       }
       else if (the_action == "copy") {
-        Meteor.call("copyVirtual", checkedList[i], stage);
+        Meteor.call("copyVirtual", checkedList[i], stage, function (err, res) {
+          if (err) {
+            toastr.error(err.details, err.reason)
+          } else {
+            toastr.success(res.message, res.subject);
+          }
+        });
       }
       else if (the_action == "enable") {
-        Meteor.call("enableVirtual", checkedList[i], stage);
+        Meteor.call("enableVirtual", checkedList[i], stage, function (err, res) {
+          if (err) {
+            toastr.error(err.details, err.reason)
+          } else {
+            toastr.success(res.message, res.subject);
+          }
+        });
       }
       else if (the_action == "disable") {
-        Meteor.call("disableVirtual", checkedList[i], stage);
+        Meteor.call("disableVirtual", checkedList[i], stage, function (err, res) {
+          if (err) {
+            toastr.error(err.details, err.reason)
+          } else {
+            toastr.success(res.message, res.subject);
+          }
+        });
       }
     }
   }
@@ -141,7 +165,13 @@ Template.ltmVirtualsCreate.events({
       slowRampTime : null
     }
     // addLtmPool: function(device_id, pool_name, lbMethod, monitor, members)
-    Meteor.call("addLtmPool", device_id, poolObj, toStage);
+    Meteor.call("addLtmPool", device_id, poolObj, toStage, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success(res.message, res.subject);
+      }
+    });
   }
 
   /*

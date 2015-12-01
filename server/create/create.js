@@ -34,11 +34,9 @@ Meteor.methods({
       return;
     }
     var result = Meteor.call('pushChange', change_id);
-    console.log('begin addltmpool');
-    return;
 
-
-    return result;
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
   },
   addLtmVirtual: function(device_id, monObj, stage) {
     /**
@@ -72,7 +70,8 @@ Meteor.methods({
       return;
     }
     var result = Meteor.call('pushChange', change_id);
-    return result;
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
   },
   addPoolMember: function(device_id, memberObj, stage) {
     /**
@@ -108,7 +107,8 @@ Meteor.methods({
       return;
     }
     var result = Meteor.call('pushChange', change_id);
-    return result;
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
   },
   createGtmAPool: function(sync_id, poolObject, stage) {
     /**
@@ -136,7 +136,8 @@ Meteor.methods({
       return;
     }
     var result = Meteor.call('pushChange', change_id);
-    return result;
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
   },
   createGtmAWideip: function(sync_id, wipObject, stage) {
     /**
@@ -164,7 +165,8 @@ Meteor.methods({
       return;
     }
     var result = Meteor.call('pushChange', change_id);
-    return result;
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
   },
   addGmember: function(sync_id, gMemberObj, stage) {
     /**
@@ -193,6 +195,7 @@ Meteor.methods({
       return;
     }
     var result = Meteor.call('pushChange', change_id);
-    return result;
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
   }
 });

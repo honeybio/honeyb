@@ -73,6 +73,7 @@ Meteor.methods({
     }
     var result = Meteor.call('pushChange', change_id);
     // console.log(result);
-    return result;
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
   }
 });

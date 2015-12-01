@@ -19,7 +19,7 @@ Template.ltmMonitors.events({
           if (err) {
             toastr.error(err.details, err.reason)
           } else {
-            toastr.success('Successfully deleted Monitor', res)
+            toastr.success(res.message, res.subject);
           }
         });
       }
@@ -53,11 +53,11 @@ Template.ltmMonitorsTcpHalfOpenCreate.events({
       manualResume: event.target.manualResume.value,
       transparent: event.target.transparent.value
     }
-    Meteor.call("addTcpHalfOpenMonitor", device_id, monObj, stage, function (err, res) {
+    Meteor.call("addTcpHalfOpenMonitor", device_id, monObj, function (err, res) {
       if (err) {
         toastr.error(err.details, err.reason)
       } else {
-        toastr.success('Successfully created ' + name, res)
+        toastr.success(res.message, res.subject);
       }
     });
   }
@@ -94,6 +94,12 @@ Template.ltmMonitorsHttpCreate.events({
       recv: event.target.recv.value,
       reverse: event.target.reverse.value
     }
-    Meteor.call("addHttpMonitor", device_id, monObj, stage);
+    Meteor.call("addHttpMonitor", device_id, monObj, stage, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success(res.message, res.subject);
+      }
+    });
   }
 });

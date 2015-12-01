@@ -74,6 +74,12 @@ Template.ltmProfileTcpCreate.events({
       verifiedAccept: null,
       zeroWindowTimeout: null
     };
-    Meteor.call("addTcpProfileCommand", device_id, profObj, stage);
+    Meteor.call("addTcpProfileCommand", device_id, profObj, stage, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success(res.message, res.subject);
+      }
+    });
   }
 });

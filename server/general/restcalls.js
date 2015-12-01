@@ -63,7 +63,7 @@ Meteor.methods({
     var authString = user + ":" + pass;
     try {
       var response = HTTP.del(url, {auth: authString});
-      return true;
+      return response;
     } catch (e) {
       throw new Meteor.Error(e);
     }

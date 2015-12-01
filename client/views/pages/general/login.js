@@ -61,7 +61,13 @@ Template.settingsUser.events({
     event.preventDefault();
     var user = event.target.username.value;
     var pass = event.target.password.value;
-    Meteor.call("createNewUser", user, pass);
+    Meteor.call("createNewUser", user, pass, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success(res.message, res.subject);
+      }
+    });
   },
   'submit #myProfile': function (event) {
     event.preventDefault();
@@ -74,6 +80,7 @@ Template.settingsUser.events({
     }
 
     Meteor.users.update({_id: Meteor.userId()}, {$set: { profile: { advanced : advanced }}});
+    toastr.success('Updated profile!', 'Success!');
   }
 });
 Template.settingsUser.helpers({
@@ -103,7 +110,13 @@ Template.settingsHoneyb.helpers({
 Template.settingsHoneyb.events({
   'submit .scheduler': function (event) {
     event.preventDefault();
-    Meteor.call("updateSchedule", event.target.archives.value, event.target.qkviews.value);
+    Meteor.call("updateSchedule", event.target.archives.value, event.target.qkviews.value, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success('Saved!', 'Success!');
+      }
+    });
   },
   'submit #system-settings': function (event) {
     event.preventDefault();
@@ -111,7 +124,13 @@ Template.settingsHoneyb.events({
     var ihealthUser = event.target.ihealthUser.value;
     var ihealthPass = event.target.ihealthPass.value;
     var ihealthFreq = event.target.ihealthFreq.value;
-    Meteor.call("updateSystemSettings", hname, ihealthUser, ihealthPass, ihealthFreq);
+    Meteor.call("updateSystemSettings", hname, ihealthUser, ihealthPass, ihealthFreq, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success('Saved!', 'Success!');
+      }
+    });
   },
   'submit #interval-settings': function (event) {
     event.preventDefault();
@@ -121,16 +140,34 @@ Template.settingsHoneyb.events({
     var virtInt = event.target.updateLtmVirtual.value;
     var poolInt = event.target.updateLtmPool.value;
     var memInt = event.target.updateLtmPoolMember.value;
-    Meteor.call("updateIntervalSettings", dcInt, serInt, vserInt, virtInt, poolInt, memInt);
+    Meteor.call("updateIntervalSettings", dcInt, serInt, vserInt, virtInt, poolInt, memInt, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success('Saved!', 'Success!');
+      }
+    });
   },
   'submit #ssh-settings': function (event) {
     event.preventDefault();
     var keyName = 'id_rsa';
-    Meteor.call("generateSshKey", keyName);
+    Meteor.call("generateSshKey", keyName, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success('Saved!', 'Success!');
+      }
+    });
   },
   'submit #change-settings': function (event) {
     event.preventDefault();
-    Meteor.call("updateChangeSettings", event.target.changeControl.checked);
+    Meteor.call("updateChangeSettings", event.target.changeControl.checked, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success('Saved!', 'Success!');
+      }
+    });
   },
   'submit #authentication-form': function (e, t) {
     event.preventDefault();
@@ -151,7 +188,13 @@ Template.settingsHoneyb.events({
           event.target.defaultGuestGroup.value
         ]
        };
-       Meteor.call("setAdAuth", authObj);
+       Meteor.call("setAdAuth", authObj, function (err, res) {
+         if (err) {
+           toastr.error(err.details, err.reason)
+         } else {
+           toastr.success('Saved!', 'Success!');
+         }
+       });
     }
   },
   'change #authenticationType': function(event, target) {
@@ -199,6 +242,12 @@ Template.settingsRoles.events({
   'submit .roleForm': function (event, template) {
     event.preventDefault();
     var roleName = event.target.roleName.value;
-    Meteor.call("createRole", roleName);
+    Meteor.call("createRole", roleName, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success('Saved!', 'Success!');
+      }
+    });
   }
 });

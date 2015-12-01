@@ -20,7 +20,8 @@ Meteor.methods({
       return;
     }
     var result = Meteor.call('pushChange', change_id);
-    return result;
+    var myRes = { subject: 'Success!', message: 'Enabled ' + pmem_name };
+    return myRes;
   },
   enableVirtual: function (vip_id, stage) {
     var vip = Virtuals.findOne({_id: vip_id});
@@ -44,6 +45,7 @@ Meteor.methods({
       return;
     }
     var result = Meteor.call('pushChange', change_id);
-    return result;
+    var myRes = { subject: 'Success!', message: 'Enabled ' + vip.fullPath };
+    return myRes;
   }
 });

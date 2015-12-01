@@ -22,7 +22,8 @@ Meteor.methods({
       return;
     }
     var result = Meteor.call('pushChange', change_id);
-    return result;
+    var myRes = { subject: 'Success!', message: 'Disable ' + vip.fullPath };
+    return myRes;
   },
   disablePoolMember: function (poolMember, device_id, stage) {
     var device = Devices.findOne({_id: device_id});
@@ -45,7 +46,8 @@ Meteor.methods({
       return;
     }
     var result = Meteor.call('pushChange', change_id);
-    return result;
+    var myRes = { subject: 'Success!', message: 'Disable ' + pmem_name };
+    return myRes;
   },
   forcePoolMember: function (poolMember, device_id, stage) {
     var device = Devices.findOne({_id: device_id});
@@ -68,6 +70,7 @@ Meteor.methods({
     if (stage == "1") {
       return;
     }
-    return result;
+    var myRes = { subject: 'Success!', message: 'Force Offline ' + pmem_name };
+    return myRes;
   }
 });

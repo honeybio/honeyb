@@ -140,6 +140,8 @@ Meteor.methods({
       fileObj.name(myFileName);
       fileObj.attachData(buffer, {type: 'application/xml'});
       Asmpolicyfile.insert(fileObj);
+      var myRes = { subject: 'Success!', message: 'Saved Policy to honeyb: ' + device.self.name };
+      return myRes;
     }
     else {
       Meteor.setTimeout(function() {
@@ -360,6 +362,8 @@ Meteor.methods({
     var locFile = "/tmp/" + qkviewFileName;
     var args = [ device.mgmtAddress, device.mgmtUser, device.mgmtPass, qkFile ];
     var result = Meteor.call("runPythonCmd", pythonCmd, args);
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
   },
   createAndScheduleQkview: function(device_id, timeObject) {
     var changeID = Meteor.call("createQkview", device_id)
@@ -388,6 +392,8 @@ Meteor.methods({
     fileObj.owner = Meteor.userId();
     fileObj.metadata = { onDevice: device_id, onDeviceName: device.self.name };
     Archives.insert(fileObj);
+    var myRes = { subject: 'Success!', message: 'Created archive: ' + device.self.name };
+    return myRes;
   },
   isHoneybAdmin: function() {
     if (Roles.userIsInRole(Meteor.user(), 'admin', 'default-group')) {
@@ -437,7 +443,9 @@ Meteor.methods({
         args = [device.mgmtAddress, device.sshUser, settings.ihealthUser, settings.ihealthPass, f5case];
       }
       var shellCommand = "create_and_get_qkview.sh";
-      var output = Meteor.call("runShellCmd", shellCommand, args);
+      var result = Meteor.call("runShellCmd", shellCommand, args);
+      var myRes = { subject: 'Success!', message: result };
+      return myRes;
     }
   },
   getKeyPem: function (onDevice, keyID) {
