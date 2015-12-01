@@ -238,8 +238,10 @@ Template.discoverSingle.events({
     // Get value from form element
     var device = {
       mgmtip: event.target.mgmtip.value,
+      discoverRest: event.target.restDiscover.checked,
       mgmtuser: event.target.mgmtuser.value,
       mgmtpass: event.target.mgmtpass.value,
+      discoverSsh: event.target.sshDiscover.checked,
       sshuser: event.target.sshuser.value,
       sshpass: event.target.sshpass.value
     };
@@ -264,6 +266,21 @@ Template.discoverSingle.events({
   },
   "click #close": function (event, template) {
     template.find("form").reset();
+    template.discoverJob.set(null);
+  },
+  'change #restDiscover': function (event, template) {
+    if($('#restDiscover').is(":checked")) {
+      $('#restInfo').show();
+    } else {
+      $('#restInfo').hide();
+    }
+  },
+  'change #sshDiscover': function (event, template) {
+    if($('#sshDiscover').is(":checked")) {
+      $('#sshInfo').show();
+    } else {
+      $('#sshInfo').hide();
+    }
   }
 });
 

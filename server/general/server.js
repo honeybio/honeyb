@@ -291,7 +291,7 @@ Meteor.methods({
   },
   archiveAllTask: function() {
     this.unblock();
-    bigip_devices = Devices.find();
+    bigip_devices = Devices.find({sshEnabled: true});
     bigip_devices.forEach(function (eachDevice) {
       Meteor.call("createUCSCommand", eachDevice._id);
     });

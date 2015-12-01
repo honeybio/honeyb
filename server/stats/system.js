@@ -6,7 +6,7 @@ Meteor.methods({
   },
   updateAllDeviceStats() {
     this.unblock();
-    bigip_devices = Devices.find();
+    bigip_devices = Devices.find({restEnabled: true});
     bigip_devices.forEach(function (eachDevice) {
       Meteor.call("updateDeviceStats", eachDevice._id);
     });

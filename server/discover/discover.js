@@ -380,10 +380,14 @@ Meteor.methods({
   discoverProvisioning: function (ip, user, pass) {
     var is_provisioned = {};
     var provision_list = Meteor.call("bigipRestGet", ip, user, pass, "/sys/provision");
-    for(var i = 0; i < provision_list.length; i++) {
-      is_provisioned[provision_list[i].name] = provision_list[i].level;
+    if (provision_list.length !== undefined) {
+      for(var i = 0; i < provision_list.length; i++) {
+        is_provisioned[provision_list[i].name] = provision_list[i].level;
+      }
+      return is_provisioned;
+    } else {
+      throw new Meteor.Error(401, 'Error 401', 'Error discovering Provisioning');
     }
-    return is_provisioned;
   },
   discoverDevice: function (ip, user, pass) {
     var url = "https://" + ip + "/mgmt/tm/cm/device";
@@ -453,5 +457,13 @@ Meteor.methods({
 
     var result = Meteor.call('createJob', change_id);
     return result;
-  }
+  },
+  discoverSshHostname: function(device_id) {
+    var device = Devices.findOne({_id: device_id});
+    // var settings = Settings.findOne({type: 'system'});
+    var shellCommand = "get_host_name.sh";
+    var args = [device.mgmtAddress, device.sshUser];
+    var output = Meteor.call("runShellCmd", shellCommand, args);
+    return output.trim();
+  },
 });

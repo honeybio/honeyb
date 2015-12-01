@@ -43,18 +43,28 @@
               <div class="col-sm-4"><input type="text" name="mgmtip" class="form-control"/></div>
             </div>
             <div class="hr-line-dashed"></div>
-            <div class="form-group"><label class="col-sm-4 control-label">Admin User</label>
-              <div class="col-sm-4"><input type="text" name="mgmtuser" class="form-control"/></div>
+            <div class="form-group"><label class="col-sm-4 control-label">Enable Rest Discovery (11.5+)</label>
+              <div class="col-sm-4"><input type="checkbox" id="restDiscover" name="restDiscover" class="form-control" checked/></div>
             </div>
-            <div class="form-group"><label class="col-sm-4 control-label">Admin Password</label>
-              <div class="col-sm-4"><input type="password" name="mgmtpass" class="form-control"/></div>
+            <div id="restInfo">
+              <div class="form-group"><label class="col-sm-4 control-label">Admin User</label>
+                <div class="col-sm-4"><input type="text" name="mgmtuser" class="form-control"/></div>
+              </div>
+              <div class="form-group"><label class="col-sm-4 control-label">Admin Password</label>
+                <div class="col-sm-4"><input type="password" name="mgmtpass" class="form-control"/></div>
+              </div>
             </div>
             <div class="hr-line-dashed"></div>
-            <div class="form-group"><label class="col-sm-4 control-label">SSH User</label>
-              <div class="col-sm-4"><input type="text" name="sshuser" class="form-control"/></div>
+            <div class="form-group"><label class="col-sm-4 control-label">Enable SSH for Archives & iHealth(10.2+)</label>
+              <div class="col-sm-4"><input type="checkbox" id="sshDiscover" name="sshDiscover" class="form-control" checked/></div>
             </div>
-            <div class="form-group"><label class="col-sm-4 control-label">SSH Password</label>
-              <div class="col-sm-4"><input type="password" name="sshpass" class="form-control"/></div>
+            <div id="sshInfo">
+              <div class="form-group"><label class="col-sm-4 control-label">SSH User</label>
+                <div class="col-sm-4"><input type="text" name="sshuser" class="form-control"/></div>
+              </div>
+              <div class="form-group"><label class="col-sm-4 control-label">SSH Password</label>
+                <div class="col-sm-4"><input type="password" name="sshpass" class="form-control"/></div>
+              </div>
             </div>
             <center>
               {{#if getJobId}}
@@ -116,6 +126,7 @@
 <template name="deviceDetails">
   {{> pageHeading title="Device Details" category='Devices' }}
   <div class="wrapper wrapper-content animated fadeIn">
+    {{#if restEnabled}}
     <div class="row">
       <div class="col-lg-12">
         <div class="ibox float-e-margins">
@@ -271,6 +282,9 @@
         </div>
       </div>
     </div>
+    {{else}}
+    Rest not enabled, build ssh-only template
+    {{/if}}
   </div>
 </template>
 

@@ -7,8 +7,7 @@ Meteor.methods({
       var result = HTTP.get(requrl, {auth: authString}).data;
       return result;
     } catch (e) {
-      console.log(e);
-      return false;
+      throw new Meteor.Error(e);
     }
   },
   datacenterUpdate: function() {
@@ -24,8 +23,7 @@ Meteor.methods({
       var response = HTTP.get(url, {auth: authString}).data;
       return response;
     } catch (e) {
-      console.log(e);
-      return false;
+      throw new Meteor.Error(e);
     }
   },
   bigipRestPost: function (onDevice, lurl, postData) {
@@ -39,8 +37,7 @@ Meteor.methods({
       var response = HTTP.post(url, {auth: authString, data: postData});
       return response;
     } catch (e) {
-      console.log(e);
-      return false;
+      throw new Meteor.Error(e);
     }
   },
   bigipRestPut: function (onDevice, lurl, putData) {
@@ -54,8 +51,7 @@ Meteor.methods({
       var response = HTTP.put(url, {auth: authString, data: putData});
       return response;
     } catch (e) {
-      console.log(e);
-      return false;
+      throw new Meteor.Error(e);
     }
   },
   bigipRestDelete: function (onDevice, lurl) {
@@ -69,8 +65,7 @@ Meteor.methods({
       var response = HTTP.del(url, {auth: authString});
       return true;
     } catch (e) {
-      console.log(e);
-      return false;
+      throw new Meteor.Error(e);
     }
   },
   bigipRestGet: function (ip, user, pass, url) {
@@ -87,8 +82,7 @@ Meteor.methods({
         return [];
       }
     } catch (e) {
-      console.log(e);
-      return false;
+      throw new Meteor.Error(e);
     }
   },
   bigipRestGetItems: function (onDevice, lurl) {
@@ -108,8 +102,7 @@ Meteor.methods({
         return [];
       }
     } catch (e) {
-      console.log(e);
-      return false;
+      throw new Meteor.Error(e);
     }
   }
 });
