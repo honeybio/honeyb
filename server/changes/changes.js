@@ -668,7 +668,7 @@ ChangeFunction.discover.device.all = function(argList) {
     });
   }
   Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Complete!'}});
-  return "finished discovering";
+  return "Successfully Discovered";
 }
 
 var checkAuth = function(change_id, cmethod, cb) {
@@ -720,9 +720,17 @@ Meteor.methods({
     // Apply method will take array of args
     checkAuth(change_id, myChange.change.theMethod, function (err, res) {
       if (res) {
-        ChangeFunction[changeMethod.action][changeMethod.module][changeMethod.object](argList);
-        Changes.update({_id: change_id}, { $set: {pushed: true, pushedBy: userObj }});
-        return 'Success';
+        var response = ChangeFunction[changeMethod.action][changeMethod.module][changeMethod.object](argList);
+        Changes.update({_id: change_id},
+          {
+            $set: {
+              pushed: true,
+              pushedBy: userObj,
+              success: true,
+              successOutput: response
+            }
+          });
+        return response;
       }
       else {
         Changes.update({_id: change_id}, {

@@ -259,7 +259,7 @@ Template.discoverSingle.events({
         if (err) {
           toastr.error(err.details, err.reason)
         } else {
-          toastr.success(res)
+          toastr.success(res.message, res.subject);
         }
       });
     });

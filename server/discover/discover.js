@@ -456,7 +456,8 @@ Meteor.methods({
     var change_id = Meteor.call('createStagedChange', theChange);
 
     var result = Meteor.call('createJob', change_id);
-    return result;
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
   },
   discoverSshHostname: function(device_id) {
     var device = Devices.findOne({_id: device_id});
