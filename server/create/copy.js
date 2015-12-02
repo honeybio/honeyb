@@ -12,8 +12,8 @@ Meteor.methods({
     var poolObj = Pools.findOne({_id: pool_id});
     var device = Devices.findOne({_id: poolObj.onDevice});
     var toDevice = Devices.findOne({_id: to_device_id});
-    var poolConfig = Meteor.call("bigipRestGetv2", poolObj.onDevice, poolObj.selfLink);
-    var poolMembers = Meteor.call("bigipRestGetv2", poolObj.onDevice, poolObj.membersReference.link);
+    var poolConfig = mdrBigipRestGetv2(poolObj.onDevice, poolObj.selfLink);
+    var poolMembers = mdrBigipRestGetv2(poolObj.onDevice, poolObj.membersReference.link);
     var postMembers = [];
     for (i = 0; i < poolMembers.items.length; i++) {
       postMembers[i] = {

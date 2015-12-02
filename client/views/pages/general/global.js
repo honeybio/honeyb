@@ -30,8 +30,8 @@ Template.registerHelper('getThis', function(attr) {
   return tmpVar[attr];
 });
 Template.registerHelper('getSyncGroup', function(sync_id) {
-  var device = Gtmsyncgroups.findOne({_id: sync_id});
-  return synchronizationGroupName;
+  var syncgroup = Gtmsyncgroups.findOne({_id: sync_id});
+  return syncgroup.synchronizationGroupName;
 });
 Template.registerHelper('getOnDevice', function(device_id) {
   var device = Devices.findOne({_id: device_id});

@@ -1,6 +1,8 @@
 Meteor.methods({
   discoverGTM: function (ip, user, pass, device_id) {
-    var gtm_settings = Meteor.call("bigipRestGetv2", device_id, "https://localhost/mgmt/tm/gtm/global-settings/general");
+    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
+    var gtm_settings = BigipClient.list.gtm.global_settings.general(bigip);
+    // var gtm_settings = mdrBigipRestGetv2(device_id, "https://localhost/mgmt/tm/gtm/global-settings/general");
     var exist_sync = Gtmsyncgroups.findOne({synchronizationGroupName: gtm_settings.synchronizationGroupName});
     var on_device_list = [ ];
     if (typeof exist_sync !== 'undefined') {
@@ -20,7 +22,8 @@ Meteor.methods({
     gtm_settings['onDevice'] = [ device_id ];
     gtm_settings.group = 'default-group';
     var sync_id = Gtmsyncgroups.insert(gtm_settings);
-    var dc_list = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/gtm/datacenter");
+    var dc_list = BigipClient.list.gtm.datacenter(bigip);
+    //var dc_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/gtm/datacenter");
     for(var i = 0; i < dc_list.length; i++) {
       var dc = Meteor.call("splitAndInsert", dc_list[i], device_id);
       dc['inSyncGroup'] = sync_id;
@@ -28,7 +31,8 @@ Meteor.methods({
       Gtmdatacenters.insert(dc);
     }
     // array of wideips
-    var wip_list = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/gtm/wideip/a");
+    var wip_list = BigipClient.list.gtm.wideip.a(bigip);
+    // var wip_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/gtm/wideip/a");
     // loop through wideips
     for (var i=0; i < wip_list.length; i++) {
       // get list of pools for each wideip
@@ -37,8 +41,9 @@ Meteor.methods({
       if (wip_pool_list !== undefined) {
         for (var j=0; j < wip_pool_list.length; j++) {
           // URL for this specific pool
-          var wip_pool_details = Meteor.call("bigipRestGetv2", device_id, wip_pool_list[j].nameReference.link);
-          var pmems = Meteor.call("bigipRestGetItems", device_id, wip_pool_details.membersReference.link);
+          // var wip_pool_details = mdrBigipRestGetv2(device_id, wip_pool_list[j].nameReference.link);
+          var wip_pool_details = mdrBigipRestGetv2(device_id, wip_pool_list[j].nameReference.link);
+          var pmems = mdrBigipRestGetItems(device_id, wip_pool_details.membersReference.link);
           wip_list[i].pools[j].members = pmems;
         }
       }
@@ -46,18 +51,20 @@ Meteor.methods({
       wip_list[i]['inSyncGroup'] = sync_id;
       Wideips.insert(wip_list[i]);
     }
-    var pool_list = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/gtm/pool/a?expandSubcollections=true");
+    var pool_list = BigipClient.list.gtm.pool.a(bigip);
+    // var pool_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/gtm/pool/a?expandSubcollections=true");
     for(var i = 0; i < pool_list.length; i++) {
       pool_list[i].group = 'default-group';
       pool_list[i]['inSyncGroup'] = sync_id;
       Widepools.insert(pool_list[i]);
     }
-    var server_list = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/gtm/server");
+    var server_list = BigipClient.list.gtm.server(bigip);
+    //var server_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/gtm/server");
     for(var i = 0; i < server_list.length; i++) {
       var server = Meteor.call("splitAndInsert", server_list[i], device_id);
       var gtm_server_id = Gtmservers.insert(server);
       var gtm_server_name = server.fullPath;
-      var gvservers = Meteor.call("bigipRestGetItems", device_id, server.virtualServersReference.link);
+      var gvservers = mdrBigipRestGetItems(device_id, server.virtualServersReference.link);
       for(var j = 0; j < gvservers.length; j++) {
         var gvsobj = Meteor.call("GtmSplitAndInsert", gvservers[j], gtm_server_id, gtm_server_name );
         gvsobj.group = 'default-group';
@@ -72,7 +79,9 @@ Meteor.methods({
   },
   discoverPools: function (ip, user, pass, device_id) {
     this.unblock();
-    var pool_list = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/ltm/pool?expandSubcollections=true");
+    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
+    var pool_list = BigipClient.list.ltm.pool(bigip);
+    // var pool_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/ltm/pool?expandSubcollections=true");
     for ( var i = 0; i < pool_list.length; i++ ) {
       var pmem = pool_list[i].membersReference.items;
       var poolObject = { onDevice: device_id, members: pmem };
@@ -90,8 +99,8 @@ Meteor.methods({
     }
   },
   discoverOnePool: function(device_id, poolLink) {
-    var aPool = Meteor.call("bigipRestGetv2", device_id, poolLink);
-    var pmem = Meteor.call("bigipRestGetItems", device_id, aPool.membersReference.link)
+    var aPool = mdrBigipRestGetv2(device_id, poolLink);
+    var pmem = mdrBigipRestGetItems(device_id, aPool.membersReference.link)
     var poolObject = { onDevice: device_id, members: pmem };
     for (var attrname in aPool) {
       poolObject[attrname] = aPool[attrname];
@@ -106,7 +115,7 @@ Meteor.methods({
   discoverOneWPool: function(syncid, poolLink) {
     var syncgroup = Gtmsyncgroups.findOne({_id: syncid});
     var device_id = syncgroup.onDevice[0];
-    var aPool = Meteor.call("bigipRestGetv2", device_id, poolLink + "&expandSubcollections=true");
+    var aPool = mdrBigipRestGetv2(device_id, poolLink + "&expandSubcollections=true");
     var poolObject = { group: 'default-group' };
     for (var attrname in aPool) {
       poolObject[attrname] = aPool[attrname];
@@ -117,7 +126,7 @@ Meteor.methods({
   updateOneWPool: function(syncId, selfLink, poolId) {
     var syncgroup = Gtmsyncgroups.findOne({_id: syncId});
     var device_id = syncgroup.onDevice[0];
-    var aPool = Meteor.call("bigipRestGetv2", device_id, selfLink + "&expandSubcollections=true");
+    var aPool = mdrBigipRestGetv2(device_id, selfLink + "&expandSubcollections=true");
     var poolObject = {};
     for (var attrname in aPool) {
       poolObject[attrname] = aPool[attrname];
@@ -127,7 +136,7 @@ Meteor.methods({
   discoverOneWideip: function(syncid, wipLink) {
     var syncgroup = Gtmsyncgroups.findOne({_id: syncid});
     var device_id = syncgroup.onDevice[0];
-    var aWip = Meteor.call("bigipRestGetv2", device_id, wipLink);
+    var aWip = mdrBigipRestGetv2(device_id, wipLink);
     var wipObject = { group: 'default-group' };
     for (var attrname in aWip) {
       wipObject[attrname] = aWip[attrname];
@@ -137,8 +146,8 @@ Meteor.methods({
     if (wip_pool_list !== undefined) {
       for (var j=0; j < wip_pool_list.length; j++) {
         // URL for this specific pool
-        var wip_pool_details = Meteor.call("bigipRestGetv2", device_id, wip_pool_list[j].nameReference.link);
-        var pmems = Meteor.call("bigipRestGetItems", device_id, wip_pool_details.membersReference.link);
+        var wip_pool_details = mdrBigipRestGetv2(device_id, wip_pool_list[j].nameReference.link);
+        var pmems = mdrBigipRestGetItems(device_id, wip_pool_details.membersReference.link);
         wipObject.pools[j].members = pmems;
       }
     }
@@ -149,7 +158,7 @@ Meteor.methods({
     var tmp = monLink;
     var newTmp = tmp.replace(/https:\/\/localhost\/mgmt\/tm\/ltm\/monitor\//, "");
     var final = newTmp.replace(/\/.*/, "");
-    var aMon = Meteor.call("bigipRestGetv2", device_id, monLink);
+    var aMon = mdrBigipRestGetv2(device_id, monLink);
     var monObject = { onDevice: device_id, type: final, group: 'default-group'};
     for (var attrname in aMon) {
       monObject[attrname] = aMon[attrname];
@@ -158,8 +167,8 @@ Meteor.methods({
     return monId;
   },
   discoverOneVirtual: function(device_id, vipLink, vipId) {
-    var aVip = Meteor.call("bigipRestGetv2", device_id, vipLink);
-    var profile_list = Meteor.call("bigipRestGetItems", device_id, aVip.profilesReference.link);
+    var aVip = mdrBigipRestGetv2(device_id, vipLink);
+    var profile_list = mdrBigipRestGetItems(device_id, aVip.profilesReference.link);
     for (var j = 0; j < profile_list.length; j++) {
       var prof = Profiles.findOne({fullPath: profile_list.fullPath, onDevice: device_id });
       if (typeof prof !== 'undefined') {
@@ -184,7 +193,9 @@ Meteor.methods({
     }
   },
   discoverRules: function (ip, user, pass, device_id) {
-    var rule_list = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/ltm/rule");
+    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
+    var rule_list = BigipClient.list.ltm.rule(bigip);
+    //var rule_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/ltm/rule");
     for (var i = 0; i < rule_list.length; i++) {
       var ruleObj = { onDevice: device_id};
       for (var attrname in rule_list[i]) {
@@ -195,7 +206,9 @@ Meteor.methods({
     }
   },
   discoverIdatagroups: function (ip, user, pass, device_id) {
-    var group_list = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/ltm/data-group/internal");
+    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
+    var group_list = BigipClient.list.ltm.data_group.internal(bigip);
+    //var group_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/ltm/data-group/internal");
     for (var i = 0; i < group_list.length; i++) {
       var groupObj = { onDevice: device_id};
       for (var attrname in group_list[i]) {
@@ -206,7 +219,9 @@ Meteor.methods({
     }
   },
   discoverEdatagroups: function (ip, user, pass, device_id) {
-    var group_list = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/ltm/data-group/external");
+    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
+    var group_list = BigipClient.list.ltm.data_group.external(bigip);
+    //var group_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/ltm/data-group/external");
     for (var i = 0; i < group_list.length; i++) {
       var groupObj = { onDevice: device_id};
       for (var attrname in group_list[i]) {
@@ -217,14 +232,17 @@ Meteor.methods({
     }
   },
   discoverLtmMonitors: function (ip, user, pass, device_id) {
-    var monitor_type_list = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/ltm/monitor");
+    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
+    var monitor_type_list = BigipClient.list.ltm.monitor(bigip);
+    //var monitor_type_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/ltm/monitor");
     for (var i = 0; i < monitor_type_list.length; i++) {
       tmp = monitor_type_list[i].reference.link;
       newTmp = tmp.replace(/https:\/\/localhost\/mgmt\/tm\/ltm\/monitor\//, "");
       final = newTmp.replace(/\?.*/, "");
       tmpUrl = "/ltm/monitor/" + final;
       // monObj = { type: monType };
-      thisMonitorList = Meteor.call("bigipRestGet", ip, user, pass, tmpUrl);
+
+      thisMonitorList = mdrBigipRestGet(ip, user, pass, tmpUrl);
       for(var j = 0; j < thisMonitorList.length; j++) {
         var monObj = { onDevice: device_id, type: final };
         for (var attrname in thisMonitorList[j]) {
@@ -236,14 +254,16 @@ Meteor.methods({
     };
   },
   discoverLtmProfiles: function (ip, user, pass, device_id) {
-    var profile_type_list = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/ltm/profile");
+    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
+    var profile_type_list = BigipClient.list.ltm.profile(bigip);
+    //var profile_type_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/ltm/profile");
     for (var i = 0; i < profile_type_list.length; i++) {
       var tmp = profile_type_list[i].reference.link;
       var newTmp = tmp.replace(/https:\/\/localhost\/mgmt\/tm\/ltm\/profile\//, "");
       var final = newTmp.replace(/\?.*/, "");
       var tmpUrl = "/ltm/profile/" + final;
       // monObj = { type: monType };
-      thisProfileList = Meteor.call("bigipRestGet", ip, user, pass, tmpUrl);
+      thisProfileList = mdrBigipRestGet(ip, user, pass, tmpUrl);
       for(var j = 0; j < thisProfileList.length; j++) {
         var profileObj = { onDevice: device_id, profType: final };
         for (var attrname in thisProfileList[j]) {
@@ -254,8 +274,10 @@ Meteor.methods({
       }
     };
   },
-  discoverVirtualAddress: function (device_id) {
-    var virtualAddressList = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/ltm/virtual-address");
+  discoverVirtualAddress: function (ip, user, pass, device_id) {
+    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
+    var virtualAddressList = BigipClient.list.ltm.virtual_address(bigip);
+    // var virtualAddressList = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/ltm/virtual-address");
     if (virtualAddressList !== undefined) {
       for (var i = 0; i < virtualAddressList.length; i++) {
         var virtualAddressObj = { group: 'default-group', onDevice: device_id }
@@ -266,8 +288,10 @@ Meteor.methods({
       }
     }
   },
-  discoverAsmPolicies: function (device_id) {
-    var asmPolicyList = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/asm/policies");
+  discoverAsmPolicies: function (ip, user, pass, device_id) {
+    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
+    var asmPolicyList = BigipClient.list.asm.policy(bigip);
+    // var asmPolicyList = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/asm/policies");
     if (asmPolicyList !== undefined) {
       for (var i = 0; i < asmPolicyList.length; i++) {
         var policyObj = { group: 'default-group', onDevice: device_id }
@@ -279,74 +303,92 @@ Meteor.methods({
     }
   },
   discoverApmProfiles: function (ip, user, pass, device_id) {
-    var profile_type_list = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/apm/profile");
-    for (var i = 0; i < profile_type_list.length; i++) {
-      var tmp = profile_type_list[i].reference.link;
-      var newTmp = tmp.replace(/https:\/\/localhost\/mgmt\/tm\/apm\/profile\//, "");
-      var final = newTmp.replace(/\?.*/, "");
-      var tmpUrl = "/apm/profile/" + final;
-      // monObj = { type: monType };
-      thisProfileList = Meteor.call("bigipRestGet", ip, user, pass, tmpUrl);
-      for(var j = 0; j < thisProfileList.length; j++) {
-        var profileObj = { onDevice: device_id, profType: final };
-        for (var attrname in thisProfileList[j]) {
-          profileObj[attrname] = thisProfileList[j][attrname];
+    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
+    var profile_type_list = BigipClient.list.apm.profile(bigip);
+    //var profile_type_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/apm/profile");
+    if (profile_type_list.length !== undefined) {
+      for (var i = 0; i < profile_type_list.length; i++) {
+        var tmp = profile_type_list[i].reference.link;
+        var newTmp = tmp.replace(/https:\/\/localhost\/mgmt\/tm\/apm\/profile\//, "");
+        var final = newTmp.replace(/\?.*/, "");
+        var tmpUrl = "/apm/profile/" + final;
+        // monObj = { type: monType };
+        thisProfileList = mdrBigipRestGet(ip, user, pass, tmpUrl);
+        for(var j = 0; j < thisProfileList.length; j++) {
+          var profileObj = { onDevice: device_id, profType: final };
+          for (var attrname in thisProfileList[j]) {
+            profileObj[attrname] = thisProfileList[j][attrname];
+          }
+          profileObj.group = 'default-group';
+          Profiles.insert(profileObj);
         }
-        profileObj.group = 'default-group';
-        Profiles.insert(profileObj);
       }
     }
   },
   discoverPersistence: function (ip, user, pass, device_id) {
-    var persistence_type_list = Meteor.call("bigipRestGetv2", device_id, "https://localhost/mgmt/tm/ltm/persistence");
-    for (var i = 0; i < persistence_type_list.length; i++) {
-      tmp = persistence_type_list[i].reference.link;
-      newTmp = tmp.replace(/https:\/\/localhost\/mgmt\/tm\/ltm\/persistence\//, "");
-      final = newTmp.replace(/\?.*/, "");
-      tmpUrl = "/ltm/persistence/" + final;
-      // monObj = { type: monType };
-      thisPersistenceList = Meteor.call("bigipRestGet", ip, user, pass, tmpUrl);
-      for(var j = 0; j < thisPersistenceList.length; j++) {
-        var persistenceObj = { onDevice: device_id, type: final };
-        for (var attrname in thisPersistenceList[j]) {
-          persistenceObj[attrname] = thisPersistenceList[j][attrname];
+    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
+    var persistence_type_list = BigipClient.list.ltm.persistence(bigip);
+    // var persistence_type_list = mdrBigipRestGetv2(device_id, "https://localhost/mgmt/tm/ltm/persistence");
+    if (persistence_type_list.length !== undefined) {
+      for (var i = 0; i < persistence_type_list.length; i++) {
+        tmp = persistence_type_list[i].reference.link;
+        newTmp = tmp.replace(/https:\/\/localhost\/mgmt\/tm\/ltm\/persistence\//, "");
+        final = newTmp.replace(/\?.*/, "");
+        tmpUrl = "/ltm/persistence/" + final;
+        // monObj = { type: monType };
+        thisPersistenceList = mdrBigipRestGet(ip, user, pass, tmpUrl);
+        for(var j = 0; j < thisPersistenceList.length; j++) {
+          var persistenceObj = { onDevice: device_id, type: final };
+          for (var attrname in thisPersistenceList[j]) {
+            persistenceObj[attrname] = thisPersistenceList[j][attrname];
+          }
+          persistenceObj.group = 'default-group';
+          Persistence.insert(persistenceObj);;
         }
-        persistenceObj.group = 'default-group';
-        Persistence.insert(persistenceObj);;
       }
-    };
+    }
   },
   discoverCerts: function (ip, user, pass, device_id) {
-    var cert_list = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/sys/crypto/cert");
-    for (var i = 0; i < cert_list.length; i++) {
-      var certObject = { onDevice: device_id, ssltype: "certificate" };
-      for(var attrname in cert_list[i]) {
-        certObject[attrname] = cert_list[i][attrname];
-      };
-      certObject.group = 'default-group';
-      var myCert = Certificates.insert(certObject);
-      // Meteor.call("getCertPem", device_id, myCert);
+    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
+    var cert_list = BigipClient.list.sys.crypto.cert(bigip);
+    // var cert_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/sys/crypto/cert");
+    if (cert_list.length !== undefined) {
+      for (var i = 0; i < cert_list.length; i++) {
+        var certObject = { onDevice: device_id, ssltype: "certificate" };
+        for(var attrname in cert_list[i]) {
+          certObject[attrname] = cert_list[i][attrname];
+        };
+        certObject.group = 'default-group';
+        var myCert = Certificates.insert(certObject);
+        // Meteor.call("getCertPem", device_id, myCert);
+      }
     }
   },
   discoverKeys: function (ip, user, pass, device_id) {
-    var key_list = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/sys/crypto/key");
-    for (var i = 0; i < key_list.length; i++) {
-      var keyObject = { onDevice: device_id, ssltype: "key" };
-      for(var attrname in key_list[i]) {
-        keyObject[attrname] = key_list[i][attrname];
-      };
-      keyObject.group = 'default-group';
-      var myKey = Certificates.insert(keyObject);
-      // Meteor.call("getKeyPem", device_id, myKey);
+    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
+    var key_list = BigipClient.list.sys.crypto.key(bigip);
+    //var key_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/sys/crypto/key");
+    if (key_list.length !== undefined) {
+      for (var i = 0; i < key_list.length; i++) {
+        var keyObject = { onDevice: device_id, ssltype: "key" };
+        for(var attrname in key_list[i]) {
+          keyObject[attrname] = key_list[i][attrname];
+        };
+        keyObject.group = 'default-group';
+        var myKey = Certificates.insert(keyObject);
+        // Meteor.call("getKeyPem", device_id, myKey);
+      }
     }
   },
   discoverVirtuals: function (ip, user, pass, device_id) {
-    var virtual_list = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/ltm/virtual");
+    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
+    var virtual_list = BigipClient.list.ltm.virtual(bigip);
+    //var virtual_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/ltm/virtual");
     for (var i = 0; i < virtual_list.length; i++) {
       var profile_url = virtual_list[i].profilesReference.link.replace(/https:\/\/localhost\/mgmt\/tm/, "");
       // var statistics = getStats(ip, user, pass, virtual_list[i].selfLink)
       // console.log(statistics);
-      var profile_list = Meteor.call("bigipRestGet", ip, user, pass, profile_url);
+      var profile_list = mdrBigipRestGet(ip, user, pass, profile_url);
       for (var j = 0; j < profile_list.length; j++) {
         var prof = Profiles.findOne({fullPath: profile_list[j].fullPath, onDevice: device_id });
         if (typeof prof !== 'undefined') {
@@ -379,7 +421,7 @@ Meteor.methods({
   },
   discoverProvisioning: function (ip, user, pass) {
     var is_provisioned = {};
-    var provision_list = Meteor.call("bigipRestGet", ip, user, pass, "/sys/provision");
+    var provision_list = mdrBigipRestGet(ip, user, pass, "/sys/provision");
     if (provision_list.length !== undefined) {
       for(var i = 0; i < provision_list.length; i++) {
         is_provisioned[provision_list[i].name] = provision_list[i].level;
@@ -412,12 +454,12 @@ Meteor.methods({
   },
   discoverTrafficGroups: function (device_id) {
     var device = Devices.findOne({_id: device_id});
-    var trafficGroupList = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/cm/traffic-group");
+    var trafficGroupList = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/cm/traffic-group");
     if (trafficGroupList !== undefined) {
       for (var i = 0; i < trafficGroupList.length; i++) {
         if (trafficGroupList[i].isFloating == 'true') {
           var link = trafficGroupList[i].selfLink.replace(/\?.*/, '/stats');
-          var response = Meteor.call("bigipRestGetv2", device_id, link);
+          var response = mdrBigipRestGetv2(device_id, link);
           if (response !== undefined) {
             if (response.entries.deviceName === undefined) {
               for (var entry in response.entries) {

@@ -15,7 +15,7 @@ Meteor.methods({
   },
   updateAllPoolMembersStatus: function (device_id) {
     this.unblock();
-    var stats = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/ltm/pool?expandSubcollections=true");
+    var stats = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/ltm/pool?expandSubcollections=true");
     for (i = 0; i < stats.length; i++) {
       var pmem = stats[i].membersReference.items;
       for(var attrname in stats[i]) {
@@ -41,7 +41,7 @@ Meteor.methods({
     try {
       var result = HTTP.get(requrl, {auth: authString}).data;
       var pmemUrl = result.membersReference.link.replace(/https:\/\/localhost\/mgmt\/tm/, "");
-      var pmem = Meteor.call("bigipRestGet", ip, user, pass, pmemUrl);
+      var pmem = mdrBigipRestGet(ip, user, pass, pmemUrl);
       var poolObject = { onDevice: device_id, members: pmem };
       for(var attrname in result) {
         poolObject[attrname] = result[attrname];
@@ -62,7 +62,7 @@ Meteor.methods({
   },
   getVirtualStats: function (ip, user, pass, device_id) {
     this.unblock();
-    var stats = Meteor.call("bigipRestGetv2", device_id, "https://localhost/mgmt/tm/ltm/virtual/stats");
+    var stats = mdrBigipRestGetv2(device_id, "https://localhost/mgmt/tm/ltm/virtual/stats");
     for (var entry in stats.entries) {
       var virtualStatObject = { onDevice: device_id, objType: "virtual", object: entry };
       virtualStatObject.availabilityState = stats.entries[entry].nestedStats.entries['status.availabilityState'].description;
@@ -80,7 +80,7 @@ Meteor.methods({
   getOneVirtualStats: function (device_id, vipLink, vipId) {
     this.unblock();
     var link = vipLink.replace(/\?.*/, "\/stats");
-    var stats = Meteor.call("bigipRestGetv2", device_id, link);
+    var stats = mdrBigipRestGetv2(device_id, link);
     for (var entry in stats.entries) {
       var virtualStatObject = { onDevice: device_id, objType: "virtual", object: entry };
       virtualStatObject.availabilityState = stats.entries[entry].nestedStats.entries['status.availabilityState'].description;
@@ -95,7 +95,7 @@ Meteor.methods({
   },
   getPoolStats: function (ip, user, pass, device_id) {
     this.unblock();
-    var stats = Meteor.call("bigipRestGetv2", device_id, "https://localhost/mgmt/tm/ltm/pool/stats");
+    var stats = mdrBigipRestGetv2(device_id, "https://localhost/mgmt/tm/ltm/pool/stats");
     for (var entry in stats.entries) {
       var poolStatObject = { onDevice: device_id, objType: "pool", object: entry };
       poolStatObject.availabilityState = stats.entries[entry].nestedStats.entries['status.availabilityState'].description;

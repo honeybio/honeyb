@@ -1,7 +1,7 @@
 Meteor.methods({
   getDatacenterStats: function (device_id) {
     this.unblock();
-    var stats = Meteor.call("bigipRestGetv2", device_id, "https://localhost/mgmt/tm/gtm/datacenter/stats");
+    var stats = mdrBigipRestGetv2(device_id, "https://localhost/mgmt/tm/gtm/datacenter/stats");
     for (var entry in stats.entries) {
       var datacenterStatObject = { onDevice: device_id, objType: "datacenter", object: entry };
       datacenterStatObject.availabilityState = stats.entries[entry].nestedStats.entries['status.availabilityState'].description;
@@ -22,7 +22,7 @@ Meteor.methods({
   },
   getGtmserverStats: function (device_id) {
     this.unblock();
-    var stats = Meteor.call("bigipRestGetv2", device_id, "https://localhost/mgmt/tm/gtm/server/stats");
+    var stats = mdrBigipRestGetv2(device_id, "https://localhost/mgmt/tm/gtm/server/stats");
     du = stats.entries['https://localhost/mgmt/tm/gtm/server/~Common~apm.bigipdemo.com/stats'];
     for (var entry in stats.entries) {
       var gtmserverStatObject = { onDevice: device_id, objType: "datacenter", object: entry };
@@ -44,7 +44,7 @@ Meteor.methods({
   },
   getGtmvserverStats: function (device_id, url) {
     this.unblock();
-    var stats = Meteor.call("bigipRestGetv2", device_id, url);
+    var stats = mdrBigipRestGetv2(device_id, url);
     for (var entry in stats.entries) {
       var gtmserverStatObject = { onDevice: device_id, objType: "datacenter", object: entry };
       gtmserverStatObject.availabilityState = stats.entries[entry].nestedStats.entries['status.availabilityState'].description;

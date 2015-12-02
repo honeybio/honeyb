@@ -74,7 +74,7 @@ ChangeFunction.create.gtm.wideip = function(argList) {
     var syncgroup = Gtmsyncgroups.findOne({_id: argList.syncId});
     var device_id = syncgroup.onDevice[0];
     var requrl = "https://localhost/mgmt/tm/gtm/wideip/a";
-    var result = Meteor.call("bigipRestPost", device_id, requrl, post_data);
+    var result = mdrBigipRestPost(device_id, requrl, post_data);
     var db_id = Meteor.call("discoverOneWideip", device_id, result.data.selfLink);
     return result;
   }
@@ -99,7 +99,7 @@ ChangeFunction.create.gtm.pool = function(argList) {
     var syncgroup = Gtmsyncgroups.findOne({_id: argList.syncId});
     var device_id = syncgroup.onDevice[0];
     var requrl = "https://localhost/mgmt/tm/gtm/pool/a";
-    var result = Meteor.call("bigipRestPost", device_id, requrl, post_data);
+    var result = mdrBigipRestPost(device_id, requrl, post_data);
     var db_id = Meteor.call("discoverOneWPool", argList.syncId, result.data.selfLink);
     return result;
   }
@@ -151,7 +151,7 @@ ChangeFunction.create.gtm.member = function(argList) {
     kind: "tm:gtm:pool:a:members:membersstate",
     name: argList.name,
   };
-  var result = Meteor.call("bigipRestPost", device_id, requrl, post_data);
+  var result = mdrBigipRestPost(device_id, requrl, post_data);
   var db_id = Meteor.call("updateOneWPool", argList.syncId, pool.selfLink);
   return result;
 }
@@ -211,7 +211,7 @@ ChangeFunction.delete.ltm.virtual = function(argList) {
   var device_id = argList.onDevice;
   var selfLink = argList.selfLink;
   var obj_id = argList.obj_id;
-  var response = Meteor.call("bigipRestDelete", device_id, selfLink);
+  var response = mdrBigipRestDelete(device_id, selfLink);
   if (response) {
     Virtuals.update({_id : obj_id}, {$set: {deleted: true}});
     return response;
@@ -222,7 +222,7 @@ ChangeFunction.delete.ltm.pool = function(argList) {
   var device_id = argList.device_id;
   var pool_url = argList.pool_url;
   var pool_id = argList.pool_id;
-  var response = Meteor.call("bigipRestDelete", device_id, pool_url);
+  var response = mdrBigipRestDelete(device_id, pool_url);
   if (response) {
     Pools.update({_id : pool_id}, {$set: {deleted: true}});
     return response;
@@ -234,7 +234,7 @@ ChangeFunction.delete.ltm.monitor = function(argList) {
   var device_id = argList.device_id;
   var selfLink = argList.selfLink;
   var mon_id = argList.monitor_id;
-  var response = Meteor.call("bigipRestDelete", device_id, selfLink );
+  var response = mdrBigipRestDelete(device_id, selfLink );
   if (response) {
     Monitors.update({_id : argList.obj_id}, {$set: {deleted: true}});
     return response;
@@ -245,7 +245,7 @@ ChangeFunction.delete.ltm.pool_member = function(argList) {
   var poolMember = argList.poolMember;
   var device_id = argList.device_id;
   var pool_id = argList.pool_id;
-  var response = Meteor.call("bigipRestDelete", device_id, poolMember);
+  var response = mdrBigipRestDelete(device_id, poolMember);
   if (response) {
     Meteor.call("updatePoolMemberStatus", device_id, pool_id);
     return response;
@@ -256,7 +256,7 @@ ChangeFunction.delete.ltm.profile = function(argList) {
   var device_id = argList.device_id;
   var selfLink = argList.selfLink;
   var obj_id = argList.obj_id;
-  var response = Meteor.call("bigipRestDelete", device_id, selfLink);
+  var response = mdrBigipRestDelete(device_id, selfLink);
   if (response) {
     Profiles.update({_id : obj_id}, {$set: {deleted: true}});
     return true;
@@ -282,7 +282,7 @@ ChangeFunction.delete.gtm.member = function(argList) {
   var syncgroup = Gtmsyncgroups.findOne({_id: argList.syncId});
   var device_id = syncgroup.onDevice[0];
   var selfLink = argList.selfLink;
-  var response = Meteor.call("bigipRestDelete", device_id, selfLink);
+  var response = mdrBigipRestDelete(device_id, selfLink);
   if (response) {
     //Rediscover pool
     // Profiles.update({_id : obj_id}, {$set: {deleted: true}});
@@ -303,9 +303,9 @@ ChangeFunction.enable.ltm.virtual = function(argList) {
     var response;
     if (v12) {
       var newLink = vipLink.replace(/\?ver.*/, "?ver=11.6.0");
-      response = Meteor.call("bigipRestPut", device_id, newLink, put_data);
+      response = mdrBigipRestPut(device_id, newLink, put_data);
     } else {
-      response = Meteor.call("bigipRestPut", device_id, vipLink, put_data);
+      response = mdrBigipRestPut(device_id, vipLink, put_data);
     }
     Meteor.call("getOneVirtualStats", device_id, vipLink, argList.objId);
     return response;
@@ -314,7 +314,7 @@ ChangeFunction.enable.ltm.pool_member = function(argList) {
   var poolMember = argList.poolMember;
   var device_id = argList.device_id;
   var put_data = {"state": "user-up", "session": "user-enabled"};
-  var response = Meteor.call("bigipRestPut", device_id, poolMember, put_data);
+  var response = mdrBigipRestPut(device_id, poolMember, put_data);
   return response;
 }
 ChangeFunction.disable.ltm.virtual = function(argList) {
@@ -326,9 +326,9 @@ ChangeFunction.disable.ltm.virtual = function(argList) {
   var response;
   if (v12) {
     var newLink = vipLink.replace(/\?ver.*/, "?ver=11.6.0");
-    response = Meteor.call("bigipRestPut", device_id, newLink, put_data);
+    response = mdrBigipRestPut(device_id, newLink, put_data);
   } else {
-    response = Meteor.call("bigipRestPut", device_id, vipLink, put_data);
+    response = mdrBigipRestPut(device_id, vipLink, put_data);
   }
   Meteor.call("getOneVirtualStats", device_id, vipLink, argList.objId);
   return response;
@@ -337,14 +337,14 @@ ChangeFunction.disable.ltm.pool_member = function(argList) {
   var poolMember = argList.poolMember;
   var device_id = argList.device_id;
   var put_data = {"session": "user-disabled"};
-  var response = Meteor.call("bigipRestPut", device_id, poolMember, put_data);
+  var response = mdrBigipRestPut(device_id, poolMember, put_data);
   return response;
 }
 ChangeFunction.force.ltm.pool_member = function(argList) {
   var poolMember = argList.poolMember;
   var device_id = argList.device_id;
   var put_data = {"state": "user-down", "session": "user-disabled"};
-  var response = Meteor.call("bigipRestPut", device_id, putUrl, put_data);
+  var response = mdrBigipRestPut(device_id, putUrl, put_data);
   return response;
 }
 ChangeFunction.create.ltm.pool = function(argList) {
@@ -385,7 +385,7 @@ ChangeFunction.create.ltm.pool = function(argList) {
     }
   }
   */
-  var result = Meteor.call("bigipRestPost", device_id, requrl, post_data);
+  var result = mdrBigipRestPost(device_id, requrl, post_data);
   Meteor.call("discoverOnePool", device_id, result.data.selfLink);
   return result;
 }
@@ -418,7 +418,7 @@ ChangeFunction.create.ltm.virtual = function(argList) {
       }
     }
     var requrl = "https://localhost/mgmt/tm/ltm/virtual";
-    var result = Meteor.call("bigipRestPost", device_id, requrl, post_data);
+    var result = mdrBigipRestPost(device_id, requrl, post_data);
     var db_id = Meteor.call("discoverOneVirtual", device_id, result.data.selfLink);
     return result;
 }
@@ -442,7 +442,7 @@ ChangeFunction.create.ltm.pool_member = function(argList) {
     address: argList.ipAddr
   };
   // This next method always returns a 404
-  var result = Meteor.call("bigipRestPost", argList.device_id, requrl, post_data);
+  var result = mdrBigipRestPost(argList.device_id, requrl, post_data);
   var temp = Meteor.call("updatePoolMemberStatus", argList.device_id, argList.pool_id);
   return result;
 }
@@ -480,7 +480,7 @@ ChangeFunction.create.ltm.monitor = function(argList) {
       }
     }
     var requrl = "https://localhost/mgmt/tm/ltm/monitor/http";
-    var result = Meteor.call("bigipRestPost", device_id, requrl, post_data);
+    var result = mdrBigipRestPost(device_id, requrl, post_data);
     var db_id = Meteor.call("discoverOneMonitor", device_id, result.data.selfLink);
     return result;
   }
@@ -507,7 +507,7 @@ ChangeFunction.create.ltm.monitor = function(argList) {
       }
     }
     var requrl = "https://localhost/mgmt/tm/ltm/monitor/https";
-    var result = Meteor.call("bigipRestPost", device_id, requrl, post_data);
+    var result = mdrBigipRestPost(device_id, requrl, post_data);
     var db_id = Meteor.call("discoverOneMonitor", device_id, result.data.selfLink);
     return result;
   } else if (argList.type == "tcp-half-open") {
@@ -524,7 +524,7 @@ ChangeFunction.create.ltm.monitor = function(argList) {
       }
     }
     var requrl = "https://localhost/mgmt/tm/ltm/monitor/tcp-half-open";
-    var result = Meteor.call("bigipRestPost", device_id, requrl, post_data);
+    var result = mdrBigipRestPost(device_id, requrl, post_data);
     var db_id = Meteor.call("discoverOneMonitor", device_id, result.data.selfLink);
     return result;
   }
@@ -656,7 +656,7 @@ ChangeFunction.discover.device.all = function(argList) {
       Jobs.update({_id: argList.jobId}, {$set: {progress: 25, status: 'Getting APM info...'}});
     }
     if (provisioning.asm !== "none") {
-      Meteor.call("discoverAsmPolicies", device_id);
+      Meteor.call("discoverAsmPolicies", ip, user, pass, device_id);
       Jobs.update({_id: argList.jobId}, {$set: {progress: 30, status: 'Getting ASM info...'}});
     }
     Meteor.call("discoverLtmMonitors", ip, user, pass, device_id);
@@ -668,7 +668,7 @@ ChangeFunction.discover.device.all = function(argList) {
     Meteor.call("discoverPools", ip, user, pass, device_id);
     Jobs.update({_id: argList.jobId}, {$set: {progress: 50, status: 'Getting LTM info...'}});
     Meteor.call("discoverVirtuals", ip, user, pass, device_id);
-    Meteor.call("discoverVirtualAddress", device_id);
+    Meteor.call("discoverVirtualAddress", ip, user, pass, device_id);
     Jobs.update({_id: argList.jobId}, {$set: {progress: 65, status: 'Discovered LTM objects...'}});
     Meteor.call("getVirtualStats", ip, user, pass, device_id);
     Jobs.update({_id: argList.jobId}, {$set: {progress: 75, status: 'Getting LTM Stats...'}});

@@ -1,7 +1,7 @@
 Meteor.methods({
   getDiskStats: function (device_id) {
     this.unblock();
-    var diskStats = Meteor.call("bigipRestGetItems", device_id, "https://localhost/mgmt/tm/cloud/sys/disk-info");
+    var diskStats = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/cloud/sys/disk-info");
     Devices.update({_id: device_id}, { $set: { diskSpace: diskStats } });
   },
   updateAllDeviceStats() {
@@ -97,7 +97,7 @@ Meteor.methods({
   getCpuStats: function (device_id) {
     this.unblock();
     var cpuStatObject = { };
-    var cpuStats = Meteor.call("bigipRestGetv2", device_id, "https://localhost/mgmt/tm/sys/cpu/stats");
+    var cpuStats = mdrBigipRestGetv2(device_id, "https://localhost/mgmt/tm/sys/cpu/stats");
     for (var chassis in cpuStats.entries) {
       for (var blade in cpuStats.entries[chassis].nestedStats.entries) {
         if (blade == 'hostId') {
@@ -125,7 +125,7 @@ Meteor.methods({
   getInterfaceStats: function (device_id) {
     this.unblock();
     var interfaceStatObject = { };
-    var interfaceStats = Meteor.call("bigipRestGetv2", device_id, "https://localhost/mgmt/tm/net/interface/stats");
+    var interfaceStats = mdrBigipRestGetv2(device_id, "https://localhost/mgmt/tm/net/interface/stats");
     for (var interfaces in interfaceStats.entries) {
       for (var stats in interfaceStats.entries[interfaces].nestedStats.entries) {
         var myInt = interfaceStats.entries[interfaces].nestedStats.entries.tmName.description;

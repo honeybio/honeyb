@@ -56,3 +56,5 @@ bespintech:meteor-accounts-ldap
 differential:workers
 meteorhacks:kadira-profiler
 thebakery:ipgeocoder
+bespintech:meteor-bigip-client
+bespintech:meteor-deprecated-rest

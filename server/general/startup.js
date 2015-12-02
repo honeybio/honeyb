@@ -157,7 +157,7 @@ Meteor.startup(function () {
   }
 
   // Start the cron process for recurring jobs
-  SyncedCron.start();
+  //SyncedCron.start();
 
   // Start archive task
   SyncedCron.add({

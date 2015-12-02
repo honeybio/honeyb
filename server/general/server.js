@@ -33,6 +33,23 @@ var checkIP4 = function (ip) {
 }
 
 Meteor.methods({
+  testRest: function (deviceId) {
+    var device = Devices.findOne({_id: deviceId});
+    var bigip = {
+      iControl: 'rest',
+      ip: device.mgmtAddress,
+      user: device.mgmtUser,
+      pass: device.mgmtPass,
+    };
+    var cpuStats = mdrBigipRestGetv2(deviceId, "https://localhost/mgmt/tm/sys/cpu/stats");
+    // var rule_list = deprecatedRestClient.bigipRestGetItems(deviceId, "https://localhost/mgmt/tm/ltm/rule");
+    // var all = BigipClient.list.gtm.pool.a(bigip);
+    console.log(cpuStats);
+    //var response = BigipClient.list.ltm.virtual(bigip, '/Common/vs_tomfoalery_422');
+    //console.log(response);
+
+    return { message: 'Did the thing!', subject: 'Success' };
+  },
   getReadGroups: function (object) {
     //return array of groups with read access
     var readGroups = [];
@@ -109,7 +126,7 @@ Meteor.methods({
     var policyExportLink = "https://localhost/mgmt/tm/asm/tasks/export-policy";
     // generate inline download of policy
     var post_data = { inline: true, policyReference: { link: policyLink } };
-    var output = Meteor.call('bigipRestPost', policy.onDevice, policyExportLink, post_data );
+    var output = mdrBigipRestPost(policy.onDevice, policyExportLink, post_data );
     Meteor.setTimeout(function() {
       Meteor.call("getAsmPolicy", policy_id, policy.onDevice, output.data.selfLink);
     }, 30000);
@@ -269,7 +286,7 @@ Meteor.methods({
     // {\"command\":\"run\",\"utilCmdArgs\":\"-c \\\"ps ax\\| grep qk\\\"\"}
     var lurl = 'https://localhost/mgmt/tm/util/bash';
     var postData = {"command":"run", "utilCmdArgs":"-c \"ps ax | grep qk\""};
-    var result = Meteor.call("bigipRestPost", onDevice, lurl, postData);
+    var result = mdrBigipRestPost(onDevice, lurl, postData);
     var re = /qkview/;
     var qkRun = result.data.commandResult.search(re);
     if (qkRun > 0) {

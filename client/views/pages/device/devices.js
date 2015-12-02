@@ -78,7 +78,15 @@ Template.deviceDetails.events({
   'submit #stats-form': function (event) {
     event.preventDefault();
     var device_id = event.target.device_id.value;
-    Meteor.call("getCurConns", device_id);
+    Meteor.call("testRest", device_id, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+        console.log(err);
+      } else {
+        toastr.success(res.message, res.subject);
+        console.log(res);
+      }
+    });
   }
 });
 
