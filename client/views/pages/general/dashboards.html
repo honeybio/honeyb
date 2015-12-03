@@ -3,6 +3,7 @@
   <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
       {{#each getDevices}}
+      {{#if restEnabled}}
       <div class="col-lg-3">
         <div class="widget style1 {{getColor this.cpuUsage.fiveMinAvgIdle}}">
           <div class="row">
@@ -30,6 +31,7 @@
           </div>
         </div>
       </div>
+      {{/if}}
       {{/if}}
       {{/each}}
     </div>

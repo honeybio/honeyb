@@ -443,10 +443,12 @@ Meteor.methods({
   createQkviewCommand: function(device_id, f5case) {
     var settings = Settings.findOne({type: 'system'});
     var device = Devices.findOne({_id: device_id});
-    var check_if_running = Meteor.call("checkQkviewPS", device_id);
-    if (check_if_running) {
-      console.log('qkview running');
-      return "qkview already running";
+    if (device.restEnabled) {
+      var check_if_running = Meteor.call("checkQkviewPS", device_id);
+      if (check_if_running) {
+        console.log('qkview running');
+        return "qkview already running";
+      }
     }
     else if (settings.ihealthUser === undefined || settings.ihealthPass === undefined) {
       console.log('no ihealth settings configured');

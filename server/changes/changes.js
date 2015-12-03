@@ -605,7 +605,9 @@ ChangeFunction.discover.device.all = function(argList) {
   if (discoverRest) {
     Jobs.update({_id: argList.jobId}, {$set: {progress: 10, status: 'Checking Provisioning...'}});
     var provisioning = Meteor.call("discoverProvisioning", ip, user, pass);
+    console.log(provisioning);
     var device = Meteor.call("discoverDevice", ip, user, pass);
+    console.log(device);
     if (device.items[0].managementIp == ip) {
        Devices.update({_id: device_id},
          { $set: {

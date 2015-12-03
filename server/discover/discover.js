@@ -421,7 +421,9 @@ Meteor.methods({
   },
   discoverProvisioning: function (ip, user, pass) {
     var is_provisioned = {};
-    var provision_list = mdrBigipRestGet(ip, user, pass, "/sys/provision");
+    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
+    var provision_list = BigipClient.list.sys.provision(bigip);
+    //var provision_list = mdrBigipRestGet(ip, user, pass, "/sys/provision");
     if (provision_list.length !== undefined) {
       for(var i = 0; i < provision_list.length; i++) {
         is_provisioned[provision_list[i].name] = provision_list[i].level;
