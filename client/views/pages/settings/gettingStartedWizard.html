@@ -145,8 +145,13 @@
                   <div class="row">
                     <div class="col-sm-4">
                       <select class="form-control m-b" name="authenticationType" id="authenticationType">
+                        {{#if ldap}}
                         <option value="local">Local</option>
+                        <option value="activedirectory" selected>Active Directory</option>
+                        {{else}}
+                        <option value="local" selected>Local</option>
                         <option value="activedirectory">Active Directory</option>
+                        {{/if}}
                       </select>
                     </div>
                   </div>

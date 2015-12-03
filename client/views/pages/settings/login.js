@@ -195,6 +195,14 @@ Template.settingsHoneyb.events({
            toastr.success('Saved!', 'Success!');
          }
        });
+    } else {
+      Meteor.call("setLocalAuth", authObj, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        } else {
+          toastr.success('Saved!', 'Success!');
+        }
+      });
     }
   },
   'change #authenticationType': function(event, target) {

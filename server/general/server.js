@@ -88,36 +88,52 @@ Meteor.methods({
       return 'local';
     }
   },
+  setLocalAuth: function () {
+    if (Roles.userIsInRole(Accounts.user(), ['admin'], 'default-group')) {
+      Settings.update(
+        {type: 'authentication'},
+        {$set: {
+          ldap: false,
+        }
+      });
+  } else {
+    throw new Meteor.Error(401, 'Error 401', 'Unauthorized');
+  }
+  },
   setAdAuth: function (authObject) {
     // check if admin
-    Settings.update(
-      {type: 'authentication'},
-      {$set: {
-        ldap: true,
-        adAuthentication: authObject
+    if (Roles.userIsInRole(Accounts.user(), ['admin'], 'default-group')) {
+      Settings.update(
+        {type: 'authentication'},
+        {$set: {
+          ldap: true,
+          adAuthentication: authObject
+        }
+      });
+      Meteor.settings.ldap = { };
+      Meteor.settings.ldap.debug = true;
+      Meteor.settings.ldap.domain = authObject.ldapDomain;
+      Meteor.settings.ldap.domain = authObject.ldapDomain;
+      Meteor.settings.ldap.baseDn = authObject.ldapBaseDn;
+      Meteor.settings.ldap.url = authObject.ldapUrl;
+      Meteor.settings.ldap.bindCn = authObject.ldapBindCn;
+      Meteor.settings.ldap.bindPassword = authObject.ldapBindPassword;
+      Meteor.settings.ldap.autopublishFields = [ 'displayName' ];
+      if (Meteor.settings.ldap.groupMembership === undefined) {
+        Meteor.settings.ldap.groupMembership = [
+          authObject.defaultAdminGroup,
+          authObject.defaultOperatorGroup,
+          authObject.defaultGuestGroup
+        ];
+      } else {
+        Meteor.settings.ldap.groupMembership = [
+          authObject.defaultAdminGroup,
+          authObject.defaultOperatorGroup,
+          authObject.defaultGuestGroup
+        ];
       }
-    });
-    Meteor.settings.ldap = { };
-    Meteor.settings.ldap.debug = true;
-    Meteor.settings.ldap.domain = authObject.ldapDomain;
-    Meteor.settings.ldap.domain = authObject.ldapDomain;
-    Meteor.settings.ldap.baseDn = authObject.ldapBaseDn;
-    Meteor.settings.ldap.url = authObject.ldapUrl;
-    Meteor.settings.ldap.bindCn = authObject.ldapBindCn;
-    Meteor.settings.ldap.bindPassword = authObject.ldapBindPassword;
-    Meteor.settings.ldap.autopublishFields = [ 'displayName' ];
-    if (Meteor.settings.ldap.groupMembership === undefined) {
-      Meteor.settings.ldap.groupMembership = [
-        authObject.defaultAdminGroup,
-        authObject.defaultOperatorGroup,
-        authObject.defaultGuestGroup
-      ];
     } else {
-      Meteor.settings.ldap.groupMembership = [
-        authObject.defaultAdminGroup,
-        authObject.defaultOperatorGroup,
-        authObject.defaultGuestGroup
-      ];
+      throw new Meteor.Error(401, 'Error 401', 'Unauthorized');
     }
   },
   exportAsmPolicy: function (policy_id) {

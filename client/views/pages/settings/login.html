@@ -163,41 +163,24 @@
                   <div class="row">
                     <div class="col-sm-4">
                       <select class="form-control m-b" name="authenticationType" id="authenticationType">
+                        {{#if ldap}}
                         <option value="local">Local</option>
+                        <option value="activedirectory" selected>Active Directory</option>
+                        {{else}}
+                        <option value="local" selected>Local</option>
                         <option value="activedirectory">Active Directory</option>
+                        {{/if}}
                       </select>
                     </div>
                   </div>
                   {{#if adAuthSelected}}
-                  <div class="row">
-                    <div class="form-group"><label class="col-sm-2 control-label">AD Domain</label>
-                      <div class="col-sm-6"><input type="text" id="ldapDomain" value="{{adAuthentication.ldapDomain}}" class="form-control"></div>
-                    </div>
-                    <div class="form-group"><label class="col-sm-2 control-label">AD Base DN</label>
-                      <div class="col-sm-6"><input type="text" id="ldapBaseDn" value="{{adAuthentication.ldapBaseDn}}" class="form-control"></div>
-                    </div>
-                    <div class="form-group"><label class="col-sm-2 control-label">AD Base URL</label>
-                      <div class="col-sm-6"><input type="text" id="ldapUrl" value="{{adAuthentication.ldapUrl}}" class="form-control"></div>
-                    </div>
-                    <div class="form-group"><label class="col-sm-2 control-label">Service Account DN</label>
-                      <div class="col-sm-6"><input type="text" id="ldapBindCn" value="{{adAuthentication.ldapBindCn}}" class="form-control"></div>
-                    </div>
-                    <div class="form-group"><label class="col-sm-2 control-label">Service Account Password</label>
-                      <div class="col-sm-6"><input type="text" id="ldapBindPassword" value="{{adAuthentication.ldapBindPassword}}" class="form-control"></div>
-                    </div>
-                    <div class="form-group"><label class="col-sm-2 control-label">honeyb Admin AD Group</label>
-                      <div class="col-sm-6"><input type="text" id="defaultAdminGroup" value="{{adAuthentication.defaultAdminGroup}}" class="form-control"></div>
-                    </div>
-                    <div class="form-group"><label class="col-sm-2 control-label">honeyb Operator AD Group</label>
-                      <div class="col-sm-6"><input type="text" id="defaultOperatorGroup" value="{{adAuthentication.defaultOperatorGroup}}" class="form-control"></div>
-                    </div>
-                    <div class="form-group"><label class="col-sm-2 control-label">honeyb Guest AD Group</label>
-                      <div class="col-sm-6"><input type="text" id="defaultGuestGroup" value="{{adAuthentication.defaultGuestGroup}}" class="form-control"></div>
-                    </div>
-                    <div class="form-group"><label class="col-sm-2 control-label">Debug Log Messages</label>
-                      <div class="col-sm-6"><input type="text" id="debug" value="{{adAuthentication.debug}}" class="form-control"></div>
-                    </div>
-                  </div>
+                    {{> adFormItems}}
+                  {{else}}
+                    {{#if ldap}}
+                      {{#if adAuthSelected}}
+                        {{> adFormItems}}
+                      {{/if}}
+                    {{/if}}
                   {{/if}}
                 </div>
               </div>
@@ -213,6 +196,38 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</template>
+
+<template name="adFormItems">
+  <div class="row">
+    <div class="form-group"><label class="col-sm-2 control-label">AD Domain</label>
+      <div class="col-sm-6"><input type="text" id="ldapDomain" value="{{adAuthentication.ldapDomain}}" class="form-control"></div>
+    </div>
+    <div class="form-group"><label class="col-sm-2 control-label">AD Base DN</label>
+      <div class="col-sm-6"><input type="text" id="ldapBaseDn" value="{{adAuthentication.ldapBaseDn}}" class="form-control"></div>
+    </div>
+    <div class="form-group"><label class="col-sm-2 control-label">AD Base URL</label>
+      <div class="col-sm-6"><input type="text" id="ldapUrl" value="{{adAuthentication.ldapUrl}}" class="form-control"></div>
+    </div>
+    <div class="form-group"><label class="col-sm-2 control-label">Service Account DN</label>
+      <div class="col-sm-6"><input type="text" id="ldapBindCn" value="{{adAuthentication.ldapBindCn}}" class="form-control"></div>
+    </div>
+    <div class="form-group"><label class="col-sm-2 control-label">Service Account Password</label>
+      <div class="col-sm-6"><input type="text" id="ldapBindPassword" value="{{adAuthentication.ldapBindPassword}}" class="form-control"></div>
+    </div>
+    <div class="form-group"><label class="col-sm-2 control-label">honeyb Admin AD Group</label>
+      <div class="col-sm-6"><input type="text" id="defaultAdminGroup" value="{{adAuthentication.defaultAdminGroup}}" class="form-control"></div>
+    </div>
+    <div class="form-group"><label class="col-sm-2 control-label">honeyb Operator AD Group</label>
+      <div class="col-sm-6"><input type="text" id="defaultOperatorGroup" value="{{adAuthentication.defaultOperatorGroup}}" class="form-control"></div>
+    </div>
+    <div class="form-group"><label class="col-sm-2 control-label">honeyb Guest AD Group</label>
+      <div class="col-sm-6"><input type="text" id="defaultGuestGroup" value="{{adAuthentication.defaultGuestGroup}}" class="form-control"></div>
+    </div>
+    <div class="form-group"><label class="col-sm-2 control-label">Debug Log Messages</label>
+      <div class="col-sm-6"><input type="text" id="debug" value="{{adAuthentication.debug}}" class="form-control"></div>
     </div>
   </div>
 </template>
