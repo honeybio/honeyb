@@ -610,9 +610,7 @@ ChangeFunction.discover.device.all = function(argList) {
       Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Rest Discovery failed, check device...'}});
       return;
     }
-    console.log(provisioning);
     var device = Meteor.call("discoverDevice", ip, user, pass);
-    console.log(device);
     if (device.items[0].managementIp == ip) {
        Devices.update({_id: device_id},
          { $set: {

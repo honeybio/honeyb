@@ -459,30 +459,28 @@ Meteor.methods({
   },
   createQkviewCommand: function(device_id, f5case) {
     var settings = Settings.findOne({type: 'system'});
+    if (settings.ihealthUser === undefined || settings.ihealthPass === undefined) {
+      console.log('no ihealth settings configured');
+      throw new Meteor.Error(401, 'iHealth not configured', 'Please set iHealth User and Pass in settings');
+    }
     var device = Devices.findOne({_id: device_id});
     if (device.restEnabled) {
       var check_if_running = Meteor.call("checkQkviewPS", device_id);
       if (check_if_running) {
-        console.log('qkview running');
-        return "qkview already running";
+        var myRes = { subject: 'QKView In Progress!', message: 'Another QKView is already running' };
+        return myRes;
       }
     }
-    else if (settings.ihealthUser === undefined || settings.ihealthPass === undefined) {
-      console.log('no ihealth settings configured');
-      return 'need to set iHealth User and Pass in settings';
+    var args;
+    if (f5case === undefined) {
+      args = [device.mgmtAddress, device.sshUser, settings.ihealthUser, settings.ihealthPass];
+    } else {
+      args = [device.mgmtAddress, device.sshUser, settings.ihealthUser, settings.ihealthPass, f5case];
     }
-    else {
-      var args;
-      if (f5case === undefined) {
-        args = [device.mgmtAddress, device.sshUser, settings.ihealthUser, settings.ihealthPass];
-      } else {
-        args = [device.mgmtAddress, device.sshUser, settings.ihealthUser, settings.ihealthPass, f5case];
-      }
-      var shellCommand = "create_and_get_qkview.sh";
-      var result = Meteor.call("runShellCmd", shellCommand, args);
-      var myRes = { subject: 'Success!', message: result };
-      return myRes;
-    }
+    var shellCommand = "create_and_get_qkview.sh";
+    var result = Meteor.call("runShellCmd", shellCommand, args);
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
   },
   getKeyPem: function (onDevice, keyID) {
     var device = Devices.findOne({_id: onDevice});

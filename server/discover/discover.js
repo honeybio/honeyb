@@ -426,7 +426,11 @@ Meteor.methods({
     //var provision_list = mdrBigipRestGet(ip, user, pass, "/sys/provision");
     if (provision_list.length !== undefined) {
       for(var i = 0; i < provision_list.length; i++) {
-        is_provisioned[provision_list[i].name] = provision_list[i].level;
+        if (provision_list[i].level === undefined) {
+          is_provisioned[provision_list[i].name] = 'none';
+        } else {
+          is_provisioned[provision_list[i].name] = provision_list[i].level;
+        }
       }
       return is_provisioned;
     } else {
