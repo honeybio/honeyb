@@ -178,6 +178,7 @@ Meteor.publish("db_gtmservers", function () {
   }
   else {
     var readObjects = Meteor.call("getReadGroups", 'read.gtm.server');
+    console.log(readObjects);
     return Gtmservers.find({group: { $in: readObjects }});
   }
 });

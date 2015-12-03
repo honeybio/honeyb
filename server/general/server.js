@@ -41,10 +41,11 @@ Meteor.methods({
       user: device.mgmtUser,
       pass: device.mgmtPass,
     };
-    var cpuStats = mdrBigipRestGetv2(deviceId, "https://localhost/mgmt/tm/sys/cpu/stats");
+    var myVar = BigipClient.list.ltm.monitor(bigip);
+    //var cpuStats = mdrBigipRestGetv2(deviceId, "https://localhost/mgmt/tm/sys/cpu/stats");
     // var rule_list = deprecatedRestClient.bigipRestGetItems(deviceId, "https://localhost/mgmt/tm/ltm/rule");
     // var all = BigipClient.list.gtm.pool.a(bigip);
-    console.log(cpuStats);
+    //console.log(cpuStats);
     //var response = BigipClient.list.ltm.virtual(bigip, '/Common/vs_tomfoalery_422');
     //console.log(response);
 
@@ -132,7 +133,7 @@ Meteor.methods({
     }, 30000);
   },
   getAsmPolicy: function (policy_id, onDevice, link) {
-    var output = Meteor.call('bigipRestGetv2', onDevice, link);
+    var output = mdrBigipRestGetv2(onDevice, link);
     this.unblock();
     if (output.status == 'COMPLETED') {
       // insert policy export into fs
@@ -233,7 +234,7 @@ Meteor.methods({
     return markers;
   },
   getCurConns: function (deviceId) {
-    var output = Meteor.call('bigipRestGetv2', deviceId, 'https://localhost/mgmt/tm/sys/connection/stats');
+    var output = mdrBigipRestGetv2(deviceId, 'https://localhost/mgmt/tm/sys/connection/stats');
     var lines = output.apiRawValues.apiAnonymous.split("\n");
     var total = lines[lines.length - 2].split(' ');
     var totalConnections = {
