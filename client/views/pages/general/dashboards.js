@@ -212,9 +212,19 @@ Template.dashboardsMap.helpers({
   }
 });
 
+
+var mapInterval;
+
+
+Template.eachMap.onDestroyed(function(){
+  clearInterval(mapInterval);
+});
+
 Template.eachMap.onRendered(function(){
   var mapMarkers = [];
-  Meteor.call("getMarkers", this.data._id, function (err, res) {
+  var thisMap;
+  var deviceId = this.data._id;
+  Meteor.call("getMarkers", deviceId, function (err, res) {
     if (err) {
       console.log(err);
     } else if (res) {
@@ -246,4 +256,14 @@ Template.eachMap.onRendered(function(){
       });
     }
   });
+  mapInterval = Meteor.setInterval(function() {
+    Meteor.call("getMarkers", deviceId, function (err, res) {
+      if (err) {
+        console.log(err);
+      } else if (res) {
+        console.log(res.data);
+        $('#world-map-' + res.device).vectorMap('get', 'mapObject').addMarkers(res.data);
+      }
+    });
+  }, 15000);
 });
