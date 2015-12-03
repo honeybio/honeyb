@@ -157,6 +157,11 @@ Router.route('/settings/roles/:_id', {
 Router.route('/settings/containers');
 Router.route('/settings/permissions');
 
+// Support pages
+Router.route('/support/genius');
+Router.route('/support/rma');
+Router.route('/support/troubleshooting');
+
 // General
 Router.route('/archives');
 Router.route('/support');

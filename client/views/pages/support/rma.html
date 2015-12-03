@@ -1,0 +1,230 @@
+<template name="supportRma">
+  {{> pageHeading title='Device RMA' category='support' }}
+  <div class="wrapper wrapper-content animated fadeInRight">
+  {{> rmaWizard}}
+  </div>
+</template>
+
+<template name="rmaWizard">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox">
+        <div class="ibox-title">
+          <h5>Welcome to HoneyB BIG-IP Configuration Manager</h5>
+          {{>iboxTools}}
+        </div>
+        <div class="ibox-content">
+          <div class="row">
+            <div class="col-lg-2">
+              <div>
+                <button type="button" id="intro" class="btn btn-w-m btn-primary wiz-button">
+                  <span class="pull-left">1. Introduction</span>
+                </button>
+              </div>
+              <br/>
+              <div>
+                <button type="button" id="ssh" class="btn btn-w-m btn-primary wiz-button">
+                  <span class="pull-left">2. SSH Settings</span>
+                </button>
+              </div>
+              <br/>
+              <div>
+                <button type="button" id="ihealth" class="btn btn-w-m btn-primary wiz-button">
+                  <span class="pull-left">3. iHealth Settings</span>
+                </button>
+              </div>
+              <br/>
+              <div>
+                <button type="button" id="authentication" class="btn btn-w-m btn-primary wiz-button">
+                  <span class="pull-left">4. Authentication</span>
+                </button>
+              </div>
+              <br/>
+              <div>
+                <button type="button" id="archive" class="btn btn-w-m btn-primary wiz-button">
+                  <span class="pull-left">5. Archive Settings</span>
+                </button>
+              </div>
+              <br/>
+              <div>
+                <button type="button" id="add-devices" class="btn btn-w-m btn-primary wiz-button">
+                  <span class="pull-left">6. Add Devices</span>
+                </button>
+              </div>
+            </div>
+            <div class="col-lg-9">
+              <form id="settings-wizard-form" class="form-horizontal">
+                <div id="introduction">
+                  <h2>Introduction</h2>
+                  <p>
+                    honeyb.io is designed to make managing your F5 BIG-IP&trade;
+                    deployment simple. With a simple interface into each of the F5
+                    modules, you have all the power of the F5 ecosystem, but with the
+                    simplicity of a single management point for all of your applications.
+                  </p>
+                  <p>
+                    You can always change these settings under the settings panel on the menu,
+                    but we recommend that you run through this wizard for the initial configuration.
+                  </p>
+                  <br>
+                  <div class="form-group"><label class="col-sm-2 control-label">System Display Name</label>
+                    <div class="col-sm-4"><input type="text" id="honeyName" value="{{name}}" class="form-control"></div>
+                  </div>
+                </div>
+                <div id="ssh-settings" style="display: none;">
+                  <h2>SSH Settings</h2>
+                  <p>
+                    honeyb.io uses SSH where the built-in iControl REST of the F5 BIG-IP&trade;
+                    is not sufficiently completed to manage the device. File transfers such as
+                    moving an upgrade or hotfix to a device utilizes SSH to complete the action.
+                    iHealth integration and qkview creation for support tickets utilizes this.
+                    Also, for pre-11.5 devices, this enables support for archiving, qkviews & upgrades.
+                  </p>
+                  <div class="form-group"><label class="col-sm-2 control-label">SSH Key Name: {{keyName.name}}</label>
+                    <div class="col-sm-8"><textarea name="sshPubKey">{{keyName.pub}}</textarea></div>
+                  </div>
+                  <div class="hr-line-dashed"></div>
+                  <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-2">
+                      <button class="btn btn-primary" id="generate-ssh-key">Create SSH Key</button>
+                    </div>
+                  </div>
+                </div>
+                <div id="ihealth-settings" style="display: none;">
+                  <h2>iHealth Settings</h2>
+                  <p>
+                    honeyb.io automatically gathers statistics and diagnostics of your F5 BIG-IP&trade; and uploads the data
+                    to F5's iHealth website. You can create an account for free at ihealth.f5.com, or use your
+                    support.f5.com credentials. We recommend creating a new account for honeyb on the iHealth website.
+                  </p>
+                  <p>
+                    Data does not change often once the diagnostics have been gathered, so we recommend running this weekly
+                    or longer. Also, when opening a support case or after an upgrade or other event, you can manually
+                    upgrade the configuration by going to the device details page.
+                  </p>
+                  <div class="form-group"><label class="col-sm-2 control-label">iHealth/QKView Creation Schedule:</label>
+                    <div class="col-sm-4">
+                      <select class="form-control m-b" name="archives">
+                        <option value="weekly">Sat @2am</option>
+                        <option value="biweekly">1st & 15th @2am</option>
+                        <option value="monthly">15th @2am</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group"><label class="col-sm-2 control-label">iHealth Statistics Refresh</label>
+                    <div class="col-sm-4">
+                      <select id="ihealthFreq" class="form-control m-b" name="archives">
+                        <option value="nightly">Nightly @6am</option>
+                        <option value="otherNightly">Each Other Night @6am</option>
+                        <option value="weekly">Sunday @6am</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group"><label class="col-sm-2 control-label">iHealth User</label>
+                    <div class="col-sm-4"><input type="text" id="ihealthUser" value="{{ihealthUser}}" class="form-control"></div>
+                  </div>
+                  <div class="form-group"><label class="col-sm-2 control-label">iHealth Password</label>
+                    <div class="col-sm-4"><input type="password" id="ihealthPass" value="{{ihealthPass}}" class="form-control"></div>
+                  </div>
+                </div>
+                <div id="authentication-settings" style="display: none;">
+                  <h2>iHealth Settings</h2>
+                  <p>
+                    honeyb.io can integrate in with your Microsoft Active Directory deployment for authentication.
+                    You can map groups to AD groups to give your users different levels of access within honeyb.
+                    We've created three groups to start with, Administrator, Operator and Guest, that you can map
+                    using the sample settings below. After the setup wizard is done, you can also enable Fine Grain RBAC
+                    and create additional groups and mappings.
+                  </p>
+                  <p>
+                    Due to the way Active Directory group settings work, we require an account in the directory to
+                    authenticate the logins with. We recommend creating a service account for this purpose.
+                  </p>
+                  {{#with getAuthSettings}}
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <select class="form-control m-b" name="authenticationType" id="authenticationType">
+                        {{#if ldap}}
+                        <option value="local">Local</option>
+                        <option value="activedirectory" selected>Active Directory</option>
+                        {{else}}
+                        <option value="local" selected>Local</option>
+                        <option value="activedirectory">Active Directory</option>
+                        {{/if}}
+                      </select>
+                    </div>
+                  </div>
+                  {{#if adAuthSelected}}
+                  <div class="row">
+                    <div class="form-group"><label class="col-sm-2 control-label">AD Domain</label>
+                      <div class="col-sm-6"><input type="text" id="ldapDomain" value="{{adAuthentication.ldapDomain}}" class="form-control"></div>
+                    </div>
+                    <div class="form-group"><label class="col-sm-2 control-label">AD Base DN</label>
+                      <div class="col-sm-6"><input type="text" id="ldapBaseDn" value="{{adAuthentication.ldapBaseDn}}" class="form-control"></div>
+                    </div>
+                    <div class="form-group"><label class="col-sm-2 control-label">AD Base URL</label>
+                      <div class="col-sm-6"><input type="text" id="ldapUrl" value="{{adAuthentication.ldapUrl}}" class="form-control"></div>
+                    </div>
+                    <div class="form-group"><label class="col-sm-2 control-label">Service Account DN</label>
+                      <div class="col-sm-6"><input type="text" id="ldapBindCn" value="{{adAuthentication.ldapBindCn}}" class="form-control"></div>
+                    </div>
+                    <div class="form-group"><label class="col-sm-2 control-label">Service Account Password</label>
+                      <div class="col-sm-6"><input type="text" id="ldapBindPassword" value="{{adAuthentication.ldapBindPassword}}" class="form-control"></div>
+                    </div>
+
+                  </div>
+                  {{/if}}
+                  {{/with}}
+                </div>
+                <div id="archive-settings" style="display: none;">
+                  <h2>Archive Settings</h2>
+                  <p>
+                    honeyb.io automatically creates and downloads archives in the UCS format from your F5 environment.
+                    We will automatically prune archives after 10 have been collected. You can override this behavior
+                    in the settings, or pin specific archives if you would like to save them. For large environments,
+                    you may want to modify this as archives can consume up to 200Mb or more depending on modules and
+                    configuration.
+                  </p>
+                  <div class="form-group"><label class="col-sm-2 control-label">Archive Schedule:</label>
+                    <div class="col-sm-4">
+                      <select class="form-control m-b" name="archives">
+                        <option value="nightly">Nightly @2am</option>
+                        <option value="weekly">Each Sat @2am</option>
+                        <option value="biweekly">1st & 15th @2am</option>
+                        <option value="monthly">15th @2am</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div id="add-device" style="display: none;">
+                  <h2>Add Devices</h2>
+                  <p>
+                    Once you've reviewed the information in this wizard and saved changes, you're ready to
+                    begin adding devices to be managed by honeyb. Click below to be taken to the devices
+                    page, or click the Device Management menu item on the left menu bar and choose Devices.
+                  </p>
+                  <p>
+                    If you're new to F5's or want to take a tour of what you can do in honeyb, click the button
+                    to begin.
+                  </p>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-lg-offset-8">
+              <div>
+                <button type="button" id="cancel" class="btn btn-w-m btn-primary wiz-button">
+                  <span class="pull-left">Cancel</span>
+                </button>
+                <button id="save" type="submit" class="btn btn-w-m btn-primary wiz-button">
+                  <span class="pull-left">Save</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

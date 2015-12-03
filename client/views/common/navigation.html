@@ -100,6 +100,14 @@
             <li class="{{isActiveRoute regex='softwareUpgrade'}}"><a href="/software/upgrade">Upgrade a BIG-IP </a></li>
           </ul>
         </li>
+        <li class="{{isActiveRoute regex='supportGenius|supportRma|supportTroubleshooting'}}">
+          <a href="#"><i class="fa fa-support"></i> <span class="nav-label">Support</span><span class="fa arrow"></span></a>
+          <ul class="nav nav-second-level collapse {{isActiveRoute regex='supportGenius|supportRma|supportTroubleshooting' className='in'}}">
+            <li class="{{isActiveRoute regex='supportGenius'}}"><a href="/support/genius">Need Professional Help?</a></li>
+            <li class="{{isActiveRoute regex='supportRma'}}"><a href="/support/rma">RMA Assistance</a></li>
+            <li class="{{isActiveRoute regex='supportTroubleshooting'}}"><a href="/support/troubleshooting">Troubleshooting Assistance</a></li>
+          </ul>
+        </li>
         <li class="{{isActiveRoute regex='settingsHoneyb|settingsUser'}}">
           <a href="#"><i class="fa fa-gear"></i> <span class="nav-label">Settings</span><span class="fa arrow"></span></a>
           <ul class="nav nav-second-level collapse {{isActiveRoute regex='settingsHoneyb|settingsUser' className='in'}}">
