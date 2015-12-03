@@ -132,7 +132,7 @@ Template.dashboardsAdcthroughput.onRendered(function() {
 });
 
 Template.dashboardsAdcthroughput.onDestroyed(function() {
-  console.log('left page');
+  // console.log('left page');
 });
 
 Meteor.methods({
