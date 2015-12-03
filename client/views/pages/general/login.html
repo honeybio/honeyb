@@ -10,7 +10,7 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="ibox collapsed float-e-margins">
-          <div class="ibox-title"><h5>honeyb System Settings</h5>{{>iboxTools}}</div>
+          <div class="ibox-title"><h5>honeyb System Settings</h5>{{>iboxToolsNoExpand}}</div>
           <div class="ibox-content">
             <form id="system-settings" class="form-horizontal">
               <div class="form-group"><label class="col-sm-2 control-label">System Display Name</label>
@@ -43,7 +43,7 @@
       </div>
       <div class="col-lg-12">
         <div class="ibox collapsed float-e-margins">
-          <div class="ibox-title"><h5>BIG-IP Real-Time Data Interval Settings</h5>{{>iboxTools}}</div>
+          <div class="ibox-title"><h5>BIG-IP Real-Time Data Interval Settings</h5>{{>iboxToolsNoExpand}}</div>
           <div class="ibox-content">
             <form id="interval-settings" class="form-horizontal">
               <div class="form-group"><label class="col-sm-2 control-label">GTM Datacenter (seconds)</label>
@@ -77,7 +77,7 @@
       </div>
       <div class="col-lg-12">
         <div class="ibox collapsed float-e-margins">
-          <div class="ibox-title"><h5>Archive & iHealth Schedule Settings</h5>{{>iboxTools}}</div>
+          <div class="ibox-title"><h5>Archive & iHealth Schedule Settings</h5>{{>iboxToolsNoExpand}}</div>
           <div class="ibox-content">
             <form id="scheduler" class="form-horizontal">
               <div class="form-group"><label class="col-sm-2 control-label">Archive Schedule:</label>
@@ -113,7 +113,7 @@
       </div>
       <div class="col-lg-12">
         <div class="ibox collapsed float-e-margins">
-          <div class="ibox-title"><h5>SSH Settings</h5>{{>iboxTools}}</div>
+          <div class="ibox-title"><h5>SSH Settings</h5>{{>iboxToolsNoExpand}}</div>
           <div class="ibox-content">
             <form id="ssh-settings" class="form-horizontal">
               <div class="form-group"><label class="col-sm-2 control-label">SSH Key Name: {{keyName.name}}</label>
@@ -131,7 +131,7 @@
       </div>
       <div class="col-lg-12">
         <div class="ibox collapsed float-e-margins">
-          <div class="ibox-title"><h5>Change Management Settings</h5>{{>iboxTools}}</div>
+          <div class="ibox-title"><h5>Change Management Settings</h5>{{>iboxToolsNoExpand}}</div>
           <div class="ibox-content">
             <form id="change-settings" class="form-horizontal">
               <div class="form-group">
@@ -155,7 +155,7 @@
       </div>
       <div class="col-lg-12">
         <div class="ibox collapsed float-e-margins">
-          <div class="ibox-title"><h5>Change Authentication Settings</h5>{{>iboxTools}}</div>
+          <div class="ibox-title"><h5>Change Authentication Settings</h5>{{>iboxToolsNoExpand}}</div>
           <div class="ibox-content">
             {{#with getAuthSettings}}
             <form id="authentication-form" class="form-horizontal">
