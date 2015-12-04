@@ -30,7 +30,14 @@ Template.deviceList.events({
 Template.devicesArchives.events({
   'click #archiveAll': function () {
     event.preventDefault();
-    Meteor.call("archiveAllTask");
+    toastr.success('Archives will run in background, you can leave this page', 'Running all archives!');
+    Meteor.call("archiveAllTask", function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success(res.message, res.subject);
+      }
+    });
   }
 });
 

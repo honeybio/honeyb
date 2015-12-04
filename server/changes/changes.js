@@ -572,12 +572,17 @@ ChangeFunction.discover.device.all = function(argList) {
         var sshShellCommand = "install_ssh_key.sh";
         try {
           var output = Meteor.call("runShellCmd", sshShellCommand, sshArgs);
+          console.log(output);
           if (output == '0') {
             Jobs.update({_id: argList.jobId}, {$set: {progress: 5, status: 'Copied SSH Key...'}});
+          } else if (output == 255) {
+            Jobs.update({_id: argList.jobId}, {$set: {progress: 5, status: 'Host unreachable...'}});
+            Devices.remove({_id: device_id});
+            throw new Meteor.Error(255, 'Host unreachable', 'Please check IP & Network connection and try again');
           } else {
             Jobs.update({_id: argList.jobId}, {$set: {progress: 5, status: 'SSH Key failed to install...'}});
             Devices.remove({_id: device_id});
-            throw new Meteor.Error(500, 'Error 401', 'SSH Authorization failed', 'Please check SSH user & password, the key failed to install');
+            throw new Meteor.Error(401, 'SSH Authorization failed', 'Please check SSH user & password, the key failed to install');
           }
         } catch (err) {
           throw new Meteor.Error(500, 'Error 401', 'SSH Issue', 'Please check SSH user & password & access, the key failed to install');

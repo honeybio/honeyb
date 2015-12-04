@@ -358,6 +358,11 @@ Meteor.methods({
     bigip_devices.forEach(function (eachDevice) {
       Meteor.call("createUCSCommand", eachDevice._id);
     });
+    response = {
+      subject: 'Archives Complete!',
+      message: 'successfully archived devices!'
+    }
+    return response;
   },
   getNextArchiveDate: function (jobName) {
     var d = SyncedCron.nextScheduledAtDate(jobName);
