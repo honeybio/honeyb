@@ -78,7 +78,7 @@ Template.deviceDetails.events({
   'submit #stats-form': function (event) {
     event.preventDefault();
     var device_id = event.target.device_id.value;
-    Meteor.call("testRest", device_id, function (err, res) {
+    Meteor.call("testGtm", device_id, function (err, res) {
       if (err) {
         toastr.error(err.details, err.reason)
         console.log(err);
@@ -87,7 +87,29 @@ Template.deviceDetails.events({
         console.log(res);
       }
     });
-  }
+  },
+  "submit #remove-form": function (event, template) {
+    event.preventDefault();
+    // Get value from form element
+    var device = {
+      mgmtip: event.target.mgmtip.value,
+      deviceId: event.target.deviceId.value
+    };
+    var job = {
+      name: 'removeDevice',
+      status: 'ready',
+      progress: 0
+    };
+    Meteor.call("newJob", job, function(err, res) {
+      Meteor.call("removeDevice", device, res, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        } else {
+          toastr.success(res.message, res.subject);
+        }
+      });
+    });
+  },
 });
 
 Template.deviceNetworkChart.rendered = function() {

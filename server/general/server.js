@@ -33,6 +33,21 @@ var checkIP4 = function (ip) {
 }
 
 Meteor.methods({
+  testGtm: function (deviceId) {
+    var syncgroups = Gtmsyncgroups.find({}, {fields: { onDevice: 1}});
+    syncgroups.forEach(function (row) {
+      var i = row.onDevice.length;
+      while (i--) {
+        if (row.onDevice[i] == deviceId) {
+          row.onDevice.splice(i, 1);
+        }
+      }
+      if (row.onDevice.length == 0) {
+        //delete gtm sync group & objects
+      }
+    });
+    return { message: 'GTM Tested!', subject: 'Success' };
+  },
   testRest: function (deviceId) {
     var device = Devices.findOne({_id: deviceId});
     var bigip = {

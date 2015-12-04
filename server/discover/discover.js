@@ -507,6 +507,25 @@ Meteor.methods({
     var myRes = { subject: 'Success!', message: result };
     return myRes;
   },
+  removeDevice: function (device) {
+    var theChange = {
+      description: "Remove BIG-IP: " + device.mgmtip,
+      theMethod: {
+        action: "discover",
+        module: "device",
+        object: "remove"
+      },
+      argList: {
+        deviceId: device.deviceId,
+        mgmtip: device.mgmtip
+      }
+    };
+    var change_id = Meteor.call('createStagedChange', theChange);
+
+    var result = Meteor.call('createJob', change_id);
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
+  },
   discoverSshHostname: function(device_id) {
     var device = Devices.findOne({_id: device_id});
     // var settings = Settings.findOne({type: 'system'});

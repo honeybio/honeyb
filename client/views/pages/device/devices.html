@@ -270,6 +270,11 @@
               <input type="hidden" name="device_id" value="{{_id}}">
               <button class="submit" id="get-stats">Testing Button</button>
             </form>
+            <form id="remove-form">
+              <input type="hidden" name="deviceId" value="{{_id}}">
+              <input type="hidden" name="mgmtip" value="{{mgmtAddress}}">
+              <button class="submit">Remove Device from honeyb</button>
+            </form>
             <form class="scheduledJobs">
               {{#each getJobs _id}}
                 Job: {{name}}<br>

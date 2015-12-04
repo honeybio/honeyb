@@ -563,6 +563,7 @@ ChangeFunction.discover.device.all = function(argList) {
   if (discoverSsh) {
     if (settings.keyName === undefined) {
       Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Failed: No SSH Key created... Please create one in your honeyb settings'}});
+      Devices.remove({_id: device_id});
       throw new Meteor.Error(500, 'Error 500', 'No SSH Key Configured');
     } else {
       var theKey = settings.keyName.pub;
@@ -607,8 +608,9 @@ ChangeFunction.discover.device.all = function(argList) {
     var provisioning = Meteor.call("discoverProvisioning", ip, user, pass);
     if (provisioning === undefined) {
       console.log('provisioning check failed, not adding');
+      Devices.remove({_id: device_id});
       Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Rest Discovery failed, check device...'}});
-      return;
+      throw new Meteor.Error(500, 'Error 500', 'REST discovery failure, please check BIG-IP Version and try again');
     }
     var device = Meteor.call("discoverDevice", ip, user, pass);
     if (device.items[0].managementIp == ip) {
@@ -642,6 +644,7 @@ ChangeFunction.discover.device.all = function(argList) {
     } else {
       Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Failed: Management IP required, not self IP'}});
       throw new Meteor.Error(500, 'Error 500', 'Use Management IP, not traffic IP');
+      Devices.remove({_id: device_id});
     }
     Jobs.update({_id: argList.jobId}, {$set: {progress: 15, status: 'Basic info gathered...'}});
     Meteor.call("getDiskStats", device_id);
@@ -690,6 +693,51 @@ ChangeFunction.discover.device.all = function(argList) {
   Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Complete!'}});
   var response = 'Successfully Discovered';
   return response;
+}
+
+ChangeFunction.discover.device.remove = function (argList) {
+  var deviceId = argList.deviceId;
+
+  // Remove all objects from all database collections
+  var tmp = Virtualaddresses.remove({onDevice: deviceId});
+  var tmp = Devices.remove({onDevice: deviceId});
+  var tmp = Certificates.remove({onDevice: deviceId});
+  var tmp = Virtuals.remove({onDevice: deviceId});
+  var tmp = Rules.remove({onDevice: deviceId});
+  var tmp = Pools.remove({onDevice: deviceId});
+  var tmp = Nodes.remove({onDevice: deviceId});
+  var tmp = Monitors.remove({onDevice: deviceId});
+  var tmp = Idatagroups.remove({onDevice: deviceId});
+  var tmp = Edatagroups.remove({onDevice: deviceId});
+  var tmp = Persistence.remove({onDevice: deviceId});
+  var tmp = Asmpolicies.remove({onDevice: deviceId});
+  var tmp = Profiles.remove({onDevice: deviceId});
+  var tmp = Objectstatus.remove({onDevice: deviceId});
+  var tmp = Statistics.remove({device: deviceId});
+  var tmp = Devices.remove({_id: deviceId});
+
+  // GTM is special
+  // Check if its the last member of a sync group
+  var syncgroups = Gtmsyncgroups.find({}, {fields: { onDevice: 1}});
+  syncgroups.forEach(function (row) {
+    var i = row.onDevice.length;
+    while (i--) {
+      if (row.onDevice[i] == deviceId) {
+        row.onDevice.splice(i, 1);
+      }
+    }
+    if (row.onDevice.length == 0) {
+      //delete gtm sync group & objects
+      Wideips.remove({inSyncGroup: row._id});
+      Widepools.remove({inSyncGroup: row._id});
+      Gtmdatacenters.remove({inSyncGroup: row._id});
+      Gtmservers.remove({inSyncGroup: row._id});
+      Gtmvservers.remove({inSyncGroup: row._id});
+      Gtmlinks.remove({inSyncGroup: row._id});
+      Gtmmonitors.remove({inSyncGroup: row._id});
+      Gtmsyncgroups.remove({_id: row._id});
+    }
+  });
 }
 
 var checkAuth = function(change_id, cmethod, cb) {
@@ -784,8 +832,15 @@ Meteor.methods({
     var result;
     checkAuth(change_id, myChange.change.theMethod, function (err, res) {
       if (res) {
-        result = ChangeFunction[changeMethod.action][changeMethod.module][changeMethod.object](argList);
-        Changes.update({_id: change_id}, { $set: {pushed: true, pushedBy: userObj }});
+        response = ChangeFunction[changeMethod.action][changeMethod.module][changeMethod.object](argList);
+        Changes.update({_id: change_id}, {
+          $set: {
+            pushed: true,
+            pushedBy: userObj,
+            success: true,
+            successOutput: response
+          }
+        });
       } else {
         console.log('error, updating change to failed');
         Changes.update({_id: change_id}, {

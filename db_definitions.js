@@ -91,9 +91,7 @@ Containers = new Mongo.Collection("db_containers");
 Permissions = new Mongo.Collection("db_permissions");
 Ihealth = new Mongo.Collection("db_ihealth");
 Jobs = new Mongo.Collection("db_jobs");
-Tmpfiles = new FS.Collection("db_tempfiles", {
-  stores: [new FS.Store.FileSystem("tempfiles")]
-});
+
 
 VirtualsIndex = new EasySearch.Index({
   collection: Virtuals,
