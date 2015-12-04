@@ -557,142 +557,155 @@ ChangeFunction.discover.device.all = function(argList) {
     group: 'default-group',
     mgmtAddress: ip
   });
-  Jobs.update({_id: argList.jobId}, {$set: {progress: 2, status: 'Connecting to device...'}});
-  // upload ssh key
-  settings = Settings.findOne({type: 'system'});
-  if (discoverSsh) {
-    if (settings.keyName === undefined) {
-      Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Failed: No SSH Key created... Please create one in your honeyb settings'}});
-      Devices.remove({_id: device_id});
-      throw new Meteor.Error(500, 'Error 500', 'No SSH Key Configured');
-    } else {
-      var theKey = settings.keyName.pub;
-      var sshArgs = [ip, sshuser, sshpass, theKey];
-      var sshShellCommand = "install_ssh_key.sh";
-      var output = Meteor.call("runShellCmd", sshShellCommand, sshArgs);
-      if (output == '0') {
-        Jobs.update({_id: argList.jobId}, {$set: {progress: 5, status: 'Copied SSH Key...'}});
+  try {
+    Jobs.update({_id: argList.jobId}, {$set: {progress: 2, status: 'Connecting to device...'}});
+    // upload ssh key
+    settings = Settings.findOne({type: 'system'});
+    if (discoverSsh) {
+      if (settings.keyName === undefined) {
+        Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Failed: No SSH Key created... Please create one in your honeyb settings'}});
+        Devices.remove({_id: device_id});
+        throw new Meteor.Error(500, 'Error 500', 'No SSH Key Configured');
       } else {
-        Jobs.update({_id: argList.jobId}, {$set: {progress: 5, status: 'SSH Key failed to install...'}});
-      }
-    }
-    Devices.update({_id: device_id},
-      { $set: {
-        sshEnabled: true,
-        sshUser: sshuser,
-        sshPass: sshpass
-      }
-    });
-    if (discoverRest == false) {
-      var myHost = Meteor.call("discoverSshHostname", device_id);
-      var state = 'Rest Not Discovered';
-      Devices.update({_id: device_id}, {
-        $set: { self: {
-            name: myHost,
-            failoverState: state
+        var theKey = settings.keyName.pub;
+        var sshArgs = [ip, sshuser, sshpass, theKey];
+        var sshShellCommand = "install_ssh_key.sh";
+        try {
+          var output = Meteor.call("runShellCmd", sshShellCommand, sshArgs);
+          if (output == '0') {
+            Jobs.update({_id: argList.jobId}, {$set: {progress: 5, status: 'Copied SSH Key...'}});
+          } else {
+            Jobs.update({_id: argList.jobId}, {$set: {progress: 5, status: 'SSH Key failed to install...'}});
+            Devices.remove({_id: device_id});
+            throw new Meteor.Error(500, 'Error 401', 'SSH Authorization failed', 'Please check SSH user & password, the key failed to install');
           }
+        } catch (err) {
+          throw new Meteor.Error(500, 'Error 401', 'SSH Issue', 'Please check SSH user & password & access, the key failed to install');
+          Devices.remove({_id: device_id});
         }
-      })
-    }
-  } else {
-    Devices.update({_id: device_id},
-      { $set: {
-        sshEnabled: false,
-        sshUser: null,
-        sshPass: null
       }
-    });
-  }
-  if (discoverRest) {
-    Jobs.update({_id: argList.jobId}, {$set: {progress: 10, status: 'Checking Provisioning...'}});
-    var provisioning = Meteor.call("discoverProvisioning", ip, user, pass);
-    if (provisioning === undefined) {
-      console.log('provisioning check failed, not adding');
-      Devices.remove({_id: device_id});
-      Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Rest Discovery failed, check device...'}});
-      throw new Meteor.Error(500, 'Error 500', 'REST discovery failure, please check BIG-IP Version and try again');
-    }
-    var device = Meteor.call("discoverDevice", ip, user, pass);
-    if (device.items[0].managementIp == ip) {
-       Devices.update({_id: device_id},
-         { $set: {
-           group: 'default-group',
-           mgmtAddress: ip,
-           restEnabled: true,
-           mgmtUser: user,
-           mgmtPass: pass,
-           self: device.items[0],
-           peer: device.items[1],
-           provision_level: provisioning
-         }
+      Devices.update({_id: device_id},
+        { $set: {
+          sshEnabled: true,
+          sshUser: sshuser,
+          sshPass: sshpass
+        }
       });
-    } else if (device.items[1] !== undefined) {
-      if (device.items[1].managementIp == ip) {
-        Devices.update({_id: device_id},
-          { $set: {
-            group: 'default-group',
-            mgmtAddress: ip,
-            restEnabled: true,
-            mgmtUser: user,
-            mgmtPass: pass,
-            self: device.items[1],
-            peer: device.items[0],
-            provision_level: provisioning
+      if (discoverRest == false) {
+        var myHost = Meteor.call("discoverSshHostname", device_id);
+        var state = 'Rest Not Discovered';
+        Devices.update({_id: device_id}, {
+          $set: { self: {
+              name: myHost,
+              failoverState: state
+            }
           }
-        });
+        })
       }
     } else {
-      Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Failed: Management IP required, not self IP'}});
-      throw new Meteor.Error(500, 'Error 500', 'Use Management IP, not traffic IP');
-      Devices.remove({_id: device_id});
+      Devices.update({_id: device_id},
+        { $set: {
+          sshEnabled: false,
+          sshUser: null,
+          sshPass: null
+        }
+      });
     }
-    Jobs.update({_id: argList.jobId}, {$set: {progress: 15, status: 'Basic info gathered...'}});
-    Meteor.call("getDiskStats", device_id);
-    var trafGroups = Meteor.call("discoverTrafficGroups", device_id);
-    Devices.update({_id: device_id}, {$set: {trafficGroups: trafGroups}});
-    Meteor.call("discoverKeys", ip, user, pass, device_id);
-    Meteor.call("discoverCerts", ip, user, pass, device_id);
-
-    // Get sync group if not exists in db
-    if(provisioning.gtm !== "none") {
-      Meteor.call("discoverGTM", ip, user, pass, device_id);
-      Jobs.update({_id: argList.jobId}, {$set: {progress: 20, status: 'Getting GTM info...'}});
-    }
-    // Get LTM stuff
-    if (provisioning.apm !== "none") {
-      Meteor.call("discoverApmProfiles", ip, user, pass, device_id);
-      Jobs.update({_id: argList.jobId}, {$set: {progress: 25, status: 'Getting APM info...'}});
-    }
-    if (provisioning.asm !== "none") {
-      Meteor.call("discoverAsmPolicies", ip, user, pass, device_id);
-      Jobs.update({_id: argList.jobId}, {$set: {progress: 30, status: 'Getting ASM info...'}});
-    }
-    Meteor.call("discoverLtmMonitors", ip, user, pass, device_id);
-    Meteor.call("discoverLtmProfiles", ip, user, pass, device_id);
-    Meteor.call("discoverPersistence", ip, user, pass, device_id);
-    Meteor.call("discoverIdatagroups", ip, user, pass, device_id);
-    Meteor.call("discoverEdatagroups", ip, user, pass, device_id);
-    Meteor.call("discoverRules", ip, user, pass, device_id);
-    Meteor.call("discoverPools", ip, user, pass, device_id);
-    Jobs.update({_id: argList.jobId}, {$set: {progress: 50, status: 'Getting LTM info...'}});
-    Meteor.call("discoverVirtuals", ip, user, pass, device_id);
-    Meteor.call("discoverVirtualAddress", ip, user, pass, device_id);
-    Jobs.update({_id: argList.jobId}, {$set: {progress: 65, status: 'Discovered LTM objects...'}});
-    Meteor.call("getVirtualStats", ip, user, pass, device_id);
-    Jobs.update({_id: argList.jobId}, {$set: {progress: 75, status: 'Getting LTM Stats...'}});
-    Meteor.call("getPoolStats", ip, user, pass, device_id);
-  } else {
-    Devices.update({_id: device_id},
-      { $set: {
-        restEnabled: false,
-        mgmtUser: null,
-        mgmtPass: null
+    if (discoverRest) {
+      Jobs.update({_id: argList.jobId}, {$set: {progress: 10, status: 'Checking Provisioning...'}});
+      var provisioning = Meteor.call("discoverProvisioning", ip, user, pass);
+      if (provisioning === undefined) {
+        console.log('provisioning check failed, not adding');
+        Devices.remove({_id: device_id});
+        Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Rest Discovery failed, check device...'}});
+        throw new Meteor.Error(500, 'Error 500', 'REST discovery failure, please check BIG-IP Version and try again');
       }
-    });
+      var device = Meteor.call("discoverDevice", ip, user, pass);
+      if (device.items[0].managementIp == ip) {
+         Devices.update({_id: device_id},
+           { $set: {
+             group: 'default-group',
+             mgmtAddress: ip,
+             restEnabled: true,
+             mgmtUser: user,
+             mgmtPass: pass,
+             self: device.items[0],
+             peer: device.items[1],
+             provision_level: provisioning
+           }
+        });
+      } else if (device.items[1] !== undefined) {
+        if (device.items[1].managementIp == ip) {
+          Devices.update({_id: device_id},
+            { $set: {
+              group: 'default-group',
+              mgmtAddress: ip,
+              restEnabled: true,
+              mgmtUser: user,
+              mgmtPass: pass,
+              self: device.items[1],
+              peer: device.items[0],
+              provision_level: provisioning
+            }
+          });
+        }
+      } else {
+        Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Failed: Management IP required, not self IP'}});
+        throw new Meteor.Error(500, 'Error 500', 'Use Management IP, not traffic IP');
+        Devices.remove({_id: device_id});
+      }
+      Jobs.update({_id: argList.jobId}, {$set: {progress: 15, status: 'Basic info gathered...'}});
+      Meteor.call("getDiskStats", device_id);
+      var trafGroups = Meteor.call("discoverTrafficGroups", device_id);
+      Devices.update({_id: device_id}, {$set: {trafficGroups: trafGroups}});
+      Meteor.call("discoverKeys", ip, user, pass, device_id);
+      Meteor.call("discoverCerts", ip, user, pass, device_id);
+
+      // Get sync group if not exists in db
+      if(provisioning.gtm !== "none") {
+        Meteor.call("discoverGTM", ip, user, pass, device_id);
+        Jobs.update({_id: argList.jobId}, {$set: {progress: 20, status: 'Getting GTM info...'}});
+      }
+      // Get LTM stuff
+      if (provisioning.apm !== "none") {
+        Meteor.call("discoverApmProfiles", ip, user, pass, device_id);
+        Jobs.update({_id: argList.jobId}, {$set: {progress: 25, status: 'Getting APM info...'}});
+      }
+      if (provisioning.asm !== "none") {
+        Meteor.call("discoverAsmPolicies", ip, user, pass, device_id);
+        Jobs.update({_id: argList.jobId}, {$set: {progress: 30, status: 'Getting ASM info...'}});
+      }
+      Meteor.call("discoverLtmMonitors", ip, user, pass, device_id);
+      Meteor.call("discoverLtmProfiles", ip, user, pass, device_id);
+      Meteor.call("discoverPersistence", ip, user, pass, device_id);
+      Meteor.call("discoverIdatagroups", ip, user, pass, device_id);
+      Meteor.call("discoverEdatagroups", ip, user, pass, device_id);
+      Meteor.call("discoverRules", ip, user, pass, device_id);
+      Meteor.call("discoverPools", ip, user, pass, device_id);
+      Jobs.update({_id: argList.jobId}, {$set: {progress: 50, status: 'Getting LTM info...'}});
+      Meteor.call("discoverVirtuals", ip, user, pass, device_id);
+      Meteor.call("discoverVirtualAddress", ip, user, pass, device_id);
+      Jobs.update({_id: argList.jobId}, {$set: {progress: 65, status: 'Discovered LTM objects...'}});
+      Meteor.call("getVirtualStats", ip, user, pass, device_id);
+      Jobs.update({_id: argList.jobId}, {$set: {progress: 75, status: 'Getting LTM Stats...'}});
+      Meteor.call("getPoolStats", ip, user, pass, device_id);
+    } else {
+      Devices.update({_id: device_id},
+        { $set: {
+          restEnabled: false,
+          mgmtUser: null,
+          mgmtPass: null
+        }
+      });
+    }
+    Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Complete!'}});
+    var response = 'Successfully Discovered';
+    return response;
   }
-  Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Complete!'}});
-  var response = 'Successfully Discovered';
-  return response;
+  catch (err) {
+    Devices.remove({_id: device_id});
+    throw new Meteor.Error(err.error, err.reason, err.details);
+  }
 }
 
 ChangeFunction.discover.device.remove = function (argList) {
