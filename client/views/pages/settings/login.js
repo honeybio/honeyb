@@ -37,8 +37,14 @@ Template.login.events({
       } else if (res == 'ad') {
         Meteor.loginWithLdap(user, pass, function(err, result) {
           if (!err) {
-            Meteor.call("updateRoles");
-            Router.go('/')
+            Router.go('/');
+            Meteor.call("updateRoles", function (err, res) {
+              if (err) {
+                console.log(err)
+              } else {
+                console.log('no err');
+              }
+            });
           } else {
             if (err) {
               return Session.set(ERRORS_KEY, {'none': err.reason});
