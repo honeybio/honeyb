@@ -217,8 +217,6 @@ var mapInterval;
 
 
 Template.eachMap.onDestroyed(function(){
-  console.log('on destroyed dashboards.js line 220');
-  console.log(mapInterval);
   Meteor.clearInterval(mapInterval);
 });
 
@@ -263,11 +261,8 @@ Template.eachMap.onRendered(function(){
       if (err) {
         console.log(err);
       } else if (res) {
-        console.log(res.data);
         $('#world-map-' + res.device).vectorMap('get', 'mapObject').addMarkers(res.data);
       }
     });
   }, 15000);
-  console.log(mapInterval);
-  console.log('on created dashboards.js line 272');
 });
