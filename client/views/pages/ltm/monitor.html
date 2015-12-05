@@ -46,757 +46,1211 @@
   </div>
 </template>
 
-<template name="monitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <li>
-    <ul>Parent: {{defaultsFrom}}</ul>
-    <ul>Send: {{send}}</ul>
-    <ul>Receive: {{recv}}</ul>
-  </li>
-</div>
+<template name="diameterMonitorDetails">
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
 
-<template name="diameterMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
-</template>
 <template name="dnsMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="externalMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="firepassMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="ftpMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="gatewayicmpMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="httpMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}<a href="/ltm/monitors/http/create">Create New</a></h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="httpsMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="icmpMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="imapMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="inbandMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="ldapMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="modulescoreMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="mssqlMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="mysqlMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="nntpMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="noneMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="oracleMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="pop3MonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="postgresqlMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="radiusMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="radiusaccountingMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="realserverMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="rpcMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="saspMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="scriptedMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="sipMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="smbMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="smtpMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="snmpdcaMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="snmpdcabaseMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="soapMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="tcpMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="tcpechoMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="tcphalfopenMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}} <a href="/ltm/monitors/tcp-half-open/create">Create New</a></h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="udpMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="virtuallocationMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="wapMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 <template name="wmiMonitorDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{name}}</h3>
-  </center>
-  <ul>
-    <li>Parent: {{defaultsFrom}}</li>
-    <li>Send: {{send}}</li>
-    <li>Receive: {{recv}}</li>
-    <li>Interval: {{interval}}</li>
-    <li>Timeout: {{timeout}}</li>
-    <li>Manual Resume: {{manualResume}}</li>
-    <li>Time until Up: {{timeUntilUp}}</li>
-    {{#each myProps}}
-      <li>{{this}}: {{getThis this}}</li>
-    {{/each}}
-  </ul>
-</div>
+  {{> pageHeading title='Monitors' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="monitorForm" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{name}} <small class="m-l-sm">Manage your LTM Monitors</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+                <h2>Unsupported for editing on honeyb: {{name}}</h2>
+                {{#each myProps}}
+                <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                  <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                The righ side of the footer
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
