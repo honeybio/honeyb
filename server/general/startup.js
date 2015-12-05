@@ -149,9 +149,12 @@ Meteor.startup(function () {
         }
       });
     }
+    var geoDBFile = Npm.require('fs').realpathSync(process.cwd()) + "/assets/app/" + "GeoLite2-City.mmdb";
     _.defaults(Meteor.settings, {
-      IPGeocoder: {
-        databaseUrl: '/tmp/GeoLite2-City.mmdb'
+      $set: {
+        IPGeocoder: {
+          databaseUrl: geoDBFile
+        }
       }
     });
   }
@@ -187,7 +190,6 @@ Meteor.startup(function () {
 
   // Start Geo database
   var geoDBFile = Npm.require('fs').realpathSync(process.cwd()) + "/assets/app/" + "GeoLite2-City.mmdb";
-  console.log(geoDBFile);
   IPGeocoder.load(geoDBFile);
 
   // Sessions are lost, so kill login resume tokens to avoid null userids
