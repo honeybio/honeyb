@@ -187,4 +187,7 @@ Meteor.startup(function () {
 
   // Start Geo database
   IPGeocoder.load('/tmp/GeoLite2-City.mmdb');
+
+  // Sessions are lost, so kill login resume tokens to avoid null userids
+  Meteor.users.update({}, {$set: { 'services.resume.loginTokens': []}}, {multi: true});
 });
