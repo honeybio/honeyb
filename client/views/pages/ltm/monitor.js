@@ -1,3 +1,4 @@
+
 Template.ltmMonitors.helpers({
   allMonitors: function () {
     var result = Monitors.find({}, {name: 1});
@@ -102,4 +103,26 @@ Template.ltmMonitorsHttpCreate.events({
       }
     });
   }
+});
+
+Template.monitorDetails.helpers('myProps', function() {
+  var attrList = [];
+  for (var attr in this) {
+    switch (attr) {
+      case "_id":
+        break;
+      case "onDevice":
+        break;
+      case "generation":
+        break;
+      case "selfLink":
+        break;
+      case "kind":
+        break;
+      default:
+        attrList.push(attr);
+    }
+  }
+  //console.log(attrList);
+  return attrList;
 });
