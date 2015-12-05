@@ -837,6 +837,14 @@ Meteor.methods({
       });
       return result;
     } catch (e) {
+      Changes.update({_id: change_id}, {
+        $set: {
+          pushed: true,
+          pushedBy: userObj,
+          success: false,
+          successOutput: e.details
+        }
+      });
       throw new Meteor.Error(e);
     }
 
@@ -856,31 +864,44 @@ Meteor.methods({
     var argList = myChange.change.argList;
     // Apply method will take array of args
     var result;
-    checkAuth(change_id, myChange.change.theMethod, function (err, res) {
-      if (res) {
-        result = ChangeFunction[changeMethod.action][changeMethod.module][changeMethod.object](argList);
-        Changes.update({_id: change_id}, {
-          $set: {
-            pushed: true,
-            pushedBy: userObj,
-            success: true,
-            successOutput: result
-          }
-        });
-      } else {
-        console.log('error, updating change to failed');
-        Changes.update({_id: change_id}, {
-          $set: {
-            pushed: true,
-            pushedBy: userObj,
-            success: false,
-            successOutput: 'Unauthorized'
-          }
-        });
-        throw new Meteor.Error(401, 'Error 401', 'Unauthorized');
-      }
-    });
-    return result.statusCode;
+
+    try {
+      checkAuth(change_id, myChange.change.theMethod, function (err, res) {
+        if (res) {
+          result = ChangeFunction[changeMethod.action][changeMethod.module][changeMethod.object](argList);
+          Changes.update({_id: change_id}, {
+            $set: {
+              pushed: true,
+              pushedBy: userObj,
+              success: true,
+              successOutput: result
+            }
+          });
+        } else {
+          console.log('error, updating change to failed');
+          Changes.update({_id: change_id}, {
+            $set: {
+              pushed: true,
+              pushedBy: userObj,
+              success: false,
+              successOutput: 'Unauthorized'
+            }
+          });
+          throw new Meteor.Error(401, 'Error 401', 'Unauthorized');
+        }
+      });
+      return result.statusCode;
+    } catch (e) {
+      Changes.update({_id: change_id}, {
+        $set: {
+          pushed: true,
+          pushedBy: userObj,
+          success: false,
+          successOutput: e.details,
+        }
+      });
+      throw new Meteor.error(e);
+    }
   },
   // A "change"
   //  var theChange = { description: event.target.stageDescription.value, theMethod: "setStatusPoolMember",
