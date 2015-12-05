@@ -1,7 +1,7 @@
 
 Template.jobList.helpers({
   latestJobs: function () {
-    var jobs = Jobs.find();
+    var jobs = Jobs.find({}, {sort: {created: -1}, limit: 5});
     return jobs;
   }
 });

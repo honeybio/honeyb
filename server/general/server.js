@@ -69,12 +69,16 @@ Meteor.methods({
   getReadGroups: function (object) {
     //return array of groups with read access
     var readGroups = [];
+    console.log('my user');
+    console.log(Meteor.userId());
     var myGroups = Roles.getGroupsForUser(Meteor.user());
+    console.log('mygroups server.js 73');
+    console.log(myGroups);
     for (var theGroup in myGroups) {
-
       var roles = Roles.getRolesForUser(Meteor.user(), myGroups[theGroup]);
       for (role in roles) {
-        // console.log(roles[role]);
+        console.log('roles server.js 78');
+        console.log(roles[role]);
         var permList = Permissions.findOne({onRole: roles[role]})
         if (permList !== undefined) {
           for (permission in permList.permissionList) {
@@ -86,6 +90,7 @@ Meteor.methods({
         }
       }
     }
+    console.log('getReadGroups complete server.js line 88');
     return readGroups;
   },
   deleteImage: function () {
