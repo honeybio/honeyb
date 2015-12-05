@@ -437,6 +437,27 @@ Meteor.methods({
       throw new Meteor.Error(401, 'Error 401', 'Error discovering Provisioning');
     }
   },
+  discoverNetwork: function (ip, user, pass) {
+    var bigip = {
+      iControl: 'rest',
+      ip: ip,
+      user: user,
+      pass: pass,
+    };
+    var interfaceList = BigipClient.list.net.interface(bigip);
+    var routeList = BigipClient.list.net.route(bigip);
+    var selfList = BigipClient.list.net.self(bigip);
+    var trunkList = BigipClient.list.net.trunk(bigip);
+    var vlanList = BigipClient.list.net.vlan(bigip);
+    var net = {
+      interfaces: interfaceList,
+      routes: routeList,
+      selfs: selfList,
+      trunks: trunkList,
+      vlans: vlanList
+    }
+    return net;
+  },
   discoverDevice: function (ip, user, pass) {
     var url = "https://" + ip + "/mgmt/tm/cm/device";
     var authString = user + ":" + pass;

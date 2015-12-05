@@ -85,7 +85,7 @@ Template.deviceDetails.events({
   'submit #stats-form': function (event) {
     event.preventDefault();
     var device_id = event.target.device_id.value;
-    Meteor.call("testGtm", device_id, function (err, res) {
+    Meteor.call("testRest", device_id, function (err, res) {
       if (err) {
         toastr.error(err.details, err.reason)
         console.log(err);

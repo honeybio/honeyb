@@ -625,6 +625,7 @@ ChangeFunction.discover.device.all = function(argList) {
         Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Rest Discovery failed, check device...'}});
         throw new Meteor.Error(500, 'Error 500', 'REST discovery failure, please check BIG-IP Version and try again');
       }
+      var networks = Meteor.call("discoverNetwork", ip, user, pass);
       var device = Meteor.call("discoverDevice", ip, user, pass);
       if (device.items[0].managementIp == ip) {
          Devices.update({_id: device_id},
@@ -636,7 +637,8 @@ ChangeFunction.discover.device.all = function(argList) {
              mgmtPass: pass,
              self: device.items[0],
              peer: device.items[1],
-             provision_level: provisioning
+             provision_level: provisioning,
+             net: networks
            }
         });
       } else if (device.items[1] !== undefined) {
