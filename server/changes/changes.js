@@ -662,29 +662,6 @@ ChangeFunction.discover.device.all = function(argList) {
         }
      });
 
-/*
-      else if (device.items[1] !== undefined) {
-        if (device.items[1].managementIp == ip) {
-          Devices.update({_id: device_id},
-            { $set: {
-              group: 'default-group',
-              mgmtAddress: ip,
-              restEnabled: true,
-              mgmtUser: user,
-              mgmtPass: pass,
-              self: device.items[1],
-              peer: device.items[0],
-              provision_level: provisioning
-            }
-          });
-        }
-
-      } else {
-        Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Failed: Management IP required, not self IP'}});
-        throw new Meteor.Error(500, 'Error 500', 'Use Management IP, not traffic IP');
-        Devices.remove({_id: device_id});
-      }
-*/
       Jobs.update({_id: argList.jobId}, {$set: {progress: 15, status: 'Basic info gathered...'}});
       Meteor.call("getDiskStats", device_id);
       var trafGroups = Meteor.call("discoverTrafficGroups", device_id);
@@ -832,32 +809,37 @@ Meteor.methods({
     var argList = myChange.change.argList;
     // Apply method will take array of args
     var result;
-    checkAuth(change_id, myChange.change.theMethod, function (err, res) {
-      if (res) {
-        result = ChangeFunction[changeMethod.action][changeMethod.module][changeMethod.object](argList);
-        Changes.update({_id: change_id},
-          {
+    try {
+      checkAuth(change_id, myChange.change.theMethod, function (err, res) {
+        if (res) {
+          result = ChangeFunction[changeMethod.action][changeMethod.module][changeMethod.object](argList);
+          Changes.update({_id: change_id},
+            {
+              $set: {
+                pushed: true,
+                pushedBy: userObj,
+                success: true,
+                successOutput: result
+              }
+            });
+        }
+        else {
+          Changes.update({_id: change_id}, {
             $set: {
               pushed: true,
               pushedBy: userObj,
-              success: true,
-              successOutput: result
+              success: false,
+              successOutput: 'Unauthorized'
             }
           });
-      }
-      else {
-        Changes.update({_id: change_id}, {
-          $set: {
-            pushed: true,
-            pushedBy: userObj,
-            success: false,
-            successOutput: 'Unauthorized'
-          }
-        });
-        throw new Meteor.Error(401, 'Error 401', 'Unauthorized');
-      }
-    });
-    return result;
+          throw new Meteor.Error(401, 'Error 401', 'Unauthorized');
+        }
+      });
+      return result;
+    } catch (e) {
+      throw new Meteor.Error(e);
+    }
+
   },
   pushChange: function(change_id) {
     /**
