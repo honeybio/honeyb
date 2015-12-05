@@ -626,22 +626,44 @@ ChangeFunction.discover.device.all = function(argList) {
         throw new Meteor.Error(500, 'Error 500', 'REST discovery failure, please check BIG-IP Version and try again');
       }
       var networks = Meteor.call("discoverNetwork", ip, user, pass);
+      var managementIp = Meteor.call("discoverManagementIp", ip, user, pass);
+      var selfIpList = [];
+      for (var i = 0; i < managementIp.length; i++) {
+        selfIpList.push(managementIp[i].name.replace(/\/.*/, ''));
+      }
+
+      for (var i = 0; i < networks.selfs.length; i++) {
+        if (networks.selfs[i].floating == 'disabled') {
+          selfIpList.push(networks.selfs[i].address.replace(/\/.*/, ''));
+        }
+      }
+
       var device = Meteor.call("discoverDevice", ip, user, pass);
-      if (device.items[0].managementIp == ip) {
-         Devices.update({_id: device_id},
-           { $set: {
-             group: 'default-group',
-             mgmtAddress: ip,
-             restEnabled: true,
-             mgmtUser: user,
-             mgmtPass: pass,
-             self: device.items[0],
-             peer: device.items[1],
-             provision_level: provisioning,
-             net: networks
-           }
-        });
-      } else if (device.items[1] !== undefined) {
+      var mySelf = device.items[1];;
+      var myPeer = device.items[0];;
+      for (var i = 0; i < selfIpList.length; i++) {
+        if (device.items[0].managementIp == selfIpList[i]) {
+          mySelf = device.items[0];
+          myPeer = device.items[1];
+        }
+      }
+
+      Devices.update({_id: device_id},
+        { $set: {
+          group: 'default-group',
+          mgmtAddress: ip,
+          restEnabled: true,
+          mgmtUser: user,
+          mgmtPass: pass,
+          self: mySelf,
+          peer: myPeer,
+          provision_level: provisioning,
+          net: networks
+        }
+     });
+
+/*
+      else if (device.items[1] !== undefined) {
         if (device.items[1].managementIp == ip) {
           Devices.update({_id: device_id},
             { $set: {
@@ -656,11 +678,13 @@ ChangeFunction.discover.device.all = function(argList) {
             }
           });
         }
+
       } else {
         Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Failed: Management IP required, not self IP'}});
         throw new Meteor.Error(500, 'Error 500', 'Use Management IP, not traffic IP');
         Devices.remove({_id: device_id});
       }
+*/
       Jobs.update({_id: argList.jobId}, {$set: {progress: 15, status: 'Basic info gathered...'}});
       Meteor.call("getDiskStats", device_id);
       var trafGroups = Meteor.call("discoverTrafficGroups", device_id);

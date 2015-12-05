@@ -458,6 +458,16 @@ Meteor.methods({
     }
     return net;
   },
+  discoverManagementIp: function (ip, user, pass) {
+    var bigip = {
+      iControl: 'rest',
+      ip: ip,
+      user: user,
+      pass: pass,
+    };
+    var managementIp = BigipClient.list.sys.management_ip(bigip);
+    return managementIp;
+  },
   discoverDevice: function (ip, user, pass) {
     var url = "https://" + ip + "/mgmt/tm/cm/device";
     var authString = user + ":" + pass;
