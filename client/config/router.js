@@ -1,16 +1,19 @@
 var OnBeforeActions;
 
 OnBeforeActions = {
-    loginRequired: function(pause) {
-      if (!Meteor.userId()) {
-        this.render('login');
-        this.layout('blankLayout');
-        return;
+  loginRequired: function(pause) {
+    if (! Meteor.user()) {
+      if (Meteor.loggingIn()) {
       }
-      else {
-        this.next();
+      else{
+        this.render('login');
+        this.layout('blankLayout')
       }
     }
+    else {
+      this.next();
+    }
+  }
 };
 
 Router.onBeforeAction(OnBeforeActions.loginRequired, {
@@ -33,7 +36,16 @@ Router.route('/', function () {
     },
     data: function () {
       return Settings.findOne({type: 'system'});
+    },
+    onBeforeAction: function () {
+    if (! Meteor.user()) {
+      if (Meteor.loggingIn()) {
+      }
+      else{
+        Router.go('login');
+      }
     }
+  }
   });
 });
 
