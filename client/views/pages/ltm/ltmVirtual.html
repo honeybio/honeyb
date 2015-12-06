@@ -9,23 +9,21 @@
             {{>iboxTools}}
           </div>
           <div class="ibox-content">
-            <div class="form-group"><label class="col-sm-2 control-label">Search: </label>
-              <div class="col-sm-2">{{> EasySearch.Input index=virtualsIndex}}</div>
-            </div>
             <div class="hr-line-dashed"></div>
             <form id="virtual-servers" class="form-horizontal">
-              <table class="table">
+              <input type="text" id="myFilter">
+              <table id="footable" class="table" data-filter='#myFilter' data-filter-text-only="true">
                 <thead>
                   <tr>
                     <th>Status</th>
-                    <th>Virtual Name</th>
+                    <th data-sort-initial="true">Virtual Name</th>
                     <th>Destination</th>
                     <th>On BIG-IP</th>
                     <th>Select</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {{#EasySearch.Each index=virtualsIndex }}
+                  {{#each allVirtuals}}
                     {{#if deleted}}
                     {{else}}
                       <tr>
@@ -36,8 +34,15 @@
                         <th><input type="checkbox" id="{{_id}}" name="{{_id}}"></th>
                       </tr>
                     {{/if}}
-                  {{/EasySearch.Each}}
+                  {{/each}}
                 </tbody>
+                <tfoot class="hide-if-no-paging">
+                  <tr>
+              			<td colspan="5">
+              				<div class="pagination pagination-centered"></div>
+              			</td>
+              		</tr>
+              	</tfoot>
               </table>
               <div class="hr-line-dashed"></div>
               <div class="form-group"><label class="col-sm-2 control-label">Action</label>

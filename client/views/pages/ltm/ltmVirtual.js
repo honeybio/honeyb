@@ -1,3 +1,7 @@
+Template.ltmVirtuals.onRendered(function() {
+  $('#footable').footable();
+});
+
 Template.ltmVirtuals.helpers({
   allVirtuals: function () {
     return Virtuals.find();
