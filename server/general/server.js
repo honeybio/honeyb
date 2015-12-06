@@ -159,7 +159,10 @@ Meteor.methods({
           ldapBaseDn: settings.ldapBaseDn,
           ldapUrl: settings.ldapUrl,
           ldapBindCn: settings.ldapBindCn,
-          ldapBindPassword: settings.ldapBindPassword
+          ldapBindPassword: settings.ldapBindPassword,
+          defaultAdminGroup: settings.defaultAdminGroup,
+          defaultOperatorGroup: settings.defaultOperatorGroup,
+          defaultGuestGroup: settings.defaultGuestGroup
         };
         Meteor.call('setAdAuth', authObj);
       }

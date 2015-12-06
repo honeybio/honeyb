@@ -67,6 +67,9 @@ Template.gettingStartedWizard.events({
       wizardSettings.ldapUrl = event.target.ldapUrl.value;
       wizardSettings.ldapBindCn = event.target.ldapBindCn.value;
       wizardSettings.ldapBindPassword = event.target.ldapBindPassword.value;
+      wizardSettings.defaultAdminGroup = event.target.defaultAdminGroup.value;
+      wizardSettings.defaultOperatorGroup = event.target.defaultOperatorGroup.value;
+      wizardSettings.defaultGuestGroup = event.target.defaultGuestGroup.value;
     }
     wizardSettings.archiveFreq = event.target.archiveFreq.value;
 
