@@ -169,11 +169,14 @@ ChangeFunction.read.ltm.pool = function(argList) { }
 ChangeFunction.read.ltm.monitor = function(argList) { }
 ChangeFunction.read.ltm.node = function(argList) { }
 ChangeFunction.read.ltm.profile = function(argList) { }
+ChangeFunction.read.ltm.persistence = function(argList) { }
 ChangeFunction.read.ltm.irule = function(argList) { }
 ChangeFunction.read.ltm.idatagroup = function(argList) { }
+ChangeFunction.read.gtm.datacenter = function(argList) { }
 ChangeFunction.read.gtm.wideip = function(argList) { }
 ChangeFunction.read.gtm.server = function(argList) { }
 ChangeFunction.read.gtm.monitor = function(argList) { }
+ChangeFunction.read.gtm.link = function(argList) { }
 ChangeFunction.read.gtm.pool = function(argList) { }
 ChangeFunction.read.gtm.vserver = function(argList) { }
 ChangeFunction.read.gtm.member = function(argList) { }
@@ -191,6 +194,7 @@ ChangeFunction.update.ltm.monitor = function(argList) { }
 ChangeFunction.update.ltm.node = function(argList) { }
 ChangeFunction.update.ltm.monitor = function(argList) { }
 ChangeFunction.update.ltm.profile = function(argList) { }
+ChangeFunction.update.ltm.persistence = function(argList) { }
 ChangeFunction.update.ltm.irule = function(argList) { }
 ChangeFunction.update.ltm.idatagroup = function(argList) { }
 ChangeFunction.update.gtm.wideip = function(argList) { }
@@ -262,6 +266,9 @@ ChangeFunction.delete.ltm.profile = function(argList) {
     return result;
   }
   return false;
+}
+ChangeFunction.delete.ltm.persistence = function(argList) {
+
 }
 ChangeFunction.delete.ltm.irule = function(argList) {
 

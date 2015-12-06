@@ -72,7 +72,8 @@ Meteor.publish("db_certificates", function () {
     return [];
   }
   else {
-    return Certificates.find();
+    var readObjects = Meteor.call("getReadGroups", 'read.device.certificate');
+    return Certificates.find({group: { $in: readObjects }});
   }
 });
 Meteor.publish("db_ltmprofiles", function () {
@@ -80,7 +81,8 @@ Meteor.publish("db_ltmprofiles", function () {
     return [];
   }
   else {
-    return Profiles.find();
+    var readObjects = Meteor.call("getReadGroups", 'read.ltm.profile');
+    return Profiles.find({group: { $in: readObjects }});
   }
 });
 
@@ -126,7 +128,8 @@ Meteor.publish("db_virtualaddresses", function () {
     return [];
   }
   else {
-    return Virtualaddresses.find();
+    var readObjects = Meteor.call("getReadGroups", 'read.ltm.node');
+    return Virtualaddresses.find({group: { $in: readObjects }});
   }
 });
 Meteor.publish("db_idatagroups", function () {
@@ -134,7 +137,8 @@ Meteor.publish("db_idatagroups", function () {
     return [];
   }
   else {
-    return Idatagroups.find();
+    var readObjects = Meteor.call("getReadGroups", 'read.ltm.idatagroup');
+    return Idatagroups.find({group: { $in: readObjects }});
   }
 });
 Meteor.publish("db_edatagroups", function () {
@@ -142,7 +146,8 @@ Meteor.publish("db_edatagroups", function () {
     return [];
   }
   else {
-    return Edatagroups.find();
+    var readObjects = Meteor.call("getReadGroups", 'read.ltm.edatagroup');
+    return Edatagroups.find({group: { $in: readObjects }});
   }
 });
 Meteor.publish("db_ltmpersistence", function () {
@@ -150,7 +155,8 @@ Meteor.publish("db_ltmpersistence", function () {
     return [];
   }
   else {
-    return Persistence.find();
+    var readObjects = Meteor.call("getReadGroups", 'read.ltm.persistence');
+    return Persistence.find({group: { $in: readObjects }});
   }
 });
 
@@ -160,7 +166,6 @@ Meteor.publish("db_gtmsyncgroup", function () {
     return [];
   }
   else {
-
     return Gtmsyncgroups.find();
   }
 });
@@ -169,7 +174,8 @@ Meteor.publish("db_gtmdatacenters", function () {
     return [];
   }
   else {
-    return Gtmdatacenters.find();
+    var readObjects = Meteor.call("getReadGroups", 'read.gtm.datacenter');
+    return Gtmdatacenters.find({group: { $in: readObjects }});
   }
 });
 Meteor.publish("db_gtmservers", function () {
@@ -196,7 +202,8 @@ Meteor.publish("db_gtmlinks", function () {
     return [];
   }
   else {
-    return Gtmlinks.find();
+    var readObjects = Meteor.call("getReadGroups", 'read.gtm.link');
+    return Gtmlinks.find({group: { $in: readObjects }});
   }
 });
 Meteor.publish("db_gtmmonitors", function () {
