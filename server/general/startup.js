@@ -151,10 +151,8 @@ Meteor.startup(function () {
     }
     var geoDBFile = Npm.require('fs').realpathSync(process.cwd()) + "/assets/app/" + "GeoLite2-City.mmdb";
     _.defaults(Meteor.settings, {
-      $set: {
-        IPGeocoder: {
-          databaseUrl: geoDBFile
-        }
+      IPGeocoder: {
+        databaseUrl: geoDBFile
       }
     });
   }
@@ -190,7 +188,7 @@ Meteor.startup(function () {
 
   // Start Geo database
   var geoDBFile = Npm.require('fs').realpathSync(process.cwd()) + "/assets/app/" + "GeoLite2-City.mmdb";
-  IPGeocoder.load(geoDBFile);
+  IPGeocoder.load();
 
   // Sessions are lost, so kill login resume tokens to avoid null userids
   Meteor.users.update({}, {$set: { 'services.resume.loginTokens': []}}, {multi: true});
