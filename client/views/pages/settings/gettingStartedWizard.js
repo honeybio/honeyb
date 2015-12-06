@@ -47,38 +47,37 @@ Template.gettingStartedWizard.events({
     $('#ssh-settings').hide();
     $('#add-device').show();
   },
-  'click #generate-ssh-key': function (e, t) {
+  'click #generate-ssh-key': function (event, template) {
     event.preventDefault();
     var keyName = 'id_rsa';
     Meteor.call("generateSshKey", keyName);
   },
-  'submit #settings-wizard-form': function (e, t) {
+  'submit #settings-wizard-form': function (event, template) {
     event.preventDefault();
-    var honeyName = event.target.honeyName.value;
-    var ihealthFreq = event.target.ihealthFreq.value;
-    var ihealthStatsFreq = event.target.ihealthStatsFreq.value;
-    var ihealthUser = event.target.ihealthUser.value;
-    var ihealthPass = event.target.ihealthPass.value;
-    var authenticationType = event.target.authenticationType.value;
-    var ldapDomain = event.target.ldapDomain.value;
-    var ldapBaseDn = event.target.ldapBaseDn.value;
-    var ldapUrl = event.target.ldapUrl.value;
-    var ldapBindCn = event.target.ldapBindCn.value;
-    var ldapBindPassword = event.target.ldapBindPassword.value;
-    var archiveFreq = event.target.archiveFreq.value;
-    console.log(event.target.honeyName.value);
-    console.log(event.target.ihealthFreq.value);
-    console.log(event.target.ihealthStatsFreq.value);
-    console.log(event.target.ihealthUser.value);
-    console.log(event.target.ihealthPass.value);
-    console.log(event.target.authenticationType.value);
-    console.log(event.target.ldapDomain.value);
-    console.log(event.target.ldapBaseDn.value);
-    console.log(event.target.ldapUrl.value);
-    console.log(event.target.ldapBindCn.value);
-    console.log(event.target.ldapBindPassword.value);
-    console.log(event.target.archiveFreq.value);
+    var wizardSettings = { };
+    wizardSettings.honeyName = event.target.honeyName.value;
+    wizardSettings.ihealthFreq = event.target.ihealthFreq.value;
+    wizardSettings.ihealthStatsFreq = event.target.ihealthStatsFreq.value;
+    wizardSettings.ihealthUser = event.target.ihealthUser.value;
+    wizardSettings.ihealthPass = event.target.ihealthPass.value;
+    wizardSettings.authenticationType = event.target.authenticationType.value;
+    if (event.target.authenticationType.value == 'activedirectory') {
+      wizardSettings.ldapDomain = event.target.ldapDomain.value;
+      wizardSettings.ldapBaseDn = event.target.ldapBaseDn.value;
+      wizardSettings.ldapUrl = event.target.ldapUrl.value;
+      wizardSettings.ldapBindCn = event.target.ldapBindCn.value;
+      wizardSettings.ldapBindPassword = event.target.ldapBindPassword.value;
+    }
+    wizardSettings.archiveFreq = event.target.archiveFreq.value;
 
+    Meteor.call("wizardUpdate", wizardSettings, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success('Saved!', 'Success!');
+      }
+    });
+    console.log(wizardSettings);
   },
   'change #authenticationType': function(event, target) {
     Session.set('auth_type', authenticationType.options[authenticationType.selectedIndex].value);

@@ -151,6 +151,28 @@ Meteor.methods({
       throw new Meteor.Error(401, 'Error 401', 'Unauthorized');
     }
   },
+  wizardUpdate: function (settings) {
+    if (Roles.userIsInRole(Accounts.user(), ['admin'], 'default-group')) {
+      if (settings.authenticationType == 'activedirectory') {
+        var authObj = {
+          ldapDomain: settings.ldapDomain,
+          ldapBaseDn: settings.ldapBaseDn,
+          ldapUrl: settings.ldapUrl,
+          ldapBindCn: settings.ldapBindCn,
+          ldapBindPassword: settings.ldapBindPassword
+        };
+        Meteor.call('setAdAuth', authObj);
+      }
+      if (settings.ihealthUser === undefined || settings.ihealthPass === undefined) {
+        console.log(settings);
+      } else {
+        Meteor.call('updateSystemSettings', 'blankHostname', settings.ihealthUser, settings.ihealthPass, settings.ihealthFreq);
+      }
+      Meteor.call('updateSchedule',settings.archiveFreq, settings.ihealthFreq);
+    } else {
+      throw new Meteor.Error(401, 'Error 401', 'Unauthorized');
+    }
+  },
   exportAsmPolicy: function (policy_id) {
     this.unblock();
     var policy = Asmpolicies.findOne({_id: policy_id});
@@ -337,7 +359,7 @@ Meteor.methods({
     return update;
   },
   updateSystemSettings: function(hname, ihealthUser, ihealthPass, ihealthFreq) {
-    var update = Settings.update({type: "system"}, { $set: { name: hname, ihealthUser: ihealthUser,
+    var update = Settings.update({type: "system"}, { $set: { ihealthUser: ihealthUser,
       ihealthPass: ihealthPass, ihealthFreq: ihealthFreq }});
     return update;
   },

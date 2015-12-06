@@ -1,4 +1,3 @@
-
 Template.ltmMonitors.helpers({
   allMonitors: function () {
     var result = Monitors.find({}, {name: 1});
