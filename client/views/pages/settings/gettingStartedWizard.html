@@ -160,23 +160,7 @@
                     </div>
                   </div>
                   {{#if adAuthSelected}}
-                  <div class="row">
-                    <div class="form-group"><label class="col-sm-2 control-label">AD Domain</label>
-                      <div class="col-sm-6"><input type="text" id="ldapDomain" value="{{adAuthentication.ldapDomain}}" class="form-control"></div>
-                    </div>
-                    <div class="form-group"><label class="col-sm-2 control-label">AD Base DN</label>
-                      <div class="col-sm-6"><input type="text" id="ldapBaseDn" value="{{adAuthentication.ldapBaseDn}}" class="form-control"></div>
-                    </div>
-                    <div class="form-group"><label class="col-sm-2 control-label">AD Base URL</label>
-                      <div class="col-sm-6"><input type="text" id="ldapUrl" value="{{adAuthentication.ldapUrl}}" class="form-control"></div>
-                    </div>
-                    <div class="form-group"><label class="col-sm-2 control-label">Service Account DN</label>
-                      <div class="col-sm-6"><input type="text" id="ldapBindCn" value="{{adAuthentication.ldapBindCn}}" class="form-control"></div>
-                    </div>
-                    <div class="form-group"><label class="col-sm-2 control-label">Service Account Password</label>
-                      <div class="col-sm-6"><input type="text" id="ldapBindPassword" value="{{adAuthentication.ldapBindPassword}}" class="form-control"></div>
-                    </div>
-                  </div>
+                    {{> adFormItems}}
                   {{/if}}
                   {{/with}}
                 </div>

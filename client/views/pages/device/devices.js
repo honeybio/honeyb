@@ -1,3 +1,17 @@
+Template.devices.helpers({
+  allDevices: function () {
+    return Devices.find();
+  }
+});
+
+Template.devices.onRendered(function() {
+  $('.footable').footable();
+});
+
+Template.devicesArchives.onRendered(function() {
+  $('.footable').footable();
+});
+
 Template.devicesArchives.helpers({
   getArchives: function () {
     return Archives.find();

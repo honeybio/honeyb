@@ -10,7 +10,29 @@
               {{>iboxTools}}
             </div>
             <div class="ibox-content">
-              {{> devicesSearchBox}}
+              {{> footableSearchBox objects="Devices"}}
+              <table class="footable table table-stripped" data-page-size="15" data-filter=#filter>
+                <thead>
+                  <tr>
+                    <th>Device Name</th>
+                    <th>Device IP</th>
+                    <th>Failover State</th>
+                    <th>Link to GUI</th>
+                    <th>Select</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {{#each allDevices}}
+                  <tr>
+                    <td><a href="/devices/{{_id}}">{{self.name}}</a></td>
+                    <td>{{mgmtAddress}}</td>
+                    <td>{{self.failoverState}}</td>
+                    <td><a href="https://{{mgmtAddress}}/" target="_blank">Open Management Console</a></td>
+                    <td><input type="checkbox" id="{{this._id}}" name="{{this._id}}"></td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
             </div>
             <div class="ibox-footer">
               <span class="pull-right">
@@ -171,7 +193,7 @@
               {{>iboxTools}}
           </div>
           <div class="ibox-content">
-            <table class="table">
+            <table class="table table-stripped">
               <thead>
                 <tr>
                   <th>Management IP</th>
@@ -184,12 +206,12 @@
               </thead>
               <tbody>
                 <tr>
-                  <th>{{mgmtAddress}}</th>
-                  <th>{{self.baseMac}}</th>
-                  <th>{{self.failoverState}}</th>
-                  <th>{{peer.name}}</th>
-                  <th>{{mgmtUser}}</th>
-                  <th>{{sshUser}}</th>
+                  <td>{{mgmtAddress}}</td>
+                  <td>{{self.baseMac}}</td>
+                  <td>{{self.failoverState}}</td>
+                  <td>{{peer.name}}</td>
+                  <td>{{mgmtUser}}</td>
+                  <td>{{sshUser}}</td>
                 </tr>
               </tbody>
             </table>
@@ -205,7 +227,7 @@
               {{>iboxTools}}
           </div>
           <div class="ibox-content">
-            <table class="table">
+            <table class="table table-stripped">
               <thead>
                 <tr>
                   <th>Version</th>
@@ -218,11 +240,11 @@
               </thead>
               <tbody>
                 <tr>
-                  <th>{{mgmtAddress}}</th>
-                  <th>{{self.version}}</th>
-                  <th>{{self.build}}</th>
-                  <th>{{self.marketingName}}</th>
-                  <th>{{self.platform}}</th>
+                  <td>{{mgmtAddress}}</td>
+                  <td>{{self.version}}</td>
+                  <td>{{self.build}}</td>
+                  <td>{{self.marketingName}}</td>
+                  <td>{{self.platform}}</td>
                 </tr>
               </tbody>
             </table>
@@ -472,8 +494,9 @@
               {{>iboxTools}}
             </div>
             <div class="ibox-content">
+              {{> footableSearchBox objects="Archives"}}
               <form class="archiveForm" name="archiveForm">
-                <table class="table">
+                <table class="footable table table-stripped" data-page-size="15" data-filter=#filter>
                   <thead>
                     <tr>
                       <th>Device</th>

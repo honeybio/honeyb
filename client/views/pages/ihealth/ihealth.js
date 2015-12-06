@@ -3,6 +3,11 @@ Template.dashboardsIhealth.onCreated(function() {
    this.buttonName = new ReactiveVar('Refresh iHealth');
 });
 
+Template.dashboardsIhealth.onRendered(function() {
+  $('.footable').footable();
+});
+
+
 Template.dashboardsIhealth.events({
   'click .ihealth': function (event, instance) {
     event.preventDefault();

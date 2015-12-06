@@ -1,7 +1,16 @@
 Template.asmPolicies.helpers({
-  asmPoliciesIndex: () => AsmPoliciesIndex
-})
+  allPolicies: function () {
+    return Asmpolicies.find();
+  }
+});
 
+Template.asmPolicies.onRendered(function() {
+  $('.footable').footable();
+});
+
+Template.asmPoliciesExported.onRendered(function() {
+  $('.footable').footable();
+});
 
 Template.asmPolicies.events({
   'submit #asm-policies': function (event, template) {

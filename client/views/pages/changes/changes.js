@@ -46,21 +46,21 @@ Template.changes.events({
   }
 });
 
-Template.changesCommitted.helpers({
-  changesIndex: () => ChangesIndex
-});
-
 Template.changes.onCreated( function() {
   Session.set('changesetSelected', 0);
 });
 
 
 Template.changesCommitted.helpers({
-  pushedChanges: function () {
-    var result = Changes.find({pushed: true});
-    return result;
+  allChanges: function () {
+    return Changes.find();
   }
 });
+
+Template.changesCommitted.onRendered(function() {
+  $('.footable').footable();
+});
+
 
 /*
 Template.changesScheduled.helpers({

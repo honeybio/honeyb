@@ -1,13 +1,10 @@
 Template.ltmPools.helpers({
   allPools: function () {
-    var result = Pools.find({}, {name: 1});
-    return result;
+    return Pools.find();
   },
   getDeviceList: function () {
-    var result = Devices.find({});
-    return result;
-  },
-  poolsIndex: () => PoolsIndex
+    return Devices.find();
+  }
 });
 
 Template.ltmPools.events({

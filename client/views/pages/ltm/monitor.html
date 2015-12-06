@@ -14,7 +14,27 @@
                   <li>Type: tcp-half-open <a href="/ltm/monitors/tcp-half-open/create">Create New</a></li>
                   <li>Type: http <a href="/ltm/monitors/http/create">Create New</a></li>
                 </ul>
-                {{> monitorsSearchBox}}
+                {{> footableSearchBox objects="Monitors"}}
+                <table class="footable table table-stripped" data-page-size="15" data-filter=#filter>
+                  <thead>
+                    <tr>
+                      <th>Monitor Name</th>
+                      <th>On BIG-IP</th>
+                      <th>Select</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each allMonitors}}
+                    {{#unless deleted}}
+                    <tr>
+                      <td><a href="/ltm/monitors/{{type}}/{{_id}}">{{name}}</a></td>
+                      <td>{{getOnDevice this.onDevice}}</td>
+                      <td><input type="checkbox" id="{{_id}}" name="{{_id}}"></td>
+                    </tr>
+                    {{/unless}}
+                    {{/each}}
+                  </tbody>
+                </table>
                 <div class="form-group"><label class="col-sm-2 control-label">Action</label>
                   <div class="col-sm-4">
                     <select id="objectAction" class="form-control m-b">

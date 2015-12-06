@@ -10,7 +10,24 @@
               {{>iboxTools}}
             </div>
             <div class="ibox-content"><label class="col-sm-2 control-label">Search: </label>
-              {{> idatagroupsSearchBox}}
+              <table class="footable table table-stripped" data-page-size="15" data-filter=#filter>
+                <thead>
+                  <tr>
+                    <th>Data Group Name</th>
+                    <th>On BIG-IP</th>
+                    <th>Select</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each allDatagroups}}
+                    <tr>
+                      <td><a href="/ltm/idatagroups/{{_id}}">{{name}}</a></td>
+                      <td>{{getOnDevice this.onDevice}}</td>
+                      <td><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></td>
+                    </tr>
+                  {{/each}}
+                </tbody>
+              </table>
               <div class="form-group"><label class="col-sm-2 control-label">Action</label>
                 <div class="col-sm-4">
                   <select id="objectAction" class="form-control m-b">
@@ -33,7 +50,6 @@
               <span class="pull-right">
                 The righ side of the footer
               </span>
-
             </div>
           </div>
         </div>

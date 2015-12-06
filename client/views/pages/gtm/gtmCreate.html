@@ -1,0 +1,61 @@
+<template name="gtmWideipsCreate">
+  <div class="container">
+  <center>
+    <h3>Create a new GTM/DNS Wideip</h3>
+  </center>
+  <li>
+    <form id="wipForm" class="wipForm">
+      Wideip Name: <input type="text" id="wip_name" class="wip_name"><br>
+      What Sync Group? <select id="syncgroup" name="syncgroup">
+        <option selected="none" value="none">none</option>
+        {{#each getSyncList}}
+          <option value="{{_id}}">{{synchronizationGroupName}}</option>
+        {{/each}} </select><br>
+       <br>
+       <select name="wip_type" id="wip_type">
+         <option value="a">IPv4</option>
+         <option value="aaaa">IPv6</option>
+       </select><br>
+       Pool:  <select id="wpool" name="wpool">
+                <option selected="none" value="none">none></option>
+                {{#each getPoolList}}
+                  <option value="{{_id}}">{{name}}</option>
+                {{/each}}
+              </select><br>
+      <br><br><button class="submit" id="submit">Create</button>
+      Stage changes?  <select name="stage" id="stage">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                      </select><br>
+    </form>
+  </li>
+</div>
+</template>
+
+<template name="gtmPoolsCreate">
+  <div class="container">
+  <center>
+    <h3>Create a new GTM/DNS Pool</h3>
+  </center>
+  <li>
+    <form id="poolForm" class="poolForm">
+      Pool Name: <input type="text" id="pool_name" class="pool_name"><br>
+      What Sync Group? <select id="syncgroup" name="syncgroup">
+        <option selected="none" value="none">none</option>
+        {{#each getSyncList}}
+          <option value="{{_id}}">{{synchronizationGroupName}}</option>
+        {{/each}} </select><br>
+       <br>
+       <select name="pool_type" id="pool_type">
+         <option value="a">IPv4</option>
+         <option value="aaaa">IPv6</option>
+       </select><br>
+      <br><br><button class="submit" id="submit">Create</button>
+      Stage changes?  <select name="stage" id="stage">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                      </select><br>
+    </form>
+  </li>
+</div>
+</template>

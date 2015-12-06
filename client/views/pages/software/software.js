@@ -54,6 +54,11 @@ Template.softwareImages.helpers({
   }
 });
 
+Template.softwareImages.onRendered(function() {
+  $('.footable').footable();
+});
+
+
 Template.softwareHotfixes.helpers({
   getHotfixes: function () {
     return Images.find();
@@ -73,4 +78,8 @@ Template.softwareHotfixes.helpers({
       return 'Unknown';
     }
   }
+});
+
+Template.softwareHotfixes.onRendered(function() {
+  $('.footable').footable();
 });

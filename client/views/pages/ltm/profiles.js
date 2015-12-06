@@ -63,10 +63,15 @@ Template.profilesDetails.helpers({
 
 Template.ltmProfiles.helpers({
   allProfiles: function () {
-    var result = Profiles.find({}, {name: 1});
+    var result = Profiles.find();
     return result;
   }
 });
+
+Template.ltmProfiles.onRendered(function() {
+  $('.footable').footable();
+});
+
 
 Template.ltmProfilesClientssl.helpers({
   allclientssl: function () {

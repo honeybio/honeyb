@@ -1,11 +1,17 @@
-
 Template.sslCerts.onRendered(function() {
+  $('.footable').footable();
+});
+
+Template.sslKeys.onRendered(function() {
+  $('.footable').footable();
+});
+
+Template.sslProfiles.onRendered(function() {
   $('.footable').footable();
 });
 
 
 Template.sslCerts.helpers({
-  certificatesIndex: () => CertificatesIndex,
   allCerts: function () {
     var result = Certificates.find({ssltype: "certificate"});
     return result;
@@ -26,17 +32,9 @@ Template.sslCerts.helpers({
 });
 
 Template.sslKeys.helpers({
-  certificatesIndex: () => CertificatesIndex,
   allKeys: function () {
     var result = Certificates.find({ssltype: "key"});
     return result;
-  },
-  isKey: function (type) {
-    if (type == 'key') {
-      return true;
-    } else {
-      return false;
-    }
   },
   expiresIn: function () {
     // Calculate the expiration
@@ -55,17 +53,8 @@ Template.keyDetails.events({
 });
 
 Template.sslProfiles.helpers({
-  profilesIndex: () => ProfilesIndex,
-  isSsl: function (type) {
-    if (type == 'client-ssl') {
-      return true;
-    } else {
-      return false;
-    }
-  },
   allClientsslProfiles: function () {
     var result = Profiles.find({profType: "client-ssl"});
-    console.log(result);
     return result;
   }
 });

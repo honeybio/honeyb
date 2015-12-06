@@ -1,9 +1,13 @@
 Template.ltmMonitors.helpers({
   allMonitors: function () {
-    var result = Monitors.find({}, {name: 1});
-    return result;
+    return Monitors.find();
   }
 });
+
+Template.ltmMonitors.onRendered(function() {
+  $('.footable').footable();
+});
+
 
 Template.ltmMonitors.events({
   "submit #ltm-monitors": function (event, template) {

@@ -458,6 +458,7 @@ Meteor.methods({
     return changeset_id;
   },
   createUCSCommand: function(device_id) {
+    this.unblock();
     var device = Devices.findOne({_id: device_id});
     var settings = Settings.findOne({type: 'system'});
     var shellCommand = "create_and_get_ucs.sh";

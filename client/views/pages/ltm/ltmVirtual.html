@@ -9,12 +9,9 @@
             {{>iboxTools}}
           </div>
           <div class="ibox-content">
-            <div class="hr-line-dashed"></div>
             <form id="virtual-servers" class="form-horizontal">
-              <div class="col-sm-4">
-                <input type="text" class="form-control input-sm m-b-xs" id="filter" placeholder="Search Virtuals...">
-              </div>
-              <table class="footable table table-stripped" data-page-size="8" data-filter=#filter>
+              {{> footableSearchBox objects="Virtuals"}}
+              <table class="footable table table-stripped" data-page-size="15" data-filter=#filter>
                 <thead>
                   <tr>
                     <th>Status</th>
@@ -29,8 +26,8 @@
                     {{#if deleted}}
                     {{else}}
                       <tr>
-                        <td><img src="/{{statusImg}}"></td>
-                        <td><a href="/ltm/virtuals/{{_id}}">{{name}}</a></td>
+                        <td data-value="{{statusImg}}"><img src="/{{statusImg}}"></td>
+                        <td data-value="{{name}}"><a href="/ltm/virtuals/{{_id}}">{{name}}</a></td>
                         <td>{{destination}}</td>
                         <td>{{getOnDevice onDevice}}</td>
                         <td><input type="checkbox" id="{{_id}}" name="{{_id}}"></td>

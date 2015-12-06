@@ -10,8 +10,9 @@
               {{>iboxTools}}
             </div>
             <div class="ibox-content">
+              {{> footableSearchBox objects="Devices"}}
               <button class="ihealth" id="ihealth" disabled={{buttonStateDisabled}}>{{getButtonName}}</button>
-              <table class="table">
+              <table class="footable table table-stripped" data-page-size="15" data-filter=#filter>
                 <thead>
                   <tr>
                     <th>Hostname</th>
@@ -61,7 +62,7 @@
             {{>iboxTools}}
           </div>
           <div class="ibox-content">
-            <table class="table">
+            <table class="table table-stripped">
               <thead>
                 <tr>
                   <th>Serial Number</th>

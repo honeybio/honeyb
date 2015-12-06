@@ -1,21 +1,30 @@
+Template.gtmDatacenters.onRendered(function() {
+  $('.footable').footable();
+});
+
+Template.gtmSyncgroups.onRendered(function() {
+  $('.footable').footable();
+});
+
 Template.gtmDatacenters.helpers({
-  allDCs: function () {
-    var result = Gtmdatacenters.find();
-    return result;
+  allDatacenters: function () {
+    return Gtmdatacenters.find();
   }
 });
 
+Template.gtmServers.onRendered(function() {
+  $('.footable').footable();
+});
+
 Template.gtmServers.helpers({
-  allServers: function () {
-    var result = Gtmservers.find();
-    return result;
+  allGtmservers: function () {
+    return Gtmservers.find();
   }
 });
 
 Template.gtmSyncgroups.helpers({
-  getSyncGroups: function () {
-    var result = Gtmsyncgroups.find();
-    return result;
+  allSyncgroups: function () {
+    return Gtmsyncgroups.find();
   }
 });
 
@@ -26,10 +35,13 @@ Template.gtmSyncgroupDetails.helpers({
   }
 });
 
+Template.gtmVservers.onRendered(function() {
+  $('.footable').footable();
+});
+
 Template.gtmVservers.helpers({
-  allVservers: function () {
-    var result = Gtmvservers.find();
-    return result;
+  allGtmvservers: function () {
+    return Gtmvservers.find();
   },
   getName: function (onDevice) {
     var result = Gtmservers.findOne({_id: onDevice}, {name: 1});
@@ -38,24 +50,49 @@ Template.gtmVservers.helpers({
 });
 
 Template.gtmWideips.helpers({
-  allWips: function () {
-    var result = Wideips.find();
-    return result;
+  allWideips: function () {
+    return Wideips.find();
+  }
+});
+
+Template.gtmWideips.onRendered(function() {
+  $('.footable').footable();
+});
+
+Template.gtmLinks.onRendered(function() {
+  $('.footable').footable();
+});
+
+Template.gtmPools.onRendered(function() {
+  $('.footable').footable();
+});
+
+Template.gtmLinks.helpers({
+  allLinks: function () {
+    return Gtmlinks.find();
   }
 });
 
 Template.gtmPools.helpers({
-  allPools: function () {
-    var gpools = Widepools.find();
-    return gpools;
+  allWidepools: function () {
+    return Widepools.find();
   }
 });
 
 Template.gtmPoolsCreate.helpers({
   getSyncList: function () {
-    var result = Gtmsyncgroups.find({});
-    return result;
+    return Gtmsyncgroups.find();
   }
+});
+
+Template.gtmMonitors.helpers({
+  allGtmmonitors: function () {
+    return Gtmmonitors.find();
+  }
+});
+
+Template.gtmMonitors.onRendered(function() {
+  $('.footable').footable();
 });
 
 Template.gtmPoolsCreate.events({

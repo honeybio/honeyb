@@ -31,7 +31,6 @@ alanning:roles
 cfs:filesystem
 cfs:gridfs
 cfs:standard-packages
-easy:search
 ecmascript
 es5-shim
 json

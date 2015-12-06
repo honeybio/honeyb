@@ -63,9 +63,9 @@
             {{>iboxTools}}
           </div>
           <div class="ibox-content">
-            {{> EasySearch.Input index=changesIndex}}
             <form id="change-list" class="form-horizontal">
-              <table class="table">
+              {{> footableSearchBox objects="All Changes"}}
+              <table class="footable table table-stripped" data-page-size="15" data-filter=#filter>
                 <thead>
                   <tr>
                     <th>Date</th>
@@ -77,20 +77,20 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {{#EasySearch.Each index=changesIndex}}
+                  {{#each allChanges}}
                     <tr>
-                      <th>{{this.created}}</th>
-                      <th>{{this.pushedBy.username}}</th>
-                      <th>{{this.change.theMethod.action}}.{{this.change.theMethod.module}}.{{this.change.theMethod.object}}</th>
-                      <th>{{this.change.description}}</th>
+                      <td>{{this.created}}</td>
+                      <td>{{this.pushedBy.username}}</td>
+                      <td>{{this.change.theMethod.action}}.{{this.change.theMethod.module}}.{{this.change.theMethod.object}}</td>
+                      <td>{{this.change.description}}</td>
                       {{#if this.success}}
-                      <th>Succeeded</th>
+                      <td>Succeeded</td>
                       {{else}}
-                      <th>Failed</th>
+                      <td>Failed</td>
                       {{/if}}
-                      <th>{{this.successOutput}}</th>
+                      <td>{{this.successOutput}}</td>
                     </tr>
-                  {{/EasySearch.Each}}
+                  {{/each}}
                 </tbody>
               </table>
             </form>

@@ -9,11 +9,9 @@
             {{>iboxTools}}
           </div>
           <div class="ibox-content">
-            <div class="form-group"><label class="col-sm-2 control-label">Search: </label>
-              <div class="col-sm-2">{{> EasySearch.Input index=asmPoliciesIndex}}</div>
-            </div>
             <form id="asm-policies" class="form-horizontal">
-              <table class="table">
+              {{> footableSearchBox objects="ASM Policies"}}
+              <table class="footable table table-stripped" data-page-size="15" data-filter=#filter>
                 <thead>
                   <tr>
                     <th>Policy Name</th>
@@ -24,18 +22,18 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {{#EasySearch.Each index=asmPoliciesIndex}}
+                  {{#each allPolicies}}
                     {{#if deleted}}
                     {{else}}
                       <tr>
-                        <th><a href="/asm/policies/{{_id}}">{{this.name}}</a></th>
-                        <th>{{enforcementMode}}</th>
-                        <th>{{learningMode}}</th>
-                        <th>{{active}}</th>
-                        <th><input type="checkbox" id="{{this._id}}" name="{{this._id}}"></th>
+                        <td><a href="/asm/policies/{{_id}}">{{this.name}}</a></td>
+                        <td>{{enforcementMode}}</td>
+                        <td>{{learningMode}}</td>
+                        <td>{{active}}</td>
+                        <td><input type="checkbox" id="{{this._id}}" name="{{this._id}}"></td>
                       </tr>
                     {{/if}}
-                  {{/EasySearch.Each}}
+                  {{/each}}
                 </tbody>
               </table>
               <div class="hr-line-dashed"></div>
@@ -101,7 +99,7 @@
           </div>
           <div class="ibox-content">
             <form id="asm-policy-form" class="form-horizontal">
-              <table class="table">
+              <table class="footable table table-stripped" data-page-size="15" data-filter=#filter>
                 <thead>
                   <tr>
                     <th>Policy Name</th>

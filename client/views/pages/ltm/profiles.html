@@ -10,7 +10,26 @@
               {{>iboxTools}}
             </div>
             <div class="ibox-content">
-              {{> profilesSearchBox}}
+              {{> footableSearchBox objects="Profiles"}}
+              <table class="footable table table-stripped" data-page-size="15" data-filter=#filter>
+                <thead>
+                  <tr>
+                    <th>Profile Name</th>
+                    <th>Type</th>
+                    <th>On Device</th>
+                    <th>Select</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each allProfiles}}
+                  <tr>
+                    <td><a href="/ltm/profiles/{{_id}}">{{name}}</a></td>
+                    <td>{{getOnDevice this.onDevice}}</td>
+                    <td><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
             </div>
             <div class="ibox-footer">
               <span class="pull-right">
