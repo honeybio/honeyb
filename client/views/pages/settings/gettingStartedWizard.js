@@ -54,6 +54,31 @@ Template.gettingStartedWizard.events({
   },
   'submit #settings-wizard-form': function (e, t) {
     event.preventDefault();
+    var honeyName = event.target.honeyName.value;
+    var ihealthFreq = event.target.ihealthFreq.value;
+    var ihealthStatsFreq = event.target.ihealthStatsFreq.value;
+    var ihealthUser = event.target.ihealthUser.value;
+    var ihealthPass = event.target.ihealthPass.value;
+    var authenticationType = event.target.authenticationType.value;
+    var ldapDomain = event.target.ldapDomain.value;
+    var ldapBaseDn = event.target.ldapBaseDn.value;
+    var ldapUrl = event.target.ldapUrl.value;
+    var ldapBindCn = event.target.ldapBindCn.value;
+    var ldapBindPassword = event.target.ldapBindPassword.value;
+    var archiveFreq = event.target.archiveFreq.value;
+    console.log(event.target.honeyName.value);
+    console.log(event.target.ihealthFreq.value);
+    console.log(event.target.ihealthStatsFreq.value);
+    console.log(event.target.ihealthUser.value);
+    console.log(event.target.ihealthPass.value);
+    console.log(event.target.authenticationType.value);
+    console.log(event.target.ldapDomain.value);
+    console.log(event.target.ldapBaseDn.value);
+    console.log(event.target.ldapUrl.value);
+    console.log(event.target.ldapBindCn.value);
+    console.log(event.target.ldapBindPassword.value);
+    console.log(event.target.archiveFreq.value);
+
   },
   'change #authenticationType': function(event, target) {
     Session.set('auth_type', authenticationType.options[authenticationType.selectedIndex].value);

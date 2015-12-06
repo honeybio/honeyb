@@ -15,46 +15,46 @@
           {{>iboxTools}}
         </div>
         <div class="ibox-content">
-          <div class="row">
-            <div class="col-lg-2">
-              <div>
-                <button type="button" id="intro" class="btn btn-w-m btn-primary wiz-button">
-                  <span class="pull-left">1. Introduction</span>
-                </button>
+          <form id="settings-wizard-form" class="form-horizontal">
+            <div class="row">
+              <div class="col-lg-2">
+                <div>
+                  <button type="button" id="intro" class="btn btn-w-m btn-primary wiz-button">
+                    <span class="pull-left">1. Introduction</span>
+                  </button>
+                </div>
+                <br/>
+                <div>
+                  <button type="button" id="ssh" class="btn btn-w-m btn-primary wiz-button">
+                    <span class="pull-left">2. SSH Settings</span>
+                  </button>
+                </div>
+                <br/>
+                <div>
+                  <button type="button" id="ihealth" class="btn btn-w-m btn-primary wiz-button">
+                    <span class="pull-left">3. iHealth Settings</span>
+                  </button>
+                </div>
+                <br/>
+                <div>
+                  <button type="button" id="authentication" class="btn btn-w-m btn-primary wiz-button">
+                    <span class="pull-left">4. Authentication</span>
+                  </button>
+                </div>
+                <br/>
+                <div>
+                  <button type="button" id="archive" class="btn btn-w-m btn-primary wiz-button">
+                    <span class="pull-left">5. Archive Settings</span>
+                  </button>
+                </div>
+                <br/>
+                <div>
+                  <button type="button" id="add-devices" class="btn btn-w-m btn-primary wiz-button">
+                    <span class="pull-left">6. Add Devices</span>
+                  </button>
+                </div>
               </div>
-              <br/>
-              <div>
-                <button type="button" id="ssh" class="btn btn-w-m btn-primary wiz-button">
-                  <span class="pull-left">2. SSH Settings</span>
-                </button>
-              </div>
-              <br/>
-              <div>
-                <button type="button" id="ihealth" class="btn btn-w-m btn-primary wiz-button">
-                  <span class="pull-left">3. iHealth Settings</span>
-                </button>
-              </div>
-              <br/>
-              <div>
-                <button type="button" id="authentication" class="btn btn-w-m btn-primary wiz-button">
-                  <span class="pull-left">4. Authentication</span>
-                </button>
-              </div>
-              <br/>
-              <div>
-                <button type="button" id="archive" class="btn btn-w-m btn-primary wiz-button">
-                  <span class="pull-left">5. Archive Settings</span>
-                </button>
-              </div>
-              <br/>
-              <div>
-                <button type="button" id="add-devices" class="btn btn-w-m btn-primary wiz-button">
-                  <span class="pull-left">6. Add Devices</span>
-                </button>
-              </div>
-            </div>
-            <div class="col-lg-9">
-              <form id="settings-wizard-form" class="form-horizontal">
+              <div class="col-lg-9">
                 <div id="introduction">
                   <h2>Introduction</h2>
                   <p>
@@ -105,7 +105,7 @@
                   </p>
                   <div class="form-group"><label class="col-sm-2 control-label">iHealth/QKView Creation Schedule:</label>
                     <div class="col-sm-4">
-                      <select class="form-control m-b" name="archives">
+                      <select class="form-control m-b" id="ihealthFreq" name="ihealthFreq">
                         <option value="weekly">Sat @2am</option>
                         <option value="biweekly">1st & 15th @2am</option>
                         <option value="monthly">15th @2am</option>
@@ -114,7 +114,7 @@
                   </div>
                   <div class="form-group"><label class="col-sm-2 control-label">iHealth Statistics Refresh</label>
                     <div class="col-sm-4">
-                      <select id="ihealthFreq" class="form-control m-b" name="archives">
+                      <select id="ihealthStatsFreq" class="form-control m-b" name="ihealthStatsFreq">
                         <option value="nightly">Nightly @6am</option>
                         <option value="otherNightly">Each Other Night @6am</option>
                         <option value="weekly">Sunday @6am</option>
@@ -129,7 +129,7 @@
                   </div>
                 </div>
                 <div id="authentication-settings" style="display: none;">
-                  <h2>iHealth Settings</h2>
+                  <h2>Authentication Settings</h2>
                   <p>
                     honeyb.io can integrate in with your Microsoft Active Directory deployment for authentication.
                     You can map groups to AD groups to give your users different levels of access within honeyb.
@@ -172,7 +172,6 @@
                     <div class="form-group"><label class="col-sm-2 control-label">Service Account Password</label>
                       <div class="col-sm-6"><input type="text" id="ldapBindPassword" value="{{adAuthentication.ldapBindPassword}}" class="form-control"></div>
                     </div>
-
                   </div>
                   {{/if}}
                   {{/with}}
@@ -188,7 +187,7 @@
                   </p>
                   <div class="form-group"><label class="col-sm-2 control-label">Archive Schedule:</label>
                     <div class="col-sm-4">
-                      <select class="form-control m-b" name="archives">
+                      <select class="form-control m-b" name="archiveFreq" id="archiveFreq">
                         <option value="nightly">Nightly @2am</option>
                         <option value="weekly">Each Sat @2am</option>
                         <option value="biweekly">1st & 15th @2am</option>
@@ -209,21 +208,21 @@
                     to begin.
                   </p>
                 </div>
-              </form>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-4 col-lg-offset-8">
-              <div>
-                <button type="button" id="cancel" class="btn btn-w-m btn-primary wiz-button">
-                  <span class="pull-left">Cancel</span>
-                </button>
-                <button id="save" type="submit" class="btn btn-w-m btn-primary wiz-button">
-                  <span class="pull-left">Save</span>
-                </button>
               </div>
             </div>
-          </div>
+            <div class="row">
+              <div class="col-lg-4 col-lg-offset-8">
+                <div>
+                  <button type="button" id="cancel" class="btn btn-w-m btn-primary wiz-button">
+                    <span class="pull-left">Cancel</span>
+                  </button>
+                  <button id="save" type="submit" class="btn btn-w-m btn-primary wiz-button">
+                    <span class="pull-left">Save</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>

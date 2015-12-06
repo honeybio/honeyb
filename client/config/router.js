@@ -2,12 +2,15 @@ var OnBeforeActions;
 
 OnBeforeActions = {
   loginRequired: function(pause) {
-    if (! Meteor.user()) {
-      if (Meteor.loggingIn()) {
-      }
-      else{
+    if (!Meteor.userId()) {
+      if (Meteor.loggingIn) {
         this.render('login');
-        this.layout('blankLayout')
+        this.layout('blankLayout');
+        return;
+      } else {
+        this.render('login');
+        this.layout('blankLayout');
+        return;
       }
     }
     else {
@@ -36,16 +39,7 @@ Router.route('/', function () {
     },
     data: function () {
       return Settings.findOne({type: 'system'});
-    },
-    onBeforeAction: function () {
-    if (! Meteor.user()) {
-      if (Meteor.loggingIn()) {
-      }
-      else{
-        Router.go('login');
-      }
     }
-  }
   });
 });
 
