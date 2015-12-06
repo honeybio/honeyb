@@ -360,6 +360,7 @@ Meteor.methods({
         };
         if (cert_list[i].apiRawValues.expiration !== undefined) {
           certObject.expirationDate = new Date(cert_list[i].apiRawValues.expiration);
+          certObject.epochExpirationDate = certObject.expirationDate.valueOf();
         }
         certObject.group = 'default-group';
         var myCert = Certificates.insert(certObject);

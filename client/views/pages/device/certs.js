@@ -1,3 +1,9 @@
+
+Template.sslCerts.onRendered(function() {
+  $('.footable').footable();
+});
+
+
 Template.sslCerts.helpers({
   certificatesIndex: () => CertificatesIndex,
   allCerts: function () {
@@ -13,6 +19,9 @@ Template.sslCerts.helpers({
   },
   expiresIn: function () {
     // Calculate the expiration
+  },
+  getMs: function (date) {
+    console.log(date);
   }
 });
 

@@ -9,12 +9,12 @@
             {{>iboxTools}}
           </div>
           <div class="ibox-content">
-            <div class="form-group"><label class="col-sm-2 control-label">Search: </label>
-              <div class="col-sm-2">{{> EasySearch.Input index=certificatesIndex}}</div>
-            </div>
             <div class="hr-line-dashed"></div>
-            <form id="virtual-servers" class="form-horizontal">
-              <table class="table">
+            <form id="certificate-form" class="form-horizontal">
+              <div class="col-sm-4">
+                <input type="text" class="form-control input-sm m-b-xs" id="filter" placeholder="Search Certificates...">
+              </div>
+              <table class="footable table table-stripped" data-page-size="8" data-filter=#filter>
                 <thead>
                   <tr>
                     <th>Name</th>
@@ -24,25 +24,27 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {{#EasySearch.Each index=certificatesIndex }}
-                    {{#if isCert ssltype}}
-                      <tr>
-                        <th><a href="/ssl/certs/{{_id}}">{{name}}</a></th>
-                        <th>{{commonName}}</th>
-                        <th>{{getOnDevice onDevice}}</th>
-                        <th>{{apiRawValues.expiration}}</th>
-                      </tr>
-                    {{/if}}
-                  {{/EasySearch.Each}}
+                  {{#each allCerts}}
+                  <tr>
+                    <td><a href="/ssl/certs/{{_id}}">{{name}}</a></td>
+                    <td>{{commonName}}</td>
+                    <td>{{getOnDevice onDevice}}</td>
+                    <td data-type="numeric" data-value="{{epochExpirationDate}}">{{expirationDate}}</td>
+                  </tr>
+                  {{/each}}
                 </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="5">
+                    <ul class="pagination pull-right"></ul>
+                    </td>
+                  </tr>
+                </tfoot>
               </table>
               <div class="hr-line-dashed"></div>
               <div class="form-group"><label class="col-sm-2 control-label">Action</label>
                 <div class="col-sm-4">
                   <select id="objectAction" class="form-control m-b">
-                    <option value="enable">Enable</option>
-                    <option value="disable">Disable</option>
-                    <option value="blank">-----------</option>
                     <option value="delete">Delete(!)</option>
                   </select>
                 </div>
