@@ -11,8 +11,10 @@
           <div class="ibox-content">
             <div class="hr-line-dashed"></div>
             <form id="virtual-servers" class="form-horizontal">
-              <input type="text" id="myFilter">
-              <table id="footable" class="table" data-filter='#myFilter' data-filter-text-only="true">
+              <div class="col-sm-4">
+                <input type="text" class="form-control input-sm m-b-xs" id="filter" placeholder="Search Virtuals...">
+              </div>
+              <table class="footable table table-stripped" data-page-size="8" data-filter=#filter>
                 <thead>
                   <tr>
                     <th>Status</th>
@@ -27,22 +29,22 @@
                     {{#if deleted}}
                     {{else}}
                       <tr>
-                        <th><img src="/{{statusImg}}"></th>
-                        <th><a href="/ltm/virtuals/{{_id}}">{{name}}</a></th>
-                        <th>{{destination}}</th>
-                        <th>{{getOnDevice onDevice}}</th>
-                        <th><input type="checkbox" id="{{_id}}" name="{{_id}}"></th>
+                        <td><img src="/{{statusImg}}"></td>
+                        <td><a href="/ltm/virtuals/{{_id}}">{{name}}</a></td>
+                        <td>{{destination}}</td>
+                        <td>{{getOnDevice onDevice}}</td>
+                        <td><input type="checkbox" id="{{_id}}" name="{{_id}}"></td>
                       </tr>
                     {{/if}}
                   {{/each}}
                 </tbody>
-                <tfoot class="hide-if-no-paging">
+                <tfoot>
                   <tr>
-              			<td colspan="5">
-              				<div class="pagination pagination-centered"></div>
-              			</td>
-              		</tr>
-              	</tfoot>
+                    <td colspan="5">
+                    <ul class="pagination pull-right"></ul>
+                    </td>
+                  </tr>
+                </tfoot>
               </table>
               <div class="hr-line-dashed"></div>
               <div class="form-group"><label class="col-sm-2 control-label">Action</label>

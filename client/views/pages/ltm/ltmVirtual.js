@@ -1,5 +1,5 @@
 Template.ltmVirtuals.onRendered(function() {
-  $('#footable').footable();
+  $('.footable').footable();
 });
 
 Template.ltmVirtuals.helpers({
