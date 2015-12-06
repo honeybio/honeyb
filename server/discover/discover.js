@@ -358,6 +358,9 @@ Meteor.methods({
         for(var attrname in cert_list[i]) {
           certObject[attrname] = cert_list[i][attrname];
         };
+        if (cert_list[i].apiRawValues.expiration !== undefined) {
+          certObject.expirationDate = new Date(cert_list[i].apiRawValues.expiration);
+        }
         certObject.group = 'default-group';
         var myCert = Certificates.insert(certObject);
         // Meteor.call("getCertPem", device_id, myCert);
