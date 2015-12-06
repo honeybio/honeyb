@@ -62,6 +62,7 @@ Meteor.methods({
     //var server_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/gtm/server");
     for(var i = 0; i < server_list.length; i++) {
       var server = Meteor.call("splitAndInsert", server_list[i], device_id);
+      server.group = 'default-group';
       var gtm_server_id = Gtmservers.insert(server);
       var gtm_server_name = server.fullPath;
       var gvservers = mdrBigipRestGetItems(device_id, server.virtualServersReference.link);

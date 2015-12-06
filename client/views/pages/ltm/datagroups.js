@@ -2,7 +2,7 @@ Template.ltmIdatagroups.onRendered(function() {
   $('.footable').footable();
 });
 
-Template.ltmPools.helpers({
+Template.ltmIdatagroups.helpers({
   allDatagroups: function () {
     return Idatagroups.find();
   }

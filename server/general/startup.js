@@ -99,7 +99,7 @@ Meteor.startup(function () {
         type: 'authentication',
         ldap: false,
         adAuthentication : {
-          debug: true,
+          debug: false,
           ldapDomain: 'ad.bespintech.com',
           ldapBaseDn: 'DC=ad,DC=bespintech,DC=com',
           ldapUrl: 'ldap://10.100.21.51:389',
@@ -118,7 +118,7 @@ Meteor.startup(function () {
         timeout: true,
         staleSessionInactivityTimeout: 1800000,
         staleSessionHeartbeatInterval: 180000,
-        staleSessionPurgeInterval: 60000,
+        staleSessionPurgeInterval: 10000,
         staleSessionActivityEvents: 'mousemove click keydown'
       });
   }
@@ -127,7 +127,7 @@ Meteor.startup(function () {
     if (mySettings.ldap) {
       _.defaults(Meteor.settings, {
         ldap: {
-          debug: true,
+          debug: false,
           domain: mySettings.adAuthentication.ldapDomain,
           baseDn: mySettings.adAuthentication.ldapBaseDn,
           url: mySettings.adAuthentication.ldapUrl,
