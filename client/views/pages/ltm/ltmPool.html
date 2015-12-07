@@ -23,7 +23,7 @@
                 <tbody>
                 {{#each allPools}}
                 <tr>
-                  <td><img src="/{{statusImg}}"></td>
+                  <td data-value="{{statusImg}}"><img src="/{{statusImg}}"></td>
                   <td><a href="/ltm/pools/{{_id}}">{{name}}{{#if deleted}}(In Trash Bin){{/if}}</a></td>
                   <td>{{getOnDevice this.onDevice}}</td>
                   <td><input type="checkbox" id="{{_id}}" name="{{_id}}"></td>

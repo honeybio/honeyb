@@ -322,9 +322,12 @@ ChangeFunction.enable.ltm.pool_member = function(argList) {
   var device_id = argList.device_id;
   var put_data = {"state": "user-up", "session": "user-enabled"};
   var result = mdrBigipRestPut(device_id, poolMember, put_data);
+  console.log('disable.ltm.virtual');
+  console.log(result);
   return result;
 }
 ChangeFunction.disable.ltm.virtual = function(argList) {
+  console.log('disable virtual');
   var vipLink = argList.vipLink;
   var device_id = argList.onDevice;
   var put_data = { "disabled": true };
@@ -351,7 +354,9 @@ ChangeFunction.force.ltm.pool_member = function(argList) {
   var poolMember = argList.poolMember;
   var device_id = argList.device_id;
   var put_data = {"state": "user-down", "session": "user-disabled"};
-  var result = mdrBigipRestPut(device_id, putUrl, put_data);
+  console.log(argList);
+  var result = mdrBigipRestPut(device_id, poolMember, put_data);
+  console.log(result);
   return result;
 }
 ChangeFunction.create.ltm.pool = function(argList) {
@@ -852,9 +857,9 @@ Meteor.methods({
           successOutput: e.details
         }
       });
-      throw new Meteor.Error(e);
+      console.log(e);
+      throw new Meteor.Error(500, e);
     }
-
   },
   pushChange: function(change_id) {
     /**
@@ -907,7 +912,7 @@ Meteor.methods({
           successOutput: e.details,
         }
       });
-      throw new Meteor.error(e);
+      throw new Meteor.Error(500, e);
     }
   },
   // A "change"

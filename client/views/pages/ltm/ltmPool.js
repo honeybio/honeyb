@@ -7,6 +7,11 @@ Template.ltmPools.helpers({
   }
 });
 
+Template.ltmPools.onRendered(function() {
+  $('.footable').footable();
+});
+
+
 Template.ltmPools.events({
   'submit #poolMemberForm': function (event, template) {
     event.preventDefault();

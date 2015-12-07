@@ -81,16 +81,24 @@ Meteor.methods({
     this.unblock();
     var link = vipLink.replace(/\?.*/, "\/stats");
     var stats = mdrBigipRestGetv2(device_id, link);
-    for (var entry in stats.entries) {
+    // Check if version 12, they completely changed the stats entries...
+    var re = /\?ver=12/i;
+    var v12 = vipLink.match(re);
+    var stats;
+    if (v12) {
+      for (var entry in stats.entries) {
       var virtualStatObject = { onDevice: device_id, objType: "virtual", object: entry };
       virtualStatObject.availabilityState = stats.entries[entry].nestedStats.entries['status.availabilityState'].description;
       virtualStatObject.enabledState = stats.entries[entry].nestedStats.entries['status.enabledState'].description;
-      //virtualStatObject.objFullPath = stats.entries[entry].nestedStats.entries.tmName.description;
-      //virtualStatObject.group = 'default-group';
-      // Objectstatus.insert(virtualStatObject);
       var imgName = Meteor.call("getStatusImage", virtualStatObject.availabilityState, virtualStatObject.enabledState);
       Virtuals.update({ _id: vipId}, { $set: {statusImg: imgName} });
-      // Virtuals.update()
+    }
+    } else {
+      var virtualStatObject = { onDevice: device_id, objType: "virtual", object: stats.entries };
+      virtualStatObject.availabilityState = stats.entries['status.availabilityState'].description;
+      virtualStatObject.enabledState = stats.entries['status.enabledState'].description;
+      var imgName = Meteor.call("getStatusImage", virtualStatObject.availabilityState, virtualStatObject.enabledState);
+      Virtuals.update({ _id: vipId}, { $set: {statusImg: imgName} });
     }
   },
   getPoolStats: function (ip, user, pass, device_id) {
