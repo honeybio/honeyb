@@ -313,7 +313,6 @@ Router.route('/ltm/rules/:_id', {
     return Rules.findOne({ _id: currentRule});
   }
 });
-Router.route('/ltm/rules/create');
 Router.route('/ltm/pools');
 Router.route('/ltm/pools/create');
 Router.route('/ltm/pools/:_id', {
