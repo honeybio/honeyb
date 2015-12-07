@@ -38,6 +38,42 @@ Meteor.methods({
     var myRes = { subject: 'Success!', message: result };
     return myRes;
   },
+  createLtmRule: function(device_id, ruleName, iruleContent, stage) {
+    /**
+    * Method that builds a change to add an LTM pool
+    *
+    * @method addLtmPool
+    * @param {string} The id of the device this is going to add on
+    * @param {string} The name of the Pool being added
+    * @param {string} The load balancing method of the pool
+    * @param {string} The fullPath of the monitor to add to the pool
+    * @param {array} The members being added to the pool
+    * @param {string} 1 if sbeing staged, 0 if pushed immediately
+    * @return {boolean} returns true if success
+    */
+    var device = Devices.findOne({_id: device_id});
+    var argList = {
+      device_id: device_id,
+      ruleData: iruleContent
+    };
+    // var pool = Pools.findOne({_id: pool_id});
+    var theChange = { description: "Add iRule " + argList.name + " on device: " + device.self.name,
+      theMethod: {
+        action: "create",
+        module: "ltm",
+        object: "rule"
+      },
+      argList: argList
+    };
+    var change_id = Meteor.call('createStagedChange', theChange);
+    if (stage == "1") {
+      return;
+    }
+    var result = Meteor.call('pushChange', change_id);
+
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
+  },
   addLtmVirtual: function(device_id, monObj, stage) {
     /**
     * Method that builds a change to add an LTM virtual

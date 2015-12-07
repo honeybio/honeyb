@@ -305,6 +305,7 @@ Router.route('/ltm/virtuals/:_id', {
   }
 });
 Router.route('/ltm/rules');
+Router.route('/ltm/rules/create');
 Router.route('/ltm/rules/:_id', {
   template: 'ruleDetails',
   data: function(){
@@ -312,6 +313,7 @@ Router.route('/ltm/rules/:_id', {
     return Rules.findOne({ _id: currentRule});
   }
 });
+Router.route('/ltm/rules/create');
 Router.route('/ltm/pools');
 Router.route('/ltm/pools/create');
 Router.route('/ltm/pools/:_id', {

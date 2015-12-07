@@ -7,3 +7,33 @@ Template.ltmRules.helpers({
 Template.ltmRules.onRendered(function() {
   $('.footable').footable();
 });
+
+Template.ltmRulesCreate.helpers({
+  editorOptions: function() {
+    return {
+      lineNumbers: true,
+      matchBrackets: true,
+      lineNumbers: true,
+      indentUnit: 2,
+      scrollPastEnd: true,
+      indentAuto: true,
+      extraKeys: {"Ctrl-Space": "autocomplete"},
+      mode: "text/x-irule"
+    }
+  }
+});
+
+Template.ruleDetails.helpers({
+  editorOptions: function() {
+    return {
+      lineNumbers: true,
+      matchBrackets: true,
+      lineNumbers: true,
+      indentUnit: 2,
+      scrollPastEnd: true,
+      indentAuto: true,
+      extraKeys: {"Ctrl-Space": "autocomplete"},
+      mode: "text/x-irule"
+    }
+  }
+});

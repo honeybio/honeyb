@@ -456,9 +456,38 @@ ChangeFunction.create.ltm.pool_member = function(argList) {
   var temp = Meteor.call("updatePoolMemberStatus", argList.device_id, argList.pool_id);
   return result;
 }
-ChangeFunction.create.ltm.node = function(argList) { }
-ChangeFunction.create.ltm.profile = function(argList) { }
-ChangeFunction.create.ltm.irule = function(argList) { }
+ChangeFunction.create.ltm.node = function(argList) {
+  /**
+  * Method that builds an http monitor
+  *
+  * @method addTcpHalfOpenMonitorCommand
+  * @param {object} JSON object containing all monitor values
+  * @return {boolean} returns true if success
+  */
+  var device_id = argList.device_id;
+}
+ChangeFunction.create.ltm.profile = function(argList) {
+  if (argList.type == undefined) {
+    // need a type
+  }
+}
+ChangeFunction.create.ltm.rule = function(argList) {
+  /**
+  * Method that builds an http monitor
+  *
+  * @method addTcpHalfOpenMonitorCommand
+  * @param {object} JSON object containing all monitor values
+  * @return {boolean} returns true if success
+  */
+  var post_data = {
+    name: argList.name,
+    apiAnonymous: argList.iruleData
+  }
+  var device_id = argList.device_id;
+  var requrl = "https://localhost/mgmt/tm/ltm/rule";
+  var result = mdrBigipRestPost(device_id, requrl, post_data);
+  return result.statusCode;
+}
 ChangeFunction.create.ltm.idatagroup = function(argList) { }
 ChangeFunction.create.ltm.monitor = function(argList) {
   /**
@@ -468,6 +497,9 @@ ChangeFunction.create.ltm.monitor = function(argList) {
   * @param {object} JSON object containing all monitor values
   * @return {boolean} returns true if success
   */
+  if (argList.type === undefined) {
+    throw new Meteor.error(500, 'need a type');
+  }
   var device_id = argList.device_id;
   if (argList.type == "http") {
     var post_data = {

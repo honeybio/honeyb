@@ -43,7 +43,6 @@ reactive-var
 
 npm-container
 okgrow:router-autoscroll
-perak:codemirror
 reactive-dict
 cfs:ui
 raix:ui-dropped-event
@@ -57,3 +56,4 @@ meteorhacks:kadira-profiler
 thebakery:ipgeocoder
 bespintech:meteor-bigip-client
 bespintech:meteor-deprecated-rest
+bespintech:meteor-codemirror
