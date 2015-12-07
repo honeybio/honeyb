@@ -118,7 +118,7 @@ Meteor.startup(function () {
         timeout: true,
         staleSessionInactivityTimeout: 1800000,
         staleSessionHeartbeatInterval: 180000,
-        staleSessionPurgeInterval: 10000,
+        staleSessionPurgeInterval: 60000,
         staleSessionActivityEvents: 'mousemove click keydown'
       });
   }
