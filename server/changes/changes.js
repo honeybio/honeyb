@@ -354,9 +354,7 @@ ChangeFunction.force.ltm.pool_member = function(argList) {
   var poolMember = argList.poolMember;
   var device_id = argList.device_id;
   var put_data = {"state": "user-down", "session": "user-disabled"};
-  console.log(argList);
   var result = mdrBigipRestPut(device_id, poolMember, put_data);
-  console.log(result);
   return result;
 }
 ChangeFunction.create.ltm.pool = function(argList) {
