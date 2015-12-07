@@ -344,12 +344,12 @@ Router.route('/ltm/persistence/:_id', {
     return Persistence.findOne({ _id: currentPersistence});
   }
 });
-Router.route('/ltm/idatagroups');
-Router.route('/ltm/idatagroups/:_id', {
-  template: 'idatagroupDetails',
+Router.route('/ltm/datagroups');
+Router.route('/ltm/datagroups/:_id', {
+  template: 'datagroupDetails',
   data: function(){
     var currentGroup = this.params._id;
-    return Idatagroups.findOne({ _id: currentGroup});
+    return Datagroups.findOne({ _id: currentGroup});
   }
 });
 Router.route('/ltm/monitors');

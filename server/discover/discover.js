@@ -206,7 +206,7 @@ Meteor.methods({
       Rules.insert(ruleObj);
     }
   },
-  discoverIdatagroups: function (ip, user, pass, device_id) {
+  discoverDatagroups: function (ip, user, pass, device_id) {
     var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
     var group_list = BigipClient.list.ltm.data_group.internal(bigip);
     //var group_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/ltm/data-group/internal");
@@ -216,20 +216,17 @@ Meteor.methods({
         groupObj[attrname] = group_list[i][attrname];
       };
       groupObj.group = 'default-group';
-      Idatagroups.insert(groupObj);
+      Datagroups.insert(groupObj);
     }
-  },
-  discoverEdatagroups: function (ip, user, pass, device_id) {
-    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
-    var group_list = BigipClient.list.ltm.data_group.external(bigip);
+    var group_list_ext = BigipClient.list.ltm.data_group.external(bigip);
     //var group_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/ltm/data-group/external");
-    for (var i = 0; i < group_list.length; i++) {
+    for (var i = 0; i < group_list_ext.length; i++) {
       var groupObj = { onDevice: device_id};
       for (var attrname in group_list[i]) {
-        groupObj[attrname] = group_list[i][attrname];
+        groupObj[attrname] = group_list_ext[i][attrname];
       };
       groupObj.group = 'default-group';
-      Edatagroups.insert(groupObj);
+      Datagroups.insert(groupObj);
     }
   },
   discoverLtmMonitors: function (ip, user, pass, device_id) {

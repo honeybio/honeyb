@@ -132,22 +132,13 @@ Meteor.publish("db_virtualaddresses", function () {
     return Virtualaddresses.find({group: { $in: readObjects }});
   }
 });
-Meteor.publish("db_idatagroups", function () {
+Meteor.publish("db_datagroups", function () {
   if (this.userId == null) {
     return [];
   }
   else {
-    var readObjects = Meteor.call("getReadGroups", 'read.ltm.idatagroup');
-    return Idatagroups.find({group: { $in: readObjects }});
-  }
-});
-Meteor.publish("db_edatagroups", function () {
-  if (this.userId == null) {
-    return [];
-  }
-  else {
-    var readObjects = Meteor.call("getReadGroups", 'read.ltm.edatagroup');
-    return Edatagroups.find({group: { $in: readObjects }});
+    var readObjects = Meteor.call("getReadGroups", 'read.ltm.datagroup');
+    return Datagroups.find({group: { $in: readObjects }});
   }
 });
 Meteor.publish("db_ltmpersistence", function () {

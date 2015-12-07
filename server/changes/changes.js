@@ -171,7 +171,7 @@ ChangeFunction.read.ltm.node = function(argList) { }
 ChangeFunction.read.ltm.profile = function(argList) { }
 ChangeFunction.read.ltm.persistence = function(argList) { }
 ChangeFunction.read.ltm.irule = function(argList) { }
-ChangeFunction.read.ltm.idatagroup = function(argList) { }
+ChangeFunction.read.ltm.datagroup = function(argList) { }
 ChangeFunction.read.gtm.datacenter = function(argList) { }
 ChangeFunction.read.gtm.wideip = function(argList) { }
 ChangeFunction.read.gtm.server = function(argList) { }
@@ -196,7 +196,7 @@ ChangeFunction.update.ltm.monitor = function(argList) { }
 ChangeFunction.update.ltm.profile = function(argList) { }
 ChangeFunction.update.ltm.persistence = function(argList) { }
 ChangeFunction.update.ltm.irule = function(argList) { }
-ChangeFunction.update.ltm.idatagroup = function(argList) { }
+ChangeFunction.update.ltm.datagroup = function(argList) { }
 ChangeFunction.update.gtm.wideip = function(argList) { }
 ChangeFunction.update.gtm.server = function(argList) { }
 ChangeFunction.update.gtm.monitor = function(argList) { }
@@ -273,7 +273,7 @@ ChangeFunction.delete.ltm.persistence = function(argList) {
 ChangeFunction.delete.ltm.irule = function(argList) {
 
 }
-ChangeFunction.delete.ltm.idatagroup = function(argList) {
+ChangeFunction.delete.ltm.datagroup = function(argList) {
 
 }
 ChangeFunction.delete.gtm.wideip = function(argList) {
@@ -488,7 +488,7 @@ ChangeFunction.create.ltm.rule = function(argList) {
   var result = mdrBigipRestPost(device_id, requrl, post_data);
   return result.statusCode;
 }
-ChangeFunction.create.ltm.idatagroup = function(argList) { }
+ChangeFunction.create.ltm.datagroup = function(argList) { }
 ChangeFunction.create.ltm.monitor = function(argList) {
   /**
   * Method that builds an http monitor
@@ -728,8 +728,7 @@ ChangeFunction.discover.device.all = function(argList) {
       Meteor.call("discoverLtmMonitors", ip, user, pass, device_id);
       Meteor.call("discoverLtmProfiles", ip, user, pass, device_id);
       Meteor.call("discoverPersistence", ip, user, pass, device_id);
-      Meteor.call("discoverIdatagroups", ip, user, pass, device_id);
-      Meteor.call("discoverEdatagroups", ip, user, pass, device_id);
+      Meteor.call("discoverDatagroups", ip, user, pass, device_id);
       Meteor.call("discoverRules", ip, user, pass, device_id);
       Meteor.call("discoverPools", ip, user, pass, device_id);
       Jobs.update({_id: argList.jobId}, {$set: {progress: 50, status: 'Getting LTM info...'}});
@@ -770,8 +769,7 @@ ChangeFunction.discover.device.remove = function (argList) {
   var tmp = Pools.remove({onDevice: deviceId});
   var tmp = Nodes.remove({onDevice: deviceId});
   var tmp = Monitors.remove({onDevice: deviceId});
-  var tmp = Idatagroups.remove({onDevice: deviceId});
-  var tmp = Edatagroups.remove({onDevice: deviceId});
+  var tmp = Datagroups.remove({onDevice: deviceId});
   var tmp = Persistence.remove({onDevice: deviceId});
   var tmp = Asmpolicies.remove({onDevice: deviceId});
   var tmp = Profiles.remove({onDevice: deviceId});

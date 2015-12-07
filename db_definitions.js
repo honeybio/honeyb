@@ -65,8 +65,7 @@ Rules = new Mongo.Collection("db_rules");
 Pools = new Mongo.Collection("db_pools");
 Nodes = new Mongo.Collection("db_nodes");
 Monitors = new Mongo.Collection("db_monitors");
-Idatagroups = new Mongo.Collection("db_idatagroups");
-Edatagroups = new Mongo.Collection("db_edatagroups");
+Datagroups = new Mongo.Collection("db_datagroups");
 Persistence = new Mongo.Collection("db_ltmpersistence");
 
 Asmpolicies = new Mongo.Collection("db_asmpolicies");

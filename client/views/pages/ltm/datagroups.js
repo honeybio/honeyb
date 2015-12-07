@@ -1,9 +1,9 @@
-Template.ltmIdatagroups.onRendered(function() {
+Template.ltmDatagroups.onRendered(function() {
   $('.footable').footable();
 });
 
-Template.ltmIdatagroups.helpers({
+Template.ltmDatagroups.helpers({
   allDatagroups: function () {
-    return Idatagroups.find();
+    return Datagroups.find();
   }
 });
