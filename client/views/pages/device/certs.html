@@ -11,7 +11,7 @@
           <div class="ibox-content">
             <div class="hr-line-dashed"></div>
             <form id="certificate-form" class="form-horizontal">
-              {{> footableSearchBox objects="Certificates"}}
+              {{> footableSearchBox}}
               <table class="footable table table-stripped" data-page-size="8" data-filter=#filter>
                 <thead>
                   <tr>
@@ -72,7 +72,7 @@
             {{>iboxTools}}
           </div>
           <div class="ibox-content">
-            {{> footableSearchBox objects="SSL Keys"}}
+            {{> footableSearchBox}}
             <div class="hr-line-dashed"></div>
             <form id="virtual-servers" class="form-horizontal">
               <table class="footable table table-stripped" data-page-size="15" data-filter=#filter>
@@ -150,7 +150,7 @@
             {{>iboxTools}}
           </div>
           <div class="ibox-content">
-            {{> footableSearchBox objects="SSL Profiles"}}
+            {{> footableSearchBox}}
             <div class="hr-line-dashed"></div>
             <form id="virtual-servers" class="form-horizontal">
               <table class="footable table table-stripped" data-page-size="15" data-filter=#filter>
