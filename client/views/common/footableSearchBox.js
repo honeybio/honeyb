@@ -121,6 +121,11 @@ Template.footableSearchBox.helpers({
           actions: ['Delete'],
           objects: 'BIG-IP Hotfixes'
         },
+        poolDetails: {
+          link: { url: null, name: null },
+          actions: ['Enable', 'Disable', 'Force', 'Delete'],
+          objects: 'Pool Members'
+        }
       }
       if (searchElements[parentTemplate] !== undefined) {
         return searchElements[parentTemplate];

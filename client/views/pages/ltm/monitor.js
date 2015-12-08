@@ -10,27 +10,19 @@ Template.ltmMonitors.onRendered(function() {
 
 
 Template.ltmMonitors.events({
-  "submit #ltm-monitors": function (event, template) {
+  "click #Delete": function (event, template) {
     event.preventDefault();
     var the_action = event.target.objectAction.value;
     var checkedList = [];
     $('#ltm-monitors :input[type=checkbox]:checked').each(function(index){
-      checkedList.push($(this)[0].name);
+      Meteor.call("deleteMonitor", $(this)[0].name, 0, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        } else {
+          toastr.success(res.message, res.subject);
+        }
+      });
     });
-    for (var i = 0; i < checkedList.length; i++) {
-      if (the_action == "delete") {
-        Meteor.call("deleteMonitor", checkedList[i], 0, function (err, res) {
-          if (err) {
-            toastr.error(err.details, err.reason)
-          } else {
-            toastr.success(res.message, res.subject);
-          }
-        });
-      }
-      else if (the_action == "copy") {
-        // Meteor.call("copyPool", checkedList[i], event.target.to_device.value, event.target.stage.value);
-      }
-    }
   }
 });
 

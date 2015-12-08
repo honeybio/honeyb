@@ -24,17 +24,17 @@ Meteor.methods({
     var myRes = { subject: 'Success!', message: result };
     return myRes;
   },
-  deletePool: function(pool_id, stage) {
-    var poolObj = Pools.findOne({_id: pool_id});
+  deletePool: function(poolId, stage) {
+    var poolObj = Pools.findOne({_id: poolId});
     var device = Devices.findOne({_id: poolObj.onDevice});
     var methodName = { action: "delete", module: "ltm", object: "pool" };
     var theChange = {
       description: "Delete Pool " + poolObj.fullPath + " on device: " + device.self.name,
       theMethod: methodName,
       argList: {
-        device_id: poolObj.onDevice,
-        pool_url: poolObj.selfLink,
-        pool_id: pool_id
+        onDevice: poolObj.onDevice,
+        poolUrl: poolObj.selfLink,
+        poolId: poolId
       }
     };
     var change_id = Meteor.call('createStagedChange', theChange);

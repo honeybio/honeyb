@@ -10,10 +10,6 @@
                 {{>iboxTools}}
               </div>
               <div class="ibox-content">
-                <ul>
-                  <li>Type: tcp-half-open <a href="/ltm/monitors/tcp-half-open/create">Create New</a></li>
-                  <li>Type: http <a href="/ltm/monitors/http/create">Create New</a></li>
-                </ul>
                 {{> footableSearchBox}}
                 <table class="footable table table-stripped" data-page-size="15" data-filter=#filter>
                   <thead>
@@ -37,7 +33,7 @@
                   <tfoot>
                     <tr>
                       <td colspan="5">
-                      <ul class="pagination pull-right"></ul>
+                      <ul class="pagination pull-right hide-if-no-paging"></ul>
                       </td>
                     </tr>
                   </tfoot>

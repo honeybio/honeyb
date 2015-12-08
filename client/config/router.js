@@ -352,6 +352,7 @@ Router.route('/ltm/datagroups/:_id', {
   }
 });
 Router.route('/ltm/monitors');
+Router.route('/ltm/monitors/create');
 
 Router.route('/ltm/monitors/diameter');
 Router.route('/ltm/monitors/diameter/create');
@@ -363,7 +364,6 @@ Router.route('/ltm/monitors/diameter/:_id', {
   }
 });
 Router.route('/ltm/monitors/dns');
-Router.route('/ltm/monitors/dns/create');
 Router.route('/ltm/monitors/dns/:_id', {
   template: 'dnsMonitorDetails',
   data: function(){
@@ -372,7 +372,6 @@ Router.route('/ltm/monitors/dns/:_id', {
   }
 });
 Router.route('/ltm/monitors/external');
-Router.route('/ltm/monitors/external/create');
 Router.route('/ltm/monitors/external/:_id', {
   template: 'externalMonitorDetails',
   data: function(){
@@ -381,7 +380,6 @@ Router.route('/ltm/monitors/external/:_id', {
   }
 });
 Router.route('/ltm/monitors/firepass');
-Router.route('/ltm/monitors/firepass/create');
 Router.route('/ltm/monitors/firepass/:_id', {
   template: 'firepassMonitorDetails',
   data: function(){
@@ -390,7 +388,6 @@ Router.route('/ltm/monitors/firepass/:_id', {
   }
 });
 Router.route('/ltm/monitors/ftp');
-Router.route('/ltm/monitors/ftp/create');
 Router.route('/ltm/monitors/ftp/:_id', {
   template: 'ftpMonitorDetails',
   data: function(){
@@ -399,7 +396,6 @@ Router.route('/ltm/monitors/ftp/:_id', {
   }
 });
 Router.route('/ltm/monitors/gateway-icmp');
-Router.route('/ltm/monitors/gateway-icmp/create');
 Router.route('/ltm/monitors/gateway-icmp/:_id', {
   template: 'gatewayicmpMonitorDetails',
   data: function(){
@@ -408,7 +404,6 @@ Router.route('/ltm/monitors/gateway-icmp/:_id', {
   }
 });
 Router.route('/ltm/monitors/http');
-Router.route('/ltm/monitors/http/create');
 Router.route('/ltm/monitors/http/:_id', {
   template: 'httpMonitorDetails',
   data: function(){
@@ -417,7 +412,6 @@ Router.route('/ltm/monitors/http/:_id', {
   }
 });
 Router.route('/ltm/monitors/https');
-Router.route('/ltm/monitors/https/create');
 Router.route('/ltm/monitors/https/:_id', {
   template: 'httpsMonitorDetails',
   data: function(){
@@ -426,7 +420,6 @@ Router.route('/ltm/monitors/https/:_id', {
   }
 });
 Router.route('/ltm/monitors/icmp');
-Router.route('/ltm/monitors/icmp/create');
 Router.route('/ltm/monitors/icmp/:_id', {
   template: 'icmpMonitorDetails',
   data: function(){
@@ -435,7 +428,6 @@ Router.route('/ltm/monitors/icmp/:_id', {
   }
 });
 Router.route('/ltm/monitors/imap');
-Router.route('/ltm/monitors/imap/create');
 Router.route('/ltm/monitors/imap/:_id', {
   template: 'imapMonitorDetails',
   data: function(){
@@ -444,7 +436,6 @@ Router.route('/ltm/monitors/imap/:_id', {
   }
 });
 Router.route('/ltm/monitors/inband');
-Router.route('/ltm/monitors/inband/create');
 Router.route('/ltm/monitors/inband/:_id', {
   template: 'inbandMonitorDetails',
   data: function(){
@@ -453,7 +444,6 @@ Router.route('/ltm/monitors/inband/:_id', {
   }
 });
 Router.route('/ltm/monitors/ldap');
-Router.route('/ltm/monitors/ldap/create');
 Router.route('/ltm/monitors/ldap/:_id', {
   template: 'ldapMonitorDetails',
   data: function(){
@@ -462,7 +452,6 @@ Router.route('/ltm/monitors/ldap/:_id', {
   }
 });
 Router.route('/ltm/monitors/module-score');
-Router.route('/ltm/monitors/module-score/create');
 Router.route('/ltm/monitors/module-score/:_id', {
   template: 'modulescoreMonitorDetails',
   data: function(){
@@ -471,7 +460,6 @@ Router.route('/ltm/monitors/module-score/:_id', {
   }
 });
 Router.route('/ltm/monitors/mssql');
-Router.route('/ltm/monitors/mssql/create');
 Router.route('/ltm/monitors/mssql/:_id', {
   template: 'mssqlMonitorDetails',
   data: function(){
@@ -480,7 +468,6 @@ Router.route('/ltm/monitors/mssql/:_id', {
   }
 });
 Router.route('/ltm/monitors/mysql');
-Router.route('/ltm/monitors/mysql/create');
 Router.route('/ltm/monitors/mysql/:_id', {
   template: 'mysqlMonitorDetails',
   data: function(){
@@ -489,7 +476,6 @@ Router.route('/ltm/monitors/mysql/:_id', {
   }
 });
 Router.route('/ltm/monitors/nntp');
-Router.route('/ltm/monitors/nntp/create');
 Router.route('/ltm/monitors/nntp/:_id', {
   template: 'nntpMonitorDetails',
   data: function(){
@@ -498,7 +484,6 @@ Router.route('/ltm/monitors/nntp/:_id', {
   }
 });
 Router.route('/ltm/monitors/none');
-Router.route('/ltm/monitors/none/create');
 Router.route('/ltm/monitors/none/:_id', {
   template: 'noneMonitorDetails',
   data: function(){
@@ -507,7 +492,6 @@ Router.route('/ltm/monitors/none/:_id', {
   }
 });
 Router.route('/ltm/monitors/oracle');
-Router.route('/ltm/monitors/oracle/create');
 Router.route('/ltm/monitors/oracle/:_id', {
   template: 'oracleMonitorDetails',
   data: function(){
@@ -516,7 +500,6 @@ Router.route('/ltm/monitors/oracle/:_id', {
   }
 });
 Router.route('/ltm/monitors/pop3');
-Router.route('/ltm/monitors/pop3/create');
 Router.route('/ltm/monitors/pop3/:_id', {
   template: 'pop3MonitorDetails',
   data: function(){
@@ -525,7 +508,6 @@ Router.route('/ltm/monitors/pop3/:_id', {
   }
 });
 Router.route('/ltm/monitors/postgresql');
-Router.route('/ltm/monitors/postgresql/create');
 Router.route('/ltm/monitors/postgresql/:_id', {
   template: 'postgresqlMonitorDetails',
   data: function(){
@@ -534,7 +516,6 @@ Router.route('/ltm/monitors/postgresql/:_id', {
   }
 });
 Router.route('/ltm/monitors/radius');
-Router.route('/ltm/monitors/radius/create');
 Router.route('/ltm/monitors/radius/:_id', {
   template: 'radiusMonitorDetails',
   data: function(){
@@ -543,7 +524,6 @@ Router.route('/ltm/monitors/radius/:_id', {
   }
 });
 Router.route('/ltm/monitors/radius-accounting');
-Router.route('/ltm/monitors/radius-accounting/create');
 Router.route('/ltm/monitors/radius-accounting/:_id', {
   template: 'radiusaccountingMonitorDetails',
   data: function(){
@@ -552,7 +532,6 @@ Router.route('/ltm/monitors/radius-accounting/:_id', {
   }
 });
 Router.route('/ltm/monitors/real-server');
-Router.route('/ltm/monitors/real-server/create');
 Router.route('/ltm/monitors/real-server/:_id', {
   template: 'realserverMonitorDetails',
   data: function(){
@@ -561,7 +540,6 @@ Router.route('/ltm/monitors/real-server/:_id', {
   }
 });
 Router.route('/ltm/monitors/rpc');
-Router.route('/ltm/monitors/rpc/create');
 Router.route('/ltm/monitors/rpc/:_id', {
   template: 'rpcMonitorDetails',
   data: function(){
@@ -570,7 +548,6 @@ Router.route('/ltm/monitors/rpc/:_id', {
   }
 });
 Router.route('/ltm/monitors/sasp');
-Router.route('/ltm/monitors/sasp/create');
 Router.route('/ltm/monitors/sasp/:_id', {
   template: 'saspMonitorDetails',
   data: function(){
@@ -579,7 +556,6 @@ Router.route('/ltm/monitors/sasp/:_id', {
   }
 });
 Router.route('/ltm/monitors/scripted');
-Router.route('/ltm/monitors/scripted/create');
 Router.route('/ltm/monitors/scripted/:_id', {
   template: 'scriptedMonitorDetails',
   data: function(){
@@ -588,7 +564,6 @@ Router.route('/ltm/monitors/scripted/:_id', {
   }
 });
 Router.route('/ltm/monitors/sip');
-Router.route('/ltm/monitors/sip/create');
 Router.route('/ltm/monitors/sip/:_id', {
   template: 'sipMonitorDetails',
   data: function(){
@@ -597,7 +572,6 @@ Router.route('/ltm/monitors/sip/:_id', {
   }
 });
 Router.route('/ltm/monitors/smb');
-Router.route('/ltm/monitors/smb/create');
 Router.route('/ltm/monitors/smb/:_id', {
   template: 'smbMonitorDetails',
   data: function(){
@@ -606,7 +580,6 @@ Router.route('/ltm/monitors/smb/:_id', {
   }
 });
 Router.route('/ltm/monitors/smtp');
-Router.route('/ltm/monitors/smtp/create');
 Router.route('/ltm/monitors/smtp/:_id', {
   template: 'smtpMonitorDetails',
   data: function(){
@@ -615,7 +588,6 @@ Router.route('/ltm/monitors/smtp/:_id', {
   }
 });
 Router.route('/ltm/monitors/snmp-dca');
-Router.route('/ltm/monitors/snmp-dca/create');
 Router.route('/ltm/monitors/snmp-dca/:_id', {
   template: 'snmpdcaMonitorDetails',
   data: function(){
@@ -624,7 +596,6 @@ Router.route('/ltm/monitors/snmp-dca/:_id', {
   }
 });
 Router.route('/ltm/monitors/snmp-dca-base');
-Router.route('/ltm/monitors/snmp-dca-base/create');
 Router.route('/ltm/monitors/snmp-dca-base/:_id', {
   template: 'snmpdcabaseMonitorDetails',
   data: function(){
@@ -633,7 +604,6 @@ Router.route('/ltm/monitors/snmp-dca-base/:_id', {
   }
 });
 Router.route('/ltm/monitors/soap');
-Router.route('/ltm/monitors/soap/create');
 Router.route('/ltm/monitors/soap/:_id', {
   template: 'soapMonitorDetails',
   data: function(){
@@ -642,7 +612,6 @@ Router.route('/ltm/monitors/soap/:_id', {
   }
 });
 Router.route('/ltm/monitors/tcp');
-Router.route('/ltm/monitors/tcp/create');
 Router.route('/ltm/monitors/tcp/:_id', {
   template: 'tcpMonitorDetails',
   data: function(){
@@ -651,7 +620,6 @@ Router.route('/ltm/monitors/tcp/:_id', {
   }
 });
 Router.route('/ltm/monitors/tcp-echo');
-Router.route('/ltm/monitors/tcp-echo/create');
 Router.route('/ltm/monitors/tcp-echo/:_id', {
   template: 'tcpechoMonitorDetails',
   data: function(){
@@ -660,7 +628,6 @@ Router.route('/ltm/monitors/tcp-echo/:_id', {
   }
 });
 Router.route('/ltm/monitors/tcp-half-open');
-Router.route('/ltm/monitors/tcp-half-open/create');
 Router.route('/ltm/monitors/tcp-half-open/:_id', {
   template: 'tcphalfopenMonitorDetails',
   data: function(){
@@ -669,7 +636,6 @@ Router.route('/ltm/monitors/tcp-half-open/:_id', {
   }
 });
 Router.route('/ltm/monitors/udp');
-Router.route('/ltm/monitors/udp/create');
 Router.route('/ltm/monitors/udp/:_id', {
   template: 'udpMonitorDetails',
   data: function(){
@@ -678,7 +644,6 @@ Router.route('/ltm/monitors/udp/:_id', {
   }
 });
 Router.route('/ltm/monitors/virtual-location');
-Router.route('/ltm/monitors/virtual-location/create');
 Router.route('/ltm/monitors/virtual-location/:_id', {
   template: 'virtuallocationMonitorDetails',
   data: function(){
@@ -687,7 +652,6 @@ Router.route('/ltm/monitors/virtual-location/:_id', {
   }
 });
 Router.route('/ltm/monitors/wap');
-Router.route('/ltm/monitors/wap/create');
 Router.route('/ltm/monitors/wap/:_id', {
   template: 'wapMonitorDetails',
   data: function(){
@@ -696,7 +660,6 @@ Router.route('/ltm/monitors/wap/:_id', {
   }
 });
 Router.route('/ltm/monitors/wmi');
-Router.route('/ltm/monitors/wmi/create');
 Router.route('/ltm/monitors/wmi/:_id', {
   template: 'wmiMonitorDetails',
   data: function(){

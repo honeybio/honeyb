@@ -223,12 +223,12 @@ ChangeFunction.delete.ltm.virtual = function(argList) {
   return false;
 }
 ChangeFunction.delete.ltm.pool = function(argList) {
-  var device_id = argList.device_id;
-  var pool_url = argList.pool_url;
-  var pool_id = argList.pool_id;
-  var result = mdrBigipRestDelete(device_id, pool_url);
+  var onDevice = argList.onDevice;
+  var poolUrl = argList.poolUrl;
+  var poolId = argList.poolId;
+  var result = mdrBigipRestDelete(onDevice, poolUrl);
   if (result) {
-    Pools.update({_id : pool_id}, {$set: {deleted: true}});
+    Pools.update({_id : poolId}, {$set: {deleted: true}});
     return result;
   }
   return false;
@@ -451,9 +451,20 @@ ChangeFunction.create.ltm.pool_member = function(argList) {
     name: argList.ipAddr + ":" + argList.port,
     address: argList.ipAddr
   };
+  var result;
   // This next method always returns a 404
-  var result = mdrBigipRestPost(argList.device_id, requrl, post_data);
-  var temp = Meteor.call("updatePoolMemberStatus", argList.device_id, argList.pool_id);
+  try {
+    result = mdrBigipRestPost(argList.device_id, requrl, post_data);
+  } catch (e) {
+    if (e.message.match(/404/)) {
+      // probably OK
+      result = Meteor.call("updatePoolMemberStatus", argList.device_id, argList.pool_id);
+      return 200;
+    } else {
+      console.log(e);
+    }
+  }
+  // Meteor.call("updatePoolMemberStatus", argList.device_id, argList.pool_id);
   return result;
 }
 ChangeFunction.create.ltm.node = function(argList) {

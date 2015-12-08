@@ -24,52 +24,47 @@ Template.virtualDetails.helpers({
 });
 
 Template.ltmVirtuals.events({
-  'submit #virtual-servers': function (event, template) {
+  'click #Enable': function (event, template) {
     event.preventDefault();
-    var the_action = event.target.objectAction.value;
     var checkedList = [];
     var stage = false;
     $('#virtual-servers :input[type=checkbox]:checked').each(function(index){
-      checkedList.push($(this)[0].name);
+      Meteor.call("enableVirtual", $(this)[0].name, stage, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        } else {
+          toastr.success(res.message, res.subject);
+        }
+      });
     });
-    for (var i = 0; i < checkedList.length; i++) {
-      if (the_action == "delete") {
-        Meteor.call("deleteVirtual", checkedList[i], stage, function (err, res) {
-          if (err) {
-            toastr.error(err.details, err.reason)
-          } else {
-            toastr.success(res.message, res.subject);
-          }
-        });
-      }
-      else if (the_action == "copy") {
-        Meteor.call("copyVirtual", checkedList[i], stage, function (err, res) {
-          if (err) {
-            toastr.error(err.details, err.reason)
-          } else {
-            toastr.success(res.message, res.subject);
-          }
-        });
-      }
-      else if (the_action == "enable") {
-        Meteor.call("enableVirtual", checkedList[i], stage, function (err, res) {
-          if (err) {
-            toastr.error(err.details, err.reason)
-          } else {
-            toastr.success(res.message, res.subject);
-          }
-        });
-      }
-      else if (the_action == "disable") {
-        Meteor.call("disableVirtual", checkedList[i], stage, function (err, res) {
-          if (err) {
-            toastr.error(err.details, err.reason)
-          } else {
-            toastr.success(res.message, res.subject);
-          }
-        });
-      }
-    }
+  },
+  'click #Disable': function (event, template) {
+    event.preventDefault();
+    var checkedList = [];
+    var stage = false;
+    $('#virtual-servers :input[type=checkbox]:checked').each(function(index){
+      Meteor.call("disableVirtual", $(this)[0].name, stage, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        } else {
+          toastr.success(res.message, res.subject);
+        }
+      });
+    });
+  },
+  'click #Delete': function (event, template) {
+    event.preventDefault();
+    var checkedList = [];
+    var stage = false;
+    $('#virtual-servers :input[type=checkbox]:checked').each(function(index){
+      Meteor.call("deleteVirtual", $(this)[0].name, stage, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        } else {
+          toastr.success(res.message, res.subject);
+        }
+      });
+    });
   }
 });
 

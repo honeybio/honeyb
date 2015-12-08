@@ -13,92 +13,96 @@ Template.ltmPools.onRendered(function() {
 
 
 Template.ltmPools.events({
-  'submit #poolMemberForm': function (event, template) {
+  'click #Delete': function (event, template) {
     event.preventDefault();
-    var the_action = event.target.objectAction.value;
-    var checkedList = [];
-    $('input[type=checkbox]:checked').each(function(index){
-      checkedList.push($(this)[0].name);
+    $('#table-form :input[type=checkbox]:checked').each(function(index){
+      Meteor.call("deletePool", $(this)[0].id, 0, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        } else {
+          toastr.success(res.message, res.subject);
+        }
+      });
     });
-    for (var i = 0; i < checkedList.length; i++) {
-      if (the_action == "delete") {
-        Meteor.call("deletePool", checkedList[i], event.target.stage.value, function (err, res) {
-          if (err) {
-            toastr.error(err.details, err.reason)
-          } else {
-            toastr.success(res.message, res.subject);
-          }
-        });
-      }
-      else if (the_action == "copy") {
-        Meteor.call("copyPool", checkedList[i], event.target.to_device.value, event.target.stage.value, function (err, res) {
-          if (err) {
-            toastr.error(err.details, err.reason)
-          } else {
-            toastr.success(res.message, res.subject);
-          }
-        });
-      }
-    }
-      // Meteor.call("updatePoolList", onDevice, pool_id);
   }
 });
 
 Template.poolDetails.events({
-  'submit #pool-members': function (event, template) {
+  'click #Enable': function (event, template) {
     event.preventDefault();
-    var onDevice = event.target.onDevice.value;
-    var the_action = event.target.memberAction.value;
-    var pool_id = event.target.poolName.value;
+    var onDevice = $('#pool-members :input[name=onDevice]').val();
+    var the_action = $('#pool-members :input[name=memberAction]').val();
+    var pool_id = $('#pool-members :input[name=poolName]').val();
     var checkedList = [];
     var stage = false;
-    $('#pool-members :input[type=checkbox]:checked').each(function(index){
-      checkedList.push($(this)[0].id);
+    $('#pool-members :input[type=checkbox]:checked').each(function(index) {
+      Meteor.call("enablePoolMember", $(this)[0].name, onDevice, stage, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        }
+        if (res) {
+          Meteor.call("updatePoolMemberStatus", onDevice, pool_id);
+          toastr.success(res.message, res.subject);
+        }
+      });
     });
-    if (checkedList.length === undefined) {
-      return;
-    }
-    for (var i = 0; i < checkedList.length; i++) {
-      if (the_action == "enable") {
-        Meteor.call("enablePoolMember", checkedList[i], onDevice, stage, function (err, res) {
-          if (err) {
-            toastr.error(err.details, err.reason)
-          }
-          if (res) {
-            toastr.success(res.message, res.subject);
-          }
-        });
-      }
-      else if (the_action == "disable") {
-        Meteor.call("disablePoolMember", checkedList[i], onDevice, stage, function (err, res) {
-          if (err) {
-            toastr.error(err.details, err.reason)
-          }
-          if (res) {
-            toastr.success(res.message, res.subject);
-          }
-        });
-      }
-      else if (the_action == "force") {
-        Meteor.call("forcePoolMember", checkedList[i], onDevice, stage, function (err, res) {
-          if (err) {
-            toastr.error(err.details, err.reason)
-          } else {
-            toastr.success(res.message, res.subject);
-          }
-        });
-      }
-      else if (the_action == "delete") {
-        Meteor.call("deletePoolMember", checkedList[i], onDevice, pool_id, stage, function (err, res) {
-          if (err) {
-            toastr.error(err.details, err.reason)
-          } else {
-            toastr.success(res.message, res.subject);
-          }
-        });
-      }
-    }
-    Meteor.call("updatePoolMemberStatus", onDevice, pool_id);
+  },
+  'click #Disable': function (event, template) {
+    event.preventDefault();
+    var onDevice = $('#pool-members :input[name=onDevice]').val();
+    var the_action = $('#pool-members :input[name=memberAction]').val();
+    var pool_id = $('#pool-members :input[name=poolName]').val();
+    var checkedList = [];
+    var stage = false;
+    $('#pool-members :input[type=checkbox]:checked').each(function(index) {
+      Meteor.call("disablePoolMember", $(this)[0].name, onDevice, stage, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        }
+        if (res) {
+          Meteor.call("updatePoolMemberStatus", onDevice, pool_id);
+          toastr.success(res.message, res.subject);
+        }
+      });
+    });
+  },
+  'click #Force': function (event, template) {
+    event.preventDefault();
+    var onDevice = $('#pool-members :input[name=onDevice]').val();
+    var the_action = $('#pool-members :input[name=memberAction]').val();
+    var pool_id = $('#pool-members :input[name=poolName]').val();
+    var checkedList = [];
+    var stage = false;
+    $('#pool-members :input[type=checkbox]:checked').each(function(index) {
+      Meteor.call("forcePoolMember", $(this)[0].name, onDevice, stage, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        }
+        if (res) {
+          Meteor.call("updatePoolMemberStatus", onDevice, pool_id);
+          toastr.success(res.message, res.subject);
+        }
+      });
+    });
+  },
+  'click #Delete': function (event, template) {
+    event.preventDefault();
+    var onDevice = $('#pool-members :input[name=onDevice]').val();
+    var the_action = $('#pool-members :input[name=memberAction]').val();
+    var pool_id = $('#pool-members :input[name=poolName]').val();
+    var checkedList = [];
+    var stage = false;
+    $('#pool-members :input[type=checkbox]:checked').each(function(index) {
+      Meteor.call("deletePoolMember", $(this)[0].name, onDevice, pool_id, stage, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        }
+        if (res) {
+          Meteor.call("updatePoolMemberStatus", onDevice, pool_id);
+          toastr.success(res.message, res.subject);
+        }
+      });
+    });
   },
   'submit #pool-settings': function (event, template) {
     event.preventDefault();

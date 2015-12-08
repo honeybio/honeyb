@@ -2,7 +2,7 @@
   {{> pageHeading title='Pools' category='LTM' }}
   <div class="wrapper wrapper-content animated fadeIn">
     <div class="row">
-      <form id="poolMemberForm" class="form-horizontal">
+      <form id="table-form" class="form-horizontal">
         <div class="col-lg-12">
           <div class="ibox float-e-margins">
             <div class="ibox-title">
@@ -22,18 +22,21 @@
                 </thead>
                 <tbody>
                 {{#each allPools}}
+                {{#if deleted}}
+                {{else}}
                 <tr>
                   <td data-value="{{statusImg}}"><img src="/{{statusImg}}"></td>
-                  <td><a href="/ltm/pools/{{_id}}">{{name}}{{#if deleted}}(In Trash Bin){{/if}}</a></td>
+                  <td><a href="/ltm/pools/{{_id}}">{{name}}</a></td>
                   <td>{{getOnDevice this.onDevice}}</td>
-                  <td><input type="checkbox" id="{{_id}}" name="{{_id}}"></td>
+                  <td><input type="checkbox" id="{{_id}}"></td>
                 </tr>
+                {{/if}}
                 {{/each}}
               </tbody>
               <tfoot>
                 <tr>
                   <td colspan="5">
-                  <ul class="pagination pull-right"></ul>
+                  <ul class="pagination pull-right hide-if-no-paging"></ul>
                   </td>
                 </tr>
               </tfoot>
@@ -146,6 +149,7 @@
           <div class="ibox-title"><h5>Pool Members on {{name}}</h5>{{>iboxTools}}</div>
           <div class="ibox-content">
               <form id="pool-members" class="form-horizontal">
+                {{> footableSearchBox}}
                 <input type="hidden" name="poolName" value="{{_id}}">
                 <input type="hidden" name="onDevice" value="{{onDevice}}">
                 <div class="form-group"><label class="col-sm-2 control-label">Pool Members</label>
@@ -170,27 +174,11 @@
                       <tfoot>
                         <tr>
                           <td colspan="5">
-                          <ul class="pagination pull-right"></ul>
+                          <ul class="pagination pull-right hide-if-no-paging"></ul>
                           </td>
                         </tr>
                       </tfoot>
                     </table>
-                  </div>
-                </div>
-                <div class="form-group"><label class="col-sm-2 control-label">Action</label>
-                  <div class="col-sm-4">
-                    <select id="memberAction" class="form-control m-b" name="memberAction">
-                      <option value="enable">Enable</option>
-                      <option value="disable">Disable</option>
-                      <option value="force">Force Offline</option>
-                      <option value="blank">-----------</option>
-                      <option value="delete">Delete Members(!)</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="col-sm-4 col-sm-offset-2">
-                    <button class="btn btn-primary" type="submit">Update</button>
                   </div>
                 </div>
                 <div class="form-group">
