@@ -7,9 +7,8 @@ Template.ltmVirtuals.helpers({
     return Virtuals.find();
   },
   getDeviceList: function () {
-    return Devices.find({});
+    return Devices.find();
   },
-  virtualsIndex: () => VirtualsIndex,
   logme: function (object) {
     console.log(object);
   }
