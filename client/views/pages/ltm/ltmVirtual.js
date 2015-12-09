@@ -36,7 +36,6 @@ Template.ltmVirtuals.events({
   },
   'click #Disable': function (event, template) {
     event.preventDefault();
-    var checkedList = [];
     var stage = false;
     $('#virtual-servers :input[type=checkbox]:checked').each(function(index){
       Meteor.call("disableVirtual", $(this)[0].name, stage, function (err, res) {
@@ -50,7 +49,6 @@ Template.ltmVirtuals.events({
   },
   'click #Delete': function (event, template) {
     event.preventDefault();
-    var checkedList = [];
     var stage = false;
     $('#virtual-servers :input[type=checkbox]:checked').each(function(index){
       Meteor.call("deleteVirtual", $(this)[0].name, stage, function (err, res) {

@@ -96,7 +96,7 @@
   {{> pageHeading title='Datacenters' category='GTM' }}
   <div class="wrapper wrapper-content animated fadeIn">
     <div class="row">
-      <form class="virtualForm">
+      <form class="table-form">
         <div class="col-lg-12">
           <div class="ibox float-e-margins">
             <div class="ibox-title">
@@ -118,7 +118,7 @@
                   <tr>
                     <td><a href="/gtm/datacenters/{{_id}}">{{name}}</a></td>
                     <td><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></td>
-                    <td><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></td>
+                    <td><input type="checkbox" name="{{selfLink}}"></td>
                   </tr>
                   {{/each}}
                 </tbody>

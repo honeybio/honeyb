@@ -47,5 +47,53 @@ Meteor.methods({
     var result = Meteor.call('pushChange', change_id);
     var myRes = { subject: 'Success!', message: 'Enabled ' + vip.fullPath };
     return myRes;
-  }
+  },
+  enableDatacenter: function (objId, stage) {
+    var datacenter = Gtmdatacenters.findOne({_id: objId});
+    var syncGroup = Gtmsyncgroups.findOne({_id: datacenter.inSyncGroup});
+    var methodName = {
+      action: "enable",
+      module: "gtm",
+      object: "datacenter"
+    };
+    var theChange = {
+      description: "Enable GTM Datacenter " + datacenter.fullPath + " on sync group: " + syncGroup.name,
+      theMethod: methodName,
+      argList: {
+        datacenterUrl: datacenter.selfLink,
+        syncGroup: obj.inSyncGroup
+      }
+    };
+    var change_id = Meteor.call('createStagedChange', theChange);
+    var result = Meteor.call('pushChange', change_id);
+    if (stage == "1") {
+      return;
+    }
+    var myRes = { subject: 'Success!', message: 'Enabled ' + datacenter.fullPath };
+    return myRes;
+  },
+  enableGtmserver: function (objId, stage) {
+    var obj = Gtmservers.findOne({_id: objId});
+    var syncGroup = Gtmsyncgroups.findOne({_id: datacenter.inSyncGroup});
+    var methodName = {
+      action: "enable",
+      module: "gtm",
+      object: "server"
+    };
+    var theChange = {
+      description: "Enable GTM Server " + obj.fullPath + " on sync group: " + syncGroup.name,
+      theMethod: methodName,
+      argList: {
+        objUrl: obj.selfLink,
+        syncGroup: obj.inSyncGroup
+      }
+    };
+    var change_id = Meteor.call('createStagedChange', theChange);
+    var result = Meteor.call('pushChange', change_id);
+    if (stage == "1") {
+      return;
+    }
+    var myRes = { subject: 'Success!', message: 'Enabled ' + obj.fullPath };
+    return myRes;
+  },
 });

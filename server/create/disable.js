@@ -72,5 +72,29 @@ Meteor.methods({
     }
     var myRes = { subject: 'Success!', message: 'Force Offline ' + pmem_name };
     return myRes;
-  }
+  },
+  disableDatacenter: function (objId, stage) {
+    var datacenter = Gtmdatacenters.findOne({_id: objId});
+    var syncGroup = Gtmsyncgroups.findOne({_id: datacenter.inSyncGroup});
+    var methodName = {
+      action: "disable",
+      module: "gtm",
+      object: "datacenter"
+    };
+    var theChange = {
+      description: "Disable GTM Datacenter " + datacenter.fullPath + " on sync group: " + device.self.name,
+      theMethod: methodName,
+      argList: {
+        datacenterUrl: datacenter.selfLink,
+        syncGroup: device.inSyncGroup
+      }
+    };
+    var change_id = Meteor.call('createStagedChange', theChange);
+    var result = Meteor.call('pushChange', change_id);
+    if (stage == "1") {
+      return;
+    }
+    var myRes = { subject: 'Success!', message: 'Disabled ' + datacenter.fullPath };
+    return myRes;
+  },
 });

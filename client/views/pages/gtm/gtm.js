@@ -12,6 +12,35 @@ Template.gtmDatacenters.helpers({
   }
 });
 
+Template.gtmDatacenters.events({
+  'click #Enable': function (event, template) {
+    event.preventDefault();
+    var stage = false;
+    $('#table-form :input[type=checkbox]:checked').each(function(index){
+      Meteor.call("enableDatacenter", $(this)[0].name, stage, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        } else {
+          toastr.success(res.message, res.subject);
+        }
+      });
+    });
+  },
+  'click #Disable': function (event, template) {
+    event.preventDefault();
+    var stage = false;
+    $('#table-form :input[type=checkbox]:checked').each(function(index){
+      Meteor.call("disableDatacenter", $(this)[0].name, stage, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        } else {
+          toastr.success(res.message, res.subject);
+        }
+      });
+    });
+  }
+});
+
 Template.gtmServers.onRendered(function() {
   $('.footable').footable();
 });

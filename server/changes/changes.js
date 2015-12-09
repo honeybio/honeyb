@@ -38,7 +38,9 @@ ChangeFunction.delete.vcmp = { };
 ChangeFunction.enable = { };
 ChangeFunction.disable = { };
 ChangeFunction.enable.ltm = { };
+ChangeFunction.enable.gtm = { };
 ChangeFunction.disable.ltm = { };
+ChangeFunction.disable.gtm = { };
 ChangeFunction.force = { };
 ChangeFunction.force.ltm = { };
 ChangeFunction.download = { };
@@ -322,8 +324,6 @@ ChangeFunction.enable.ltm.pool_member = function(argList) {
   var device_id = argList.device_id;
   var put_data = {"state": "user-up", "session": "user-enabled"};
   var result = mdrBigipRestPut(device_id, poolMember, put_data);
-  console.log('disable.ltm.virtual');
-  console.log(result);
   return result;
 }
 ChangeFunction.disable.ltm.virtual = function(argList) {
@@ -348,6 +348,70 @@ ChangeFunction.disable.ltm.pool_member = function(argList) {
   var device_id = argList.device_id;
   var put_data = {"session": "user-disabled"};
   var result = mdrBigipRestPut(device_id, poolMember, put_data);
+  return result;
+}
+ChangeFunction.enable.gtm.datacenter = function(argList) {
+  var syncgroup = Gtmsyncgroups.findOne({_id: argList.syncGroup});
+  var deviceId = syncgroup.onDevice[0];
+  var datacenterUrl = argList.datacenterUrl;
+  var putData = { disabled: false, enabled: true };
+  var result = mdrBigipRestPut(device_id, datacenterUrl, putData);
+  return result;
+}
+ChangeFunction.enable.gtm.server = function(argList) {
+  var syncgroup = Gtmsyncgroups.findOne({_id: argList.syncGroup});
+  var deviceId = syncgroup.onDevice[0];
+  var objUrl = argList.datacenterUrl;
+  var putData = { disabled: false, enabled: true };
+  var result = mdrBigipRestPut(device_id, objUrl, putData);
+  return result;
+}
+ChangeFunction.enable.gtm.vserver = function(argList) {
+  var syncgroup = Gtmsyncgroups.findOne({_id: argList.syncGroup});
+  var deviceId = syncgroup.onDevice[0];
+  var objUrl = argList.objUrl;
+  var putData = { disabled: false, enabled: true };
+  var result = mdrBigipRestPut(device_id, objUrl, putData);
+  return result;
+}
+ChangeFunction.enable.gtm.pool_member = function(argList) {
+  var syncgroup = Gtmsyncgroups.findOne({_id: argList.syncGroup});
+  var deviceId = syncgroup.onDevice[0];
+  var objUrl = argList.objUrl;
+  var putData = { disabled: false, enabled: true };
+  var result = mdrBigipRestPut(device_id, objUrl, putData);
+  return result;
+}
+ChangeFunction.disable.gtm.datacenter = function(argList) {
+  var syncgroup = Gtmsyncgroups.findOne({_id: argList.syncGroup});
+  var deviceId = syncgroup.onDevice[0];
+  var datacenterUrl = argList.datacenterUrl;
+  var putData = { disabled: true, enabled: false };
+  var result = mdrBigipRestPut(device_id, datacenterUrl, putData);
+  return result;
+}
+ChangeFunction.disable.gtm.server = function(argList) {
+  var syncgroup = Gtmsyncgroups.findOne({_id: argList.syncGroup});
+  var deviceId = syncgroup.onDevice[0];
+  var objUrl = argList.objUrl;
+  var putData = { disabled: true, enabled: false };
+  var result = mdrBigipRestPut(device_id, objUrl, putData);
+  return result;
+}
+ChangeFunction.disable.gtm.vserver = function(argList) {
+  var syncgroup = Gtmsyncgroups.findOne({_id: argList.syncGroup});
+  var deviceId = syncgroup.onDevice[0];
+  var objUrl = argList.objUrl;
+  var putData = { disabled: true, enabled: false };
+  var result = mdrBigipRestPut(device_id, objUrl, putData);
+  return result;
+}
+ChangeFunction.disable.gtm.pool_member = function(argList) {
+  var syncgroup = Gtmsyncgroups.findOne({_id: argList.syncGroup});
+  var deviceId = syncgroup.onDevice[0];
+  var objUrl = argList.objUrl;
+  var putData = { disabled: true, enabled: false };
+  var result = mdrBigipRestPut(device_id, objUrl, putData);
   return result;
 }
 ChangeFunction.force.ltm.pool_member = function(argList) {
