@@ -249,6 +249,7 @@ Router.route('/gtm/links/:_id', {
   }
 });
 Router.route('/gtm/servers');
+Router.route('/gtm/servers/create');
 Router.route('/gtm/servers/:_id', {
   template: 'gtmServerDetails',
   data: function(){
@@ -257,6 +258,7 @@ Router.route('/gtm/servers/:_id', {
   }
 });
 Router.route('/gtm/vservers');
+Router.route('/gtm/vservers/create');
 Router.route('/gtm/vservers/:_id', {
   template: 'gtmVserverDetails',
   data: function(){
@@ -344,6 +346,7 @@ Router.route('/ltm/persistence/:_id', {
   }
 });
 Router.route('/ltm/datagroups');
+Router.route('/ltm/datagroups/create');
 Router.route('/ltm/datagroups/:_id', {
   template: 'datagroupDetails',
   data: function(){

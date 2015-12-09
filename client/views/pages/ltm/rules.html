@@ -90,10 +90,9 @@
                   </select>
                 </div>
               </div>
-              <div class="form-group"><label class="col-sm-2 control-label">iRule data</label>
-                <p> Hit CTRL + SPACE to get suggestions</p>
-                <div class="col-sm-9">
-                  {{> CodeMirror id="iruleBox" name="iruleBox" options=editorOptions code=apiAnonymous}}
+              <div class="form-group"><label class="col-sm-2 control-label">iRule data (CTRL-Space for Autocomplete)</label>
+                <div class="col-sm-8">
+                  {{> CodeMirror id="iruleBox" name="iruleBox" options=editorOptions code=defaultValue}}
                 </div>
               </div>
               <div class="form-group"><label class="col-sm-2 control-label">Freeform Description/Identifier/Owner</label>

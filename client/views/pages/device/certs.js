@@ -22,21 +22,15 @@ Template.sslCerts.helpers({
       return false;
     }
   },
-  expiresIn: function () {
-    // Calculate the expiration
-  },
   getExpirationStatus: function (date) {
     var now = new Date();
     if (date - now.getTime() < 0) {
       return { title: "Expired",  src: "status_diamond_red.png" };
     } else if (date - now.getTime() < 2419200) {
-      return { title: "Expires less than 4 weeks", src: "status_circle_yellow.png" };
+      return { title: "Expires less than 28 days from now", src: "status_circle_yellow.png" };
     } else {
       return { title: "Expires more than 28 days from now", src: "status_circle_green.png" };
     }
-  },
-  getMs: function (date) {
-    console.log(date);
   }
 });
 

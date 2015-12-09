@@ -21,24 +21,38 @@ Template.devicesArchives.helpers({
   }
 });
 
-Template.deviceList.events({
-  'click button': function () {
-    bootbox.dialog({
-      message: "Version: " + this.self.version + " Build: " + this.self.build + "<br>Hostname: " + this.self.name
-      + "<br>Open in Browser: <a href=https:///>https://" + this.self.mgmtAddress + "/</a>",
-      title: this.self.name,
-      buttons: {
-        success: {
-          label: "OK",
-          className: "btn-success",
-        },
-        danger: {
-          label: "Cancel",
-          className: "btn-danger",
-        },
-      }
+Template.devices.events({
+  'click #Add': function (event, template) {
+    event.preventDefault();
+    $('#addDevice').modal();
+  },
+  'click #Delete': function (event, template) {
+    event.preventDefault();
+    // Get value from form element
+    $('#virtual-servers :input[type=checkbox]:checked').each(function(index){
+      var address = $('#table-form :input[name=addr]').val();
+      var device = {
+        mgmtip: $('#table-form :input[name=addr]').val(),
+        deviceId: $(this)[0].name
+      };
+      console.log(device);
+      return;
+      var job = {
+        name: 'removeDevice',
+        status: 'ready',
+        progress: 0
+      };
+      Meteor.call("newJob", job, function(err, res) {
+        Meteor.call("removeDevice", device, res, function (err, res) {
+          if (err) {
+            toastr.error(err.details, err.reason)
+          } else {
+            toastr.success(res.message, res.subject);
+          }
+        });
+      });
     });
-  }
+  },
 });
 
 Template.devicesArchives.events({

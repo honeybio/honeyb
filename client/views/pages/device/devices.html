@@ -25,7 +25,7 @@
                 {{#each allDevices}}
                   <tr>
                     <td><a href="/devices/{{_id}}">{{self.name}}</a></td>
-                    <td>{{mgmtAddress}}</td>
+                    <td>{{mgmtAddress}}<input type="hidden" id="addr" value="{{mgmtAddress}}"></td>
                     <td>{{self.failoverState}}</td>
                     <td><a href="https://{{mgmtAddress}}/" target="_blank">Open Management Console</a></td>
                     <td><input type="checkbox" id="{{this._id}}" name="{{this._id}}"></td>
@@ -47,61 +47,58 @@
       </form>
     </div>
   </div>
+  <!-- Modal -->
+  <div class="modal fade" id="addDevice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    {{> discoverSingle}}
+  </div>
 </template>
 
 <template name="discoverSingle">
-  <button type="button" class="btn" data-toggle="modal" data-target="#addDevice">
-    Add new BIG-IP
-  </button>
-
-  <!-- Modal -->
-  <div class="modal fade" id="addDevice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="myModalLabel">Add a device</h4>
-        </div>
-        <div class="modal-body">
-          <form class="form-horizontal">
-            <div class="form-group"><label class="col-sm-4 control-label">BIG-IP Management IP</label>
-              <div class="col-sm-4"><input type="text" name="mgmtip" class="form-control"/></div>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Add a device</h4>
+      </div>
+      <div class="modal-body">
+        <form id= "add-device" class="form-horizontal">
+          <div class="form-group"><label class="col-sm-4 control-label">BIG-IP Management IP</label>
+            <div class="col-sm-4"><input type="text" name="mgmtip" class="form-control"/></div>
+          </div>
+          <div class="hr-line-dashed"></div>
+          <div class="form-group"><label class="col-sm-4 control-label">Enable Rest Discovery (11.5+)</label>
+            <div class="col-sm-4"><input type="checkbox" id="restDiscover" name="restDiscover" class="form-control" checked/></div>
+          </div>
+          <div id="restInfo">
+            <div class="form-group"><label class="col-sm-4 control-label">Admin User</label>
+              <div class="col-sm-4"><input type="text" name="mgmtuser" class="form-control"/></div>
             </div>
-            <div class="hr-line-dashed"></div>
-            <div class="form-group"><label class="col-sm-4 control-label">Enable Rest Discovery (11.5+)</label>
-              <div class="col-sm-4"><input type="checkbox" id="restDiscover" name="restDiscover" class="form-control" checked/></div>
+            <div class="form-group"><label class="col-sm-4 control-label">Admin Password</label>
+              <div class="col-sm-4"><input type="password" name="mgmtpass" class="form-control"/></div>
             </div>
-            <div id="restInfo">
-              <div class="form-group"><label class="col-sm-4 control-label">Admin User</label>
-                <div class="col-sm-4"><input type="text" name="mgmtuser" class="form-control"/></div>
-              </div>
-              <div class="form-group"><label class="col-sm-4 control-label">Admin Password</label>
-                <div class="col-sm-4"><input type="password" name="mgmtpass" class="form-control"/></div>
-              </div>
+          </div>
+          <div class="hr-line-dashed"></div>
+          <div class="form-group"><label class="col-sm-4 control-label">Enable SSH for Archives & iHealth(10.2+)</label>
+            <div class="col-sm-4"><input type="checkbox" id="sshDiscover" name="sshDiscover" class="form-control" checked/></div>
+          </div>
+          <div id="sshInfo">
+            <div class="form-group"><label class="col-sm-4 control-label">SSH User</label>
+              <div class="col-sm-4"><input type="text" name="sshuser" class="form-control"/></div>
             </div>
-            <div class="hr-line-dashed"></div>
-            <div class="form-group"><label class="col-sm-4 control-label">Enable SSH for Archives & iHealth(10.2+)</label>
-              <div class="col-sm-4"><input type="checkbox" id="sshDiscover" name="sshDiscover" class="form-control" checked/></div>
+            <div class="form-group"><label class="col-sm-4 control-label">SSH Password</label>
+              <div class="col-sm-4"><input type="password" name="sshpass" class="form-control"/></div>
             </div>
-            <div id="sshInfo">
-              <div class="form-group"><label class="col-sm-4 control-label">SSH User</label>
-                <div class="col-sm-4"><input type="text" name="sshuser" class="form-control"/></div>
-              </div>
-              <div class="form-group"><label class="col-sm-4 control-label">SSH Password</label>
-                <div class="col-sm-4"><input type="password" name="sshpass" class="form-control"/></div>
-              </div>
-            </div>
-            <center>
-              {{#if getJobId}}
-                {{> jobStatus getJobId}}
-              {{/if}}
-            </center>
-            <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Add</strong></button>
-          </form>
-          <br>
-        </div>
-        <div class="modal-footer">
-          <button type="button" id="close" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+          </div>
+          <center>
+            {{#if getJobId}}
+              {{> jobStatus getJobId}}
+            {{/if}}
+          </center>
+          <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Discover</strong></button>
+        </form>
+        <br>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="close" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

@@ -18,8 +18,12 @@ Template.ltmRulesCreate.helpers({
       scrollPastEnd: true,
       indentAuto: true,
       extraKeys: {"Ctrl-Space": "autocomplete"},
-      mode: "text/x-irule"
+      mode: "text/x-irule",
+      value: "# Created by Honeyb.io iRule Builder\n\n\n\n"
     }
+  },
+  defaultValue: function () {
+    return '###### Created with honeyb.io iRule Builder ####\n\n\n\n\n'
   }
 });
 

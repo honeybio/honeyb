@@ -23,7 +23,6 @@ Template.virtualDetails.helpers({
 Template.ltmVirtuals.events({
   'click #Enable': function (event, template) {
     event.preventDefault();
-    var checkedList = [];
     var stage = false;
     $('#virtual-servers :input[type=checkbox]:checked').each(function(index){
       Meteor.call("enableVirtual", $(this)[0].name, stage, function (err, res) {

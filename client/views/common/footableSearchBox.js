@@ -16,6 +16,11 @@ Template.footableSearchBox.helpers({
           actions: ['Delete'],
           objects: 'Pools'
         },
+        ltmDatagroups: {
+          link: { url: '/ltm/datagroups/create', name: 'Create' },
+          actions: ['Delete'],
+          objects: 'Datagroups'
+        },
         asmPolicies: {
           link: { url: '/asm/policy/create', name: 'Create' },
           actions: ['Delete', 'Export'],
@@ -42,8 +47,7 @@ Template.footableSearchBox.helpers({
           objects: 'SSL Profiles'
         },
         devices: {
-          link: { url: '/devices/', name: 'Add' },
-          actions: ['Delete'],
+          actions: ['Add', 'Delete'],
           objects: 'Devices'
         },
         devicesArchives: {

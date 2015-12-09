@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="ibox float-e-margins">
-          <div class="ibox-title"><h5>Create A New {{object}}</h5>{{>iboxTools}}</div>
+          <div class="ibox-title"><h5>Create A New Wideip</h5>{{>iboxTools}}</div>
           <div class="ibox-content">
             <form id="create-form" class="form-horizontal">
               <div class="form-group"><label class="col-sm-2 control-label">Name</label>
@@ -44,7 +44,76 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="ibox float-e-margins">
-          <div class="ibox-title"><h5>Create A New {{object}}</h5>{{>iboxTools}}</div>
+          <div class="ibox-title"><h5>Create A New Pool</h5>{{>iboxTools}}</div>
+          <div class="ibox-content">
+            <form id="create-form" class="form-horizontal">
+              <div class="form-group"><label class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-4"><input type="text" id="name" class="form-control"></div>
+              </div>
+              {{> syncGroupSelect}}
+              {{> description}}
+              {{> submitCancelButtons}}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="gtmServersCreate">
+  {{> pageHeading title="Create A Server" category="GTM" }}
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title"><h5>Create A New Server</h5>{{>iboxTools}}</div>
+          <div class="ibox-content">
+            <form id="create-form" class="form-horizontal">
+              <div class="form-group"><label class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-4"><input type="text" id="name" class="form-control"></div>
+              </div>
+              {{> syncGroupSelect}}
+              {{> description}}
+              {{> submitCancelButtons}}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="gtmVserversCreate">
+  {{> pageHeading title="Create A Virtual Server" category="GTM" }}
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title"><h5>Create A New Virtual Server</h5>{{>iboxTools}}</div>
+          <div class="ibox-content">
+            <form id="create-form" class="form-horizontal">
+              <div class="form-group"><label class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-4"><input type="text" id="name" class="form-control"></div>
+              </div>
+              {{> syncGroupSelect}}
+              {{> description}}
+              {{> submitCancelButtons}}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="gtmMonitorsCreate">
+  {{> pageHeading title="Create A GSLB Monitor" category="GTM" }}
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title"><h5>Create A New Monitor</h5>{{>iboxTools}}</div>
           <div class="ibox-content">
             <form id="create-form" class="form-horizontal">
               <div class="form-group"><label class="col-sm-2 control-label">Name</label>
