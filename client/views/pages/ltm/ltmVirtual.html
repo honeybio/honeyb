@@ -176,16 +176,7 @@
                   </select>
                 </div>
               </div>
-              <div class="form-group"><label class="col-sm-2 control-label">On What device? </label>
-                <div class="col-sm-6">
-                  <select id="device" class="form-control col-sm-2" name="deviceID">
-                    <option selected="none" value="none">none</option>
-                    {{#each getDeviceList}}
-                      <option value="{{_id}}">{{self.name}}</option>
-                    {{/each}}
-                  </select>
-                </div>
-              </div>
+              {{> deviceList}}
               <div class="form-group"><label class="col-sm-2 control-label">Persistence/Sticky Session?</label>
                 <div class="col-sm-6">
                   <select id="persistence" class="form-control col-sm-2" name="persistence">
@@ -221,17 +212,8 @@
                   <button class="btn btn-white" type="button" data-toggle="modal" data-target="#addPoolModal">Add Pool</button>
                 </div>
               </div>
-              <div class="form-group"><label class="col-sm-2 control-label">Freeform Description/Identifier/Owner</label>
-                <div class="col-sm-6">
-                  <textarea id="longDescription" name="longDescription" rows="8" cols="50"></textarea>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-4 col-sm-offset-2">
-                  <button class="btn btn-white" type="submit">Cancel</button>
-                  <button class="btn btn-primary" id="submit" type="submit">Create</button>
-                </div>
-              </div>
+              {{> description}}
+              {{> submitCancelButtons}}
             </form>
           </div>
         </div>
@@ -280,11 +262,6 @@
             {{#each inputs}}
               {{> input}}
             {{/each}}
-            <br><br><button class="submit" id="submit">Create</button>
-            Stage changes?  <select name="stage" id="stage">
-                              <option value="0">No</option>
-                              <option value="1">Yes</option>
-                            </select><br>
           </form>
         </div>
         <div class="modal-footer">

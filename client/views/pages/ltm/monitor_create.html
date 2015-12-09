@@ -6,20 +6,11 @@
         <div class="ibox float-e-margins">
           <div class="ibox-title"><h5>Create A New Monitor</h5>{{>iboxTools}}</div>
           <div class="ibox-content">
-            <form id="virtual-settings" class="form-horizontal">
+            <form id="create-form" class="form-horizontal">
               <div class="form-group"><label class="col-sm-2 control-label">Name</label>
-                <div class="col-sm-4"><input type="text" id="mask" value="{{mask}}" class="form-control"></div>
+                <div class="col-sm-4"><input type="text" id="name" class="form-control"></div>
               </div>
-              <div class="form-group"><label class="col-sm-2 control-label">On What device? </label>
-                <div class="col-sm-6">
-                  <select id="device" class="form-control col-sm-2" name="deviceID">
-                    <option selected="none" value="none">none</option>
-                    {{#each getDeviceList}}
-                      <option value="{{_id}}">{{self.name}}</option>
-                    {{/each}}
-                  </select>
-                </div>
-              </div>
+              {{> deviceList}}
               <div class="form-group"><label class="col-sm-2 control-label">What type? </label>
                 <div class="col-sm-6">
                   <select id="device" class="form-control col-sm-2" name="deviceID">
@@ -30,17 +21,8 @@
                   </select>
                 </div>
               </div>
-              <div class="form-group"><label class="col-sm-2 control-label">Freeform Description/Identifier/Owner</label>
-                <div class="col-sm-6">
-                  <textarea id="longDescription" name="longDescription" rows="8" cols="50"></textarea>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-4 col-sm-offset-2">
-                  <button class="btn btn-white" type="submit">Cancel</button>
-                  <button class="btn btn-primary" id="submit" type="submit">Create</button>
-                </div>
-              </div>
+              {{> description}}
+              {{> submitCancelButtons}}
             </form>
           </div>
         </div>
@@ -72,12 +54,7 @@
         <option value="disabled">No</option>
         <option value="enabled">Yes</option>
       </select><br>
-      What device? <select id="device" name="deviceID">
-        <option selected="none" value="none">none</option>
-        {{#each getDeviceList}}
-          <option value="{{_id}}">{{self.name}}</option>
-        {{/each}} </select><br>
-       <br>
+      {{> deviceList}}
       <br><br><button class="submit" id="submit">Create</button>
       Stage changes?  <select name="stage" id="stage">
                         <option value="0">No</option>
@@ -119,12 +96,7 @@
         <option value="disabled">No</option>
         <option value="enabled">Yes</option>
       </select><br>
-      What device? <select id="device" name="deviceID">
-        <option selected="none" value="none">none</option>
-        {{#each getDeviceList}}
-          <option value="{{_id}}">{{self.name}}</option>
-        {{/each}} </select><br>
-       <br>
+      {{> deviceList}}
       <br><br><button class="submit" id="submit">Create</button>
       Stage changes?  <select name="stage" id="stage">
                         <option value="0">No</option>

@@ -13,24 +13,17 @@ Template.asmPoliciesExported.onRendered(function() {
 });
 
 Template.asmPolicies.events({
-  'submit #asm-policies': function (event, template) {
+  'click #Export': function (event, template) {
     event.preventDefault();
-    var checkedList = [];
-    $('#asm-policies :input[type=checkbox]:checked').each(function(index){
-      checkedList.push($(this)[0].id);
-    });
-    if (checkedList.length === undefined) {
-      return;
-    }
-    for (var i = 0; i < checkedList.length; i++) {
-      Meteor.call('exportAsmPolicy', checkedList[i], function (err, res) {
+    $('#table-form :input[type=checkbox]:checked').each(function(index){
+      Meteor.call('exportAsmPolicy', $(this)[0].id, function (err, res) {
         if (err) {
           toastr.error(err.details, err.reason);
         } else if (res) {
           toastr.success(res.message, res.subject);
         }
       });
-    }
+    });
   },
 });
 

@@ -137,9 +137,11 @@ Template.poolDetails.helpers({
   }
 });
 
+/*
 Template.ltmPoolsCreate.onRendered(function(){
   dragula([document.querySelector('#monitorDrop'), document.querySelector('#right')]);
 });
+*/
 
 Template.ltmPoolsCreate.onCreated( function() {
   Session.set('inputs', []);
@@ -147,15 +149,10 @@ Template.ltmPoolsCreate.onCreated( function() {
 });
 
 Template.ltmPoolsCreate.helpers({
-  getDeviceList: function () {
-    var result = Devices.find({});
-    return result;
-  },
   getMonitorList: function () {
     var device = Session.get("onDevice");
     if (device !== undefined) {
-      var monList = Monitors.find({onDevice: device});
-      return monList;
+      return Monitors.find({onDevice: device});
     }
     else {
       return [ "none" ];
@@ -171,14 +168,14 @@ Template.ltmPoolsCreate.events({
     var newValue = device.options[device.selectedIndex].value;
     Session.set("onDevice", newValue);
   },
-  "click #poolForm button[class=addMore]": function (event) {
+  'click #addMore': function (event) {
     event.preventDefault();
     var inputs = Session.get('inputs');
     var uniqid = Math.floor(Math.random() * 100000);
     inputs.push({uniqid: uniqid});
     Session.set('inputs', inputs);
   },
-  "click #poolForm button[class=remove-input]": function (event) {
+  'click .remove': function (event) {
     event.preventDefault();
     var inputs = Session.get('inputs');
     var i = inputs.indexOf(this.uniqid);

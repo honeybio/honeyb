@@ -1,0 +1,42 @@
+<template name="syncGroupSelect">
+  <div class="form-group"><label class="col-sm-2 control-label">On What Sync Group? </label>
+    <div class="col-sm-6">
+      <select id="syncgroup" class="form-control col-sm-2">
+        <option selected="none" value="none">none</option>
+        {{#each getSyncList}}
+          <option value="{{_id}}">{{synchronizationGroupName}}</option>
+        {{/each}}
+      </select>
+    </div>
+  </div>
+</template>
+
+<template name="description">
+  <div class="form-group"><label class="col-sm-2 control-label">Freeform Description/Identifier/Owner</label>
+    <div class="col-sm-6">
+      <textarea id="longDescription" name="longDescription" rows="3" cols="30"></textarea>
+    </div>
+  </div>
+</template>
+
+<template name="submitCancelButtons">
+  <div class="form-group">
+    <div class="col-sm-4 col-sm-offset-2">
+      <button class="btn btn-white" type="submit">Cancel</button>
+      <button class="btn btn-primary" id="submit" type="submit">Create</button>
+    </div>
+  </div>
+</template>
+
+<template name="deviceList">
+  <div class="form-group"><label class="col-sm-2 control-label">On What device? </label>
+    <div class="col-sm-6">
+      <select id="device" class="form-control col-sm-2" name="deviceID">
+        <option selected="none" value="none">none</option>
+        {{#each getDeviceList}}
+          <option value="{{_id}}">{{self.name}}</option>
+        {{/each}}
+      </select>
+    </div>
+  </div>
+</template>

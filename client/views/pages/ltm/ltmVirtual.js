@@ -6,9 +6,6 @@ Template.ltmVirtuals.helpers({
   allVirtuals: function () {
     return Virtuals.find();
   },
-  getDeviceList: function () {
-    return Devices.find();
-  },
   logme: function (object) {
     console.log(object);
   }
@@ -224,9 +221,6 @@ Template.ltmVirtualsCreate.onCreated( function() {
 });
 
 Template.ltmVirtualsCreate.helpers({
-  getDeviceList: function () {
-    return Devices.find({});
-  },
   getPoolList: function () {
     var device = Session.get("onDevice");
     if (device !== undefined) {

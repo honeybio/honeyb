@@ -79,11 +79,7 @@ Template.gtmPools.helpers({
   }
 });
 
-Template.gtmPoolsCreate.helpers({
-  getSyncList: function () {
-    return Gtmsyncgroups.find();
-  }
-});
+
 
 Template.gtmMonitors.helpers({
   allGtmmonitors: function () {

@@ -18,7 +18,7 @@ Template.footableSearchBox.helpers({
         },
         asmPolicies: {
           link: { url: '/asm/policy/create', name: 'Create' },
-          actions: ['Delete'],
+          actions: ['Delete', 'Export'],
           objects: 'WAF Policies'
         },
         changesCommitted: {

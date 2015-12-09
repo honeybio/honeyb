@@ -1,61 +1,78 @@
 <template name="gtmWideipsCreate">
-  <div class="container">
-  <center>
-    <h3>Create a new GTM/DNS Wideip</h3>
-  </center>
-  <li>
-    <form id="wipForm" class="wipForm">
-      Wideip Name: <input type="text" id="wip_name" class="wip_name"><br>
-      What Sync Group? <select id="syncgroup" name="syncgroup">
-        <option selected="none" value="none">none</option>
-        {{#each getSyncList}}
-          <option value="{{_id}}">{{synchronizationGroupName}}</option>
-        {{/each}} </select><br>
-       <br>
-       <select name="wip_type" id="wip_type">
-         <option value="a">IPv4</option>
-         <option value="aaaa">IPv6</option>
-       </select><br>
-       Pool:  <select id="wpool" name="wpool">
-                <option selected="none" value="none">none></option>
-                {{#each getPoolList}}
-                  <option value="{{_id}}">{{name}}</option>
-                {{/each}}
-              </select><br>
-      <br><br><button class="submit" id="submit">Create</button>
-      Stage changes?  <select name="stage" id="stage">
-                        <option value="0">No</option>
-                        <option value="1">Yes</option>
-                      </select><br>
-    </form>
-  </li>
-</div>
+  {{> pageHeading title="Create A Wideip" category="GTM" }}
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title"><h5>Create A New {{object}}</h5>{{>iboxTools}}</div>
+          <div class="ibox-content">
+            <form id="create-form" class="form-horizontal">
+              <div class="form-group"><label class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-4"><input type="text" id="name" class="form-control"></div>
+              </div>
+              {{> syncGroupSelect}}
+              <div class="form-group"><label class="col-sm-2 control-label">On What Sync Group? </label>
+                <div class="col-sm-6">
+                  <select id="wiptType" class="form-control col-sm-2">
+                    <option value="a">IPv4</option>
+                    <option value="aaaa">IPv6</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">Default Pool</label>
+                <div class="col-sm-6">
+                  <select id="wpool" class="form-control col-sm-2">
+                    {{#each getPoolList}}
+                      <option value="{{_id}}">{{name}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+              </div>
+              {{> description}}
+              {{> submitCancelButtons}}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="gtmPoolsCreate">
-  <div class="container">
-  <center>
-    <h3>Create a new GTM/DNS Pool</h3>
-  </center>
-  <li>
-    <form id="poolForm" class="poolForm">
-      Pool Name: <input type="text" id="pool_name" class="pool_name"><br>
-      What Sync Group? <select id="syncgroup" name="syncgroup">
-        <option selected="none" value="none">none</option>
-        {{#each getSyncList}}
-          <option value="{{_id}}">{{synchronizationGroupName}}</option>
-        {{/each}} </select><br>
-       <br>
-       <select name="pool_type" id="pool_type">
-         <option value="a">IPv4</option>
-         <option value="aaaa">IPv6</option>
-       </select><br>
-      <br><br><button class="submit" id="submit">Create</button>
-      Stage changes?  <select name="stage" id="stage">
-                        <option value="0">No</option>
-                        <option value="1">Yes</option>
-                      </select><br>
-    </form>
-  </li>
-</div>
+  {{> pageHeading title="Create A Pool" category="GTM" }}
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title"><h5>Create A New {{object}}</h5>{{>iboxTools}}</div>
+          <div class="ibox-content">
+            <form id="create-form" class="form-horizontal">
+              <div class="form-group"><label class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-4"><input type="text" id="name" class="form-control"></div>
+              </div>
+              {{> syncGroupSelect}}
+              <div class="form-group"><label class="col-sm-2 control-label">On What Sync Group? </label>
+                <div class="col-sm-6">
+                  <select id="wiptType" class="form-control col-sm-2">
+                    <option value="a">IPv4</option>
+                    <option value="aaaa">IPv6</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">Default Pool</label>
+                <div class="col-sm-6">
+                  <select id="poolType" class="form-control col-sm-2">
+                    <option value="a">IPv4</option>
+                    <option value="aaaa">IPv6</option>
+                  </select>
+                </div>
+              </div>
+              {{> description}}
+              {{> submitCancelButtons}}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>

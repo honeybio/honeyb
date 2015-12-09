@@ -41,30 +41,6 @@
                 </tr>
               </tfoot>
             </table>
-              <div class="form-group"><label class="col-sm-2 control-label">Action</label>
-                <div class="col-sm-4">
-                  <select name="objectAction">
-                    <option value="copy">Copy</option>
-                    <option value="blank">-----------</option>
-                    <option value="delete">Delete(!)</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group"><label class="col-sm-2 control-label">Destination Device</label>
-                <div class="col-sm-4">
-                  <select id="to_device" name="to_device">
-                    <option selected="none" value="none">none</option>
-                    {{#each getDeviceList}}
-                      <option value="{{_id}}">{{self.name}}</option>
-                    {{/each}}
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-4 col-sm-offset-2">
-                  <button class="btn btn-primary" type="submit">Update</button>
-                </div>
-              </div>
             </div>
             <div class="ibox-footer"></div>
           </div>
@@ -75,69 +51,81 @@
 </template>
 
 <template name="ltmPoolsCreate">
-  <div class="container">
-  <center>
-    <h3>Create a new Pool</h3>
-  </center>
-  <li>
-    <form id="poolForm" class="poolForm">
-      <div id="left" class="col-md-8">
-      Pool Name: <input type="text" id="pool_name" class="pool_name"><br>
-      What device? <select id="device" name="deviceID">
-        <option selected="none" value="none">none</option>
-        {{#each getDeviceList}}
-          <option value="{{_id}}">{{self.name}}</option>
-        {{/each}} </select><br>
-      LB Method: <select id="lbMethod" name="lbMethod">
-        <option selected="round-robin" value="round-robin">round-robin</option>
-        <option value="least-connections-member">least-connections-member</option>
-        <option value="dynamic-ratio-node">dynamic-ratio-node</option>
-        <option value="fastest-app-response">fastest-app-response</option>
-        <option value="fastest-node">fastest-node</option>
-        <option value="least-connections-member">least-connections-member</option>
-        <option value="least-connections-node">least-connections-node</option>
-        <option value="observed-member">observed-member</option>
-        <option value="observed-node">observed-node</option>
-        <option value="predictive-member">predictive-member</option>
-        <option value="predictive-node">predictive-node</option>
-        <option value="least-sessions">least-sessions</option>
-        <option value="ratio-least-connections-member">ratio-least-connections-member</option>
-        <option value="ratio-least-connections-node">ratio-least-connections-node</option>
-        <option value="ratio-member">ratio-member</option>
-        <option value="ratio-node">ratio-node</option>
-        <option value="ratio-session">ratio-session</option>
-        <option value="weighted-least-connections-member">weighted-least-connections-member</option>
-        <option value="weighted-least-connections-node">weighted-least-connections-node</option>
-      </select><br>
-      <div id="monitorDrop">
-        Add Monitors Below:
+  {{> pageHeading title='Create A Pool' category='LTM' }}
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title"><h5>Create A New Pool</h5>{{>iboxTools}}</div>
+          <div class="ibox-content">
+            <form id="create-form" class="form-horizontal">
+              <div class="form-group"><label class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-4"><input type="text" id="name" class="form-control"></div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">What type? </label>
+                <div class="col-sm-6">
+                  <select id="lbMethod" class="form-control col-sm-2">
+                    <option selected="round-robin" value="round-robin">round-robin</option>
+                    <option value="least-connections-member">least-connections-member</option>
+                    <option value="dynamic-ratio-node">dynamic-ratio-node</option>
+                    <option value="fastest-app-response">fastest-app-response</option>
+                    <option value="fastest-node">fastest-node</option>
+                    <option value="least-connections-member">least-connections-member</option>
+                    <option value="least-connections-node">least-connections-node</option>
+                    <option value="observed-member">observed-member</option>
+                    <option value="observed-node">observed-node</option>
+                    <option value="predictive-member">predictive-member</option>
+                    <option value="predictive-node">predictive-node</option>
+                    <option value="least-sessions">least-sessions</option>
+                    <option value="ratio-least-connections-member">ratio-least-connections-member</option>
+                    <option value="ratio-least-connections-node">ratio-least-connections-node</option>
+                    <option value="ratio-member">ratio-member</option>
+                    <option value="ratio-node">ratio-node</option>
+                    <option value="ratio-session">ratio-session</option>
+                    <option value="weighted-least-connections-member">weighted-least-connections-member</option>
+                    <option value="weighted-least-connections-node">weighted-least-connections-node</option>
+                  </select>
+                </div>
+              </div>
+              {{> deviceList}}
+              <div class="form-group"><label class="col-sm-2 control-label">What type? </label>
+                <div class="col-sm-6">
+                  <select id="monitor" class="form-control col-sm-2">
+                    {{#each getMonitorList}}
+                    <option id="{{fullPath}}" value="{{fullPath}}">{{name}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <button class="btn btn-primary" id="addMore">Add Members</button>
+                </div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label"></label>
+                <div class="col-sm-6">
+                  {{#each inputs}}
+                  {{> input}}
+                  {{/each}}
+                </div>
+              </div>
+              {{> description}}
+              {{> submitCancelButtons}}
+            </form>
+          </div>
+        </div>
       </div>
-       <br>
-      Add Pool Members: <button class="addMore" id="addMore">Add Members</button><br>
-      {{#each inputs}}
-        {{> input}}
-      {{/each}}
-      <br><br><button class="submit" id="submit">Create</button>
-      Stage changes?  <select name="stage" id="stage">
-                        <option value="0">No</option>
-                        <option value="1">Yes</option>
-                      </select><br>
-      </div>
-    </form>
-    <div id="right" class="col-md-4 monitor-list">
-      Select Device to get Monitor List
-      {{#each getMonitorList}}
-        <div class="monitor-box"><input type="hidden" id="monitor" name="monitor" value="{{fullPath}}">{{name}}</div>
-      {{/each}}
     </div>
-
-  </li>
-</div>
+  </div>
 </template>
 
 <template name="input">
-  <input type="text" id="{{uniqid}}_ip" name="memIP">:<input type="text" id="{{uniqid}}_port" name="memPort">
-  <button id="{{uniqid}}" class='remove-input'>Remove Member</button><br>
+  <div class="row">
+    <div class="col-sm-6">
+      <input type="text" id="{{uniqid}}_ip" name="memIP"><input type="text" id="{{uniqid}}_port" name="memPort">
+      <button id="{{uniqid}}" class="remove btn btn-primary">Remove</button>
+    </div>
+  </div>
 </template>
 
 <template name="poolDetails">
@@ -148,7 +136,7 @@
         <div class="ibox float-e-margins">
           <div class="ibox-title"><h5>Pool Members on {{name}}</h5>{{>iboxTools}}</div>
           <div class="ibox-content">
-              <form id="pool-members" class="form-horizontal">
+              <form id="table-form" class="form-horizontal">
                 {{> footableSearchBox}}
                 <input type="hidden" name="poolName" value="{{_id}}">
                 <input type="hidden" name="onDevice" value="{{onDevice}}">
