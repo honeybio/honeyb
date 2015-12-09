@@ -79,8 +79,6 @@ Template.gtmPools.helpers({
   }
 });
 
-
-
 Template.gtmMonitors.helpers({
   allGtmmonitors: function () {
     return Gtmmonitors.find();

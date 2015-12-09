@@ -15,6 +15,7 @@
               <table class="footable table table-stripped" data-page-size="8" data-filter=#filter>
                 <thead>
                   <tr>
+                    <th>Status</th>
                     <th>Name</th>
                     <th>Common Name</th>
                     <th>On BIG-IP</th>
@@ -24,6 +25,9 @@
                 <tbody>
                   {{#each allCerts}}
                   <tr>
+                    {{#with getExpirationStatus epochExpirationDate}}
+                    <td><img title="{{this.title}}" src="/{{this.src}}"></td>
+                    {{/with}}
                     <td><a href="/ssl/certs/{{_id}}">{{name}}</a></td>
                     <td>{{commonName}}</td>
                     <td>{{getOnDevice onDevice}}</td>
