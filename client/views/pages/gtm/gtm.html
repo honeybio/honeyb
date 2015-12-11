@@ -21,11 +21,14 @@
                 </thead>
                 <tbody>
                   {{#each allWideips}}
+                  {{#if deleted}}
+                  {{else}}
                   <tr>
                     <td><a href="/gtm/wideips/{{_id}}">{{name}}</a></td>
                     <td><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></td>
-                    <td><input type="checkbox" name="{{_id}}"></td>
+                    <td><input type="checkbox" id="{{_id}}"></td>
                   </tr>
+                  {{/if}}
                   {{/each}}
                 </tbody>
                 <tfoot>
@@ -119,6 +122,8 @@
                 </thead>
                 <tbody>
                   {{#each allDatacenters}}
+                  {{#if deleted}}
+                  {{else}}
                   <tr>
                     <td data-value="{{statusImg}}"><img src="/{{statusImg}}"></td>
                     <td><a href="/gtm/datacenters/{{_id}}">{{name}}</a></td>
@@ -126,8 +131,9 @@
                     <td>{{stats.bpsIn}}</td>
                     <td>{{stats.bpsOut}}</td>
                     <td><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></td>
-                    <td><input type="checkbox" name="{{_id}}"></td>
+                    <td><input type="checkbox" id="{{_id}}"></td>
                   </tr>
+                  {{/if}}
                   {{/each}}
                 </tbody>
                 <tfoot>
@@ -170,11 +176,14 @@
                 </thead>
                 <tbody>
                   {{#each allLinks}}
+                  {{#if deleted}}
+                  {{else}}
                   <tr>
                     <td><a href="/gtm/links/{{_id}}">{{name}}</a></td>
                     <td><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></td>
-                    <td><input type="checkbox" name="{{_id}}"></td>
+                    <td><input type="checkbox" id="{{_id}}"></td>
                   </tr>
+                  {{/if}}
                   {{/each}}
                 </tbody>
                 <tfoot>
@@ -219,13 +228,16 @@
                 </thead>
                 <tbody>
                   {{#each allGtmservers}}
+                  {{#if deleted}}
+                  {{else}}
                   <tr>
                     <td data-value="{{statusImg}}"><img src="/{{statusImg}}"></td>
                     <td><a href="/gtm/servers/{{_id}}">{{name}}</a></td>
                     <td>{{datacenter}}</td>
                     <td><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></td>
-                    <td><input type="checkbox" name="{{_id}}"></td>
+                    <td><input type="checkbox" id="{{_id}}"></td>
                   </tr>
+                  {{/if}}
                   {{/each}}
                 </tbody>
                 <tfoot>
@@ -268,11 +280,14 @@
                 </thead>
                 <tbody>
                   {{#each allGtmvservers}}
+                  {{#if deleted}}
+                  {{else}}
                   <tr>
                     <td><a href="/gtm/vservers/{{_id}}">{{name}}</a></td>
                     <td><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></td>
-                    <td><input type="checkbox" name="{{_id}}"></td>
+                    <td><input type="checkbox" id="{{_id}}"></td>
                   </tr>
+                  {{/if}}
                   {{/each}}
                 </tbody>
                 <tfoot>
@@ -315,11 +330,14 @@
                 </thead>
                 <tbody>
                   {{#each allWidepools}}
+                  {{#if deleted}}
+                  {{else}}
                   <tr>
                     <td><a href="/gtm/pools/{{_id}}">{{name}}</a></td>
                     <td><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></td>
-                    <td><input type="checkbox" name="{{_id}}"></td>
+                    <td><input type="checkbox" id="{{_id}}"></td>
                   </tr>
+                  {{/if}}
                   {{/each}}
                 </tbody>
                 <tfoot>
@@ -361,11 +379,14 @@
                 </thead>
                 <tbody>
                 {{#each allGtmmonitors}}
+                {{#if deleted}}
+                {{else}}
                   <tr>
                     <td><a href="/gtm/monitors/{{_id}}">{{name}}</a></td>
                     <td><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></td>
-                    <td><input type="checkbox" name="{{_id}}"></td>
+                    <td><input type="checkbox" id="{{_id}}"></td>
                   </tr>
+                  {{/if}}
                   {{/each}}
                 </tbody>
                 <tfoot>

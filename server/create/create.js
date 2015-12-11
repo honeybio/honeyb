@@ -233,5 +233,93 @@ Meteor.methods({
     var result = Meteor.call('pushChange', change_id);
     var myRes = { subject: 'Success!', message: result };
     return myRes;
+  },
+  createGtmServer: function(syncId, obj, stage) {
+    /**
+    * Method that builds a change to add a GTM wideip
+    *
+    * @method createGtmAWideip
+    * @return {boolean} returns true if success
+    */
+    var syncgroup = Gtmsyncgroups.findOne({_id: syncId});
+    var argList = {
+      syncId: syncId,
+      name: obj.name
+    };
+    // var pool = Pools.findOne({_id: pool_id});
+    var theChange = { description: "Add Gtm Server " + argList.name + " on sync group: " + syncgroup.synchronizationGroupName,
+      theMethod: {
+        action: "create",
+        module: "gtm",
+        object: "server"
+      },
+      argList: argList
+    };
+    var change_id = Meteor.call('createStagedChange', theChange);
+    if (stage == "1") {
+      return;
+    }
+    var result = Meteor.call('pushChange', change_id);
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
+  },
+  createGtmVserver: function(syncId, obj, stage) {
+    /**
+    * Method that builds a change to add a GTM wideip
+    *
+    * @method createGtmAWideip
+    * @return {boolean} returns true if success
+    */
+    var syncgroup = Gtmsyncgroups.findOne({_id: syncId});
+    var argList = {
+      syncId: syncId,
+      name: obj.name,
+      onServer: obj.onServer
+    };
+    // var pool = Pools.findOne({_id: pool_id});
+    var theChange = { description: "Add Gtm Virtual Server " + argList.name + " to Server " + obj.server + " on sync group: " + syncgroup.synchronizationGroupName,
+      theMethod: {
+        action: "create",
+        module: "gtm",
+        object: "vserver"
+      },
+      argList: argList
+    };
+    var change_id = Meteor.call('createStagedChange', theChange);
+    if (stage == "1") {
+      return;
+    }
+    var result = Meteor.call('pushChange', change_id);
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
+  },
+  createGtmMonitor: function(syncId, obj, stage) {
+    /**
+    * Method that builds a change to add a GTM wideip
+    *
+    * @method createGtmAWideip
+    * @return {boolean} returns true if success
+    */
+    var syncgroup = Gtmsyncgroups.findOne({_id: syncId});
+    var argList = {
+      syncId: syncId,
+      name: obj.name
+    };
+    // var pool = Pools.findOne({_id: pool_id});
+    var theChange = { description: "Add Gtm monitor " + argList.name + " on sync group: " + syncgroup.synchronizationGroupName,
+      theMethod: {
+        action: "create",
+        module: "gtm",
+        object: "monitor"
+      },
+      argList: argList
+    };
+    var change_id = Meteor.call('createStagedChange', theChange);
+    if (stage == "1") {
+      return;
+    }
+    var result = Meteor.call('pushChange', change_id);
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
   }
 });

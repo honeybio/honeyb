@@ -6,9 +6,112 @@ Template.gtmSyncgroups.onRendered(function() {
   $('.footable').footable();
 });
 
+Template.gtmServers.onRendered(function() {
+  $('.footable').footable();
+});
+
+Template.gtmVservers.onRendered(function() {
+  $('.footable').footable();
+});
+
+Template.gtmWideips.onRendered(function() {
+  $('.footable').footable();
+});
+
+Template.gtmLinks.onRendered(function() {
+  $('.footable').footable();
+});
+
+Template.gtmPools.onRendered(function() {
+  $('.footable').footable();
+});
+
+Template.gtmMonitors.onRendered(function() {
+  $('.footable').footable();
+});
+
 Template.gtmDatacenters.helpers({
   allDatacenters: function () {
     return Gtmdatacenters.find();
+  }
+});
+
+Template.gtmServers.helpers({
+  allGtmservers: function () {
+    return Gtmservers.find();
+  }
+});
+
+Template.gtmSyncgroups.helpers({
+  allSyncgroups: function () {
+    return Gtmsyncgroups.find();
+  }
+});
+
+Template.gtmSyncgroupDetails.helpers({
+  getDeviceName: function (device_id) {
+    var result = Devices.findOne({_id: device_id});
+    return result.self.name;
+  }
+});
+
+Template.gtmVservers.helpers({
+  allGtmvservers: function () {
+    return Gtmvservers.find();
+  },
+  getName: function (onDevice) {
+    var result = Gtmservers.findOne({_id: onDevice}, {name: 1});
+    return result.name;
+  }
+});
+
+Template.gtmWideips.helpers({
+  allWideips: function () {
+    return Wideips.find();
+  }
+});
+
+Template.gtmLinks.helpers({
+  allLinks: function () {
+    return Gtmlinks.find();
+  }
+});
+
+Template.gtmPools.helpers({
+  allWidepools: function () {
+    return Widepools.find();
+  }
+});
+
+Template.gtmMonitors.helpers({
+  allGtmmonitors: function () {
+    return Gtmmonitors.find();
+  }
+});
+
+Template.gtmWideipsCreate.helpers({
+  getSyncList: function () {
+    return Gtmsyncgroups.find({});
+  },
+  getPoolList: function () {
+    var sync_id = Session.get("syncgroup");
+    return Widepools.find({inSyncGroup: sync_id});
+  }
+});
+
+Template.gtmPoolsDetails.helpers({
+  getVirtualsServers: function (syncGroup) {
+    return Gtmvservers.find({inSyncGroup: syncGroup});
+  }
+});
+
+Template.gtmWideipsCreate.helpers({
+  getSyncList: function () {
+    return Gtmsyncgroups.find({});
+  },
+  gtmVserversCreate: function () {
+    var sync_id = Session.get("syncgroup");
+    return Gtmservers.find({inSyncGroup: sync_id});
   }
 });
 
@@ -42,83 +145,6 @@ Template.gtmDatacenters.events({
       });
     });
   }
-});
-
-Template.gtmServers.onRendered(function() {
-  $('.footable').footable();
-});
-
-Template.gtmServers.helpers({
-  allGtmservers: function () {
-    return Gtmservers.find();
-  }
-});
-
-Template.gtmSyncgroups.helpers({
-  allSyncgroups: function () {
-    return Gtmsyncgroups.find();
-  }
-});
-
-Template.gtmSyncgroupDetails.helpers({
-  getDeviceName: function (device_id) {
-    var result = Devices.findOne({_id: device_id});
-    return result.self.name;
-  }
-});
-
-Template.gtmVservers.onRendered(function() {
-  $('.footable').footable();
-});
-
-Template.gtmVservers.helpers({
-  allGtmvservers: function () {
-    return Gtmvservers.find();
-  },
-  getName: function (onDevice) {
-    var result = Gtmservers.findOne({_id: onDevice}, {name: 1});
-    return result.name;
-  }
-});
-
-Template.gtmWideips.helpers({
-  allWideips: function () {
-    return Wideips.find();
-  }
-});
-
-Template.gtmWideips.onRendered(function() {
-  $('.footable').footable();
-});
-
-Template.gtmLinks.onRendered(function() {
-  $('.footable').footable();
-});
-
-Template.gtmPools.onRendered(function() {
-  $('.footable').footable();
-});
-
-Template.gtmLinks.helpers({
-  allLinks: function () {
-    return Gtmlinks.find();
-  }
-});
-
-Template.gtmPools.helpers({
-  allWidepools: function () {
-    return Widepools.find();
-  }
-});
-
-Template.gtmMonitors.helpers({
-  allGtmmonitors: function () {
-    return Gtmmonitors.find();
-  }
-});
-
-Template.gtmMonitors.onRendered(function() {
-  $('.footable').footable();
 });
 
 Template.gtmPoolsCreate.events({
@@ -173,33 +199,22 @@ Template.gtmWideips.events({
   }
 });
 
-Template.gtmWideipsCreate.helpers({
-  getSyncList: function () {
-    return Gtmsyncgroups.find({});
-  },
-  getPoolList: function () {
-    var sync_id = Session.get("syncgroup");
-    return Widepools.find({inSyncGroup: sync_id});
-  }
-});
-
 Template.gtmWideipsCreate.events({
   'change #syncgroup': function (event) {
     var newValue = syncgroup.options[syncgroup.selectedIndex].value;
     Session.set("syncgroup", newValue);
   },
-  "submit #wipForm": function (event, template) {
+  "submit #create-form": function (event, template) {
     event.preventDefault();
     // console.log(event.target.monitor);
     var syncid = event.target.syncgroup.options[syncgroup.selectedIndex].value;
     var toStage = event.target.stage.value;
     var wipObject = {
       name: event.target.wip_name.value,
-      type: event.target.wip_type.value,
-      defaultPool: event.
-      target.wpool.value
+      type: event.target.wipType.value,
+      defaultPool: event.target.target.wpool
     };
-    if (event.target.wip_type.value === "a") {
+    if (event.target.wipType.value === "a") {
       console.log('calling a method');
       Meteor.call("createGtmAWideip", syncid, wipObject, toStage, function (err, res) {
         if (err) {
@@ -209,8 +224,8 @@ Template.gtmWideipsCreate.events({
         }
       });
     }
-    else if (event.target.wip_type.value === "aaaa") {
-      Meteor.call("createGtmAAAAPool", syncid, wipObject, toStage, function (err, res) {
+    else if (event.target.wipType.value === "aaaa") {
+      Meteor.call("createGtmAAAAWideip", syncid, wipObject, toStage, function (err, res) {
         if (err) {
           toastr.error(err.details, err.reason)
         } else {
@@ -218,12 +233,6 @@ Template.gtmWideipsCreate.events({
         }
       });
     }
-  }
-});
-
-Template.gtmPoolsDetails.helpers({
-  getVirtualsServers: function (syncGroup) {
-    return Gtmvservers.find({inSyncGroup: syncGroup});
   }
 });
 
@@ -267,5 +276,74 @@ Template.gtmPoolsDetails.events({
         }
       });
     }
+  }
+});
+
+Template.gtmServersCreate.events({
+  'change #syncgroup': function (event) {
+    var newValue = syncgroup.options[syncgroup.selectedIndex].value;
+    Session.set("syncgroup", newValue);
+  },
+  'submit #create-form': function (event, template) {
+    event.preventDefault();
+    // console.log(event.target.monitor);
+    var syncid = event.target.syncgroup.options[syncgroup.selectedIndex].value;
+    var toStage = event.target.stage.value;
+    var obj = {
+      name: event.target.name.value,
+    };
+    Meteor.call("createGtmServer", syncid, obj, toStage, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success(res.message, res.subject);
+      }
+    });
+  }
+});
+
+Template.gtmVserversCreate.events({
+  'change #syncgroup': function (event) {
+    var newValue = syncgroup.options[syncgroup.selectedIndex].value;
+    Session.set("syncgroup", newValue);
+  },
+  'submit #create-form': function (event, template) {
+    event.preventDefault();
+    // console.log(event.target.monitor);
+    var syncid = event.target.syncgroup.options[syncgroup.selectedIndex].value;
+    var toStage = event.target.stage.value;
+    var obj = {
+      name: event.target.name.value,
+    };
+    Meteor.call("createGtmVserver", syncid, obj, toStage, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success(res.message, res.subject);
+      }
+    });
+  }
+});
+
+Template.gtmMonitorCreate.events({
+  'change #syncgroup': function (event) {
+    var newValue = syncgroup.options[syncgroup.selectedIndex].value;
+    Session.set("syncgroup", newValue);
+  },
+  'submit #create-form': function (event, template) {
+    event.preventDefault();
+    // console.log(event.target.monitor);
+    var syncid = event.target.syncgroup.options[syncgroup.selectedIndex].value;
+    var toStage = event.target.stage.value;
+    var obj = {
+      name: event.target.name.value,
+    };
+    Meteor.call("createGtmMonitor", syncid, obj, toStage, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success(res.message, res.subject);
+      }
+    });
   }
 });

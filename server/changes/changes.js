@@ -117,6 +117,15 @@ ChangeFunction.create.gtm.server = function(argList) {
   * @param {object} JSON object containing all monitor values
   * @return {boolean} returns true if success
   */
+  var post_data = {
+    name: argList.name
+  };
+  var syncgroup = Gtmsyncgroups.findOne({_id: argList.syncId});
+  var deviceId = syncgroup.onDevice[0];
+  var requrl = "https://localhost/mgmt/tm/gtm/server/";
+  var result = mdrBigipRestPost(deviceId, requrl, post_data);
+  var db_id = Meteor.call("discoverOneWServer", argList.syncId, result.data.selfLink);
+  return result;
 }
 ChangeFunction.create.gtm.monitor = function(argList) {
   /**
@@ -126,6 +135,15 @@ ChangeFunction.create.gtm.monitor = function(argList) {
   * @param {object} JSON object containing all monitor values
   * @return {boolean} returns true if success
   */
+  var post_data = {
+    name: argList.name
+  };
+  var syncgroup = Gtmsyncgroups.findOne({_id: argList.syncId});
+  var deviceId = syncgroup.onDevice[0];
+  var requrl = "https://localhost/mgmt/tm/gtm/monitor/";
+  var result = mdrBigipRestPost(deviceId, requrl, post_data);
+  var db_id = Meteor.call("discoverOneWMonitor", argList.syncId, result.data.selfLink);
+  return result;
 }
 ChangeFunction.create.gtm.vserver = function(argList) {
   /**
@@ -135,6 +153,16 @@ ChangeFunction.create.gtm.vserver = function(argList) {
   * @param {object} JSON object containing all monitor values
   * @return {boolean} returns true if success
   */
+  var post_data = {
+    name: argList.name,
+    onServer: argList.onServer
+  };
+  var syncgroup = Gtmsyncgroups.findOne({_id: argList.syncId});
+  var deviceId = syncgroup.onDevice[0];
+  var requrl = "https://localhost/mgmt/tm/gtm/vserver/";
+  var result = mdrBigipRestPost(deviceId, requrl, post_data);
+  var db_id = Meteor.call("discoverOneWServer", argList.syncId, result.data.selfLink);
+  return result;
 }
 ChangeFunction.create.gtm.member = function(argList) {
   /**
@@ -283,7 +311,7 @@ ChangeFunction.delete.gtm.wideip = function(argList) {
   var deviceId = syncgroup.onDevice[0];
   var selfLink = argList.selfLink;
   var result = mdrBigipRestDelete(deviceId, selfLink);
-  Gtmwideips.update({_id: argList.objId}, {$set: {deleted: true}});
+  Wideips.update({_id: argList.objId}, {$set: {deleted: true}});
   if (result) {
     return result;
   }

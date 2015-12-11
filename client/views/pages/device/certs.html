@@ -24,6 +24,8 @@
                 </thead>
                 <tbody>
                   {{#each allCerts}}
+                  {{#if deleted}}
+                  {{else}}
                   <tr>
                     {{#with getExpirationStatus epochExpirationDate}}
                     <td><img title="{{this.title}}" src="/{{this.src}}"></td>
@@ -33,6 +35,7 @@
                     <td>{{getOnDevice onDevice}}</td>
                     <td data-type="numeric" data-value="{{epochExpirationDate}}">{{expirationDate}}</td>
                   </tr>
+                  {{/if}}
                   {{/each}}
                 </tbody>
                 <tfoot>
@@ -90,12 +93,15 @@
                 </thead>
                 <tbody>
                   {{#each allKeys}}
+                  {{#if deleted}}
+                  {{else}}
                   <tr>
                     <td><a href="/ssl/certs/{{_id}}">{{name}}</a></td>
                     <td>{{keySize}}</td>
                     <td>{{keyType}}</td>
                     <td>{{getOnDevice this.onDevice}}</td>
                   </tr>
+                  {{/if}}
                   {{/each}}
                 </tbody>
                 <tfoot>
@@ -166,10 +172,13 @@
                 </thead>
                 <tbody>
                   {{#each allClientsslProfiles}}
+                  {{#if deleted}}
+                  {{else}}
                   <tr>
                     <td><a href="/ltm/profiles/{{_id}}">{{name}}</a></td>
                     <td>{{getOnDevice onDevice}}</td>
                   </tr>
+                  {{/if}}
                   {{/each}}
                 </tbody>
                 <tfoot>

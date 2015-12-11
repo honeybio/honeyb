@@ -21,11 +21,14 @@
                 </thead>
                 <tbody>
                   {{#each allDatagroups}}
+                  {{#if deleted}}
+                  {{else}}
                     <tr>
                       <td><a href="/ltm/datagroups/{{_id}}">{{name}}</a></td>
                       <td>{{getOnDevice this.onDevice}}</td>
                       <td><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></td>
                     </tr>
+                    {{/if}}
                   {{/each}}
                 </tbody>
                 <tfoot>
