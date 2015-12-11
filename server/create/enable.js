@@ -49,18 +49,18 @@ Meteor.methods({
     return myRes;
   },
   enableDatacenter: function (objId, stage) {
-    var datacenter = Gtmdatacenters.findOne({_id: objId});
-    var syncGroup = Gtmsyncgroups.findOne({_id: datacenter.inSyncGroup});
+    var obj = Gtmdatacenters.findOne({_id: objId});
+    var syncGroup = Gtmsyncgroups.findOne({_id: obj.inSyncGroup});
     var methodName = {
       action: "enable",
       module: "gtm",
       object: "datacenter"
     };
     var theChange = {
-      description: "Enable GTM Datacenter " + datacenter.fullPath + " on sync group: " + syncGroup.name,
+      description: "Enable GTM Datacenter " + obj.fullPath + " on sync group: " + syncGroup.name,
       theMethod: methodName,
       argList: {
-        datacenterUrl: datacenter.selfLink,
+        datacenterUrl: obj.selfLink,
         syncGroup: obj.inSyncGroup
       }
     };
@@ -69,7 +69,7 @@ Meteor.methods({
     if (stage == "1") {
       return;
     }
-    var myRes = { subject: 'Success!', message: 'Enabled ' + datacenter.fullPath };
+    var myRes = { subject: 'Success!', message: 'Enabled ' + obj.fullPath };
     return myRes;
   },
   enableGtmserver: function (objId, stage) {

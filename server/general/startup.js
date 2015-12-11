@@ -92,8 +92,22 @@ Meteor.startup(function () {
     });
     //var pubKey = Meteor.call('generateSshKey', 'honeyb');
     //console.log(pubKey);
-    Settings.insert({name: 'navigation', type: 'navigation', showWaf: true, showChange: true,
-      showGSLB: true, showLB: true, showDevice: true, showIhealth: true, showDashboards: true });
+    Settings.insert({
+      name: 'navigation',
+      type: 'navigation',
+      showSoftware: true,
+      showSupport: true,
+      showSettings: true,
+      showCert: true,
+      showWaf: false,
+      showChange: true,
+      showGSLB: false,
+      showLB: false,
+      showDevice: true,
+      showIhealth: false,
+      showDashboards: true
+    });
+
       Settings.insert({
         name: 'authentication',
         type: 'authentication',

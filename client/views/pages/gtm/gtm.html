@@ -2,7 +2,7 @@
   {{> pageHeading title='Wideips' category='GTM' }}
   <div class="wrapper wrapper-content animated fadeIn">
     <div class="row">
-      <form class="virtualForm">
+      <form id="table-form" class="form-horizontal">
         <div class="col-lg-12">
           <div class="ibox float-e-margins">
             <div class="ibox-title">
@@ -24,7 +24,7 @@
                   <tr>
                     <td><a href="/gtm/wideips/{{_id}}">{{name}}</a></td>
                     <td><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></td>
-                    <td><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></td>
+                    <td><input type="checkbox" name="{{_id}}"></td>
                   </tr>
                   {{/each}}
                 </tbody>
@@ -49,7 +49,7 @@
   {{> pageHeading title='Syncgroups' category='GTM' }}
   <div class="wrapper wrapper-content animated fadeIn">
     <div class="row">
-      <form class="virtualForm">
+      <form id="table-form" class="form-horizontal">
         <div class="col-lg-12">
           <div class="ibox float-e-margins">
             <div class="ibox-title">
@@ -71,7 +71,7 @@
                   <tr>
                     <td><a href="/gtm/syncgroups/{{_id}}">{{synchronizationGroupName}}</a></td>
                     <td>{{this.peerLeader}}</td>
-                    <td><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></td>
+                    <td><input type="checkbox" name="{{_id}}"></td>
                   </tr>
                   {{/each}}
                 </tbody>
@@ -96,7 +96,7 @@
   {{> pageHeading title='Datacenters' category='GTM' }}
   <div class="wrapper wrapper-content animated fadeIn">
     <div class="row">
-      <form class="table-form">
+      <form id="table-form" class="form-horizontal">
         <div class="col-lg-12">
           <div class="ibox float-e-margins">
             <div class="ibox-title">
@@ -108,7 +108,11 @@
               <table class="footable table table-stripped" data-page-size="15" data-filter=#filter>
                 <thead>
                   <tr>
+                    <th>Status</th>
                     <th>GTM Datacenter Name</th>
+                    <th>Connections</th>
+                    <th>BPS In</th>
+                    <th>BPS Out</th>
                     <th>On Syncgroup</th>
                     <th>Select</th>
                   </tr>
@@ -116,9 +120,13 @@
                 <tbody>
                   {{#each allDatacenters}}
                   <tr>
+                    <td data-value="{{statusImg}}"><img src="/{{statusImg}}"></td>
                     <td><a href="/gtm/datacenters/{{_id}}">{{name}}</a></td>
+                    <td>{{stats.connections}}</td>
+                    <td>{{stats.bpsIn}}</td>
+                    <td>{{stats.bpsOut}}</td>
                     <td><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></td>
-                    <td><input type="checkbox" name="{{selfLink}}"></td>
+                    <td><input type="checkbox" name="{{_id}}"></td>
                   </tr>
                   {{/each}}
                 </tbody>
@@ -143,7 +151,7 @@
   {{> pageHeading title='Links(ISPs)' category='GTM' }}
   <div class="wrapper wrapper-content animated fadeIn">
     <div class="row">
-      <form class="virtualForm">
+      <form id="table-form" class="form-horizontal">
         <div class="col-lg-12">
           <div class="ibox float-e-margins">
             <div class="ibox-title">
@@ -165,7 +173,7 @@
                   <tr>
                     <td><a href="/gtm/links/{{_id}}">{{name}}</a></td>
                     <td><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></td>
-                    <td><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></td>
+                    <td><input type="checkbox" name="{{_id}}"></td>
                   </tr>
                   {{/each}}
                 </tbody>
@@ -190,7 +198,7 @@
   {{> pageHeading title='Servers' category='GTM' }}
   <div class="wrapper wrapper-content animated fadeIn">
     <div class="row">
-      <form class="gtm-server-form">
+      <form id="table-form" class="form-horizontal">
         <div class="col-lg-12">
           <div class="ibox float-e-margins">
             <div class="ibox-title">
@@ -202,7 +210,9 @@
               <table class="footable table table-stripped" data-page-size="15" data-filter=#filter>
                 <thead>
                   <tr>
+                    <th>Status</th>
                     <th>GTM Server Name</th>
+                    <th>Datacenter</th>
                     <th>On Syncgroup</th>
                     <th>Select</th>
                   </tr>
@@ -210,9 +220,11 @@
                 <tbody>
                   {{#each allGtmservers}}
                   <tr>
+                    <td data-value="{{statusImg}}"><img src="/{{statusImg}}"></td>
                     <td><a href="/gtm/servers/{{_id}}">{{name}}</a></td>
+                    <td>{{datacenter}}</td>
                     <td><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></td>
-                    <td><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></td>
+                    <td><input type="checkbox" name="{{_id}}"></td>
                   </tr>
                   {{/each}}
                 </tbody>
@@ -237,7 +249,7 @@
   {{> pageHeading title='Virtual Servers' category='GTM' }}
   <div class="wrapper wrapper-content animated fadeIn">
     <div class="row">
-      <form class="virtualForm">
+      <form id="table-form" class="form-horizontal">
         <div class="col-lg-12">
           <div class="ibox float-e-margins">
             <div class="ibox-title">
@@ -259,7 +271,7 @@
                   <tr>
                     <td><a href="/gtm/vservers/{{_id}}">{{name}}</a></td>
                     <td><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></td>
-                    <td><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></td>
+                    <td><input type="checkbox" name="{{_id}}"></td>
                   </tr>
                   {{/each}}
                 </tbody>
@@ -284,7 +296,7 @@
   {{> pageHeading title='Pools' category='GTM' }}
   <div class="wrapper wrapper-content animated fadeIn">
     <div class="row">
-      <form class="virtualForm">
+      <form id="table-form" class="form-horizontal">
         <div class="col-lg-12">
           <div class="ibox float-e-margins">
             <div class="ibox-title">
@@ -306,7 +318,7 @@
                   <tr>
                     <td><a href="/gtm/pools/{{_id}}">{{name}}</a></td>
                     <td><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></td>
-                    <td><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></td>
+                    <td><input type="checkbox" name="{{_id}}"></td>
                   </tr>
                   {{/each}}
                 </tbody>
@@ -330,7 +342,7 @@
 <template name="gtmMonitors">
   <div class="wrapper wrapper-content animated fadeIn">
     <div class="row">
-      <form class="virtualForm">
+      <form id="table-form" class="form-horizontal">
         <div class="col-lg-12">
           <div class="ibox float-e-margins">
             <div class="ibox-title">
@@ -352,7 +364,7 @@
                   <tr>
                     <td><a href="/gtm/monitors/{{_id}}">{{name}}</a></td>
                     <td><a href="/gtm/syncgroup/{{inSyncGroup}}">{{getSyncGroup inSyncGroup}}</a></td>
-                    <td><input type="checkbox" id="{{selfLink}}" name="{{selfLink}}"></td>
+                    <td><input type="checkbox" name="{{_id}}"></td>
                   </tr>
                   {{/each}}
                 </tbody>

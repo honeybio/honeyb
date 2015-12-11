@@ -15,8 +15,10 @@ Template.gtmDatacenters.helpers({
 Template.gtmDatacenters.events({
   'click #Enable': function (event, template) {
     event.preventDefault();
+    console.log('enable datacenter');
     var stage = false;
     $('#table-form :input[type=checkbox]:checked').each(function(index){
+      console.log($(this)[0]);
       Meteor.call("enableDatacenter", $(this)[0].name, stage, function (err, res) {
         if (err) {
           toastr.error(err.details, err.reason)
@@ -29,6 +31,7 @@ Template.gtmDatacenters.events({
   'click #Disable': function (event, template) {
     event.preventDefault();
     var stage = false;
+    console.log('disable datacenter');
     $('#table-form :input[type=checkbox]:checked').each(function(index){
       Meteor.call("disableDatacenter", $(this)[0].name, stage, function (err, res) {
         if (err) {
@@ -155,15 +158,28 @@ Template.gtmPoolsCreate.events({
   }
 });
 
+Template.gtmWideips.events({
+  'click #Delete': function (event, template) {
+    event.preventDefault();
+    $('#table-form :input[type=checkbox]:checked').each(function(index){
+      Meteor.call("deleteGtmWideip", $(this)[0].id, 0, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        } else {
+          toastr.success(res.message, res.subject);
+        }
+      });
+    });
+  }
+});
+
 Template.gtmWideipsCreate.helpers({
   getSyncList: function () {
-    var result = Gtmsyncgroups.find({});
-    return result;
+    return Gtmsyncgroups.find({});
   },
   getPoolList: function () {
     var sync_id = Session.get("syncgroup");
-    var result = Widepools.find({inSyncGroup: sync_id});
-    return result;
+    return Widepools.find({inSyncGroup: sync_id});
   }
 });
 
@@ -207,8 +223,7 @@ Template.gtmWideipsCreate.events({
 
 Template.gtmPoolsDetails.helpers({
   getVirtualsServers: function (syncGroup) {
-    var result = Gtmvservers.find({inSyncGroup: syncGroup});
-    return result;
+    return Gtmvservers.find({inSyncGroup: syncGroup});
   }
 });
 

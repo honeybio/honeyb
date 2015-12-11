@@ -12,8 +12,7 @@ Template.sslProfiles.onRendered(function() {
 
 Template.sslCerts.helpers({
   allCerts: function () {
-    var result = Certificates.find({ssltype: "certificate"});
-    return result;
+    return Certificates.find({ssltype: "certificate"});
   },
   isCert: function (type) {
     if (type == 'certificate') {
@@ -36,8 +35,7 @@ Template.sslCerts.helpers({
 
 Template.sslKeys.helpers({
   allKeys: function () {
-    var result = Certificates.find({ssltype: "key"});
-    return result;
+    return Certificates.find({ssltype: "key"});
   },
   expiresIn: function () {
     // Calculate the expiration
@@ -57,14 +55,12 @@ Template.keyDetails.events({
 
 Template.sslProfiles.helpers({
   allClientsslProfiles: function () {
-    var result = Profiles.find({profType: "client-ssl"});
-    return result;
+    return Profiles.find({profType: "client-ssl"});
   }
 });
 
 Template.sslprofileDetails.helpers({
   getCertSubject: function (device_id, path) {
-    var result = Certificates.findOne({onDevice: device_id, fullPath: path, });
-    return result.commonName;
+    return Certificates.findOne({onDevice: device_id, fullPath: path});
   }
 });

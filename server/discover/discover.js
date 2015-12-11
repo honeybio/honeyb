@@ -63,6 +63,7 @@ Meteor.methods({
     for(var i = 0; i < server_list.length; i++) {
       var server = Meteor.call("splitAndInsert", server_list[i], device_id);
       server.group = 'default-group';
+      server.inSyncGroup = sync_id;
       var gtm_server_id = Gtmservers.insert(server);
       var gtm_server_name = server.fullPath;
       var gvservers = mdrBigipRestGetItems(device_id, server.virtualServersReference.link);
@@ -229,6 +230,29 @@ Meteor.methods({
       Datagroups.insert(groupObj);
     }
   },
+  discoverGtmMonitors: function (ip, user, pass, device_id) {
+    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
+    var monitor_type_list = BigipClient.list.gtm.monitor(bigip);
+    //var monitor_type_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/ltm/monitor");
+    for (var i = 0; i < monitor_type_list.length; i++) {
+      tmp = monitor_type_list[i].reference.link;
+      newTmp = tmp.replace(/https:\/\/localhost\/mgmt\/tm\/ltm\/monitor\//, "");
+      final = newTmp.replace(/\?.*/, "");
+      tmpUrl = "/gtm/monitor/" + final;
+      // monObj = { type: monType };
+
+      thisMonitorList = mdrBigipRestGet(ip, user, pass, tmpUrl);
+      for(var j = 0; j < thisMonitorList.length; j++) {
+        var monObj = { onDevice: device_id, type: final };
+        for (var attrname in thisMonitorList[j]) {
+          monObj[attrname] = thisMonitorList[j][attrname];
+        }
+        monObj.group = 'default-group';
+        monObj.module = 'gtm';
+        Monitors.insert(monObj);;
+      }
+    };
+  },
   discoverLtmMonitors: function (ip, user, pass, device_id) {
     var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
     var monitor_type_list = BigipClient.list.ltm.monitor(bigip);
@@ -247,6 +271,7 @@ Meteor.methods({
           monObj[attrname] = thisMonitorList[j][attrname];
         }
         monObj.group = 'default-group';
+        monObj.module = 'ltm';
         Monitors.insert(monObj);;
       }
     };

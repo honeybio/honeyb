@@ -47,7 +47,7 @@ Template.footableSearchBox.helpers({
           objects: 'SSL Profiles'
         },
         devices: {
-          actions: ['Add', 'Delete'],
+          actions: ['Add', 'Delete', 'Refresh'],
           objects: 'Devices'
         },
         devicesArchives: {
@@ -62,27 +62,27 @@ Template.footableSearchBox.helpers({
         },
         gtmSyncgroups: {
           link: { url: null, name: null },
-          actions: [],
+          actions: ['Refresh'],
           objects: 'GSLB Syncgroups'
         },
         gtmDatacenters: {
           link: { url: null, name: null },
-          actions: ['Delete', 'Disable'],
+          actions: ['Enable', 'Disable', 'Delete'],
           objects: 'GSLB Datacenters'
         },
         gtmLinks: {
           link: { url: null, name: null },
-          actions: ['Delete', 'Disable'],
+          actions: ['Enable', 'Disable', 'Delete'],
           objects: 'GSLB Links'
         },
         gtmServers: {
           link: { url: '/gtm/servers/create', name: 'Create' },
-          actions: ['Delete', 'Disable'],
+          actions: ['Enable', 'Disable', 'Delete'],
           objects: 'GSLB Servers'
         },
-        gtmVservers: {
-          link: { url: '/gtm/vservers/create', name: 'Create' },
-          actions: ['Delete', 'Disable'],
+        gtmServerDetails: {
+          link: { url: null, name: null },
+          actions: ['Add', 'Enable', 'Disable', 'Delete'],
           objects: 'GSLB Virtual Servers'
         },
         gtmPools: {

@@ -364,6 +364,7 @@ Meteor.methods({
   updateSystemSettings: function(hname, ihealthUser, ihealthPass, ihealthFreq) {
     var update = Settings.update({type: "system"}, { $set: { ihealthUser: ihealthUser,
       ihealthPass: ihealthPass, ihealthFreq: ihealthFreq }});
+    Settings.update({name: 'navigation'}, {$set: {showIhealth: true}});
     return update;
   },
   updateSchedule: function (archiveFreq, qkviewFreq) {

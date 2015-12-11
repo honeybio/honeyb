@@ -1,3 +1,9 @@
+<template name="navWrapper">
+  {{#unless noRender}}
+  {{> navigation}}
+  {{/unless}}
+</template>
+
 <template name="navigation">
   <nav class="navbar-default navbar-static-side" role="navigation">
     <div class="sidebar-collapse">
@@ -24,33 +30,33 @@
             hb
           </div>
         </li>
-        <li class="{{isActiveRoute regex='dashboardsMap|dashboardsDeviceHealth|dashboardsAppview|dashboardsAdcthroughput'}}">
+        <li id="dashboards" class="{{isActiveRoute regex='dashboardsMap|dashboardsDeviceHealth|dashboardsAppview|dashboardsAdcthroughput'}}">
           <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span> <span class="fa arrow"></span></a>
           <ul class="nav nav-second-level collapse {{isActiveRoute regex='dashboardsMap|dashboardsDeviceHealth|dashboardsAppview|dashboardsAdcthroughput' className='in'}}">
             <li class="{{isActiveRoute regex='dashboardsDeviceHealth'}}"><a href="/dashboards/device/health">Device Health</a></li>
             <li class="{{isActiveRoute regex='dashboardsMap'}}"><a href="/dashboards/map">Connection Maps</a></li>
           </ul>
         </li>
-        <li class="{{isActiveRoute regex='dashboardsIhealth'}}">
+        <li id="ihealth" class="{{isActiveRoute regex='dashboardsIhealth'}}">
           <a href="#"><i class="fa fa-heartbeat"></i> <span class="nav-label">f5 iHealth</span> <span class="fa arrow"></span></a>
           <ul class="nav nav-second-level collapse {{isActiveRoute regex='dashboardsIhealth' className='in'}}">
             <li class="{{isActiveRoute regex='dashboardsIhealth'}}"><a href="/dashboards/ihealth">iHealth Stats</a></li>
           </ul>
         </li>
-        <li class="{{isActiveRoute regex='devices|archives'}}">
+        <li id="devices" class="{{isActiveRoute regex='devices|archives'}}">
           <a href="#"><i class="fa fa-server"></i> <span class="nav-label">Device Management</span><span class="fa arrow"></span></a>
           <ul class="nav nav-second-level collapse {{isActiveRoute regex='devices|archives' className='in'}}">
             <li class="{{isActiveRoute regex='devices'}}"><a href="/devices">Devices</a></li>
             <li class="{{isActiveRoute regex='archives'}}"><a href="/devices/archives">Archives</a></li>
           </ul>
         </li>
-        <li class="{{isActiveRoute regex='changesCommitted'}}">
+        <li id="changes" class="{{isActiveRoute regex='changesCommitted'}}">
           <a href="#"><i class="fa fa-calendar-check-o"></i> <span class="nav-label">Change Management</span><span class="fa arrow"></span></a>
           <ul class="nav nav-second-level collapse {{isActiveRoute regex='changesCommitted' className='in'}}">
             <li class="{{isActiveRoute regex='changesPushed'}}"><a href="/changes/committed">Committed Changes</a></li>
           </ul>
         </li>
-        <li class="{{isActiveRoute regex='sslCerts|sslKeys|sslCsrs|sslProfiles'}}">
+        <li id="ssl" class="{{isActiveRoute regex='sslCerts|sslKeys|sslCsrs|sslProfiles'}}">
           <a href="#"><i class="fa fa-certificate"></i> <span class="nav-label">Certificate Management</span><span class="fa arrow"></span></a>
           <ul class="nav nav-second-level collapse {{isActiveRoute regex='sslCerts|sslKeys|sslCsrs|sslProfiles' className='in'}}">
             <li class="{{isActiveRoute regex='sslCerts'}}"><a href="/ssl/certs">Certificates</a></li>
@@ -59,8 +65,8 @@
             <li class="{{isActiveRoute regex='sslProfiles'}}"><a href="/ssl/profiles">SSL Profiles</a></li>
           </ul>
         </li>
-        <li class="{{isActiveRoute regex='ltmVirtuals|ltmRules|ltmDatagroups|ltmPools|ltmMonitors|ltmProfile'}}">
-          <a href="#"><i class="fa fa-share-alt-square"></i> <span class="nav-label">Load Balancer<br>LTM)</span><span class="fa arrow"></span></a>
+        <li id="ltm" class="{{isActiveRoute regex='ltmVirtuals|ltmRules|ltmDatagroups|ltmPools|ltmMonitors|ltmProfile'}}">
+          <a href="#"><i class="fa fa-share-alt-square"></i> <span class="nav-label">Load Balancer<br>(LTM)</span><span class="fa arrow"></span></a>
           <ul class="nav nav-second-level collapse {{isActiveRoute regex='ltmVirtuals|ltmRules|ltmDatagroups|ltmPools|ltmMonitors|ltmProfile' className='in'}}">
             <li class="{{isActiveRoute regex='ltmVirtuals'}}"><a href="/ltm/virtuals">Virtuals</a></li>
             <li class="{{isActiveRoute regex='ltmRules'}}"><a href="/ltm/rules">iRules</a></li>
@@ -70,27 +76,26 @@
             <li class="{{isActiveRoute regex='ltmProfile'}}"><a href="/ltm/profiles">All Profiles</a></li>
           </ul>
         </li>
-        <li class="{{isActiveRoute regex='gtmSyncgroups|gtmWideips|gtmDatacenters|gtmLinks|gtmServers|gtmVservers|gtmPools|gtmMonitors'}}">
+        <li id="gtm" class="{{isActiveRoute regex='gtmSyncgroups|gtmWideips|gtmDatacenters|gtmLinks|gtmServers|gtmPools|gtmMonitors'}}">
           <a href="#"><i class="fa fa-globe"></i> <span class="nav-label">Global Load Balancer<br>(GTM/DNS)</span><span class="fa arrow"></span></a>
-          <ul class="nav nav-second-level collapse {{isActiveRoute regex='gtmSyncgroups|gtmWideips|gtmDatacenters|gtmLinks|gtmServers|gtmVservers|gtmPools|gtmMonitors' className='in'}}">
+          <ul class="nav nav-second-level collapse {{isActiveRoute regex='gtmSyncgroups|gtmWideips|gtmDatacenters|gtmLinks|gtmServers|gtmPools|gtmMonitors' className='in'}}">
             <li class="{{isActiveRoute regex='gtmSyncgroups'}}"><a href="/gtm/syncgroups">Sync Groups</a></li>
             <li class="{{isActiveRoute regex='gtmWideips'}}"><a href="/gtm/wideips">Wide IPs</a></li>
             <li class="{{isActiveRoute regex='gtmDatacenters'}}"><a href="/gtm/datacenters">Datacenters</a></li>
             <li class="{{isActiveRoute regex='gtmLinks'}}"><a href="/gtm/links">Links</a></li>
             <li class="{{isActiveRoute regex='gtmServers'}}"><a href="/gtm/servers">Servers</a></li>
-            <li class="{{isActiveRoute regex='gtmVservers'}}"><a href="/gtm/vservers">Virtual Servers</a></li>
             <li class="{{isActiveRoute regex='gtmPools'}}"><a href="/gtm/pools">Pools</a></li>
             <li class="{{isActiveRoute regex='gtmMonitors'}}"><a href="/gtm/monitors">Monitors</a></li>
           </ul>
         </li>
-        <li class="{{isActiveRoute regex='asmPolicies|asmPoliciesExported'}}">
+        <li id="asm" class="{{isActiveRoute regex='asmPolicies|asmPoliciesExported'}}">
           <a href="#"><i class="fa fa-lock"></i> <span class="nav-label">Web App Firewall<br> (ASM)</span><span class="fa arrow"></span></a>
           <ul class="nav nav-second-level collapse {{isActiveRoute regex='asmPolicies|asmSomething' className='in'}}">
             <li class="{{isActiveRoute regex='asmPolicies'}}"><a href="/asm/policies">Policies</a></li>
             <li class="{{isActiveRoute regex='asmPoliciesExported'}}"><a href="/asm/policies/exported">Exported Policies</a></li>
           </ul>
         </li>
-        <li class="{{isActiveRoute regex='softwareImages|softwareHotfixes|softwareDeploy'}}">
+        <li id="software" class="{{isActiveRoute regex='softwareImages|softwareHotfixes|softwareDeploy'}}">
           <a href="#"><i class="fa fa-download"></i> <span class="nav-label">Software Management</span><span class="fa arrow"></span></a>
           <ul class="nav nav-second-level collapse {{isActiveRoute regex='softwareImages|softwareHotfixes' className='in'}}">
             <li class="{{isActiveRoute regex='softwareImages'}}"><a href="/software/images">Software Images</a></li>
@@ -98,7 +103,7 @@
             <li class="{{isActiveRoute regex='softwareUpgrade'}}"><a href="/software/upgrade">Upgrade a BIG-IP </a></li>
           </ul>
         </li>
-        <li class="{{isActiveRoute regex='supportGenius|supportRma|supportTroubleshooting'}}">
+        <li id="support" class="{{isActiveRoute regex='supportGenius|supportRma|supportTroubleshooting'}}">
           <a href="#"><i class="fa fa-support"></i> <span class="nav-label">Support</span><span class="fa arrow"></span></a>
           <ul class="nav nav-second-level collapse {{isActiveRoute regex='supportGenius|supportRma|supportTroubleshooting' className='in'}}">
             <li class="{{isActiveRoute regex='supportGenius'}}"><a href="/support/genius">Need Professional Help?</a></li>
@@ -106,7 +111,7 @@
             <li class="{{isActiveRoute regex='supportTroubleshooting'}}"><a href="/support/troubleshooting">Troubleshooting Assistance</a></li>
           </ul>
         </li>
-        <li class="{{isActiveRoute regex='settingsHoneyb|settingsUser'}}">
+        <li id="settings" class="{{isActiveRoute regex='settingsHoneyb|settingsUser'}}">
           <a href="#"><i class="fa fa-gear"></i> <span class="nav-label">Settings</span><span class="fa arrow"></span></a>
           <ul class="nav nav-second-level collapse {{isActiveRoute regex='settingsHoneyb|settingsUser' className='in'}}">
             <li class="{{isActiveRoute regex='settingsGettingstarted'}}"><a href="/settings/gettingstarted">Configuration Wizard</a></li>

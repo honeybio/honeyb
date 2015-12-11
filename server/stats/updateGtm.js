@@ -46,7 +46,7 @@ Meteor.methods({
     this.unblock();
     var stats = mdrBigipRestGetv2(device_id, url);
     for (var entry in stats.entries) {
-      var gtmserverStatObject = { onDevice: device_id, objType: "datacenter", object: entry };
+      var gtmserverStatObject = { onDevice: device_id, objType: "virtualServer", object: entry };
       gtmserverStatObject.availabilityState = stats.entries[entry].nestedStats.entries['status.availabilityState'].description;
       gtmserverStatObject.enabledState = stats.entries[entry].nestedStats.entries['status.enabledState'].description;
       gtmserverStatObject.objFullPath = stats.entries[entry].nestedStats.entries.vsName.description;
