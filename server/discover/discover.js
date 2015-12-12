@@ -311,6 +311,25 @@ Meteor.methods({
       }
     }
   },
+  discoverVCMP: function (ip, user, pass, deviceId) {
+    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
+    var guestList = BigipClient.list.vcmp.guest(bigip);
+    if (guestList !== undefined) {
+      for (var i = 0; i < guestList.length; i++) {
+        guestList[i].group = 'default-group';
+        guestList[i].onDevice = deviceId;
+        Vcmpguests.insert(guestList[i]);
+      }
+    }
+    var virtualDiskList = BigipClient.list.vcmp.virtual_disk(bigip);
+    if (virtualDiskList !== undefined) {
+      for (var i = 0; i < virtualDiskList.length; i++) {
+        virtualDiskList[i].group = 'default-group';
+        virtualDiskList[i].onDevice = deviceId;
+        Vcmpdisks.insert(virtualDiskList[i]);
+      }
+    }
+  },
   discoverAsmPolicies: function (ip, user, pass, device_id) {
     var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
     var asmPolicyList = BigipClient.list.asm.policy(bigip);

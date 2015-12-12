@@ -39,8 +39,10 @@ ChangeFunction.enable = { };
 ChangeFunction.disable = { };
 ChangeFunction.enable.ltm = { };
 ChangeFunction.enable.gtm = { };
+ChangeFunction.enable.vcmp = { };
 ChangeFunction.disable.ltm = { };
 ChangeFunction.disable.gtm = { };
+ChangeFunction.disable.vcmp = { };
 ChangeFunction.force = { };
 ChangeFunction.force.ltm = { };
 ChangeFunction.download = { };
@@ -213,6 +215,8 @@ ChangeFunction.read.gtm.member = function(argList) { }
 ChangeFunction.read.asm.policy = function(argList) { }
 ChangeFunction.read.apm.policy = function(argList) { }
 ChangeFunction.read.aam.policy = function(argList) { }
+ChangeFunction.read.vcmp.guest = function(argList) { }
+ChangeFunction.read.vcmp.virtual_disk = function(argList) { }
 ChangeFunction.update.device.archive = function(argList) { }
 ChangeFunction.update.device.qkview = function(argList) { }
 ChangeFunction.update.device.route = function(argList) { }
@@ -235,6 +239,8 @@ ChangeFunction.update.gtm.vserver = function(argList) { }
 ChangeFunction.update.asm.policy = function(argList) { }
 ChangeFunction.update.apm.policy = function(argList) { }
 ChangeFunction.update.aam.policy = function(argList) { }
+ChangeFunction.update.vcmp.guest = function(argList) { }
+ChangeFunction.update.vcmp.virtual_disk = function(argList) { }
 ChangeFunction.delete.device.archive = function(argList) { }
 ChangeFunction.delete.device.qkview = function(argList) { }
 ChangeFunction.delete.device.route = function(argList) { }
@@ -377,6 +383,8 @@ ChangeFunction.delete.gtm.member = function(argList) {
 ChangeFunction.delete.asm.policy = function(argList) { }
 ChangeFunction.delete.apm.policy = function(argList) { }
 ChangeFunction.delete.aam.policy = function(argList) { }
+ChangeFunction.delete.vcmp.guest = function(argList) { }
+ChangeFunction.delete.vcmp.virtual_disk = function(argList) { }
 ChangeFunction.enable.ltm.virtual = function(argList) {
     var vipLink = argList.vipLink;
     var deviceId = argList.onDevice;
@@ -400,6 +408,7 @@ ChangeFunction.enable.ltm.pool_member = function(argList) {
   var result = mdrBigipRestPut(deviceId, poolMember, put_data);
   return result;
 }
+ChangeFunction.enable.vcmp.guest = function(argList) { }
 ChangeFunction.disable.ltm.virtual = function(argList) {
   console.log('disable virtual');
   var vipLink = argList.vipLink;
@@ -490,6 +499,7 @@ ChangeFunction.disable.gtm.pool_member = function(argList) {
   var result = mdrBigipRestPut(deviceId, objUrl, putData);
   return result;
 }
+ChangeFunction.disable.vcmp.guest = function(argList) { }
 ChangeFunction.force.ltm.pool_member = function(argList) {
   var poolMember = argList.poolMember;
   var deviceId = argList.device_id;
@@ -728,6 +738,8 @@ ChangeFunction.create.device.route = function(argList) { }
 ChangeFunction.create.device.selfip = function(argList) { }
 ChangeFunction.create.device.license = function(argList) { }
 ChangeFunction.create.device.certificate = function(argList) { }
+ChangeFunction.create.vcmp.guest = function(argList) { }
+ChangeFunction.create.vcmp.virtual_disk = function(argList) { }
 ChangeFunction.discover.device.all = function(argList) {
   var ip = argList.device.mgmtip;
   var discoverRest = argList.device.discoverRest;
@@ -879,6 +891,11 @@ ChangeFunction.discover.device.all = function(argList) {
         Settings.update({name: 'navigation'}, {$set: {showWaf: true}});
         Meteor.call("discoverAsmPolicies", ip, user, pass, deviceId);
         Jobs.update({_id: argList.jobId}, {$set: {progress: 30, status: 'Getting ASM info...'}});
+      }
+      if (provisioning.vcmp !== "none") {
+        Settings.update({name: 'navigation'}, {$set: {showVcmp: true}});
+        Meteor.call("discoverVCMP", ip, user, pass, deviceId);
+        Jobs.update({_id: argList.jobId}, {$set: {progress: 30, status: 'Getting VCMP info...'}});
       }
       Settings.update({name: 'navigation'}, {$set: {showLB: true}});
       Meteor.call("discoverLtmMonitors", ip, user, pass, deviceId);

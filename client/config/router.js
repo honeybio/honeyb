@@ -199,6 +199,26 @@ Router.route('/changeset/:_id', {
   }
 });
 
+// VCMP Routes
+Router.route('/vcmp/hosts');
+Router.route('/vcmp/guests');
+Router.route('/vcmp/guests/:_id', {
+  template: 'vcmpGuestDetails',
+  data: function(){
+    var currentGuest = this.params._id;
+    return Vcmpguests.findOne({ _id: currentGuest});
+  }
+});
+
+Router.route('/vcmp/disks');
+Router.route('/vcmp/disks/:_id', {
+  template: 'vcmpDiskDetails',
+  data: function(){
+    var currentDisk = this.params._id;
+    return Vcmpdisks.findOne({ _id: currentDisk});
+  }
+});
+
 // Device Routes
 Router.route('/devices/archives');
 Router.route('/devices/qkviews');

@@ -27,6 +27,9 @@ Meteor.subscribe("db_containers");
 Meteor.subscribe("db_asmpolicies");
 Meteor.subscribe("db_virtualaddresses");
 Meteor.subscribe("db_objectstatus");
+Meteor.subscribe("db_vcmpguests");
+Meteor.subscribe("db_vcmpdisks");
+
 
 // CollectionFS stores
 Meteor.subscribe("fs_asmpolicyfile");

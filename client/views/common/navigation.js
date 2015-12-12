@@ -27,6 +27,8 @@ Template.navigation.rendered = function(){
     else { $('#ihealth').hide() }
     if (settings.showDashboards) { $('#dashboards').show() }
     else { $('#dashboards').hide() }
+    if (settings.showVcmp) { $('#vcmp').show() }
+    else { $('#vcmp').hide() }
   }
 };
 

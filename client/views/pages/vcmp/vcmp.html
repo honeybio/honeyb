@@ -1,0 +1,121 @@
+
+<template name="vcmpGuestsDetails">
+</template>
+<template name="vcmpDisks">
+</template>
+<template name="vcmpDisksDetails">
+</template>
+
+<template name="vcmpHosts">
+  <form id="table-form" class="form-horizontal">
+    {{> pageHeading title='Baremetal Hosts' category='VCMP' }}
+    <div class="wrapper wrapper-content animated fadeIn">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Baremetal VCMP<small class="m-l-sm">Hosts</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+              {{> footableSearchBox}}
+              <table class="footable table table-stripped" data-page-size="15" data-filter=#filter>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Management IP</th>
+                    <th>Guests Configured</th>
+                    <th>Guests Running</th>
+                    <th>Cores Consumed</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each vcmpHostList}}
+                      <tr>
+                        <td>{{self.name}}</td>
+                        <td>{{self.managementIp}}</td>
+                        {{#with getGuestInfo _id}}
+                        <td><span title="{{allList}}">{{allConfigured}}</span></td>
+                        <td><span title="{{runningList}}">{{allRunning}}</span></td>
+                        <td>{{coresUsed}} / {{totalCores}}</td>
+                        {{/with}}
+                      </tr>
+                  {{/each}}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="5">
+                    <ul class="pagination pull-right hide-if-no-paging"></ul>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+            <div class="ibox-footer"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</template>
+
+<template name="vcmpGuests">
+  <form id="table-form" class="form-horizontal">
+    {{> pageHeading title='BIG-IP Virtual Guests' category='VCMP' }}
+    <div class="wrapper wrapper-content animated fadeIn">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>VCMP Guests<small class="m-l-sm">Virtual Guests</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+              {{> footableSearchBox}}
+              <table class="footable table table-stripped" data-page-size="15" data-filter=#filter>
+                <thead>
+                  <tr>
+                    <th>Status</th>
+                    <th>Name</th>
+                    <th>On Host</th>
+                    <th>Management IP</th>
+                    <th>State</th>
+                    <th>Disk</th>
+                    <th>CPU Cores</th>
+                    <th>Select</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each vcmpGuests}}
+                  <tr>
+                    {{#if getState state}}
+                      <td data-value="status_circle_green.png"><img src="/status_circle_green.png"></td>
+                    {{else}}
+                      <td data-value="status_circle_black.png"><img src="/status_circle_black.png"></td>
+                    {{/if}}
+                    <td>{{name}}</td>
+                    <td>{{getOnDevice onDevice}}</td>
+                    <td>{{managementIp}}</td>
+                    <td>{{state}}</td>
+                    <td>{{virtualDisk}}</td>
+                    <td>{{getCores slots coresPerSlot}}</td>
+                    <td><input type="checkbox" id="{{_id}}"></td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="5">
+                    <ul class="pagination pull-right hide-if-no-paging"></ul>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+            <div class="ibox-footer"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</template>

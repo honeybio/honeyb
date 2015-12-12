@@ -68,6 +68,9 @@ Monitors = new Mongo.Collection("db_monitors");
 Datagroups = new Mongo.Collection("db_datagroups");
 Persistence = new Mongo.Collection("db_ltmpersistence");
 
+Vcmpguests = new Mongo.Collection("db_vcmpguests");
+Vcmpdisks = new Mongo.Collection("db_vcmpdisks");
+
 Asmpolicies = new Mongo.Collection("db_asmpolicies");
 
 Gtmsyncgroups = new Mongo.Collection("db_gtmsyncgroup");

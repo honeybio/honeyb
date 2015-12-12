@@ -129,7 +129,21 @@ Template.footableSearchBox.helpers({
           link: { url: null, name: null },
           actions: ['Enable', 'Disable', 'Force', 'Delete'],
           objects: 'Pool Members'
-        }
+        },
+        vcmpHosts: {
+          link: { url: null, name: null },
+          actions: [],
+          objects: 'VCMP Hosts'
+        },
+        vcmpGuests: {
+          link: { url: null, name: null },
+          actions: ['Add', 'Start', 'Reboot', 'Shutdown', 'Power off', 'Delete'],
+          objects: 'VCMP Hosts'
+        },
+        vcmpDisks: {
+          link: { url: null, name: null },
+          actions: ['Add', 'Delete', 'Copy'],
+          objects: 'VCMP Disks'}
       }
       if (searchElements[parentTemplate] !== undefined) {
         return searchElements[parentTemplate];

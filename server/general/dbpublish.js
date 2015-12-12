@@ -224,6 +224,26 @@ Meteor.publish("db_wpools", function () {
   }
 });
 
+// VCMP Stuff
+Meteor.publish("db_vcmpguests", function () {
+  if (this.userId == null) {
+    return [];
+  }
+  else {
+    var readObjects = Meteor.call("getReadGroups", 'read.vcmp.guest');
+    return Vcmpguests.find({group: { $in: readObjects }});
+  }
+});
+Meteor.publish("db_vcmpdisks", function () {
+  if (this.userId == null) {
+    return [];
+  }
+  else {
+    var readObjects = Meteor.call("getReadGroups", 'read.vcmp.virtual_disk');
+    return Vcmpdisks.find({group: { $in: readObjects }});
+  }
+});
+
 // General Statistics Stuff
 Meteor.publish("db_objectstatus", function () {
   if (this.userId == null) {

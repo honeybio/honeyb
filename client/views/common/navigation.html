@@ -50,6 +50,14 @@
             <li class="{{isActiveRoute regex='archives'}}"><a href="/devices/archives">Archives</a></li>
           </ul>
         </li>
+        <li id="vcmp" class="{{isActiveRoute regex='vcmpHosts|vcmpGuests|vcmpDisks'}}">
+          <a href="#"><i class="fa fa-cloud"></i> <span class="nav-label">VCMP(Virtualization)</span><span class="fa arrow"></span></a>
+          <ul class="nav nav-second-level collapse {{isActiveRoute regex='vcmpHosts|vcmpGuests|vcmpDisks' className='in'}}">
+            <li class="{{isActiveRoute regex='vcmpHosts'}}"><a href="/vcmp/hosts">Hosts</a></li>
+            <li class="{{isActiveRoute regex='vcmpGuests'}}"><a href="/vcmp/guests">Guests</a></li>
+            <li class="{{isActiveRoute regex='vcmpDisks'}}"><a href="/vcmp/disks">Disks</a></li>
+          </ul>
+        </li>
         <li id="changes" class="{{isActiveRoute regex='changesCommitted'}}">
           <a href="#"><i class="fa fa-calendar-check-o"></i> <span class="nav-label">Change Management</span><span class="fa arrow"></span></a>
           <ul class="nav nav-second-level collapse {{isActiveRoute regex='changesCommitted' className='in'}}">
