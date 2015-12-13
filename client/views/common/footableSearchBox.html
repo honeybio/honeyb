@@ -6,10 +6,9 @@
         <div class="btn-group">
           <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Action <span class="caret"></span></button>
           <ul class="dropdown-menu">
-            {{#if link.url}}
-            <li><a href="{{link.url}}">{{link.name}}</a></li>
-            <li class="divider"></li>
-            {{/if}}
+            {{#each link}}
+            <li><a href="{{this.url}}" class="font-bold">{{this.name}}</a></li>
+            {{/each}}
             {{#each actions}}
             <li><a href="#" id="{{this}}" class="font-bold">{{this}}</a></li>
             {{/each}}

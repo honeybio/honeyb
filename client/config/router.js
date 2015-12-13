@@ -203,6 +203,7 @@ Router.route('/changeset/:_id', {
 Router.route('/vcmp/hosts');
 Router.route('/vcmp/guests');
 Router.route('/vcmp/guests/create');
+Router.route('/vcmp/guests/migrate');
 Router.route('/vcmp/guests/:_id', {
   template: 'vcmpGuestDetails',
   data: function(){

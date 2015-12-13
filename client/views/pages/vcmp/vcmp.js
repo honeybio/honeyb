@@ -55,6 +55,9 @@ Template.vcmpGuests.helpers({
 });
 
 Template.vcmpGuests.events({
+  'click #Migrate': function (event, template) {
+    console.log('migrate');
+  },
   'click #Delete': function (event, template) {
     event.preventDefault();
     var stage = false;

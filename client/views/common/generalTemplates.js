@@ -28,6 +28,19 @@ Template.vcmpDeviceList.events({
   },
 });
 
+Template.toVcmpDeviceList.helpers({
+  getVcmpDeviceList: function () {
+    var hostList = Devices.find();
+    var result = [];
+    hostList.forEach(function (eachDevice) {
+      if (eachDevice.provision_level.vcmp == "dedicated"){
+        result.push(eachDevice);
+      }
+    });
+    return result;
+  }
+});
+
 Template.syncGroupSelect.helpers({
   getSyncList: function () {
     return Gtmsyncgroups.find();
