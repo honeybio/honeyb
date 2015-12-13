@@ -334,9 +334,12 @@ Meteor.methods({
       theMethod: methodName,
       argList: {
         name: obj.name,
-        image: obj.image,
+        initialImage: obj.initialImage,
+        initialHotfix: obj.initialHotfix,
         managementIp: obj.managementIp,
         managementGw: obj.managementGw,
+        managementNetwork: obj.managementNetwork,
+        slots: obj.slots,
         coresPerSlot: obj.coresPerSlot,
         deviceId: deviceId
       }

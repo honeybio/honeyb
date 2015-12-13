@@ -791,16 +791,18 @@ ChangeFunction.create.vcmp.guest = function(argList) {
 
   var post_data = {
     name: argList.name,
-    initialImage: argList.image,
-    managementNetwork: 'bridged',
+    initialImage: argList.initialImage,
     managementIp: argList.managementIp,
     managementGw: argList.managementGw,
+    managementNetwork: argList.managementNetwork,
+    slots: argList.slots,
     coresPerSlot: argList.coresPerSlot,
     hostname: argList.name + '.localdomain'
   }
   if (argList.hostfix) {
     post_data.initialHotfix = argList.hostfix;
   }
+  console.log(post_data);
 
   var deviceId = argList.deviceId;
   var requrl = "https://localhost/mgmt/tm/vcmp/guest";

@@ -191,11 +191,15 @@ Template.vcmpGuestsCreate.events({
 
     var obj = {
       name: event.target.guestName.value,
-      image: event.target.image.value,
-      managementIp: event.target.mgmtIp.value,
+      initialImage: event.target.image.value,
+      initialHotfix: event.target.hotfix.value,
+      managementIp: event.target.managementIp.value,
       managementGw: event.target.mgmtGw.value,
+      managementNetwork: 'bridged',
+      slots: 1,
       coresPerSlot: event.target.cores.value
     }
+
     // addLtmPool: function(device_id, pool_name, lbMethod, monitor, members)
     Meteor.call("createVcmpGuest", deviceId, obj, toStage, function (err, res) {
       if (err) {
