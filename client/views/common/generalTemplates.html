@@ -46,7 +46,7 @@
     <div class="col-sm-6">
       <select id="device" class="form-control col-sm-2" name="deviceID">
         <option selected="none" value="none">none</option>
-        {{#each getDeviceList}}
+        {{#each getVcmpDeviceList}}
           <option value="{{_id}}">{{self.name}}</option>
         {{/each}}
       </select>

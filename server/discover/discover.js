@@ -534,6 +534,31 @@ Meteor.methods({
     var managementIp = BigipClient.list.sys.management_ip(bigip);
     return managementIp;
   },
+  discoverManagement: function (ip, user, pass) {
+    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
+    var discoverIp = BigipClient.list.sys.management_ip(bigip);
+    var discoverRoute = BigipClient.list.sys.management_route(bigip);
+    var response = { ip: [], routes: [], gateway: null };
+    if (discoverIp !== undefined) {
+      for (var i = 0; i < discoverIp.length; i++) {
+        response.ip.push(discoverIp[i].name);
+      }
+    }
+    if (discoverRoute !== undefined) {
+      for (var j = 0; j < discoverRoute.length; j++) {
+        if (discoverRoute[j].name == 'default') {
+          response.gateway = discoverRoute[j].gateway;
+        } else {
+          thisRoute = {
+            network: discoverRoute[j].network,
+            gateway: discoverRoute[j].gateway
+          }
+          response.routes.push(thisRoute);
+        }
+      }
+    }
+    return response;
+  },
   discoverDevice: function (ip, user, pass) {
     var url = "https://" + ip + "/mgmt/tm/cm/device";
     var authString = user + ":" + pass;

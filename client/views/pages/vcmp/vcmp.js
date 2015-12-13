@@ -3,7 +3,7 @@ Template.vcmpHosts.helpers({
     var hostList = Devices.find();
     var result = [];
     hostList.forEach(function (eachDevice) {
-      if (eachDevice.provision_level.vcmp != "none"){
+      if (eachDevice.provision_level.vcmp == "dedicated"){
         result.push(eachDevice);
       }
     });
@@ -113,6 +113,10 @@ Template.vcmpGuestsCreate.onCreated( function() {
   Session.set('onDevice', false);
 });
 
+Template.vcmpGuestsCreate.onCreated( function() {
+  this.softwareVersion = new ReactiveVar();
+  this.softwareVersion.set(null);
+});
 
 Template.vcmpGuestsCreate.helpers({
   getImageList: function () {
@@ -120,19 +124,60 @@ Template.vcmpGuestsCreate.helpers({
     if (deviceId) {
        var device = Devices.findOne({_id: deviceId}, {fields: {software: 1}});
        return device.software.images;
-    }
-    else {
+    } else {
       return [ "none" ];
     }
   },
   getHotfixList: function () {
     var deviceId = Session.get("onDevice");
     if (deviceId) {
-       var device = Devices.findOne({_id: deviceId}, {fields: {software: 1}});
-       return device.hotfixes.images;
+      var version = Template.instance().softwareVersion.get();
+      var device = Devices.findOne({_id: deviceId}, {fields: {software: 1}});
+      if (device != undefined) {
+        var hotfixList = [];
+        for (var i = 0; i < device.software.hotfixes.length; i++) {
+          if (device.software.hotfixes[i].version == version) {
+            hotfixList.push({ name: device.software.hotfixes[i].name, version: device.software.hotfixes[i].id });
+          }
+        }
+        return hotfixList;
+      }
     }
-    else {
+    return false;
+  },
+  getHostIp: function () {
+    var deviceId = Session.get("onDevice");
+    if (deviceId) {
+       var device = Devices.findOne({_id: deviceId}, {fields: {management: 1}});
+       return device.management.ip[0];
+    } else {
       return [ "none" ];
+    }
+  },
+  getHostGw: function () {
+    var deviceId = Session.get("onDevice");
+    if (deviceId) {
+       var device = Devices.findOne({_id: deviceId}, {fields: {management: 1}});
+       return device.management.gateway;
+    } else {
+      return [ "none" ];
+    }
+  },
+  getGuestInfo: function (deviceId) {
+    var deviceId = Session.get("onDevice");
+    if (deviceId) {
+      var coreCount = 0;
+      var numRunning = 0;
+      var guestList = Vcmpguests.find({onDevice: deviceId});
+      // 5200/7200, should add other models
+      var availCores = 8;
+      guestList.forEach(function (eachGuest) {
+        if (eachGuest.state == 'deployed') {
+          numRunning++;
+          coreCount = coreCount + (eachGuest.coresPerSlot * eachGuest.slots);
+        }
+      });
+      return coreCount + "/" + availCores + " cores in use (" + coreCount / availCores * 100 + "%)";
     }
   }
 });
@@ -159,6 +204,9 @@ Template.vcmpGuestsCreate.events({
         toastr.success(res.message, res.subject);
       }
     });
+  },
+  'change #image': function (event, template) {
+    template.softwareVersion.set(image.options[image.selectedIndex].id);
   }
 });
 

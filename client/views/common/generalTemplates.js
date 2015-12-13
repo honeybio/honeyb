@@ -5,11 +5,11 @@ Template.deviceList.helpers({
 });
 
 Template.vcmpDeviceList.helpers({
-  getDeviceList: function () {
+  getVcmpDeviceList: function () {
     var hostList = Devices.find();
     var result = [];
     hostList.forEach(function (eachDevice) {
-      if (eachDevice.provision_level.vcmp != "none"){
+      if (eachDevice.provision_level.vcmp == "dedicated"){
         result.push(eachDevice);
       }
     });
@@ -20,7 +20,11 @@ Template.vcmpDeviceList.helpers({
 Template.vcmpDeviceList.events({
   'change #device': function (event) {
     var newValue = device.options[device.selectedIndex].value;
-    Session.set("onDevice", newValue);
+    if (newValue == 'none') {
+      Session.set('onDevice', false);
+    } else {
+      Session.set("onDevice", newValue);
+    }
   },
 });
 

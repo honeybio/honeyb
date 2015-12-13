@@ -900,6 +900,8 @@ ChangeFunction.discover.device.all = function(argList) {
         Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Rest Discovery failed, check device...'}});
         throw new Meteor.Error(500, 'Error 500', 'REST discovery failure, please check BIG-IP Version and try again');
       }
+      // ip array + routes array + gw ip
+      var mgmtRoutesIps = Meteor.call("discoverManagement", ip, user, pass);
       var networks = Meteor.call("discoverNetwork", ip, user, pass);
       var managementIp = Meteor.call("discoverManagementIp", ip, user, pass);
       var selfIpList = [];
@@ -934,6 +936,7 @@ ChangeFunction.discover.device.all = function(argList) {
           mgmtPass: pass,
           self: mySelf,
           peer: myPeer,
+          management: mgmtRoutesIps,
           provision_level: provisioning,
           net: networks,
           software: {
@@ -967,7 +970,7 @@ ChangeFunction.discover.device.all = function(argList) {
         Meteor.call("discoverAsmPolicies", ip, user, pass, deviceId);
         Jobs.update({_id: argList.jobId}, {$set: {progress: 30, status: 'Getting ASM info...'}});
       }
-      if (provisioning.vcmp !== "none") {
+      if (provisioning.vcmp == "dedicated") {
         Settings.update({name: 'navigation'}, {$set: {showVcmp: true}});
         Meteor.call("discoverVCMP", ip, user, pass, deviceId);
         Jobs.update({_id: argList.jobId}, {$set: {progress: 30, status: 'Getting VCMP info...'}});

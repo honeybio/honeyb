@@ -136,29 +136,45 @@
                 <div class="col-sm-4"><input type="text" id="guestName" class="form-control"></div>
               </div>
               {{> vcmpDeviceList}}
+              <div class="form-group"><label class="col-sm-2 control-label">Host Management IP & Mask for Reference</label>
+                <div class="col-sm-4"><input type="text" id="mgmtIp" value="{{getHostIp}}" class="form-control" disabled></div>
+              </div>
               <div class="form-group"><label class="col-sm-2 control-label">Management IP & Mask (use ip/cidr)</label>
                 <div class="col-sm-4"><input type="text" id="mgmtIp" class="form-control"></div>
               </div>
               <div class="form-group"><label class="col-sm-2 control-label">Management Gateway</label>
-                <div class="col-sm-4"><input type="text" id="mgmtGw" class="form-control"></div>
+                <div class="col-sm-4"><input type="text" id="mgmtGw" value="{{getHostGw}}" class="form-control"></div>
               </div>
               <div class="form-group"><label class="col-sm-2 control-label">Base Software Version</label>
                 <div class="col-sm-6">
                   <select id="image" class="form-control col-sm-2" name="image">
                     {{#each getImageList}}
+                      <option id="{{version}}" value="{{name}}">{{version}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">Compatible Hotfixes on Host</label>
+                <div class="col-sm-6">
+                  <select id="hotfix" class="form-control col-sm-2" name="hotfix">
+                    <option value="none">None</option>
+                    {{#each getHotfixList}}
                       <option value="{{name}}">{{version}}</option>
                     {{/each}}
                   </select>
                 </div>
               </div>
+              <div class="form-group"><label class="col-sm-2 control-label">Host Utilization</label>
+                <div class="col-sm-4"><input type="text" id="mgmtIp" value="{{getGuestInfo}}" class="form-control" disabled></div>
+              </div>
               <div class="form-group"><label class="col-sm-2 control-label">CPU Cores & Memory</label>
                 <div class="col-sm-6">
                   <select id="cores" class="form-control col-sm-2">
-                    <option value="1">1 Core/4Gb Memory</option>
-                    <option value="2">2 Core/8Gb Memory</option>
-                    <option value="4">4 Core/16Gb Memory</option>
-                    <option value="6">6 Core/24Gb Memory</option>
-                    <option value="8">8 Core/32Gb Memory</option>
+                    <option value="1">1 Core/4Gb Memory (Actual Memory depends on Platform)</option>
+                    <option value="2">2 Core/8Gb Memory (Actual Memory depends on Platform)</option>
+                    <option value="4">4 Core/16Gb Memory (Actual Memory depends on Platform)</option>
+                    <option value="6">6 Core/24Gb Memory (Actual Memory depends on Platform)</option>
+                    <option value="8">8 Core/32Gb Memory (Actual Memory depends on Platform)</option>
                   </select>
                 </div>
               </div>

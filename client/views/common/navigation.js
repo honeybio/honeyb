@@ -5,6 +5,8 @@ Template.navigation.rendered = function(){
   if (settings != undefined) {
     if (settings.showWaf) { $('#waf').show() }
     else { $('#waf').hide() }
+    if (settings.showVcmp) { $('#vcmp').show() }
+    else { $('#vcmp').hide() }
     if (settings.showSoftware) { $('#software').show() }
     else { $('#software').hide() }
     if (settings.showSupport) { $('#support').show() }
@@ -27,8 +29,6 @@ Template.navigation.rendered = function(){
     else { $('#ihealth').hide() }
     if (settings.showDashboards) { $('#dashboards').show() }
     else { $('#dashboards').hide() }
-    if (settings.showVcmp) { $('#vcmp').show() }
-    else { $('#vcmp').hide() }
   }
 };
 
