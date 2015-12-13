@@ -321,5 +321,32 @@ Meteor.methods({
     var result = Meteor.call('pushChange', change_id);
     var myRes = { subject: 'Success!', message: result };
     return myRes;
-  }
+  },
+  createVcmpGuest: function (deviceId, obj, stage) {
+    var device = Devices.findOne({_id: deviceId});
+    var methodName = {
+      action: "create",
+      module: "vcmp",
+      object: "guest"
+    };
+    var theChange = {
+      description: "Create VCMP Guest " + obj.name + " on device: " + device.self.name,
+      theMethod: methodName,
+      argList: {
+        name: obj.name,
+        image: obj.image,
+        managementIp: obj.managementIp,
+        managementGw: obj.managementGw,
+        coresPerSlot: obj.coresPerSlot,
+        deviceId: deviceId
+      }
+    };
+    var change_id = Meteor.call('createStagedChange', theChange);
+    if (stage == "1") {
+      return;
+    }
+    var result = Meteor.call('pushChange', change_id);
+    var myRes = { subject: 'Success!', message: 'Created guest ' + obj.name };
+    return myRes;
+  },
 });

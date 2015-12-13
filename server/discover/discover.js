@@ -330,6 +330,26 @@ Meteor.methods({
       }
     }
   },
+  discoverOneVcmpGuest: function (onDevice, name) {
+    var device = Devices.findOne({_id: onDevice});
+    var bigip = { iControl: 'rest', ip: device.mgmtAddress, user: device.mgmtUser, pass: device.mgmtPass };
+    var guest = BigipClient.list.vcmp.guest(bigip, name);
+    if (guest !== undefined) {
+      guest.group = 'default-group';
+      guest.onDevice = onDevice;
+      Vcmpguests.insert(guest);
+    }
+  },
+  discoverUploadedImages: function (ip, user, pass, device_id) {
+    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
+    var objList = BigipClient.list.sys.software.image(bigip);
+    return objList;
+  },
+  discoverUploadedHotfixes: function (ip, user, pass, device_id) {
+    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
+    var objList = BigipClient.list.sys.software.hotfix(bigip);
+    return objList;
+  },
   discoverAsmPolicies: function (ip, user, pass, device_id) {
     var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
     var asmPolicyList = BigipClient.list.asm.policy(bigip);

@@ -40,3 +40,16 @@
     </div>
   </div>
 </template>
+
+<template name="vcmpDeviceList">
+  <div class="form-group"><label class="col-sm-2 control-label">On What device? </label>
+    <div class="col-sm-6">
+      <select id="device" class="form-control col-sm-2" name="deviceID">
+        <option selected="none" value="none">none</option>
+        {{#each getDeviceList}}
+          <option value="{{_id}}">{{self.name}}</option>
+        {{/each}}
+      </select>
+    </div>
+  </div>
+</template>

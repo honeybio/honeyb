@@ -96,4 +96,30 @@ Meteor.methods({
     var myRes = { subject: 'Success!', message: 'Enabled ' + obj.fullPath };
     return myRes;
   },
+  enableVcmpGuest: function (guestId, stage) {
+    // Bug disallows this for v12
+    var obj = Vcmpguests.findOne({_id: guestId});
+    var device = Devices.findOne({_id: obj.onDevice});
+    var methodName = {
+      action: "enable",
+      module: "vcmp",
+      object: "guest"
+    };
+    var theChange = {
+      description: "Startup/Enable VCMP Guest " + obj.name + " on device: " + device.self.name,
+      theMethod: methodName,
+      argList: {
+        selfLink: obj.selfLink,
+        onDevice: obj.onDevice,
+        objId: guestId
+      }
+    };
+    var change_id = Meteor.call('createStagedChange', theChange);
+    if (stage == "1") {
+      return;
+    }
+    var result = Meteor.call('pushChange', change_id);
+    var myRes = { subject: 'Success!', message: 'Enable ' + obj.fullPath };
+    return myRes;
+  },
 });

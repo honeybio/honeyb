@@ -45,6 +45,7 @@ ChangeFunction.disable.gtm = { };
 ChangeFunction.disable.vcmp = { };
 ChangeFunction.force = { };
 ChangeFunction.force.ltm = { };
+ChangeFunction.force.vcmp = { };
 ChangeFunction.download = { };
 ChangeFunction.download.device = { };
 ChangeFunction.download.ltm = { };
@@ -383,7 +384,20 @@ ChangeFunction.delete.gtm.member = function(argList) {
 ChangeFunction.delete.asm.policy = function(argList) { }
 ChangeFunction.delete.apm.policy = function(argList) { }
 ChangeFunction.delete.aam.policy = function(argList) { }
-ChangeFunction.delete.vcmp.guest = function(argList) { }
+ChangeFunction.delete.vcmp.guest = function(argList) {
+  var deviceId = argList.deviceId;
+  var selfLink = argList.selfLink;
+  var objId = argList.objId;
+  var result = mdrBigipRestDelete(deviceId, selfLink);
+  if (result) {
+    console.log('result');
+    var guest = Vcmpguests.findOne({_id: objId});
+    console.log(guest);
+    Vcmpguests.update({_id : objId}, {$set: {deleted: true}});
+    return result;
+  }
+  return false;
+}
 ChangeFunction.delete.vcmp.virtual_disk = function(argList) { }
 ChangeFunction.enable.ltm.virtual = function(argList) {
     var vipLink = argList.vipLink;
@@ -408,7 +422,16 @@ ChangeFunction.enable.ltm.pool_member = function(argList) {
   var result = mdrBigipRestPut(deviceId, poolMember, put_data);
   return result;
 }
-ChangeFunction.enable.vcmp.guest = function(argList) { }
+ChangeFunction.enable.vcmp.guest = function(argList) {
+  var deviceId = argList.onDevice;
+  var objUrl = argList.selfLink;
+  var putData = { state: "deployed" };
+  var result = mdrBigipRestPut(deviceId, objUrl, putData);
+  //var guest = BigipClient.list.vcmp.guest(bigip);
+  //console.log(guest);
+  Vcmpguests.update({_id: argList.objId}, {$set: {state: 'deployed'}});
+  return result;
+}
 ChangeFunction.disable.ltm.virtual = function(argList) {
   console.log('disable virtual');
   var vipLink = argList.vipLink;
@@ -499,12 +522,31 @@ ChangeFunction.disable.gtm.pool_member = function(argList) {
   var result = mdrBigipRestPut(deviceId, objUrl, putData);
   return result;
 }
-ChangeFunction.disable.vcmp.guest = function(argList) { }
+ChangeFunction.disable.vcmp.guest = function(argList) {
+  var deviceId = argList.onDevice;
+  var objUrl = argList.selfLink;
+  var putData = { state: "provisioned" };
+  var result = mdrBigipRestPut(deviceId, objUrl, putData);
+  //var guest = BigipClient.list.vcmp.guest(bigip);
+  //console.log(guest);
+  Vcmpguests.update({_id: argList.objId}, {$set: {state: 'provisioned'}});
+  return result;
+}
 ChangeFunction.force.ltm.pool_member = function(argList) {
   var poolMember = argList.poolMember;
   var deviceId = argList.device_id;
   var putData = {"state": "user-down", "session": "user-disabled"};
   var result = mdrBigipRestPut(deviceId, poolMember, putData);
+  return result;
+}
+ChangeFunction.force.vcmp.guest = function(argList) {
+  var deviceId = argList.onDevice;
+  var objUrl = argList.selfLink;
+  var putData = { state: "configured" };
+  var result = mdrBigipRestPut(deviceId, objUrl, putData);
+  //var guest = BigipClient.list.vcmp.guest(bigip);
+  //console.log(guest);
+  Vcmpguests.update({_id: argList.objId}, {$set: {state: 'configured'}});
   return result;
 }
 ChangeFunction.create.ltm.pool = function(argList) {
@@ -738,7 +780,34 @@ ChangeFunction.create.device.route = function(argList) { }
 ChangeFunction.create.device.selfip = function(argList) { }
 ChangeFunction.create.device.license = function(argList) { }
 ChangeFunction.create.device.certificate = function(argList) { }
-ChangeFunction.create.vcmp.guest = function(argList) { }
+ChangeFunction.create.vcmp.guest = function(argList) {
+  /**
+  * Method that builds an http monitor
+  *
+  * @method addTcpHalfOpenMonitorCommand
+  * @param {object} JSON object containing all monitor values
+  * @return {boolean} returns true if success
+  */
+
+  var post_data = {
+    name: argList.name,
+    initialImage: argList.image,
+    managementNetwork: 'bridged',
+    managementIp: argList.managementIp,
+    managementGw: argList.managementGw,
+    coresPerSlot: argList.coresPerSlot,
+    hostname: argList.name + '.localdomain'
+  }
+  if (argList.hostfix) {
+    post_data.initialHotfix = argList.hostfix;
+  }
+
+  var deviceId = argList.deviceId;
+  var requrl = "https://localhost/mgmt/tm/vcmp/guest";
+  var result = mdrBigipRestPost(deviceId, requrl, post_data);
+  Meteor.call('discoverOneVcmpGuest', deviceId, post_data.name);
+  return result.statusCode;
+}
 ChangeFunction.create.vcmp.virtual_disk = function(argList) { }
 ChangeFunction.discover.device.all = function(argList) {
   var ip = argList.device.mgmtip;
@@ -843,6 +912,8 @@ ChangeFunction.discover.device.all = function(argList) {
           selfIpList.push(networks.selfs[i].address.replace(/\/.*/, ''));
         }
       }
+      var hotfixList = Meteor.call("discoverUploadedHotfixes", ip, user, pass);
+      var imageList = Meteor.call("discoverUploadedImages", ip, user, pass);
 
       var device = Meteor.call("discoverDevice", ip, user, pass);
       var mySelf = device.items[1];;
@@ -864,7 +935,11 @@ ChangeFunction.discover.device.all = function(argList) {
           self: mySelf,
           peer: myPeer,
           provision_level: provisioning,
-          net: networks
+          net: networks,
+          software: {
+            images: imageList,
+            hotfixes: hotfixList
+          }
         }
      });
 

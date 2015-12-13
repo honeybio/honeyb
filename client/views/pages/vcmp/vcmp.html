@@ -31,15 +31,15 @@
                 </thead>
                 <tbody>
                   {{#each vcmpHostList}}
-                      <tr>
-                        <td>{{self.name}}</td>
-                        <td>{{self.managementIp}}</td>
-                        {{#with getGuestInfo _id}}
-                        <td><span title="{{allList}}">{{allConfigured}}</span></td>
-                        <td><span title="{{runningList}}">{{allRunning}}</span></td>
-                        <td>{{coresUsed}} / {{totalCores}}</td>
-                        {{/with}}
-                      </tr>
+                  <tr>
+                    <td>{{self.name}}</td>
+                    <td>{{self.managementIp}}</td>
+                    {{#with getGuestInfo _id}}
+                    <td><span title="{{allList}}">{{allConfigured}}</span></td>
+                    <td><span title="{{runningList}}">{{allRunning}}</span></td>
+                    <td>{{coresUsed}} / {{totalCores}}</td>
+                    {{/with}}
+                  </tr>
                   {{/each}}
                 </tbody>
                 <tfoot>
@@ -87,6 +87,8 @@
                 </thead>
                 <tbody>
                   {{#each vcmpGuests}}
+                  {{#if deleted}}
+                  {{else}}
                   <tr>
                     {{#if getState state}}
                       <td data-value="status_circle_green.png"><img src="/status_circle_green.png"></td>
@@ -101,6 +103,7 @@
                     <td>{{getCores slots coresPerSlot}}</td>
                     <td><input type="checkbox" id="{{_id}}"></td>
                   </tr>
+                  {{/if}}
                   {{/each}}
                 </tbody>
                 <tfoot>
@@ -118,4 +121,53 @@
       </div>
     </div>
   </form>
+</template>
+
+<template name="vcmpGuestsCreate">
+  {{> pageHeading title='Create A Guest' category='VCMP' }}
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title"><h5>Create A New VCMP Guest</h5>{{>iboxTools}}</div>
+          <div class="ibox-content">
+            <form id="create-form" class="form-horizontal">
+              <div class="form-group"><label class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-4"><input type="text" id="guestName" class="form-control"></div>
+              </div>
+              {{> vcmpDeviceList}}
+              <div class="form-group"><label class="col-sm-2 control-label">Management IP & Mask (use ip/cidr)</label>
+                <div class="col-sm-4"><input type="text" id="mgmtIp" class="form-control"></div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">Management Gateway</label>
+                <div class="col-sm-4"><input type="text" id="mgmtGw" class="form-control"></div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">Base Software Version</label>
+                <div class="col-sm-6">
+                  <select id="image" class="form-control col-sm-2" name="image">
+                    {{#each getImageList}}
+                      <option value="{{name}}">{{version}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">CPU Cores & Memory</label>
+                <div class="col-sm-6">
+                  <select id="cores" class="form-control col-sm-2">
+                    <option value="1">1 Core/4Gb Memory</option>
+                    <option value="2">2 Core/8Gb Memory</option>
+                    <option value="4">4 Core/16Gb Memory</option>
+                    <option value="6">6 Core/24Gb Memory</option>
+                    <option value="8">8 Core/32Gb Memory</option>
+                  </select>
+                </div>
+              </div>
+              {{> description}}
+              {{> submitCancelButtons}}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>

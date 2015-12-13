@@ -106,7 +106,7 @@ Meteor.startup(function () {
       showDevice: true,
       showIhealth: false,
       showDashboards: true,
-      showVCMP: false
+      showVcmp: false
     });
 
       Settings.insert({

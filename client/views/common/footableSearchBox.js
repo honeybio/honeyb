@@ -136,8 +136,8 @@ Template.footableSearchBox.helpers({
           objects: 'VCMP Hosts'
         },
         vcmpGuests: {
-          link: { url: null, name: null },
-          actions: ['Add', 'Start', 'Reboot', 'Shutdown', 'Power off', 'Delete'],
+          link: { url: '/vcmp/guests/create', name: 'Create' },
+          actions: ['Start', 'Reboot', 'Shutdown', 'Power-off', 'Delete'],
           objects: 'VCMP Hosts'
         },
         vcmpDisks: {

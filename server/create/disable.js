@@ -97,4 +97,56 @@ Meteor.methods({
     var myRes = { subject: 'Success!', message: 'Disabled ' + obj.fullPath };
     return myRes;
   },
+  disableVcmpGuest: function (guestId, stage) {
+    // Bug disallows this for v12
+    var obj = Vcmpguests.findOne({_id: guestId});
+    var device = Devices.findOne({_id: obj.onDevice});
+    var methodName = {
+      action: "disable",
+      module: "vcmp",
+      object: "guest"
+    };
+    var theChange = {
+      description: "Disable/Shutdown VCMP Guest " + obj.name + " on device: " + device.self.name,
+      theMethod: methodName,
+      argList: {
+        selfLink: obj.selfLink,
+        onDevice: obj.onDevice,
+        objId: guestId
+      }
+    };
+    var change_id = Meteor.call('createStagedChange', theChange);
+    if (stage == "1") {
+      return;
+    }
+    var result = Meteor.call('pushChange', change_id);
+    var myRes = { subject: 'Success!', message: 'Disable ' + obj.fullPath };
+    return myRes;
+  },
+  forceVcmpGuest: function (guestId, stage) {
+    // Bug disallows this for v12
+    var obj = Vcmpguests.findOne({_id: guestId});
+    var device = Devices.findOne({_id: obj.onDevice});
+    var methodName = {
+      action: "force",
+      module: "vcmp",
+      object: "guest"
+    };
+    var theChange = {
+      description: "Power Off VCMP Guest " + obj.name + " on device: " + device.self.name,
+      theMethod: methodName,
+      argList: {
+        selfLink: obj.selfLink,
+        onDevice: obj.onDevice,
+        objId: guestId
+      }
+    };
+    var change_id = Meteor.call('createStagedChange', theChange);
+    if (stage == "1") {
+      return;
+    }
+    var result = Meteor.call('pushChange', change_id);
+    var myRes = { subject: 'Success!', message: 'Force ' + obj.fullPath };
+    return myRes;
+  },
 });

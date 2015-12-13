@@ -316,5 +316,30 @@ Meteor.methods({
     var result = Meteor.call('pushChange', change_id);
     var myRes = { subject: 'Success!', message: result };
     return myRes;
-  }
+  },
+  deleteVcmpGuest: function (objId, stage) {
+    var obj = Vcmpguests.findOne({_id: objId});
+    var device = Devices.findOne({_id: obj.onDevice});
+    var methodName = {
+      action: "delete",
+      module: "vcmp",
+      object: "guest"
+    };
+    var theChange = {
+      description: "Delete VCMP Guest " + obj.name + " on device: " + device.self.name,
+      theMethod: methodName,
+      argList: {
+         selfLink: obj.selfLink,
+         deviceId: obj.onDevice,
+         objId: objId
+       }
+     };
+    var change_id = Meteor.call('createStagedChange', theChange);
+    if (stage == "1") {
+      return;
+    }
+    var result = Meteor.call('pushChange', change_id);
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
+  },
 });
