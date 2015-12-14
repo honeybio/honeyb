@@ -214,59 +214,158 @@
 </template>
 
 <template name="gtmPoolsDetails">
-  <div class="container">
-    Details for {{name}}
-    <ul>
-      <form id="pool" class="pool">
-        <input type="hidden" name="syncid" value="{{inSyncGroup}}">
-        <input type="hidden" name="gtmPool" value="{{_id}}">
-        <li>Path: {{fullPath}}</li>
-        <li>Destination: {{destination}}</li>
-        <li>Enabled: {{enabled}}</li>
-        <li>loadBalancingMode: {{loadBalancingMode}}</li>
-        <li>alternateMode: {{alternateMode}}</li>
-        <li>fallbackMode: {{fallbackMode}}</li>
-        <li>limitMaxBps: {{limitMaxBps}}</li>
-        <li>limitMaxConnections: {{limitMaxConnections}}</li>
-        <li>manualResume: {{manualResume}}</li>
-        <li>maxAnswersReturned: {{maxAnswersReturned}}</li>
-        <li>monitor: {{monitor}}</li>
-        <li>ttl: {{ttl}}</li>
-        <li>verifyMemberAvailability: {{verifyMemberAvailability}}</li>
-      </form>
-      <form id="members" class="members">
-        <input type="hidden" name="syncid" value="{{inSyncGroup}}">
-        <input type="hidden" name="gtmPool" value="{{_id}}">
-        <li>Members
-          <ul>
-            {{#each this.membersReference.items}}
-              <li><input type="checkbox" id="{{this.selfLink}}" name="{{this.selfLink}}">{{this.name}} </li>
-            {{/each}}
-          </ul>
-        </li>
-        Stage changes?
-        <select name="stage" id="stage">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select><br>
-        <button class="submit" id="submit">Delete Selected Members</button>
-      </form>
-      <form id="addGmembers" class="addGmembers">
-        <input type="hidden" name="syncid" value="{{inSyncGroup}}">
-        <input type="hidden" name="gtmPool" value="{{_id}}">
-        <select name="gtmVirtual">
-          <option name="none" value="none">none</option>
-          {{#each getVirtualsServers inSyncGroup}}
-            <option value="{{serverFullPath}}">{{serverFullPath}}</option>
-          {{/each}}
-        </select><br>
-        Stage changes?
-        <select name="stage" id="stage">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select><br>
-        <button class="submit" id="submit">Add Member</button>
-      </form>
-    </ul>
+  {{> pageHeading title='Pool Details' category='GTM' }}
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title"><h5>Update Pool Configuration for {{name}}</h5>{{>iboxTools}}</div>
+          <div class="ibox-content">
+            <form id="pool-settings" class="form-horizontal">
+              <input type="hidden" name="poolName" value="{{_id}}">
+              <input type="hidden" name="onDevice" value="{{onDevice}}">
+              <div class="form-group"><label class="col-sm-2 control-label">Load Balancing Method</label>
+                <div class="col-sm-4">
+                  <select id="lbmethod" class="form-control m-b" name="lbmethod">
+                    <option selected={{loadBalancingMode}} value={{loadBalancingMode}}>{{loadBalancingMode}}</option>
+                    <option value="predictive-node">predictive-node</option>
+                    <option value="dynamic-ratio-node">dynamic-ratio-node</option>
+                    <option value="ratio-least-connections-member">artio-least-connections-member</option>
+                    <option value="fastest-app-response">fastest-app-response</option>
+                    <option value="ratio-least-connections-node">ratio-least-connections-node</option>
+                    <option value="fastest-node">fastest-node</option>
+                    <option value="ratio-member">ratio-member</option>
+                    <option value="least-connections-member">least-connections-member</option>
+                    <option value="atio-node">ratio-node</option>
+                    <option value="least-connections-node">least-connections-node</option>
+                    <option value="ratio-session">ratio-session</option>
+                    <option value="least-sessions">least-sessions</option>
+                    <option value="round-robin">round-robin</option>
+                    <option value="observed-member">observed-member</option>
+                    <option value="weighted-least-connections-member">weighted-least-connections-member</option>
+                    <option value="observed-node">observed-node"</option>
+                    <option value="weighted-least-connections-node">weighted-least-connections-node</option>
+                    <option value="predictive-member">predictive-member</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">Load Balancing Method</label>
+                <div class="col-sm-4">
+                  <select id="fallback" class="form-control m-b" name="fallback">
+                    <option value="{{fallbackMode}}">{{fallbackMode}}</option>
+                    <option value="return-to-dns">Return To DNS</option>
+                  </select>
+                </div>
+              </div>
+              <br>maxAnswersReturned: {{maxAnswersReturned}}
+              <br>ttl: {{ttl}}
+              <br>manualResume: {{manualResume}}
+              <div class="form-group"><label class="col-sm-2 control-label">Manual Resume</label>
+                <div class="col-sm-4">
+                  <input type="checkbox">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <button class="btn btn-white" type="submit">Cancel</button>
+                  <button class="btn btn-primary" type="submit">Save changes</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title"><h5>Pool Members on {{name}}</h5>{{>iboxTools}}</div>
+          <div class="ibox-content">
+            <form id="table-form" class="form-horizontal">
+              {{> footableSearchBox}}
+              <input type="hidden" name="syncid" value="{{inSyncGroup}}">
+              <input type="hidden" name="gtmPool" value="{{_id}}">
+              <div class="form-group"><label class="col-sm-2 control-label">Pool Members</label>
+                <div class="col-sm-4">
+                  <table class="footable-members table table-stripped" data-page-size="15" data-filter=#filter>
+                    <thead>
+                      <tr>
+                        <th>Status</th>
+                        <th>Member</th>
+                        <th>Select</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {{#each this.membersReference.items}}
+                        <tr>
+                          <td><img src="/{{statusImg}}"></td>
+                          <td>{{this.name}}</td>
+                          <td><input type="checkbox" id="{{this.selfLink}}" name="{{this.selfLink}}"></td>
+                        </tr>
+                      {{/each}}
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="5">
+                        <ul class="pagination pull-right hide-if-no-paging"></ul>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{> availableGtmMembers}}
+  </div>
+</template>
+
+<template name="availableGtmMembers">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title"><h5>Add GTM Pool Members to {{name}}</h5>{{>iboxTools}}</div>
+        <div class="ibox-content">
+          <form id="addGmembers" class="form-horizontal">
+            {{> footableSearchBox}}
+            <input type="hidden" name="syncid" value="{{inSyncGroup}}">
+            <input type="hidden" name="gtmPool" value="{{_id}}">
+            <div class="form-group"><label class="col-sm-2 control-label">Available Members</label>
+              <div class="col-sm-4">
+                <table class="footable-members table table-stripped" data-page-size="15" data-filter=#filter>
+                  <thead>
+                    <tr>
+                      <th>Status</th>
+                      <th>Member</th>
+                      <th>Select</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each getVirtualsServers inSyncGroup}}
+                      <tr>
+                        <td><img src="/{{statusImg}}"></td>
+                        <td>{{serverFullPath}}</td>
+                        <td><input type="checkbox" id="{{serverFullPath}}" name="{{serverFullPath}}"></td>
+                      </tr>
+                    {{/each}}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="5">
+                      <ul class="pagination pull-right hide-if-no-paging"></ul>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+            <button class="submit" id="submit">Add Member</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </template>

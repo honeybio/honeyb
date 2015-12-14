@@ -48,13 +48,6 @@ Template.gtmSyncgroups.helpers({
   }
 });
 
-Template.gtmSyncgroupDetails.helpers({
-  getDeviceName: function (device_id) {
-    var result = Devices.findOne({_id: device_id});
-    return result.self.name;
-  }
-});
-
 Template.gtmVservers.helpers({
   allGtmvservers: function () {
     return Gtmvservers.find();
@@ -96,12 +89,6 @@ Template.gtmWideipsCreate.helpers({
   getPoolList: function () {
     var sync_id = Session.get("syncgroup");
     return Widepools.find({inSyncGroup: sync_id});
-  }
-});
-
-Template.gtmPoolsDetails.helpers({
-  getVirtualsServers: function (syncGroup) {
-    return Gtmvservers.find({inSyncGroup: syncGroup});
   }
 });
 
@@ -226,49 +213,6 @@ Template.gtmWideipsCreate.events({
     }
     else if (event.target.wipType.value === "aaaa") {
       Meteor.call("createGtmAAAAWideip", syncid, wipObject, toStage, function (err, res) {
-        if (err) {
-          toastr.error(err.details, err.reason)
-        } else {
-          toastr.success(res.message, res.subject);
-        }
-      });
-    }
-  }
-});
-
-Template.gtmPoolsDetails.events({
-  'submit #addGmembers': function (event, template) {
-    event.preventDefault();
-    var pool_id = event.target.gtmPool.value;
-    var virtual = event.target.gtmVirtual.value;
-    var toStage = event.target.stage.value;
-    var syncid = event.target.syncid.value;
-    var gMemberObj = {
-      onPool: pool_id,
-      name: virtual
-    };
-    Meteor.call("addGmember", syncid, gMemberObj, toStage, function (err, res) {
-      if (err) {
-        toastr.error(err.details, err.reason)
-      } else {
-        toastr.success(res.message, res.subject);
-      }
-    });
-  },
-  'submit #members': function (event, template) {
-    event.preventDefault();
-    var pool_id = event.target.gtmPool.value;
-    var toStage = event.target.stage.value;
-    var syncid = event.target.syncid.value;
-    var gMemberObj = {
-      onPool: pool_id
-    };
-    var checkedList = [];
-    $('input[type=checkbox]:checked').each(function(index){
-      checkedList.push($(this)[0].name);
-    });
-    for (var i = 0; i < checkedList.length; i++) {
-      Meteor.call("deleteGmember", syncid, gMemberObj, checkedList[i], event.target.stage.value, function (err, res) {
         if (err) {
           toastr.error(err.details, err.reason)
         } else {
