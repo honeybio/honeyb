@@ -196,10 +196,26 @@
         <div class="ibox float-e-margins">
           <div class="ibox-title"><h5>Migrate A VCMP Guest</h5>{{>iboxTools}}</div>
           <div class="ibox-content">
+            This will take a guest from one VCMP host, shut it down, and boot
+            it up on another VCMP host. Note that F5 does not allow live
+            migrations and as such, will be service affecting. Also, you will
+            need to make sure that the proper VLANs are configured on the destination
+            host for traffic to properly route on the new instance.
             <form id="create-form" class="form-horizontal">
               {{> vcmpDeviceList}}
+              <div class="form-group"><label class="col-sm-2 control-label">Guests on device</label>
+                <div class="col-sm-6">
+                  <select id="image" class="form-control col-sm-2" name="image">
+                    {{#each getGuestList}}
+                      <option id="{{name}}" value="{{name}}">{{name}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+              </div>
               {{> toVcmpDeviceList}}
-              {{> description}}
+              <div class="form-group"><label class="col-sm-2 control-label">New Guest Name (Defaults to selected)</label>
+                <div class="col-sm-4"><input type="text" id="guestName" class="form-control"></div>
+              </div>
               {{> submitCancelButtons}}
             </form>
           </div>

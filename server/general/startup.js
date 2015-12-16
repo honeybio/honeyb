@@ -203,7 +203,7 @@ Meteor.startup(function () {
 
   // Start Geo database
   var geoDBFile = Npm.require('fs').realpathSync(process.cwd()) + "/assets/app/" + "GeoLite2-City.mmdb";
-  IPGeocoder.load();
+  IPGeocoder.load(geoDBFile);
 
   // Sessions are lost, so kill login resume tokens to avoid null userids
   Meteor.users.update({}, {$set: { 'services.resume.loginTokens': []}}, {multi: true});

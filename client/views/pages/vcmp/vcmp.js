@@ -217,6 +217,16 @@ Template.vcmpGuestsCreate.events({
   }
 });
 
+Template.vcmpGuestsMigrate.helpers({
+  getGuestList: function () {
+    var deviceId = Session.get("onDevice");
+    if (deviceId) {
+       return Vcmpguests.find({onDevice: deviceId});
+    } else {
+      return [ 'none' ];
+    }
+  }
+});
 
 Template.vcmpHosts.onRendered(function() {
   $('.footable').footable();

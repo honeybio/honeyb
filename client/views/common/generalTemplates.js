@@ -41,6 +41,17 @@ Template.toVcmpDeviceList.helpers({
   }
 });
 
+Template.toVcmpDeviceList.events({
+  'change #device': function (event) {
+    var newValue = device.options[device.selectedIndex].value;
+    if (newValue == 'none') {
+      Session.set('toDevice', false);
+    } else {
+      Session.set("toDevice", newValue);
+    }
+  },
+});
+
 Template.syncGroupSelect.helpers({
   getSyncList: function () {
     return Gtmsyncgroups.find();
