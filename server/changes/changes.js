@@ -1015,7 +1015,6 @@ ChangeFunction.discover.device.remove = function (argList) {
 
   // Remove all objects from all database collections
   var tmp = Virtualaddresses.remove({onDevice: deviceId});
-  var tmp = Devices.remove({onDevice: deviceId});
   var tmp = Certificates.remove({onDevice: deviceId});
   var tmp = Virtuals.remove({onDevice: deviceId});
   var tmp = Rules.remove({onDevice: deviceId});
@@ -1028,6 +1027,12 @@ ChangeFunction.discover.device.remove = function (argList) {
   var tmp = Profiles.remove({onDevice: deviceId});
   var tmp = Objectstatus.remove({onDevice: deviceId});
   var tmp = Statistics.remove({device: deviceId});
+  var tmp = Archives.remove({onDevice: deviceId});
+  var tmp = Asmpolicyfile.remove({onDevice: deviceId});
+  var tmp = Pkifiles.remove({onDevice: deviceId});
+  var tmp = Vcmpguests.remove({onDevice: deviceId});
+  var tmp = Vcmpdisks.remove({onDevice: deviceId});
+  var tmp = Asmpolicies.remove({onDevice: deviceId});
   var tmp = Devices.remove({_id: deviceId});
 
   // GTM is special
