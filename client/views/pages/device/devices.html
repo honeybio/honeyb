@@ -497,7 +497,7 @@
             </div>
             <div class="ibox-content">
               {{> footableSearchBox}}
-              <form class="archiveForm" name="archiveForm">
+              <form id="table-form" class="form-horizontal">
                 <table class="footable table table-stripped" data-page-size="15" data-filter=#filter>
                   <thead>
                     <tr>
@@ -506,6 +506,7 @@
                       <th>UCS Name</th>
                       <th>Size</th>
                       <th>Created</th>
+                      <th>Select</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -516,6 +517,7 @@
                         <td>{{this.name}}</td>
                         <td>{{round this.size}}</td>
                         <td>{{this.uploadedAt}}</td>
+                        <td><input type="checkbox" name="{{this._id}}"></td>
                       </tr>
                     {{/each}}
                   </tbody>
@@ -528,7 +530,6 @@
                   </tfoot>
                 </table>
               </form>
-              <button name="archiveAll" id="archiveAll">Archive All Devices</button>
             </div>
             <div class="ibox-footer"></div>
           </div>

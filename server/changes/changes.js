@@ -218,7 +218,21 @@ ChangeFunction.read.apm.policy = function(argList) { }
 ChangeFunction.read.aam.policy = function(argList) { }
 ChangeFunction.read.vcmp.guest = function(argList) { }
 ChangeFunction.read.vcmp.virtual_disk = function(argList) { }
-ChangeFunction.update.device.archive = function(argList) { }
+ChangeFunction.update.device.archive = function(argList) {
+  var archiveId = argList.archiveId;
+  if (argList.action === 'pin') {
+    var result = Archives.update({_id: archiveId}, {$set: {pin: true}});
+    if (result) {
+      return result;
+    }
+  } else {
+    var result = Archives.update({_id: archiveId}, {$set: {pin: false}});
+    if (result) {
+      return result;
+    }
+  }
+  return false;
+}
 ChangeFunction.update.device.qkview = function(argList) { }
 ChangeFunction.update.device.route = function(argList) { }
 ChangeFunction.update.device.selfip = function(argList) { }
@@ -242,7 +256,14 @@ ChangeFunction.update.apm.policy = function(argList) { }
 ChangeFunction.update.aam.policy = function(argList) { }
 ChangeFunction.update.vcmp.guest = function(argList) { }
 ChangeFunction.update.vcmp.virtual_disk = function(argList) { }
-ChangeFunction.delete.device.archive = function(argList) { }
+ChangeFunction.delete.device.archive = function(argList) {
+  var archiveId = argList.archiveId;
+  var result = Archives.remove({_id: archiveId});
+  if (result) {
+    return result;
+  }
+  return false;
+}
 ChangeFunction.delete.device.qkview = function(argList) { }
 ChangeFunction.delete.device.route = function(argList) { }
 ChangeFunction.delete.device.selfip = function(argList) { }

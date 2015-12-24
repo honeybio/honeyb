@@ -52,7 +52,7 @@ Template.footableSearchBox.helpers({
         },
         devicesArchives: {
           link: [],
-          actions: ['Delete'],
+          actions: ['Pin', 'Unpin', 'Delete'],
           objects: 'Device Archives'
         },
         gtmWideips: {

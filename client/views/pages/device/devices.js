@@ -68,15 +68,49 @@ Template.devices.events({
 });
 
 Template.devicesArchives.events({
-  'click #archiveAll': function () {
+  'click #Delete': function () {
     event.preventDefault();
-    toastr.success('Archives will run in background, you can leave this page', 'Running all archives!');
-    Meteor.call("archiveAllTask", function (err, res) {
-      if (err) {
-        toastr.error(err.details, err.reason)
-      } else {
-        toastr.success(res.message, res.subject);
-      }
+    $('#table-form :input[type=checkbox]:checked').each(function(index){
+      var address = $('#table-form :input[name=addr]').val();
+      var archive = $(this)[0].name;
+      console.log('Delete ' + archive);
+      Meteor.call("deleteUcs", archive, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        } else {
+          toastr.success(res.message, res.subject);
+        }
+      });
+    });
+  },
+  'click #Pin': function () {
+    event.preventDefault();
+    $('#table-form :input[type=checkbox]:checked').each(function(index){
+      var address = $('#table-form :input[name=addr]').val();
+      var archive = $(this)[0].name;
+      console.log('Pin ' + archive);
+      Meteor.call("pinUcs", archive, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        } else {
+          toastr.success(res.message, res.subject);
+        }
+      });
+    });
+  },
+  'click #Unpin': function () {
+    event.preventDefault();
+    $('#table-form :input[type=checkbox]:checked').each(function(index){
+      var address = $('#table-form :input[name=addr]').val();
+      var archive = $(this)[0].name;
+      console.log('Unpin ' + archive);
+      Meteor.call("unpinUcs", archive, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        } else {
+          toastr.success(res.message, res.subject);
+        }
+      });
     });
   }
 });

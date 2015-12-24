@@ -88,6 +88,65 @@ Meteor.methods({
     }
     return readGroups;
   },
+  pinUcs: function (archiveId) {
+    var argList = {
+      archiveId: archiveId,
+      action: 'pin'
+    };
+    // var pool = Pools.findOne({_id: pool_id});
+    var theChange = { description: "Pin Archive",
+      theMethod: {
+        action: "update",
+        module: "device",
+        object: "archive"
+      },
+      argList: argList
+    };
+    var change_id = Meteor.call('createStagedChange', theChange);
+    var result = Meteor.call('pushChange', change_id);
+
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
+  },
+  unpinUcs: function (archiveId) {
+    var argList = {
+      archiveId: archiveId,
+      action: 'unpin'
+    };
+    // var pool = Pools.findOne({_id: pool_id});
+    var theChange = { description: "Unpin Archive",
+      theMethod: {
+        action: "update",
+        module: "device",
+        object: "archive"
+      },
+      argList: argList
+    };
+    var change_id = Meteor.call('createStagedChange', theChange);
+    var result = Meteor.call('pushChange', change_id);
+
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
+  },
+  deleteUcs: function (archiveId) {
+    var argList = {
+      archiveId: archiveId,
+    };
+    // var pool = Pools.findOne({_id: pool_id});
+    var theChange = { description: "Delete Archive",
+      theMethod: {
+        action: "delete",
+        module: "device",
+        object: "archive"
+      },
+      argList: argList
+    };
+    var change_id = Meteor.call('createStagedChange', theChange);
+    var result = Meteor.call('pushChange', change_id);
+
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
+  },
   deleteImage: function () {
     var isos = Images.find().fetch();
     console.log(isos);
