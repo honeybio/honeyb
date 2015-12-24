@@ -28,15 +28,12 @@ Template.devices.events({
   },
   'click #Delete': function (event, template) {
     event.preventDefault();
-    // Get value from form element
-    $('#virtual-servers :input[type=checkbox]:checked').each(function(index){
+    $('#table-form :input[type=checkbox]:checked').each(function(index){
       var address = $('#table-form :input[name=addr]').val();
       var device = {
-        mgmtip: $('#table-form :input[name=addr]').val(),
+        mgmtip: $(this)[0].id,
         deviceId: $(this)[0].name
       };
-      console.log(device);
-      return;
       var job = {
         name: 'removeDevice',
         status: 'ready',
@@ -53,6 +50,21 @@ Template.devices.events({
       });
     });
   },
+  'click #Archive': function (event, template) {
+    event.preventDefault();
+    $('#table-form :input[type=checkbox]:checked').each(function(index){
+      var address = $('#table-form :input[name=addr]').val();
+      var device = $(this)[0].name;
+      toastr.success('Archives will run in background, you can leave this page', 'Running all archives!');
+      Meteor.call("createUCSCommand", device, function (err, res) {
+        if (err) {
+          toastr.error(err.details, err.reason)
+        } else {
+          toastr.success(res.message, res.subject);
+        }
+      });
+    });
+  }
 });
 
 Template.devicesArchives.events({

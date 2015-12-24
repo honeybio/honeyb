@@ -47,7 +47,7 @@ Template.footableSearchBox.helpers({
           objects: 'SSL Profiles'
         },
         devices: {
-          actions: ['Add', 'Delete', 'Refresh'],
+          actions: ['Add', 'Delete', 'Refresh', 'Archive'],
           objects: 'Devices'
         },
         devicesArchives: {
