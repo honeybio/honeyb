@@ -9,7 +9,7 @@ Template.dashboardsIhealth.onRendered(function() {
 
 
 Template.dashboardsIhealth.events({
-  'click .ihealth': function (event, instance) {
+  'click #Update': function (event, instance) {
     event.preventDefault();
     instance.buttonName.set('Refreshing...');
     instance.buttonStateDisabled.set(true);

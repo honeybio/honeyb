@@ -97,7 +97,7 @@ Template.footableSearchBox.helpers({
         },
         dashboardsIhealth: {
           link: [],
-          actions: ['Delete'],
+          actions: ['Delete', 'Update'],
           objects: 'iHealth Uploads'
         },
         ltmMonitors: {
