@@ -1,36 +1,32 @@
 <template name="gtmSyncgroupDetails">
-  <div class="container">
-  <center>
-    <h3>View/Edit/Update {{synchronizationGroupName}}</h3>
-  </center>
-  <ul>
-    <li>Devices in Sync Group:
-      <ul>
-        {{#each onDevice}}
-          <li><a href="/devices/{{this}}">{{getDeviceName this}}</a></li>
-        {{/each}}
-      </ul>
-    </li>
-    <li>Syncing: {{synchronization}}</li>
-    <li>autoDiscovery: {{autoDiscovery}}</li>
-    <li>autoDiscoveryInterval: {{autoDiscoveryInterval}}</li>
-    <li>automaticConfigurationSaveTimeout: {{automaticConfigurationSaveTimeout}}</li>
-    <li>drainPersistentRequests: {{drainPersistentRequests}}</li>
-    <li>gtmSetsRecursion: {{gtmSetsRecursion}}</li>
-    <li>heartbeatInterval: {{heartbeatInterval}}</li>
-    <li>monitorDisabledObjects: {{monitorDisabledObjects}}</li>
-    <li>nethsmTimeout: {{nethsmTimeout}}</li>
-    <li>peerLeader: {{peerLeader}}</li>
-    <li>sendWildcardRrs: {{sendWildcardRrs}}</li>
-    <li>synchronizationTimeTolerance: {{synchronizationTimeTolerance}}</li>
-    <li>synchronizationTimeout: {{synchronizationTimeout}}</li>
-    <li>synchronizeZoneFiles: {{synchronizeZoneFiles}}</li>
-    <li>synchronizeZoneFilesTimeout: {{synchronizeZoneFilesTimeout}}</li>
-    <li>virtualsDependOnServerState: {{virtualsDependOnServerState}}
-    </li>
-  </ul>
-</div>
+  {{> pageHeading title='Sync Group' category='GTM' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <form id="table-form" class="form-horizontal">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Details for Monitor {{synchronizationGroupName}} <small class="m-l-sm">Manage your GTM Sync Group</small></h5>
+              {{>iboxTools}}
+            </div>
+            <div class="ibox-content">
+              {{#each onDevice}}
+                <li><a href="/devices/{{this}}">{{getDeviceName this}}</a></li>
+              {{/each}}
+              {{#each myProps}}
+              <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+              </div>
+              {{/each}}
+            </div>
+            <div class="ibox-footer"></div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+
 
 <template name="gtmDatacenterDetails">
   <div class="container">
@@ -50,45 +46,30 @@
               {{>iboxTools}}
             </div>
             <div class="ibox-content">
+              {{#each myProps}}
+              <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+              </div>
+              {{/each}}
               <ul>
-                <li>partition: {{partition}}</li>
-                <li>fullPath: {{fullPath}}</li>
-                <li>generation: {{generation}}</li>
-                <li>enabled: {{enabled}}</li>
-                <li>failureRcode: {{failureRcode}}</li>
-                <li>failureRcodeResponse: {{failureRcodeResponse}}</li>
-                <li>failureRcodeTtl: {{failureRcodeTtl}}</li>
-                <li>lastResortPool: {{lastResortPool}}</li>
-                <li>minimalResponse: {{minimalResponse}}</li>
-                <li>persistCidrIpv4: {{persistCidrIpv4}}</li>
-                <li>persistCidrIpv6: {{persistCidrIpv6}}</li>
-                <li>persistence: {{persistence}}</li>
-                <li>poolLbMode: {{poolLbMode}}</li>
-                <li>ttlPersistence: {{ttlPersistence}}</li>
-                <ul>
-                    {{#each pools}}
-                      <li>Pool Info
-                        <ul>Name: {{this.name}}
-                          <li>Order: {{this.order}}</li>
-                          <li>Ratio: {{this.ratio}}</li>
-                          <ul>
-                            {{#each members}}
-                            Members:
-                              <li>Name; {{this.name}}</li>
-                              <li>Path: {{this.fullPath}}</li>
-                              <li>Enabled: {{this.enabled}}</li>
-                              <li>Monitor: {{this.monitor}}</li>
-                              <li>Ratio: {{this.ratio}}</li>
-                              <li>MemberOrder: {{this.memberOrder}}</li>
-                              <li>MaxBPS: {{this.limitMaxBps}}</li>
-                              <li>Max Conn: {{this.limitMaxConnections}}</li>
-                              <li>Max Conn Stat: {{this.limitMaxConnectionsStatus}}</li>
-                            {{/each}}
-                          </ul>
-                        </ul>
-                      </li>
-                    {{/each}}
-                </ul>
+                {{#each pools}}
+                  <li>Pool Name: {{this.name}}
+                    <table>
+                      <th>Name</th>
+                      <th>Path</th>
+                      <th>Enabled</th>
+                      <th>Ratio</th>
+                      <th>Order</th>
+                      {{#each members}}
+                      <td>Name; {{this.name}}</td>
+                      <td>Path: {{this.fullPath}}</td>
+                      <td>Enabled: {{this.enabled}}</td>
+                      <td>Ratio: {{this.ratio}}</td>
+                      <td>MemberOrder: {{this.memberOrder}}</td>
+                      {{/each}}
+                    </table>
+                  </li>
+                {{/each}}
               </ul>
             </div>
             <div class="ibox-footer"></div>
@@ -111,20 +92,16 @@
               {{>iboxTools}}
             </div>
             <div class="ibox-content">
-              <ul>
-                <li>Name: {{fullPath}}</li>
-                <li>Datacenter: {{datacenter}}</li>
-                <li>Enabled?: {{enabled}}</li>
-                <li>RouteDomains: {{exposeRouteDomains}}</li>
-                <li>Monitor: {{monitor}}</li>
-                <li>Product: {{product}}</li>
-                <li>Discover: {{virtualServerDiscovery}}</li>
-                <ul> Address:
-                  {{#each addresses}}
-                    <li>IP: {{this.name}}</li>
-                    <li>Name: {{this.deviceName}}</li>
-                  {{/each}}
-                </ul>
+              {{#each myProps}}
+              <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+              </div>
+              {{/each}}
+              <ul> Address:
+                {{#each addresses}}
+                  <li>IP: {{this.name}}</li>
+                  <li>Name: {{this.deviceName}}</li>
+                {{/each}}
               </ul>
             </div>
             <div class="ibox-footer"></div>
@@ -197,13 +174,11 @@
               {{>iboxTools}}
             </div>
             <div class="ibox-content">
-              <ul>
-                <li>Path: {{fullPath}}</li>
-                <li>Destination: {{destination}}</li>
-                <li>Enabled: {{enabled}}</li>
-                <li>MaxBps: {{limitMaxBps}}</li>
-                <li>Max Conns: {{limitMaxConnections}}</li>
-              </ul>
+              {{#each myProps}}
+              <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+              </div>
+              {{/each}}
             </div>
             <div class="ibox-footer"></div>
           </div>

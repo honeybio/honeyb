@@ -151,7 +151,14 @@
           </div>
           <div class="ibox-content">
             <div class="row">
-              CPU Usage
+              <div class="col-lg-4">
+                <center>CPU Usage</center>
+              </div>
+              <div class="col-lg-8">
+                <center>Disk Usage</center>
+              </div>
+            </div>
+            <div class="row">
               <div class="col-lg-4">
                 <canvas id="donutChart" height="100"></canvas>
               </div>
@@ -287,23 +294,25 @@
             {{>iboxTools}}
           </div>
           <div class="ibox-content">
-            <form class="qkviewForm">
-              <input type="hidden" name="device_id" value="{{_id}}">
-              <button class="submit" id="submit">Create and Upload a Qkview</button>
-            </form>
-            <form class="archiveForm">
-              <input type="hidden" name="device_id" value="{{_id}}">
-              <button class="submit" id="submit">Create an Archive</button>
-            </form>
-            <form id="stats-form">
-              <input type="hidden" name="device_id" value="{{_id}}">
-              <button class="submit" id="get-stats">Testing Button</button>
-            </form>
-            <form id="remove-form">
-              <input type="hidden" name="deviceId" value="{{_id}}">
-              <input type="hidden" name="mgmtip" value="{{mgmtAddress}}">
-              <button class="submit">Remove Device from honeyb</button>
-            </form>
+            <div class="btn-group">
+              <form class="qkviewForm">
+                <input type="hidden" name="device_id" value="{{_id}}">
+                <button class="btn btn-primary submit">Create and Upload a Qkview</button>
+              </form>
+              <form class="archiveForm">
+                <input type="hidden" name="device_id" value="{{_id}}">
+                <button class="btn btn-primary submit">Create an Archive</button>
+              </form>
+              <form id="stats-form">
+                <input type="hidden" name="device_id" value="{{_id}}">
+                <button class="btn btn-primary submit">Testing Button</button>
+              </form>
+              <form id="remove-form">
+                <input type="hidden" name="deviceId" value="{{_id}}">
+                <input type="hidden" name="mgmtip" value="{{mgmtAddress}}">
+                <button class="btn btn-primary submit">Remove Device from honeyb</button>
+              </form>
+            </div>
           </div>
           <div class="ibox-footer"></div>
         </div>

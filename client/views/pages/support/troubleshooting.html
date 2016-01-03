@@ -23,190 +23,114 @@
               </div>
               <br/>
               <div>
-                <button type="button" id="ssh" class="btn btn-w-m btn-primary wiz-button">
-                  <span class="pull-left">2. SSH Settings</span>
+                <button type="button" id="qkview" class="btn btn-w-m btn-primary wiz-button">
+                  <span class="pull-left">2. QKview</span>
                 </button>
               </div>
               <br/>
               <div>
-                <button type="button" id="ihealth" class="btn btn-w-m btn-primary wiz-button">
-                  <span class="pull-left">3. iHealth Settings</span>
+                <button type="button" id="ticket" class="btn btn-w-m btn-primary wiz-button">
+                  <span class="pull-left">3. Support Ticket</span>
                 </button>
               </div>
               <br/>
               <div>
-                <button type="button" id="authentication" class="btn btn-w-m btn-primary wiz-button">
-                  <span class="pull-left">4. Authentication</span>
+                <button type="button" id="rma" class="btn btn-w-m btn-primary wiz-button">
+                  <span class="pull-left">4. RMA Template</span>
                 </button>
               </div>
               <br/>
-              <div>
-                <button type="button" id="archive" class="btn btn-w-m btn-primary wiz-button">
-                  <span class="pull-left">5. Archive Settings</span>
-                </button>
-              </div>
-              <br/>
-              <div>
-                <button type="button" id="add-devices" class="btn btn-w-m btn-primary wiz-button">
-                  <span class="pull-left">6. Add Devices</span>
-                </button>
-              </div>
             </div>
             <div class="col-lg-9">
               <form id="settings-wizard-form" class="form-horizontal">
                 <div id="introduction">
                   <h2>Introduction</h2>
                   <p>
-                    honeyb.io is designed to make managing your F5 BIG-IP&trade;
-                    deployment simple. With a simple interface into each of the F5
-                    modules, you have all the power of the F5 ecosystem, but with the
-                    simplicity of a single management point for all of your applications.
+                    honeyb.io's troubleshooting wizard will help you with your F5 BIG-IP&trade;
+                    issue. First, determine what your issue is, and the severity of the issue.
+                    F5 support is generally a breakfix support organization, which means that they
+                    will not help you deploy and configure new BIG-IP configurations, but will help
+                    when the current configuration fails out of the blue, or after some uknown change,
+                    and they will help you get back to the old working configuration. In other cases,
+                    they will direct you to the F5 Professional Services orginization to help you
+                    build your new configuration. If your issue is a new issue, we recommend you contact
+                    the F5 ninja's at honeyb.io for help in configuring your BIG-IP as our lead-times
+                    are generally much shorter than F5, and can probably help you within the next few days.
                   </p>
                   <p>
-                    You can always change these settings under the settings panel on the menu,
-                    but we recommend that you run through this wizard for the initial configuration.
+                    If your case is break-fix and you're opening it with F5, make sure to classify your case properly.
+                    In the event that you have no access to your apps, everything is down, that is a severity 1 case.
+                    You'll get access to an engineer quickly to get your problem resolved.
+                  </p>
+                  <p>
+                    If your issue is serious, but you're still hanging on, for instance, your primary unit has crashed, but the standby
+                    unit tookover and is passing traffic, its classified as a severity 2 ticket. You'll still get help quickly,
+                    but the support team knows that you still have access to your apps.
+                  </p>
+                  <p>
+                    After that, you have severity 3 and 4. These are for less important issues, intermittent issues, or just general questions.
+                    Don't expect to be contacted quickly in these cases, and you're ticket is basically at the bottom of the queue.
                   </p>
                   <br>
                   <div class="form-group"><label class="col-sm-2 control-label">System Display Name</label>
                     <div class="col-sm-4"><input type="text" id="honeyName" value="{{name}}" class="form-control"></div>
                   </div>
                 </div>
-                <div id="ssh-settings" style="display: none;">
-                  <h2>SSH Settings</h2>
+                <div id="create-qkview" style="display: none;">
+                  <h2>Device & QKView</h2>
                   <p>
-                    honeyb.io uses SSH where the built-in iControl REST of the F5 BIG-IP&trade;
-                    is not sufficiently completed to manage the device. File transfers such as
-                    moving an upgrade or hotfix to a device utilizes SSH to complete the action.
-                    iHealth integration and qkview creation for support tickets utilizes this.
-                    Also, for pre-11.5 devices, this enables support for archiving, qkviews & upgrades.
+                    Choose the device you're working on. We'll auto fill some of the details for you.
                   </p>
-                  <div class="form-group"><label class="col-sm-2 control-label">SSH Key Name: {{keyName.name}}</label>
-                    <div class="col-sm-8"><textarea name="sshPubKey">{{keyName.pub}}</textarea></div>
-                  </div>
+                  {{> deviceList}}
+                  <p>
+                    A qkview is going to be how the support engineer can check into your configuration and get details
+                    about what is failing in your device. If the device is completely down, skip this step and open a
+                    ticket immediately. If not, select your device from below, and you'll have a qkview created and uploaded
+                    automatically into F5's support system. Make sure to note the username its uploaded with below so support
+                    can find it.
+                  </p>
                   <div class="hr-line-dashed"></div>
                   <div class="form-group">
                     <div class="col-sm-4 col-sm-offset-2">
-                      <button class="btn btn-primary" id="generate-ssh-key">Create SSH Key</button>
+                      <button class="btn btn-primary" id="generate-ssh-key">Upload Qkview</button>
                     </div>
                   </div>
                 </div>
-                <div id="ihealth-settings" style="display: none;">
-                  <h2>iHealth Settings</h2>
+                <div id="open-ticket" style="display: none;">
+                  <h2>Ticket</h2>
                   <p>
-                    honeyb.io automatically gathers statistics and diagnostics of your F5 BIG-IP&trade; and uploads the data
-                    to F5's iHealth website. You can create an account for free at ihealth.f5.com, or use your
-                    support.f5.com credentials. We recommend creating a new account for honeyb on the iHealth website.
+                    The fastest way to open a ticket is by calling F5 support at 1-888-882-7535. You can also
+                    open a ticket by logging into the support portal at <a href="https://websupport.f5.com/">https://websupport.f5.com/</a>
                   </p>
                   <p>
-                    Data does not change often once the diagnostics have been gathered, so we recommend running this weekly
-                    or longer. Also, when opening a support case or after an upgrade or other event, you can manually
-                    upgrade the configuration by going to the device details page.
+                    {{self.chassisId}}
                   </p>
-                  <div class="form-group"><label class="col-sm-2 control-label">iHealth/QKView Creation Schedule:</label>
-                    <div class="col-sm-4">
-                      <select class="form-control m-b" name="archives">
-                        <option value="weekly">Sat @2am</option>
-                        <option value="biweekly">1st & 15th @2am</option>
-                        <option value="monthly">15th @2am</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="form-group"><label class="col-sm-2 control-label">iHealth Statistics Refresh</label>
-                    <div class="col-sm-4">
-                      <select id="ihealthFreq" class="form-control m-b" name="archives">
-                        <option value="nightly">Nightly @6am</option>
-                        <option value="otherNightly">Each Other Night @6am</option>
-                        <option value="weekly">Sunday @6am</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="form-group"><label class="col-sm-2 control-label">iHealth User</label>
-                    <div class="col-sm-4"><input type="text" id="ihealthUser" value="{{ihealthUser}}" class="form-control"></div>
-                  </div>
-                  <div class="form-group"><label class="col-sm-2 control-label">iHealth Password</label>
-                    <div class="col-sm-4"><input type="password" id="ihealthPass" value="{{ihealthPass}}" class="form-control"></div>
-                  </div>
                 </div>
-                <div id="authentication-settings" style="display: none;">
-                  <h2>iHealth Settings</h2>
-                  <p>
-                    honeyb.io can integrate in with your Microsoft Active Directory deployment for authentication.
-                    You can map groups to AD groups to give your users different levels of access within honeyb.
-                    We've created three groups to start with, Administrator, Operator and Guest, that you can map
-                    using the sample settings below. After the setup wizard is done, you can also enable Fine Grain RBAC
-                    and create additional groups and mappings.
-                  </p>
-                  <p>
-                    Due to the way Active Directory group settings work, we require an account in the directory to
-                    authenticate the logins with. We recommend creating a service account for this purpose.
-                  </p>
-                  {{#with getAuthSettings}}
-                  <div class="row">
-                    <div class="col-sm-4">
-                      <select class="form-control m-b" name="authenticationType" id="authenticationType">
-                        {{#if ldap}}
-                        <option value="local">Local</option>
-                        <option value="activedirectory" selected>Active Directory</option>
-                        {{else}}
-                        <option value="local" selected>Local</option>
-                        <option value="activedirectory">Active Directory</option>
-                        {{/if}}
-                      </select>
-                    </div>
-                  </div>
-                  {{#if adAuthSelected}}
-                  <div class="row">
-                    <div class="form-group"><label class="col-sm-2 control-label">AD Domain</label>
-                      <div class="col-sm-6"><input type="text" id="ldapDomain" value="{{adAuthentication.ldapDomain}}" class="form-control"></div>
-                    </div>
-                    <div class="form-group"><label class="col-sm-2 control-label">AD Base DN</label>
-                      <div class="col-sm-6"><input type="text" id="ldapBaseDn" value="{{adAuthentication.ldapBaseDn}}" class="form-control"></div>
-                    </div>
-                    <div class="form-group"><label class="col-sm-2 control-label">AD Base URL</label>
-                      <div class="col-sm-6"><input type="text" id="ldapUrl" value="{{adAuthentication.ldapUrl}}" class="form-control"></div>
-                    </div>
-                    <div class="form-group"><label class="col-sm-2 control-label">Service Account DN</label>
-                      <div class="col-sm-6"><input type="text" id="ldapBindCn" value="{{adAuthentication.ldapBindCn}}" class="form-control"></div>
-                    </div>
-                    <div class="form-group"><label class="col-sm-2 control-label">Service Account Password</label>
-                      <div class="col-sm-6"><input type="text" id="ldapBindPassword" value="{{adAuthentication.ldapBindPassword}}" class="form-control"></div>
-                    </div>
+                <div id="rma-template" style="display: none;">
+                  <h2>RMA Form</h2>
+                  Required Information
+                  Serial number:
+                  Amount of memory currently installed in the system:
+                  Does the system contain redundant power supplies?
+                  What version of software is currently installed on the system?
+                  Suspected failed part:
+                  Additional comments/special requests:
 
-                  </div>
-                  {{/if}}
-                  {{/with}}
-                </div>
-                <div id="archive-settings" style="display: none;">
-                  <h2>Archive Settings</h2>
-                  <p>
-                    honeyb.io automatically creates and downloads archives in the UCS format from your F5 environment.
-                    We will automatically prune archives after 10 have been collected. You can override this behavior
-                    in the settings, or pin specific archives if you would like to save them. For large environments,
-                    you may want to modify this as archives can consume up to 200Mb or more depending on modules and
-                    configuration.
-                  </p>
-                  <div class="form-group"><label class="col-sm-2 control-label">Archive Schedule:</label>
-                    <div class="col-sm-4">
-                      <select class="form-control m-b" name="archives">
-                        <option value="nightly">Nightly @2am</option>
-                        <option value="weekly">Each Sat @2am</option>
-                        <option value="biweekly">1st & 15th @2am</option>
-                        <option value="monthly">15th @2am</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div id="add-device" style="display: none;">
-                  <h2>Add Devices</h2>
-                  <p>
-                    Once you've reviewed the information in this wizard and saved changes, you're ready to
-                    begin adding devices to be managed by honeyb. Click below to be taken to the devices
-                    page, or click the Device Management menu item on the left menu bar and choose Devices.
-                  </p>
-                  <p>
-                    If you're new to F5's or want to take a tour of what you can do in honeyb, click the button
-                    to begin.
-                  </p>
+                  Shipping details
+
+                  Name of recipient (one name only):
+                  Telephone number (must be local to delivery location):
+                  Company name:
+                  Shipping address line 1 (no P.O. boxes):
+                  Shipping address line 2:
+                  City:
+                  State/province:
+                  Zip/postal code:
+                  Special shipping instructions:
+                  Enter additional information here, such as your internal ticket number (couriers are not equipped to make phone calls).
+
+                  For devices covered by the 4-hour expedited RMA service, confirm that the contact listed above will be onsite and available to receive the replacement hardware within four hours of submitting this request:
+                  If a different delivery schedule is required, advise when you would like the replacement to arrive:
                 </div>
               </form>
             </div>
