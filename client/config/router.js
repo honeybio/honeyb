@@ -96,11 +96,9 @@ Router.route('/dashboards/ihealth/:_id', {
   }
 });
 
-Router.route('/settings/user', {
-  data: function () {
-    return Settings.findOne({type: 'system'});
-  }
-});
+Router.route('/settings/user');
+Router.route('/settings/group');
+
 
 Router.route('/logout', {
   data: function() {

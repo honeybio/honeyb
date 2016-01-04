@@ -115,6 +115,11 @@ Template.footableSearchBox.helpers({
           actions: ['Delete'],
           objects: 'iRules'
         },
+        settingsUser: {
+          link: [],
+          actions: ['Add', 'Delete'],
+          objects: ''
+        },
         softwareImages: {
           link: [],
           actions: ['Delete'],

@@ -63,7 +63,7 @@ Template.login.helpers({
 })
 
 Template.settingsUser.events({
-  'submit .form-signin': function (event, template) {
+  'submit #form-create-user': function (event, template) {
     event.preventDefault();
     var user = event.target.username.value;
     var pass = event.target.password.value;
@@ -89,10 +89,20 @@ Template.settingsUser.events({
     toastr.success('Updated profile!', 'Success!');
   }
 });
+
 Template.settingsUser.helpers({
   getUsers: function () {
-    var result = Meteor.users.find();
-    return result;
+    return Meteor.users.find();
+  }
+});
+
+Template.settingsUser.onRendered(function() {
+  $('.footable').footable();
+});
+
+Template.settingsGroup.helpers({
+  getGroups: function () {
+    return Roles.find();
   }
 });
 
