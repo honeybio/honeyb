@@ -649,5 +649,46 @@ Meteor.methods({
         future.return(stdout.toString());
     });
     return future.wait();
+  },
+  certEmailNotifications: function () {
+    var certList = Certificates.find({ssltype: 'certificate'});
+    var now = new Date();
+    var expired, sevenCerts, twentyEightCerts;
+    certList.forEach(function (eachCert) {
+      if (eachCert.epochExpirationDate - now.getTime() < 0) {
+        expired.push(eachCert.name);
+        console.log('expired');
+        // 7 * 24 * 60 * 60
+      } else if (eachCert.epochExpirationDate - now.getTime() < 604800) {
+        sevenCerts.push(eachCert.name);
+        console.log('seven days');
+        // 28 * 24 * 60 * 60
+      } else if (eachCert.epochExpirationDate - now.getTime() < 2419200) {
+        twentyEightCerts.push(eachCert.name);
+        console.log('28 days');
+      }
+    });
+
+    console.log(expired);
+    console.log(sevenCerts);
+    console.log(twentyEightCerts);
+
+    var expiredCertList = '<p>' + expired + '</p>';
+    var sevenDayCertList = '<p>' + sevenCerts + '</p>';
+    var twentyEightDayCertList = '<p>' + twentyEightCerts + '</p>';
+
+    console.log(expiredCertList);
+    console.log(sevenDayCertList);
+    console.log(twentyEightDayCertList);
+    if (expired !== null && sevenCerts !== null && twentyEightCerts !== null) {
+      Email.send({
+        from: 'honeyb@company.com',
+        to: 'sta.annika@gmail.com',
+        subject: 'Testing Honeyb Certs',
+        html: '<p>The following Certs are expired</p>' + expiredCertList +
+          '<p>The following Certs expire in less than 7 days</p>' + sevenDayCertList +
+          '<p>The following Certs expire in less than 28 days</p>' + twentyEightDayCertList,
+      });
+    }
   }
 });

@@ -1,6 +1,7 @@
 Meteor.startup(function () {
   // code to run on server at startup
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+  process.env.MAIL_URL = 'smtp://localhost:25';
   // load future from fibers
   // var Future = Npm.require("fibers/future");
   var Future = Meteor.npmRequire('fibers/future');
@@ -197,6 +198,17 @@ Meteor.startup(function () {
     },
     job: function() {
       var output = Meteor.call('updateAllDeviceStats');
+      return output;
+    }
+  });
+
+  SyncedCron.add({
+    name: 'certEmail',
+    schedule: function(parser) {
+      return parser.recur().on(2).hour();
+    },
+    job: function() {
+      var output = Meteor.call('certEmailNotifications');
       return output;
     }
   });
