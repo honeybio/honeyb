@@ -653,33 +653,25 @@ Meteor.methods({
   certEmailNotifications: function () {
     var certList = Certificates.find({ssltype: 'certificate'});
     var now = new Date();
-    var expired, sevenCerts, twentyEightCerts;
+    var expired = [];
+    var sevenCerts = [];
+    var twentyEightCerts = [];
     certList.forEach(function (eachCert) {
       if (eachCert.epochExpirationDate - now.getTime() < 0) {
         expired.push(eachCert.name);
-        console.log('expired');
-        // 7 * 24 * 60 * 60
-      } else if (eachCert.epochExpirationDate - now.getTime() < 604800) {
+        // 7 * 24 * 60 * 60 * msec
+      } else if (eachCert.epochExpirationDate - now.getTime() < 604800000) {
         sevenCerts.push(eachCert.name);
-        console.log('seven days');
-        // 28 * 24 * 60 * 60
-      } else if (eachCert.epochExpirationDate - now.getTime() < 2419200) {
+        // 28 * 24 * 60 * 60 * msec
+      } else if (eachCert.epochExpirationDate - now.getTime() < 2419200000) {
         twentyEightCerts.push(eachCert.name);
-        console.log('28 days');
       }
     });
-
-    console.log(expired);
-    console.log(sevenCerts);
-    console.log(twentyEightCerts);
 
     var expiredCertList = '<p>' + expired + '</p>';
     var sevenDayCertList = '<p>' + sevenCerts + '</p>';
     var twentyEightDayCertList = '<p>' + twentyEightCerts + '</p>';
 
-    console.log(expiredCertList);
-    console.log(sevenDayCertList);
-    console.log(twentyEightDayCertList);
     if (expired !== null && sevenCerts !== null && twentyEightCerts !== null) {
       Email.send({
         from: 'honeyb@company.com',
