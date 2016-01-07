@@ -23,9 +23,10 @@ Template.sslCerts.helpers({
   },
   getExpirationStatus: function (date) {
     var now = new Date();
+    var timeLeft = date - now.getTime();
     if (date - now.getTime() < 0) {
       return { title: "Expired",  src: "status_diamond_red.png" };
-    } else if (date - now.getTime() < 2419200) {
+    } else if (date - now.getTime() < 2419200000) {
       return { title: "Expires less than 28 days from now", src: "status_circle_yellow.png" };
     } else {
       return { title: "Expires more than 28 days from now", src: "status_circle_green.png" };
