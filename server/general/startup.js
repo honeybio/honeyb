@@ -1,7 +1,7 @@
 Meteor.startup(function () {
   // code to run on server at startup
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-  process.env.MAIL_URL = 'smtp://localhost:25';
+  process.env.MAIL_URL = 'smtp://127.0.0.1:25';
   // load future from fibers
   // var Future = Npm.require("fibers/future");
   var Future = Meteor.npmRequire('fibers/future');

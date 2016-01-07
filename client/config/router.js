@@ -97,8 +97,14 @@ Router.route('/dashboards/ihealth/:_id', {
 });
 
 Router.route('/settings/user');
+Router.route('/settings/user/:_id', {
+  template: 'settingsUserDetails',
+  data: function(){
+    var currentUser = this.params._id;
+    return Meteor.users.findOne({ _id: currentUser});
+  }
+});
 Router.route('/settings/group');
-
 
 Router.route('/logout', {
   data: function() {
@@ -155,7 +161,7 @@ Router.route('/settings/roles/:_id', {
   template: 'settingsRolesDetails',
   data: function(){
     var currentRole = this.params._id;
-    return Meteor.roles.findOne({ _id: currentRole});
+    return Permissions.findOne({ onRole: currentRole});
   }
 });
 Router.route('/settings/containers');

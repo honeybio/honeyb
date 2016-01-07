@@ -252,7 +252,7 @@
         </div>
         <div class="ibox-content">
           <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-12">
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h3 class="panel-title">Current Users</h3>
@@ -260,7 +260,7 @@
                 <div class="panel-body">
                   <form id="user-list" class="form-horizontal">
                     {{> footableSearchBox}}
-                    <table class="footable table table-stripped" data-page-size="15" data-filter=#filter>
+                    <table class="footable table table-striped" data-page-size="15" data-filter=#filter>
                       <thead>
                         <tr>
                           <th>Name</th>
@@ -270,7 +270,7 @@
                       <tbody>
                         {{#each getUsers}}
                         <tr>
-                          <td>{{this.username}}</td>
+                          <td><a href="/settings/user/{{_id}}">{{this.username}}</a></td>
                           <td><input type="checkbox" id="{{_id}}" name="{{_id}}"></td>
                         </tr>
                         {{/each}}
@@ -283,17 +283,6 @@
                         </tr>
                       </tfoot>
                     </table>
-                  </form>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-8">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h3 class="panel-title">User Details</h3>
-                </div>
-                <div class="panel-body">
-                  <form id="user-list" class="form-horizontal">
                   </form>
                 </div>
               </div>
@@ -331,6 +320,40 @@
   </div>
 </template>
 
+<template name="settingsUserDetails">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox">
+        <div class="ibox-title">
+          <h5>Details for user {{username}}</h5>
+          {{>iboxTools}}
+        </div>
+        <div class="ibox-content">
+          <form id="user-form" class="form-horizontal">
+            <div class="form-group"><label class="col-sm-2 control-label">Username </label>
+              <div class="col-sm-4"><input type="text" value="{{username}}" class="form-control" disabled></div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">Created </label>
+              <div class="col-sm-4"><input type="text" value="{{createdAt}}" class="form-control" disabled></div>
+            </div>
+            {{#each listRoles roles}}
+              <div class="form-group"><label class="col-sm-2 control-label">{{group}}</label>
+                <div class="col-sm-6">
+                  <select id="{{this}}" class="form-control col-sm-2" multiple>
+                    {{#each role}}
+                    <option id="{{this}}" value="{{this}}">{{this}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+              </div>
+            {{/each}}
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
 <template name="settingsGroup">
   <div class="row">
     <div class="col-lg-12">
@@ -340,19 +363,54 @@
           {{>iboxTools}}
         </div>
         <div class="ibox-content">
-          <form id="form-create-user" class="form-group">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Current Users</h3>
+                </div>
+                <div class="panel-body">
+                  <form id="user-list" class="form-horizontal">
+                    {{> footableSearchBox}}
+                    <table class="footable table table-striped" data-page-size="15" data-filter=#filter>
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Select</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {{#each getGroups}}
+                        <tr>
+                          <td><a href="/settings/group/{{_id}}">{{this.name}}</a></td>
+                          <td><input type="checkbox" id="{{_id}}" name="{{_id}}"></td>
+                        </tr>
+                        {{/each}}
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="5">
+                            <ul class="pagination pull-right hide-if-no-paging"></ul>
+                          </td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <form id="form-create-group" class="form-horizontal">
             <h2 class="form-signin-heading">Create a New Group</h2>
-            <input type="text" id="username" class="form-control" placeholder="Username" required autofocus><br>
-            <input type="password" id="password" class="form-control" placeholder="Password" required><br>
-            <button class="submit btn btn-lg btn-primary btn-block" id="submit">Create!</button>
-          </form>
-          <h2>Current Groups</h2><br>
-          <form id="groupList" class="form-group">
-            <ul>
-              {{#each getGroups}}
-                <li>{{this.name}}</li>
-              {{/each}}
-            </ul>
+            <div class="form-group"><label class="col-sm-2 control-label">Group Name </label>
+              <div class="col-sm-4"><input type="text" value="Group" class="form-control"></div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-4 col-sm-offset-2">
+                <button class="btn btn-white" type="submit">Cancel</button>
+                <button class="submit btn btn-primary">Create!</button>
+              </div>
+            </div>
           </form>
         </div>
       </div>
@@ -378,27 +436,74 @@
 </template>
 
 <template name="settingsRoles">
-  <div class="container">
-  <center>
-    <h3>Roles</h3>
-  </center>
-  <ul>
-    {{#each getRoles}}
-      <li><a href="/settings/roles/{{_id}}">{{this.name}}</a></li>
-    {{/each}}
-  </ul>
-  <form class="roleForm">
-    <input type="text" name="roleName" id="roleName"><br>
-    <button class="submit" id="submit">Create New Role</button>
-  </form>
-</div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox">
+        <div class="ibox-title">
+          <h5>Welcome to HoneyB Group Manager</h5>
+          {{>iboxTools}}
+        </div>
+        <div class="ibox-content">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Current Users</h3>
+                </div>
+                <div class="panel-body">
+                  <form id="user-list" class="form-horizontal">
+                    {{> footableSearchBox}}
+                    <table class="footable table table-striped" data-page-size="15" data-filter=#filter>
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Select</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {{#each getRoles}}
+                        <tr>
+                          <td><a href="/settings/roles/{{name}}">{{this.name}}</a></td>
+                          <td><input type="checkbox" id="{{_id}}" name="{{_id}}"></td>
+                        </tr>
+                        {{/each}}
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="5">
+                            <ul class="pagination pull-right hide-if-no-paging"></ul>
+                          </td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <form id="form-create-group" class="form-horizontal">
+            <h2 class="form-signin-heading">Create a New Group</h2>
+            <div class="form-group"><label class="col-sm-2 control-label">Group Name </label>
+              <div class="col-sm-4"><input type="text" value="Group" class="form-control"></div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-4 col-sm-offset-2">
+                <button class="btn btn-white" type="submit">Cancel</button>
+                <button class="submit btn btn-primary">Create!</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="settingsRolesDetails">
   <div class="container">
     <form>
     <center>
-      <h3>Role: {{name}}</h3>
+      <h3>Role: {{onRole}}</h3>
     </center>
     Permissions for roles:
     <div id="permissionDrop" class="col-md-8">

@@ -87,6 +87,9 @@ Template.settingsUser.events({
 
     Meteor.users.update({_id: Meteor.userId()}, {$set: { profile: { advanced : advanced }}});
     toastr.success('Updated profile!', 'Success!');
+  },
+  'click .userLink': function (event) {
+    console.log(event.target.id);
   }
 });
 
@@ -100,9 +103,23 @@ Template.settingsUser.onRendered(function() {
   $('.footable').footable();
 });
 
+Template.settingsUserDetails.helpers({
+  listRoles: function (roles) {
+    var roleArray = [];
+    for (var attr in roles) {
+      roleArray.push({group: attr, role: roles[attr]});
+    }
+    return roleArray;
+  }
+});
+
+Template.settingsGroup.onRendered(function() {
+  $('.footable').footable();
+});
+
 Template.settingsGroup.helpers({
   getGroups: function () {
-    return Roles.find();
+    return Roles.getAllRoles();
   }
 });
 
