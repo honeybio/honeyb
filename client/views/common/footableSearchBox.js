@@ -117,7 +117,12 @@ Template.footableSearchBox.helpers({
         },
         settingsUser: {
           link: [],
-          actions: ['Add', 'Delete'],
+          actions: ['Delete'],
+          objects: ''
+        },
+        settingsRoles: {
+          link: [],
+          actions: ['Delete'],
           objects: ''
         },
         softwareImages: {

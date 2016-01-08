@@ -264,6 +264,23 @@ Template.settingsRoles.helpers({
   }
 });
 
+Template.settingsRoles.events({
+  'click #Delete': function (event, template) {
+    event.preventDefault();
+  },
+  'submit #form-create-role': function (event, target) {
+    event.preventDefault();
+    var name = event.target.roleName.value;
+    Meteor.call("createRole", name, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success(res.message, res.subject);
+      }
+    });
+  }
+});
+
 Template.settingsRolesDetails.helpers({
   unassigned: function (role) {
     var myPerms = Permissions.findOne({onRole: role});

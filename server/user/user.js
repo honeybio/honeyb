@@ -8,6 +8,8 @@ Meteor.methods({
   },
   createRole: function (roleName) {
     var roleId = Roles.createRole(roleName);
+    var rolePermList = { onRole: roleName, permissionList: []};
+    Permissions.insert(rolePermList);
     return roleId;
   },
   permList: function () {
