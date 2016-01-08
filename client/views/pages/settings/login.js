@@ -265,32 +265,60 @@ Template.settingsRoles.helpers({
 });
 
 Template.settingsRolesDetails.helpers({
-  getAllPermissions: function () {
-    var result = Meteor.call("listPermissions", function(error, result){
-      if(error){
-        console.log(error.reason);
-        return;
-      }
-      return result;
-    });
+  unassigned: function (role) {
+    var myPerms = Permissions.findOne({onRole: role});
+    if (myPerms !== undefined) {
+      Meteor.call("permList", function(err, res) {
+        for (var i = 0; i < myPerms.permissionList.length; i++) {
+          var match = res.indexOf(myPerms.permissionList[i].permission);
+          if (match > -1) {
+            res.splice(match, 1);
+          }
+        }
+        Session.set('perms', res);
+      });
+    }
+    return Session.get('perms');
   },
-  getRolePermissions: function () {
-    //
+  assigned: function (role) {
+    var myPerms = Permissions.findOne({onRole: role});
+    if (myPerms !== undefined) {
+      return myPerms.permissionList;
+    } else {
+      return [];
+    }
   }
 });
 
-Template.settingsRolesDetails.onCreated(function(){
-  // this.permDict = new ReactiveDict();
-  // this.permDict.set( 'showExtraFields', false );
-  var permList = Meteor.call("listPermissions");
-  var perms = new ReactiveVar(false);
-  perms.set(permList);
+Template.settingsRolesDetails.events({
+  'click #to-the-left': function (event, template) {
+    event.preventDefault();
+    var multi = $('#available-list').val();
+    $('#available-list option:selected').remove();
+    $.each(multi, function (index, value) {
+      $('#assigned-list').append('<option value="' + value + '">' + value + '</option>');
+    });
+  },
+  'click #to-the-right': function (event, template) {
+    event.preventDefault();
+    var multi = $('#assigned-list').val();
+    $('#assigned-list option:selected').remove();
+    $.each(multi, function (index, value) {
+      $('#available-list').append('<option value="' + value + '">' + value + '</option>');
+    });
+  },
+  'submit #update-permissions': function (e, t) {
+    event.preventDefault();
+    var allAssigned = $("#assigned-list option").map(function(){ return this.value }).get()
+    Meteor.call('updatePermission', event.target.role.value, allAssigned, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success('Saved!', 'Success!');
+      }
+    });
+  }
 });
-
-//Template.settingsRolesDetails.onRendered(function(){
-//  dragula([document.querySelector('#permissionDrop'), document.querySelector('#right')]);
-//});
-
 
 Template.settingsRoles.events({
   'submit .roleForm': function (event, template) {

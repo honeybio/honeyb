@@ -10,6 +10,17 @@ Meteor.methods({
     var roleId = Roles.createRole(roleName);
     return roleId;
   },
+  permList: function () {
+    var perms = [];
+    for (var action in ChangeFunction) {
+      for (var mod in ChangeFunction[action]) {
+        for (var obj in ChangeFunction[action][mod]) {
+          perms.push(action + "." + mod + "." + obj);
+        }
+      }
+    }
+    return perms;
+  },
   listPermissions: function () {
     var permList = [];
     for(var action in ChangeFunction) {

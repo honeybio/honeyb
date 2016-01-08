@@ -682,5 +682,14 @@ Meteor.methods({
           '<p>The following Certs expire in less than 28 days</p>' + twentyEightDayCertList,
       });
     }
-  }
+  },
+  updatePermission: function (role, permissionList) {
+    var pList = [];
+    if (permissionList.length > 0) {
+      for (var i = 0; i < permissionList.length; i++) {
+        pList.push({permission: permissionList[i]});
+      }
+    }
+    Permissions.update({onRole: role}, {$set: {permissionList: pList}});
+  },
 });

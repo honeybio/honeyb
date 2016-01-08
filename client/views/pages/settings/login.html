@@ -500,37 +500,114 @@
 </template>
 
 <template name="settingsRolesDetails">
-  <div class="container">
-    <form>
-    <center>
-      <h3>Role: {{onRole}}</h3>
-    </center>
-    Permissions for roles:
-    <div id="permissionDrop" class="col-md-8">
-      Add Permissions Below:
-      <ul>
-        {{#each getRolePermissions}}
-          <li><div class="perm-box"><input type="hidden" id="permission" name="permission" value="{{permission}}">{{this}}</div></li>
-        {{/each}}
-      </ul>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox">
+        <div class="ibox-title">
+          <h5>Welcome to HoneyB Object Container Manager</h5>
+          {{>iboxTools}}
+        </div>
+        <div class="ibox-content">
+          <form id="update-permissions" class="form-horizontal">
+            <input type="hidden" id="role" value="{{onRole}}">
+            <center>
+              <h3>Manage Permissions for Role: {{onRole}}</h3>
+            </center>
+            <div class="row">
+              <div class="col-md-5">
+                Assigned Permissions
+                <select id="assigned-list" class="form-control col-sm-2" size="20" multiple>
+                  {{#each assigned onRole}}
+                  <option value="{{this.permission}}">{{this.permission}}</option>
+                  {{/each}}
+                </select>
+              </div>
+              <div class="col-md-2">
+                <center>
+                  <button id="to-the-left"><i class="fa fa-chevron-left"></i></button>
+                  <button id="to-the-right"><i class="fa fa-chevron-right"></i></button>
+                  <br>
+                  <br>
+                  <button class="submit btn btn-primary">Update</button>
+                </center>
+              </div>
+              <div id="right" class="col-md-5 monitor-list">
+                Available Permissions
+                <select id="available-list" class="form-control col-sm-2" size="20" multiple>
+                  {{#each unassigned onRole}}
+                  <option value="{{this}}">{{this}}</option>
+                  {{/each}}
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-  </form>
-  <div id="right" class="col-md-4 monitor-list">
-    List of Permissions
-    {{perms}}
-          <div class="perm-box"><input type="hidden" id="permission" name="permission" value="{{permission}}">{{this.permission}}</div>
-  </div>
   </div>
 </template>
 
 <template name="settingsContainers">
-  <div class="container">
-    <center>
-      <h3>Object Containers: </h3>
-    </center>
-    Containers are groups of obects that you give access roles to. For instance,
-     if you want to allow an app owner to modify their own pool, create a new container
-     and add their pool to the container. Then add their user as admin of that pool.
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox">
+        <div class="ibox-title">
+          <h5>Welcome to HoneyB Object Container Manager</h5>
+          {{>iboxTools}}
+        </div>
+        <div class="ibox-content">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Current Containers</h3>
+                </div>
+                <div class="panel-body">
+                  <form id="user-list" class="form-horizontal">
+                    {{> footableSearchBox}}
+                    <table class="footable table table-striped" data-page-size="15" data-filter=#filter>
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Select</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {{#each getRoles}}
+                        <tr>
+                          <td><a href="/settings/roles/{{name}}">{{this.name}}</a></td>
+                          <td><input type="checkbox" id="{{_id}}" name="{{_id}}"></td>
+                        </tr>
+                        {{/each}}
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="5">
+                            <ul class="pagination pull-right hide-if-no-paging"></ul>
+                          </td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <form id="form-create-container" class="form-horizontal">
+            <h2 class="form-signin-heading">Create a New Container</h2>
+            <div class="form-group"><label class="col-sm-2 control-label">Container Name </label>
+              <div class="col-sm-4"><input type="text" value="Group" class="form-control"></div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-4 col-sm-offset-2">
+                <button class="btn btn-white" type="submit">Cancel</button>
+                <button class="submit btn btn-primary">Create!</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
