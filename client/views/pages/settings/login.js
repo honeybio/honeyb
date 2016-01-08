@@ -326,12 +326,23 @@ Template.settingsRolesDetails.events({
   },
   'submit #update-permissions': function (e, t) {
     event.preventDefault();
-    var allAssigned = $("#assigned-list option").map(function(){ return this.value }).get()
-    Meteor.call('updatePermission', event.target.role.value, allAssigned, function (err, res) {
+    var role = event.target.role.value;
+    var allAssigned = $("#assigned-list option").map(function(){ return this.value }).get();
+    var sortedList = jQuery.unique(allAssigned);
+    Meteor.call('updatePermission', role, sortedList, function (err, res) {
       if (err) {
         toastr.error(err.details, err.reason)
       } else {
         toastr.success('Saved!', 'Success!');
+        $('#assigned-list').find('option').remove();
+        for (var i = 0; i < sortedList.length; i++) {
+          $('#assigned-list').append('<option value="' + sortedList[i] + '">' + sortedList[i] + '</option>');
+        }
+        //if (myPerms !== undefined) {
+        //  for (var i = 0; i < myPerms.permissionList.length; i++) {
+        //    $('#assigned-list').append('<option value="' + myPerms.permissionList[i].permission + '">' + myPerms.permissionList[i].permission + '</option>');
+        //  }
+        //}
       }
     });
   }
