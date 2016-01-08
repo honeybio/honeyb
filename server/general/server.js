@@ -684,12 +684,16 @@ Meteor.methods({
     }
   },
   updatePermission: function (role, permissionList) {
-    var pList = [];
-    if (permissionList.length > 0) {
-      for (var i = 0; i < permissionList.length; i++) {
-        pList.push({permission: permissionList[i]});
+    if (Meteor.call('isHoneybAdmin')) {
+      var pList = [];
+      if (permissionList.length > 0) {
+        for (var i = 0; i < permissionList.length; i++) {
+          pList.push({permission: permissionList[i]});
+        }
       }
+      Permissions.update({onRole: role}, {$set: {permissionList: pList}});
+    } else {
+      throw new Meteor.Error(401, "Not authorized to update roles");
     }
-    Permissions.update({onRole: role}, {$set: {permissionList: pList}});
   },
 });

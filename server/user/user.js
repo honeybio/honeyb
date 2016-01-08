@@ -7,10 +7,14 @@ Meteor.methods({
     return user_id;
   },
   createRole: function (roleName) {
-    var roleId = Roles.createRole(roleName);
-    var rolePermList = { onRole: roleName, permissionList: []};
-    Permissions.insert(rolePermList);
-    return roleId;
+    if (Meteor.call('isHoneybAdmin')) {
+      var roleId = Roles.createRole(roleName);
+      var rolePermList = { onRole: roleName, permissionList: []};
+      Permissions.insert(rolePermList);
+      return roleId;
+    } else {
+      throw new Meteor.Error(401, "Not authorized to create roles");
+    }
   },
   permList: function () {
     var perms = [];
