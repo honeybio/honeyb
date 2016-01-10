@@ -16,6 +16,19 @@ Meteor.methods({
       throw new Meteor.Error(401, "Not authorized to create roles");
     }
   },
+  createContainer: function (containerName) {
+    if (Meteor.call('isHoneybAdmin')) {
+      var exists = Containers.findOne({name: containerName});
+      if (exists !== undefined) {
+        throw new Meteor.Error(403, "Container already exists!");
+      } else {
+        var containerId = Container.insert({name: roleName});
+        return containerId;
+      }
+    } else {
+      throw new Meteor.Error(401, "Not authorized to create containers!");
+    }
+  },
   permList: function () {
     var perms = [];
     for (var action in ChangeFunction) {

@@ -68,6 +68,7 @@ Meteor.startup(function () {
       username: 'operator',
       password: 'honeyb'
     });
+    Containers.insert({name: 'default-group'});
     Roles.addUsersToRoles(adminId, ['admin'], 'default-group');
     Roles.addUsersToRoles(guestId, ['guest'], 'default-group');
     Roles.addUsersToRoles(operatorId, ['operator'], 'default-group');

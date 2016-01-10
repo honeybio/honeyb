@@ -34,47 +34,53 @@ Meteor.methods({
     var wip_list = BigipClient.list.gtm.wideip.a(bigip);
     // var wip_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/gtm/wideip/a");
     // loop through wideips
-    for (var i=0; i < wip_list.length; i++) {
-      // get list of pools for each wideip
-      var wip_pool_list = wip_list[i].pools;
-      // loop through list of pools for each wideip
-      if (wip_pool_list !== undefined) {
-        for (var j=0; j < wip_pool_list.length; j++) {
-          // URL for this specific pool
-          // var wip_pool_details = mdrBigipRestGetv2(device_id, wip_pool_list[j].nameReference.link);
-          var wip_pool_details = mdrBigipRestGetv2(device_id, wip_pool_list[j].nameReference.link);
-          var pmems = mdrBigipRestGetItems(device_id, wip_pool_details.membersReference.link);
-          wip_list[i].pools[j].members = pmems;
+    if (wip_list !== undefined) {
+      for (var i=0; i < wip_list.length; i++) {
+        // get list of pools for each wideip
+        var wip_pool_list = wip_list[i].pools;
+        // loop through list of pools for each wideip
+        if (wip_pool_list !== undefined) {
+          for (var j=0; j < wip_pool_list.length; j++) {
+            // URL for this specific pool
+            // var wip_pool_details = mdrBigipRestGetv2(device_id, wip_pool_list[j].nameReference.link);
+            var wip_pool_details = mdrBigipRestGetv2(device_id, wip_pool_list[j].nameReference.link);
+            var pmems = mdrBigipRestGetItems(device_id, wip_pool_details.membersReference.link);
+            wip_list[i].pools[j].members = pmems;
+          }
         }
+        wip_list[i].group = 'default-group';
+        wip_list[i]['inSyncGroup'] = sync_id;
+        Wideips.insert(wip_list[i]);
       }
-      wip_list[i].group = 'default-group';
-      wip_list[i]['inSyncGroup'] = sync_id;
-      Wideips.insert(wip_list[i]);
     }
     var pool_list = BigipClient.list.gtm.pool.a(bigip);
-    // var pool_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/gtm/pool/a?expandSubcollections=true");
-    for(var i = 0; i < pool_list.length; i++) {
-      pool_list[i].group = 'default-group';
-      pool_list[i]['inSyncGroup'] = sync_id;
-      Widepools.insert(pool_list[i]);
+    if (pool_list !== undefined) {
+      // var pool_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/gtm/pool/a?expandSubcollections=true");
+      for(var i = 0; i < pool_list.length; i++) {
+        pool_list[i].group = 'default-group';
+        pool_list[i]['inSyncGroup'] = sync_id;
+        Widepools.insert(pool_list[i]);
+      }
     }
     var server_list = BigipClient.list.gtm.server(bigip);
-    //var server_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/gtm/server");
-    for(var i = 0; i < server_list.length; i++) {
-      var server = Meteor.call("splitAndInsert", server_list[i], device_id);
-      server.group = 'default-group';
-      server.inSyncGroup = sync_id;
-      var gtm_server_id = Gtmservers.insert(server);
-      var gtm_server_name = server.fullPath;
-      var gvservers = mdrBigipRestGetItems(device_id, server.virtualServersReference.link);
-      for(var j = 0; j < gvservers.length; j++) {
-        var gvsobj = Meteor.call("GtmSplitAndInsert", gvservers[j], gtm_server_id, gtm_server_name );
-        gvsobj.group = 'default-group';
-        gvsobj['inSyncGroup'] = sync_id;
-        Gtmvservers.insert(gvsobj);
+    if (server_list !== undefined) {
+      //var server_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/gtm/server");
+      for(var i = 0; i < server_list.length; i++) {
+        var server = Meteor.call("splitAndInsert", server_list[i], device_id);
+        server.group = 'default-group';
+        server.inSyncGroup = sync_id;
+        var gtm_server_id = Gtmservers.insert(server);
+        var gtm_server_name = server.fullPath;
+        var gvservers = mdrBigipRestGetItems(device_id, server.virtualServersReference.link);
+        for(var j = 0; j < gvservers.length; j++) {
+          var gvsobj = Meteor.call("GtmSplitAndInsert", gvservers[j], gtm_server_id, gtm_server_name );
+          gvsobj.group = 'default-group';
+          gvsobj['inSyncGroup'] = sync_id;
+          Gtmvservers.insert(gvsobj);
+        }
+        var statsUrl = server.virtualServersReference.link.replace(/\?ver.*/, "/stats");
+        Meteor.call("getGtmvserverStats", device_id, statsUrl);
       }
-      var statsUrl = server.virtualServersReference.link.replace(/\?ver.*/, "/stats");
-      Meteor.call("getGtmvserverStats", device_id, statsUrl);
     }
     Meteor.call("getDatacenterStats", device_id);
     Meteor.call("getGtmserverStats", device_id);
