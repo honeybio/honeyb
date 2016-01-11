@@ -191,6 +191,19 @@ Template.deviceDetails.events({
       });
     });
   },
+  'submit #device-settings': function (event) {
+    event.preventDefault();
+    var settings = {
+      collectStats: event.target.getStats.checked,
+    };
+    Meteor.call("saveDeviceSettings", event.target.device_id.value, settings, function (err, res) {
+      if (err) {
+        toastr.error(err.error, err.reason)
+      } else {
+        toastr.success(res.message, res.subject);
+      }
+    });
+  },
 });
 
 Template.deviceNetworkChart.rendered = function() {
