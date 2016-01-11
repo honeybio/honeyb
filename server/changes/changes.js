@@ -852,7 +852,8 @@ ChangeFunction.discover.device.all = function(argList) {
   }
   var deviceId = Devices.insert({
     group: 'default-group',
-    mgmtAddress: ip
+    mgmtAddress: ip,
+    collectStats : false
   });
   Settings.update({name: 'navigation'}, {$set: {showDevice: true}});
   try {
