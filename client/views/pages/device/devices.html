@@ -141,6 +141,49 @@
 <template name="deviceDetails">
   {{> pageHeading title="Device Details" category='Devices' }}
   <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Device Settings<small class="m-l-sm">Manage your BIG-IP devices</small></h5>
+            {{>iboxTools}}
+          </div>
+          <div class="ibox-content">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="col-md-1">
+                  <form>
+                    <input type="hidden" name="device_id" value="{{_id}}">
+                    <input type="hidden" name="mgmtip" value="{{mgmtAddress}}">
+                    <div class="btn-group">
+                      <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Action <span class="caret"></span></button>
+                      <ul class="dropdown-menu">
+                        <li><a href="#" id="Qkview" class="font-bold">Qkview</a></li>
+                        <li><a href="#" id="Archive" class="font-bold">Archive</a></li>
+                        <li><a href="#" id="Remove" class="font-bold">Remove</a></li>
+                      </ul>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <form id="device-settings" class="form-horizontal">
+              <input type="hidden" name="device_id" value="{{_id}}">
+              <div class="form-group"><label class="col-sm-2 control-label">Collect Statistics</label>
+                <div class="col-sm-4"><input type="checkbox" checked="{{collectStats}}" id="getStats"></div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <button class="btn btn-white" type="submit">Cancel</button>
+                  <button class="btn btn-primary" type="submit">Save changes</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="ibox-footer"></div>
+        </div>
+      </div>
+    </div>
     {{#if restEnabled}}
     <div class="row">
       <div class="col-lg-12">
@@ -286,63 +329,6 @@
     {{else}}
     Rest not enabled, limited access to device
     {{/if}}
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="ibox float-e-margins">
-          <div class="ibox-title">
-            <h5>Create Archives & QKviews<small class="m-l-sm">Manage your BIG-IP devices</small></h5>
-            {{>iboxTools}}
-          </div>
-          <div class="ibox-content">
-            <div class="btn-group">
-              <form class="qkviewForm">
-                <input type="hidden" name="device_id" value="{{_id}}">
-                <button class="btn btn-primary submit">Create and Upload a Qkview</button>
-              </form>
-              <form class="archiveForm">
-                <input type="hidden" name="device_id" value="{{_id}}">
-                <button class="btn btn-primary submit">Create an Archive</button>
-              </form>
-              <form id="stats-form">
-                <input type="hidden" name="device_id" value="{{_id}}">
-                <button class="btn btn-primary submit">Testing Button</button>
-              </form>
-              <form id="remove-form">
-                <input type="hidden" name="deviceId" value="{{_id}}">
-                <input type="hidden" name="mgmtip" value="{{mgmtAddress}}">
-                <button class="btn btn-primary submit">Remove Device from honeyb</button>
-              </form>
-            </div>
-          </div>
-          <div class="ibox-footer"></div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="ibox float-e-margins">
-          <div class="ibox-title">
-            <h5>Device Settings<small class="m-l-sm">Manage your BIG-IP devices</small></h5>
-            {{>iboxTools}}
-          </div>
-          <div class="ibox-content">
-            <form id="device-settings" class="form-horizontal">
-              <input type="hidden" name="device_id" value="{{_id}}">
-              <div class="form-group"><label class="col-sm-2 control-label">Collect Statistics</label>
-                <div class="col-sm-4"><input type="checkbox" checked="{{collectStats}}" id="getStats"></div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-4 col-sm-offset-2">
-                  <button class="btn btn-white" type="submit">Cancel</button>
-                  <button class="btn btn-primary" type="submit">Save changes</button>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="ibox-footer"></div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 

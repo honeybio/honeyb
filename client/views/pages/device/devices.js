@@ -55,7 +55,7 @@ Template.devices.events({
     $('#table-form :input[type=checkbox]:checked').each(function(index){
       var address = $('#table-form :input[name=addr]').val();
       var device = $(this)[0].name;
-      toastr.success('Archives will run in background, you can leave this page', 'Running all archives!');
+      toastr.success('Archives will run in background for up to 15 minutes. You can find them in the archives tab once complete.', 'Running all archives!');
       Meteor.call("createUCSCommand", device, function (err, res) {
         if (err) {
           toastr.error(err.details, err.reason)
@@ -126,11 +126,11 @@ Template.deviceDetails.rendered = function() {
 }
 
 Template.deviceDetails.events({
-  'submit .qkviewForm': function (event) {
+  'click #Qkview': function (event) {
     event.preventDefault();
     // Get value from form element
     var description = "A QKview job";
-    var device_id = event.target.device_id.value;
+    var device_id = template.data._id;
     // var caseNumber = event.target.caseNumber.value;
     // var timeObj = { text: 1, number: event.target.atTime.value, unit: event.target.unit.value};
     var jobName = device_id + "_once_qkview";
@@ -143,9 +143,9 @@ Template.deviceDetails.events({
       }
     });
   },
-  'submit .archiveForm': function (event) {
+  'click #Archive': function (event) {
     event.preventDefault();
-    var device_id = event.target.device_id.value;
+    var device_id = template.data._id;
     var description = "An archive job";
     var jobName = device_id + "_" + "archive";
     Meteor.call("createUCSCommand", device_id, function (err, res) {
@@ -169,12 +169,12 @@ Template.deviceDetails.events({
       }
     });
   },
-  "submit #remove-form": function (event, template) {
+  'click #Remove': function (event, template) {
     event.preventDefault();
     // Get value from form element
     var device = {
-      mgmtip: event.target.mgmtip.value,
-      deviceId: event.target.deviceId.value
+      mgmtip: template.data.mgmtAddress,
+      deviceId: template.data._id
     };
     var job = {
       name: 'removeDevice',

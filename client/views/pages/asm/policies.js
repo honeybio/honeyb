@@ -15,6 +15,7 @@ Template.asmPoliciesExported.onRendered(function() {
 Template.asmPolicies.events({
   'click #Export': function (event, template) {
     event.preventDefault();
+    toaster.success('Policies take from 30 second to 10 minutes to export. Check the Exported Policies tab to download.', 'Policies Exporting in Background')
     $('#table-form :input[type=checkbox]:checked').each(function(index){
       Meteor.call('exportAsmPolicy', $(this)[0].id, function (err, res) {
         if (err) {
