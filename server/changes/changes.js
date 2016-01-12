@@ -1032,6 +1032,150 @@ ChangeFunction.discover.device.all = function(argList) {
   }
 }
 
+ChangeFunction.discover.device.update = function(argList) {
+  var deviceId = argList.deviceId;
+  var origDevice = Devices.findOne({_id: deviceId});
+  // var discoverRest = argList.device.discoverRest;
+  var ip = origDevice.mgmtAddress;
+  var user = origDevice.mgmtUser;
+  var pass = origDevice.mgmtPass;
+  //var discoverSsh = argList.device.discoverSsh;
+  var sshuser = origDevice.sshUser;
+  var sshpass = origDevice.sshPass;
+  // Check if mgmt IP is added, if so, don't add again
+  //console.log(reactiveStatus);
+
+  // reactiveStatus.set('status', 'Connected!' );
+  // reactiveStatus.set('progress', 10 );
+  if (typeof origDevice === 'undefined') {
+    Jobs.update({_id: argList.jobId}, {$set: {progress: 0, status: 'Error, device not found...'}});
+    return false;
+  }
+  try {
+    Jobs.update({_id: argList.jobId}, {$set: {progress: 2, status: 'Connecting to device...'}});
+    settings = Settings.findOne({type: 'system'});
+    Jobs.update({_id: argList.jobId}, {$set: {progress: 10, status: 'Checking Provisioning...'}});
+    var provisioning = Meteor.call("discoverProvisioning", ip, user, pass);
+    if (provisioning === undefined) {
+      console.log('provisioning check failed, not adding');
+      Devices.remove({_id: deviceId});
+      Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Rest Discovery failed, check device...'}});
+      throw new Meteor.Error(500, 'Error 500', 'REST discovery failure, please check BIG-IP Version and try again');
+    }
+    // ip array + routes array + gw ip
+    var mgmtRoutesIps = Meteor.call("discoverManagement", ip, user, pass);
+    var networks = Meteor.call("discoverNetwork", ip, user, pass);
+    var managementIp = Meteor.call("discoverManagementIp", ip, user, pass);
+    var selfIpList = [];
+    for (var i = 0; i < managementIp.length; i++) {
+      selfIpList.push(managementIp[i].name.replace(/\/.*/, ''));
+    }
+
+    for (var i = 0; i < networks.selfs.length; i++) {
+      if (networks.selfs[i].floating == 'disabled') {
+        selfIpList.push(networks.selfs[i].address.replace(/\/.*/, ''));
+      }
+    }
+    var hotfixList = Meteor.call("discoverUploadedHotfixes", ip, user, pass);
+    var imageList = Meteor.call("discoverUploadedImages", ip, user, pass);
+
+    var device = Meteor.call("discoverDevice", ip, user, pass);
+    var mySelf = device.items[1];;
+    var myPeer = device.items[0];;
+    for (var i = 0; i < selfIpList.length; i++) {
+      if (device.items[0].managementIp == selfIpList[i]) {
+        mySelf = device.items[0];
+        myPeer = device.items[1];
+      }
+    }
+
+    Devices.update({_id: deviceId},
+      { $set: {
+        group: 'default-group',
+        mgmtAddress: ip,
+        restEnabled: true,
+        mgmtUser: user,
+        mgmtPass: pass,
+        self: mySelf,
+        peer: myPeer,
+        management: mgmtRoutesIps,
+        provision_level: provisioning,
+        net: networks,
+        software: {
+          images: imageList,
+          hotfixes: hotfixList
+        }
+      }
+   });
+
+    Jobs.update({_id: argList.jobId}, {$set: {progress: 15, status: 'Basic info gathered...'}});
+    Meteor.call("getDiskStats", deviceId);
+    var trafGroups = Meteor.call("discoverTrafficGroups", deviceId);
+    Devices.update({_id: deviceId}, {$set: {trafficGroups: trafGroups}});
+    // Remove keys
+    Certificates.remove({onDevice: deviceId, ssltype: 'key'})
+    Meteor.call("discoverKeys", ip, user, pass, deviceId);
+    Certificates.remove({onDevice: deviceId, ssltype: 'certificate'})
+    Meteor.call("discoverCerts", ip, user, pass, deviceId);
+
+    // I think GTM should refresh based on sync group not single device
+    /*
+    if(provisioning.gtm !== "none") {
+      // Settings.update({name: 'navigation'}, {$set: {showGSLB: true}});
+      Meteor.call("discoverGTM", ip, user, pass, deviceId);
+      Jobs.update({_id: argList.jobId}, {$set: {progress: 20, status: 'Getting GTM info...'}});
+    }
+    */
+    Profiles.remove({onDevice: deviceId});
+    // Get LTM stuff
+    if (provisioning.apm !== "none") {
+      //Settings.update({name: 'navigation'}, {$set: {showAAA: true}});
+      Meteor.call("discoverApmProfiles", ip, user, pass, deviceId);
+      Jobs.update({_id: argList.jobId}, {$set: {progress: 25, status: 'Getting APM info...'}});
+    }
+    if (provisioning.asm !== "none") {
+      //Settings.update({name: 'navigation'}, {$set: {showWaf: true}});
+      Asmpolicies.remove({onDevice: deviceId});
+      Meteor.call("discoverAsmPolicies", ip, user, pass, deviceId);
+      Jobs.update({_id: argList.jobId}, {$set: {progress: 30, status: 'Getting ASM info...'}});
+    }
+    if (provisioning.vcmp == "dedicated") {
+      //Settings.update({name: 'navigation'}, {$set: {showVcmp: true}});
+      Vcmpguests.remove({onDevice: deviceId});
+      Meteor.call("discoverVCMP", ip, user, pass, deviceId);
+      Jobs.update({_id: argList.jobId}, {$set: {progress: 30, status: 'Getting VCMP info...'}});
+    }
+    //Settings.update({name: 'navigation'}, {$set: {showLB: true}});
+    Monitors.remove({onDevice: deviceId});
+    Meteor.call("discoverLtmMonitors", ip, user, pass, deviceId);
+    Meteor.call("discoverLtmProfiles", ip, user, pass, deviceId);
+    Persistence.remove({onDevice: deviceId});
+    Meteor.call("discoverPersistence", ip, user, pass, deviceId);
+    Datagroups.remove({onDevice: deviceId});
+    Meteor.call("discoverDatagroups", ip, user, pass, deviceId);
+    Rules.remove({onDevice: deviceId});
+    Meteor.call("discoverRules", ip, user, pass, deviceId);
+    Pools.remove({onDevice: deviceId});
+    Meteor.call("discoverPools", ip, user, pass, deviceId);
+    Jobs.update({_id: argList.jobId}, {$set: {progress: 50, status: 'Getting LTM info...'}});
+    Virtuals.remove({onDevice: deviceId});
+    Meteor.call("discoverVirtuals", ip, user, pass, deviceId);
+    Virtualaddresses.remove({onDevice: deviceId});
+    Meteor.call("discoverVirtualAddress", ip, user, pass, deviceId);
+    Jobs.update({_id: argList.jobId}, {$set: {progress: 65, status: 'Discovered LTM objects...'}});
+    Meteor.call("getVirtualStats", ip, user, pass, deviceId);
+    Jobs.update({_id: argList.jobId}, {$set: {progress: 75, status: 'Getting LTM Stats...'}});
+    Meteor.call("getPoolStats", ip, user, pass, deviceId);
+    Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Complete!'}});
+    var result = 'Successfully Discovered';
+    return result;
+  }
+  catch (err) {
+    Devices.remove({_id: deviceId});
+    throw new Meteor.Error(err.error, err.reason, err.details);
+  }
+}
+
 ChangeFunction.discover.device.remove = function (argList) {
   var deviceId = argList.deviceId;
 

@@ -701,7 +701,7 @@ Meteor.methods({
       throw new Meteor.Error(401, "Not authorized to update roles");
     }
   },
-  saveDeviceSettings:function (deviceId, settings) {
+  saveDeviceSettings: function (deviceId, settings) {
     if (Meteor.call('isHoneybAdmin')) {
       Devices.update({_id: deviceId}, {$set: {collectStats: settings.collectStats}})
       return {
@@ -711,5 +711,25 @@ Meteor.methods({
     } else {
       throw new Meteor.Error(401, 'Not authorized to update device settings');
     }
+  },
+  refreshDevice: function (deviceId) {
+    //var device = Devices.findOne({_id: deviceId});
+    var argList = {
+      deviceId: deviceId,
+    };
+    // var pool = Pools.findOne({_id: pool_id});
+    var theChange = { description: "Refreshing Device id: " + deviceId,
+      theMethod: {
+        action: "discover",
+        module: "device",
+        object: "update"
+      },
+      argList: argList
+    };
+    var change_id = Meteor.call('createStagedChange', theChange);
+    var result = Meteor.call('pushChange', change_id);
+
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
   },
 });

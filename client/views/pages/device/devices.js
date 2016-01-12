@@ -134,7 +134,7 @@ Template.deviceDetails.events({
     // var caseNumber = event.target.caseNumber.value;
     // var timeObj = { text: 1, number: event.target.atTime.value, unit: event.target.unit.value};
     var jobName = device_id + "_once_qkview";
-    console.log('starting qkview');
+    toastr.success('QKView will run in background for up to 15 minutes. You will need to refresh iHealth once its complete.', 'Running Qkview!');
     Meteor.call("createQkviewCommand", device_id, function (err, res) {
       if (err) {
         toastr.error(err.details, err.reason)
@@ -148,6 +148,7 @@ Template.deviceDetails.events({
     var device_id = template.data._id;
     var description = "An archive job";
     var jobName = device_id + "_" + "archive";
+    toastr.success('Archive will run in background for up to 15 minutes. You can find it in the archives tab once complete.', 'Running archive!');
     Meteor.call("createUCSCommand", device_id, function (err, res) {
       if (err) {
         toastr.error(err.details, err.reason)
@@ -185,6 +186,27 @@ Template.deviceDetails.events({
       Meteor.call("removeDevice", device, res, function (err, res) {
         if (err) {
           toastr.error(err.details, err.reason)
+        } else {
+          toastr.success(res.message, res.subject);
+        }
+      });
+    });
+  },
+  'click #Refresh': function (event, template) {
+    event.preventDefault();
+    // Get value from form element
+    var deviceId = template.data._id;
+    var job = {
+      name: 'refreshDevice',
+      status: 'ready',
+      progress: 0
+    };
+    toastr.success('Refreshing Device is intensive and will run in the background.', 'Refreshing Device!');
+    Meteor.call("newJob", job, function(err, res) {
+      Meteor.call("refreshDevice", deviceId, res, function (err, res) {
+        if (err) {
+          toastr.error(err.reason.details, err.reason)
+          console.log(err);
         } else {
           toastr.success(res.message, res.subject);
         }
