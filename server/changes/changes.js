@@ -848,7 +848,7 @@ ChangeFunction.discover.device.all = function(argList) {
   var checkAdded = Devices.findOne({mgmtAddress: ip}, {_id: 1, self: 1});
   if (typeof checkAdded !== 'undefined') {
     Jobs.update({_id: argList.jobId}, {$set: {progress: 0, status: 'Device already added...'}});
-    return false;
+    throw new Meteor.Error(500, 'Device is already added', 'This device is already added to honeyb.');
   }
   var deviceId = Devices.insert({
     group: 'default-group',
@@ -864,7 +864,7 @@ ChangeFunction.discover.device.all = function(argList) {
       if (settings.keyName === undefined) {
         Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Failed: No SSH Key created... Please create one in your honeyb settings'}});
         Devices.remove({_id: deviceId});
-        throw new Meteor.Error(500, 'Error 500', 'No SSH Key Configured');
+        throw new Meteor.Error(500, 'SSH Not Configured', 'No SSH Key Configured in honeyb. Please try without SSH or create a key.');
       } else {
         var theKey = settings.keyName.pub;
         var sshArgs = [ip, sshuser, sshpass, theKey];
@@ -884,7 +884,7 @@ ChangeFunction.discover.device.all = function(argList) {
             throw new Meteor.Error(401, 'SSH Authorization failed', 'Please check SSH user & password, the key failed to install');
           }
         } catch (err) {
-          throw new Meteor.Error(500, 'Error 401', 'SSH Issue', 'Please check SSH user & password & access, the key failed to install');
+          throw new Meteor.Error(500, 'SSH Issue', 'Please check SSH user & password & access, the key failed to install');
           Devices.remove({_id: deviceId});
         }
       }
@@ -922,7 +922,7 @@ ChangeFunction.discover.device.all = function(argList) {
         console.log('provisioning check failed, not adding');
         Devices.remove({_id: deviceId});
         Jobs.update({_id: argList.jobId}, {$set: {progress: 100, status: 'Rest Discovery failed, check device...'}});
-        throw new Meteor.Error(500, 'Error 500', 'REST discovery failure, please check BIG-IP Version and try again');
+        throw new Meteor.Error(500, 'REST Error', 'REST discovery failure, please check BIG-IP Version and try again');
       }
       // ip array + routes array + gw ip
       var mgmtRoutesIps = Meteor.call("discoverManagement", ip, user, pass);
@@ -1043,8 +1043,7 @@ ChangeFunction.discover.device.update = function(argList) {
   var sshuser = origDevice.sshUser;
   var sshpass = origDevice.sshPass;
   // Check if mgmt IP is added, if so, don't add again
-  //console.log(reactiveStatus);
-
+  // console.log(reactiveStatus);
   // reactiveStatus.set('status', 'Connected!' );
   // reactiveStatus.set('progress', 10 );
   if (typeof origDevice === 'undefined') {
