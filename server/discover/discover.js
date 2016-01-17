@@ -591,22 +591,28 @@ Meteor.methods({
     var trafficGroupList = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/cm/traffic-group");
     if (trafficGroupList !== undefined) {
       for (var i = 0; i < trafficGroupList.length; i++) {
+        console.log(trafficGroupList[i]);
         if (trafficGroupList[i].isFloating == 'true') {
-          var link = trafficGroupList[i].selfLink.replace(/\?.*/, '/stats');
-          var response = mdrBigipRestGetv2(device_id, link);
-          if (response !== undefined) {
-            if (response.entries.deviceName === undefined) {
-              for (var entry in response.entries) {
-                if (response.entries[entry].nestedStats.entries.deviceName.description === device.self.fullPath) {
-                  if (response.entries[entry].nestedStats.entries.failoverState.description === 'active') {
-                    trafficGroupList[i].isActive = true;
-                  } else {
-                    trafficGroupList[i].isActive = false;
+          try {
+            var link = trafficGroupList[i].selfLink.replace(/\?.*/, '/stats');
+            var response = mdrBigipRestGetv2(device_id, link);
+            if (response !== undefined) {
+              if (response.entries.deviceName === undefined) {
+                for (var entry in response.entries) {
+                  if (response.entries[entry].nestedStats.entries.deviceName.description === device.self.fullPath) {
+                    if (response.entries[entry].nestedStats.entries.failoverState.description === 'active') {
+                      trafficGroupList[i].isActive = true;
+                    } else {
+                      trafficGroupList[i].isActive = false;
+                    }
                   }
                 }
+                trafficGroupList[i].isActive = true;
               }
-              trafficGroupList[i].isActive = true;
             }
+          }
+          catch (e) {
+            console.log(e);
           }
         }
       }
