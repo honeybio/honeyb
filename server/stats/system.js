@@ -59,6 +59,9 @@ Meteor.methods({
     return bpsObj;
   },
   updateDeviceStats(device_id) {
+    // Update traffic groups
+    var trafGroups = Meteor.call("discoverTrafficGroups", device_id);
+    Devices.update({_id: device_id}, {$set: {trafficGroups: trafGroups}});
     var today = new Date();
     var minute = today.getHours() * 60 + today.getMinutes();
     today.setHours(0);
