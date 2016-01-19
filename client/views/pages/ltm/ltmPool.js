@@ -183,7 +183,7 @@ Template.ltmPoolsCreate.events({
     Session.set('inputs', inputs);
     // inputs.pop({uniqid: uniqid});
   },
-  "submit #poolForm": function (event, template) {
+  "submit #create-form": function (event, template) {
     event.preventDefault();
     // console.log(event.target.monitor);
     var members = Session.get('inputs');

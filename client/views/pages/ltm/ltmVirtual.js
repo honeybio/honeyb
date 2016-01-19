@@ -88,7 +88,7 @@ Template.ltmVirtualsCreate.events({
     var newValue = device.options[device.selectedIndex].value;
     Session.set("onDevice", newValue);
   },
-  "submit #vipForm": function (event, template) {
+  "submit #virtual-settings": function (event, template) {
     event.preventDefault();
     var vipObj = {
       kind: "tm:ltm:virtual:virtualstate",

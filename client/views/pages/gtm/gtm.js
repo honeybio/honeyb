@@ -139,7 +139,7 @@ Template.gtmPoolsCreate.events({
     var newValue = syncgroup.options[syncgroup.selectedIndex].value;
     Session.set("syncgroup", newValue);
   },
-  "submit #poolForm": function (event, template) {
+  "submit #create-form": function (event, template) {
     event.preventDefault();
     // console.log(event.target.monitor);
     var syncid = event.target.syncgroup.options[syncgroup.selectedIndex].value;
