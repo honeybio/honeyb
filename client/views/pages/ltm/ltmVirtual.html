@@ -229,46 +229,75 @@
           <h4 class="modal-title" id="myModalLabel">Add a Pool</h4>
         </div>
         <div class="modal-body">
-          <form id= "poolForm" class="poolForm">
-            Pool Name: <input type="text" id="pool_name" class="pool_name"><br>
-            LB Method: <select id="lbMethod" name="lbMethod">
-              <option selected="round-robin" value="round-robin">round-robin</option>
-              <option value="least-connections-member">least-connections-member</option>
-              <option value="dynamic-ratio-node">dynamic-ratio-node</option>
-              <option value="fastest-app-response">fastest-app-response</option>
-              <option value="fastest-node">fastest-node</option>
-              <option value="least-connections-member">least-connections-member</option>
-              <option value="least-connections-node">least-connections-node</option>
-              <option value="observed-member">observed-member</option>
-              <option value="observed-node">observed-node</option>
-              <option value="predictive-member">predictive-member</option>
-              <option value="predictive-node">predictive-node</option>
-              <option value="least-sessions">least-sessions</option>
-              <option value="ratio-least-connections-member">ratio-least-connections-member</option>
-              <option value="ratio-least-connections-node">ratio-least-connections-node</option>
-              <option value="ratio-member">ratio-member</option>
-              <option value="ratio-node">ratio-node</option>
-              <option value="ratio-session">ratio-session</option>
-              <option value="weighted-least-connections-member">weighted-least-connections-member</option>
-              <option value="weighted-least-connections-node">weighted-least-connections-node</option>
-            </select><br>
-            Monitor: <select id="monitor" name="monitor">
-              <option selected="none" value="none">none</option>
-              {{#each getMonitorList}}
-                <option value="{{fullPath}}">{{name}}</option>
-              {{/each}}
-            </select><br>
-            Add Pool Members: <button class="addMore" id="addMore">Add Members</button><br>
+          <form id= "pool-form">
+            <div class="form-horizontal">
+              <div class="form-group"><label class="col-sm-2 control-label">Pool Name</label>
+                <div class="col-sm-4"><input type="text" id="poolName" class="form-control"></div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">LB Method </label>
+                <div class="col-sm-6">
+                  <select id="lbMethod" class="form-control col-sm-2" name="lbMethod">
+                    <option selected="round-robin" value="round-robin">round-robin</option>
+                    <option value="least-connections-member">least-connections-member</option>
+                    <option value="dynamic-ratio-node">dynamic-ratio-node</option>
+                    <option value="fastest-app-response">fastest-app-response</option>
+                    <option value="fastest-node">fastest-node</option>
+                    <option value="least-connections-member">least-connections-member</option>
+                    <option value="least-connections-node">least-connections-node</option>
+                    <option value="observed-member">observed-member</option>
+                    <option value="observed-node">observed-node</option>
+                    <option value="predictive-member">predictive-member</option>
+                    <option value="predictive-node">predictive-node</option>
+                    <option value="least-sessions">least-sessions</option>
+                    <option value="ratio-least-connections-member">ratio-least-connections-member</option>
+                    <option value="ratio-least-connections-node">ratio-least-connections-node</option>
+                    <option value="ratio-member">ratio-member</option>
+                    <option value="ratio-node">ratio-node</option>
+                    <option value="ratio-session">ratio-session</option>
+                    <option value="weighted-least-connections-member">weighted-least-connections-member</option>
+                    <option value="weighted-least-connections-node">weighted-least-connections-node</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">Monitor </label>
+                <div class="col-sm-6">
+                  <select id="monitor" class="form-control col-sm-2" name="monitor">
+                    <option selected="none" value="none">none</option>
+                    {{#each getMonitorList}}
+                      <option value="{{fullPath}}">{{name}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">Add Pool Members </label>
+                <div class="col-sm-4"><button class="addMore" id="addMore">Add Members</button></div>
+              </div>
+            </div>
             {{#each inputs}}
-              {{> input}}
+              {{> virtualInput}}
             {{/each}}
+            <div class="form-horizontal">
+              {{> submitCancelButtons}}
+            </div>
           </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" data-dismiss="modal">Cancel</button>
         </div>
       </div>
     </div>
   </div>
+</template>
 
+<template name="virtualInput">
+  <div class="form-inline">
+    <div class="form-group">
+      <label for="{{uniqid}}_ip">IP</label>
+      <input type="text" id="{{uniqid}}_ip" name="memIP">
+    </div>
+    <div class="form-group">
+      <label for="{{uniqid}}_port">Port</label>
+      <input type="text" id="{{uniqid}}_port" name="memPort">
+    </div>
+    <div class="form-group">
+      <button id="{{uniqid}}" class="remove btn btn-primary">Remove</button>
+    </div>
+  </div>
 </template>

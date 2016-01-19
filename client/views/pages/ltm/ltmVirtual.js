@@ -102,14 +102,14 @@ Template.ltmVirtualsCreate.events({
     var toStage = event.target.stage.value;
     var description = event.target.longDescription.value;
   },
-  "click #poolForm button[class=addMore]": function (event) {
+  "click #pool-form button[class=addMore]": function (event) {
     event.preventDefault();
     var inputs = Session.get('inputs');
     var uniqid = Math.floor(Math.random() * 100000);
     inputs.push({uniqid: uniqid});
     Session.set('inputs', inputs);
   },
-  "click #poolForm button[class=remove-input]": function (event) {
+  "click #pool-form button[class=remove-input]": function (event) {
     event.preventDefault();
     var inputs = Session.get('inputs');
     var i = inputs.indexOf(this.uniqid);
@@ -118,7 +118,7 @@ Template.ltmVirtualsCreate.events({
     Session.set('inputs', inputs);
     // inputs.pop({uniqid: uniqid});
   },
-  "submit #poolForm": function (event) {
+  "submit #pool-form": function (event) {
     event.preventDefault();
     var members = Session.get('inputs');
     var device_id = event.target.device.options[device.selectedIndex].value;
@@ -132,7 +132,7 @@ Template.ltmVirtualsCreate.events({
       memberList.push(member);
     }
     var poolObject = {
-      name: event.target.pool_name.value,
+      name: event.target.poolName.value,
       monitor: event.target.monitor.value,
       members: memberList,
       partition : null,
