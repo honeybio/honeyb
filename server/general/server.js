@@ -420,9 +420,9 @@ Meteor.methods({
     }});
     return update;
   },
-  updateSystemSettings: function(hname, ihealthUser, ihealthPass, ihealthFreq) {
+  updateSystemSettings: function(hname, ihealthUser, ihealthPass, ihealthFreq, certAdmin) {
     var update = Settings.update({type: "system"}, { $set: { ihealthUser: ihealthUser,
-      ihealthPass: ihealthPass, ihealthFreq: ihealthFreq }});
+      ihealthPass: ihealthPass, ihealthFreq: ihealthFreq, certificateEmail: certAdmin }});
     Settings.update({name: 'navigation'}, {$set: {showIhealth: true}});
     return update;
   },
@@ -672,11 +672,13 @@ Meteor.methods({
     var sevenDayCertList = '<p>' + sevenCerts + '</p>';
     var twentyEightDayCertList = '<p>' + twentyEightCerts + '</p>';
 
+    var settings = Settings.find({type: 'system'});
+
     if (expired !== null && sevenCerts !== null && twentyEightCerts !== null) {
       Email.send({
         from: 'honeyb@company.com',
-        to: 'sta.annika@gmail.com',
-        subject: 'Testing Honeyb Certs',
+        to: settings.certificateEmail,
+        subject: '[Honeyb] - F5 Expired & Soon to be Expired Certificates',
         html: '<p>The following Certs are expired</p>' + expiredCertList +
           '<p>The following Certs expire in less than 7 days</p>' + sevenDayCertList +
           '<p>The following Certs expire in less than 28 days</p>' + twentyEightDayCertList,

@@ -90,7 +90,8 @@ Meteor.startup(function () {
         updateLtmPoolMember: 90000,
         archiveSchedule: 'nightly',
         qkviewSchedule: 'weekly'
-      }
+      },
+      certificateEmail: 'root@localhost'
     });
     //var pubKey = Meteor.call('generateSshKey', 'honeyb');
     //console.log(pubKey);

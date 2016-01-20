@@ -154,10 +154,11 @@ Template.settingsHoneyb.events({
   'submit #system-settings': function (event) {
     event.preventDefault();
     var hname = event.target.honeyName.value;
+    var certAdmin = event.target.certAdminEmail.value;
     var ihealthUser = event.target.ihealthUser.value;
     var ihealthPass = event.target.ihealthPass.value;
     var ihealthFreq = event.target.ihealthFreq.value;
-    Meteor.call("updateSystemSettings", hname, ihealthUser, ihealthPass, ihealthFreq, function (err, res) {
+    Meteor.call("updateSystemSettings", hname, ihealthUser, ihealthPass, ihealthFreq, certAdmin, function (err, res) {
       if (err) {
         toastr.error(err.details, err.reason)
       } else {

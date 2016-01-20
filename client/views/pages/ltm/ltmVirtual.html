@@ -229,7 +229,7 @@
           <h4 class="modal-title" id="myModalLabel">Add a Pool</h4>
         </div>
         <div class="modal-body">
-          <form id= "pool-form">
+          <form id="pool-form">
             <div class="form-horizontal">
               <div class="form-group"><label class="col-sm-2 control-label">Pool Name</label>
                 <div class="col-sm-4"><input type="text" id="poolName" class="form-control"></div>
@@ -274,7 +274,19 @@
               </div>
             </div>
             {{#each inputs}}
-              {{> virtualInput}}
+            <div class="form-inline">
+              <div class="form-group">
+                <label for="{{uniqid}}_ip">IP</label>
+                <input type="text" id="{{uniqid}}_ip" name="memIP">
+              </div>
+              <div class="form-group">
+                <label for="{{uniqid}}_port">Port</label>
+                <input type="text" id="{{uniqid}}_port" name="memPort">
+              </div>
+              <div class="form-group">
+                <button id="{{uniqid}}" class="remove-input">Remove</button>
+              </div>
+            </div>
             {{/each}}
             <div class="form-horizontal">
               {{> submitCancelButtons}}
@@ -287,17 +299,5 @@
 </template>
 
 <template name="virtualInput">
-  <div class="form-inline">
-    <div class="form-group">
-      <label for="{{uniqid}}_ip">IP</label>
-      <input type="text" id="{{uniqid}}_ip" name="memIP">
-    </div>
-    <div class="form-group">
-      <label for="{{uniqid}}_port">Port</label>
-      <input type="text" id="{{uniqid}}_port" name="memPort">
-    </div>
-    <div class="form-group">
-      <button id="{{uniqid}}" class="remove btn btn-primary">Remove</button>
-    </div>
-  </div>
+
 </template>
