@@ -672,12 +672,15 @@ Meteor.methods({
     var sevenDayCertList = '<p>' + sevenCerts + '</p>';
     var twentyEightDayCertList = '<p>' + twentyEightCerts + '</p>';
 
-    var settings = Settings.find({type: 'system'});
-
+    var mySettings = Settings.findOne({type: 'system'});
+    if (mySettings.certificateEmail === undefined) {
+      console.log('Email not set for alerts!');
+      return;
+    }
     if (expired !== null && sevenCerts !== null && twentyEightCerts !== null) {
       Email.send({
         from: 'honeyb@company.com',
-        to: settings.certificateEmail,
+        to: mySettings.certificateEmail,
         subject: '[Honeyb] - F5 Expired & Soon to be Expired Certificates',
         html: '<p>The following Certs are expired</p>' + expiredCertList +
           '<p>The following Certs expire in less than 7 days</p>' + sevenDayCertList +
