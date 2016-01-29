@@ -9,7 +9,7 @@ Template.ltmRules.onRendered(function() {
 });
 
 Template.ltmRulesCreate.rendered = function(){
-  var editor = CodeMirror.fromTextArea(document.getElementById("irule-code"), {
+  var editor = CodeMirror.fromTextArea(document.getElementById("iruleCode"), {
     matchBrackets: true,
     lineNumbers: true,
     indentUnit: 2,
@@ -33,7 +33,7 @@ Template.ltmRulesCreate.rendered = function(){
 };
 
 Template.ruleDetails.rendered = function(){
-  var editor = CodeMirror.fromTextArea(document.getElementById("irule-code"), {
+  var editor = CodeMirror.fromTextArea(document.getElementById("iruleCode"), {
     matchBrackets: true,
     lineNumbers: true,
     indentUnit: 2,
@@ -57,3 +57,24 @@ Template.ruleDetails.rendered = function(){
   //console.log(this.data);
   editor.doc.setValue(this.data.apiAnonymous);
 };
+
+Template.ltmRulesCreate.events({
+  'change #device': function (event) {
+    var newValue = device.options[device.selectedIndex].value;
+    Session.set("onDevice", newValue);
+  },
+  "submit #rule-form": function (event, template) {
+    event.preventDefault();
+    //console.log(event.target.monitor);
+
+    var deviceId = event.target.device.options[device.selectedIndex].value;
+    var iruleData = event.target.iruleCode.value;
+    Meteor.call("createLtmRule", deviceId, ruleName, iruleData, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success(res.message, res.subject);
+      }
+    });
+  },
+});

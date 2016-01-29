@@ -159,13 +159,16 @@
           <div class="ibox-content">
             <form id="virtual-settings" class="form-horizontal">
               <div class="form-group"><label class="col-sm-2 control-label">Name</label>
-                <div class="col-sm-4"><input type="text" id="mask" value="{{mask}}" class="form-control"></div>
+                <div class="col-sm-4"><input type="text" id="name" class="form-control"></div>
               </div>
               <div class="form-group"><label class="col-sm-2 control-label">IP (Destination)</label>
-                <div class="col-sm-4"><input type="text" id="destination" value="{{destination}}" class="form-control"></div>
+                <div class="col-sm-4"><input type="text" id="vip_dest" class="form-control"></div>
               </div>
               <div class="form-group"><label class="col-sm-2 control-label">Port</label>
-                <div class="col-sm-4"><input type="text" id="destination" value="{{destination}}" class="form-control"></div>
+                <div class="col-sm-4"><input type="text" id="vip_port" class="form-control"></div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">Mask</label>
+                <div class="col-sm-4"><input type="text" id="vip_mask" class="form-control"></div>
               </div>
               <div class="form-group"><label class="col-sm-2 control-label">SSL/HTTPS? </label>
                 <div class="col-sm-6">
@@ -189,7 +192,7 @@
               </div>
               <div class="form-group"><label class="col-sm-2 control-label">SNAT</label>
                 <div class="col-sm-6">
-                  <select id="persistence" class="form-control col-sm-2" name="persistence">
+                  <select id="snat" class="form-control col-sm-2" name="snat">
                     <option selected="automap" value="automap">automap</option>
                     <option value="none">None</option>
                     <option value="snat_to_vip_pool">Snat to VIP Pool</option>
@@ -199,7 +202,7 @@
               </div>
               <div class="form-group"><label class="col-sm-2 control-label">Default Pool</label>
                 <div class="col-sm-6">
-                  <select id="persistence" class="form-control col-sm-2" name="persistence">
+                  <select id="default_pool" class="form-control col-sm-2" name="default_pool">
                     <option selected="none" value="none">None</option>
                     {{#each getPoolList}}
                       <option value="{{fullPath}}">{{name}}</option>

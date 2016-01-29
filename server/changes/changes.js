@@ -625,21 +625,14 @@ ChangeFunction.create.ltm.virtual = function(argList) {
     * @return {boolean} returns true if success
     */
     var deviceId = argList.device_id;
-    var vip_name = argList.vip_name;
-    var vip_dest = argList.vip_dest;
-    var vip_mask = argList.vip_mask;
-    var snat = argList.snat;
 
     var post_data = {
-      name: vip_name,
-      destination: vip_dest,
-      mask: vip_mask
+      name: argList.vip_name,
+      destination: argList.vip_dest,
+      mask: argList.vip_mask,
+      port: argList.vip_port
     };
-    for (var i in post_data.argList) {
-      if (post_data.argList[i] == null) {
-        delete test[i];
-      }
-    }
+
     var requrl = "https://localhost/mgmt/tm/ltm/virtual";
     var result = mdrBigipRestPost(deviceId, requrl, post_data);
     var db_id = Meteor.call("discoverOneVirtual", deviceId, result.data.selfLink);

@@ -185,10 +185,11 @@ Template.ltmPoolsCreate.events({
   },
   "submit #create-form": function (event, template) {
     event.preventDefault();
-    // console.log(event.target.monitor);
+    //console.log(event.target.monitor);
     var members = Session.get('inputs');
     var device_id = event.target.device.options[device.selectedIndex].value;
-    var toStage = event.target.stage.value;
+    // var toStage = event.target.stage.value;
+    var toStage = 0;
     var memberList = [];
     if (members.length != 0) {
       for (i = 0; i < members.length; i++) {
@@ -203,7 +204,7 @@ Template.ltmPoolsCreate.events({
       }
     }
     var poolObject = {
-      name: event.target.pool_name.value,
+      name: event.target.objName.value,
       monitor: [],
       members: memberList,
       partition : null,

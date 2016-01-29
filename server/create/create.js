@@ -74,7 +74,7 @@ Meteor.methods({
     var myRes = { subject: 'Success!', message: result };
     return myRes;
   },
-  addLtmVirtual: function(device_id, monObj, stage) {
+  addLtmVirtual: function(device_id, vipObj, stage) {
     /**
     * Method that builds a change to add an LTM virtual
     *
@@ -90,7 +90,7 @@ Meteor.methods({
     */
     var device = Devices.findOne({_id: device_id});
     var theChange = {
-      description: "Add Virtual " + vip_name + " on device: " + device.self.name,
+      description: "Add Virtual " + vipObj.name + " on device: " + device.self.name,
       theMethod: {
         action: "create",
         module: "ltm",

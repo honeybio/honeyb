@@ -92,15 +92,23 @@ Template.ltmVirtualsCreate.events({
     event.preventDefault();
     var vipObj = {
       kind: "tm:ltm:virtual:virtualstate",
-      name: event.target.vip_name.value,
-      destination: "/Common/" + event.target.vip_dest.value + ":" + event.target.vip_port.value,
-      mask: event.target.vip_mask.value,
-      pool: event.target.default_pool.value,
-      snat: event.target.snat.value
+      vip_name: event.target.name.value,
+      vip_dest: "/Common/" + event.target.vip_dest.value + ":" + event.target.vip_port.value,
+      vip_mask: event.target.vip_mask.value,
+      vip_pool: event.target.default_pool.value,
+      vip_snat: event.target.snat.value,
+      vip_port: event.target.vip_port.value,
     };
     var device_id = event.target.device.options[device.selectedIndex].value;
-    var toStage = event.target.stage.value;
+    var toStage = 0;
     var description = event.target.longDescription.value;
+    Meteor.call("addLtmVirtual", device_id, vipObj, toStage, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success(res.message, res.subject);
+      }
+    });
   },
   "click #pool-form button[class=addMore]": function (event) {
     event.preventDefault();
