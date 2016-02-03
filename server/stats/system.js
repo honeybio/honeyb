@@ -6,10 +6,35 @@ Meteor.methods({
   },
   updateAllDeviceStats() {
     this.unblock();
-    bigip_devices = Devices.find({restEnabled: true, collectStats: true});
+    bigip_devices = Devices.find({restEnabled: true});
     bigip_devices.forEach(function (eachDevice) {
-      Meteor.call("updateDeviceStats", eachDevice._id);
+      if (eachDevice.collectStats === true) {
+        Meteor.call("updateHAStatus", eachDevice._id);
+        Meteor.call("updateDeviceStats", eachDevice._id);
+      } else {
+        Meteor.call("updateHAStatus", eachDevice._id);
+      }
     });
+  },
+  updateHAStatus(deviceId) {
+    var myDevice = Devices.findOne({_id: deviceId});
+    if (myDevice.restEnabled === true) {
+      var device = Meteor.call("discoverDevice", myDevice.mgmtAddress, myDevice.mgmtUser, mgmtPass.pass);
+      var mySelf = device.items[1];;
+      var myPeer = device.items[0];;
+      for (var i = 0; i < selfIpList.length; i++) {
+        if (device.items[0].managementIp == selfIpList[i]) {
+          mySelf = device.items[0];
+          myPeer = device.items[1];
+        }
+      }
+      Devices.update({_id: deviceId},
+        { $set: {
+          self: mySelf,
+          peer: myPeer,
+        }
+      });
+    }
   },
   setCurrentCpu(cpuStat, device_id) {
     var curStats = {
