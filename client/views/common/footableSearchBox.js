@@ -22,7 +22,7 @@ Template.footableSearchBox.helpers({
           objects: 'Datagroups'
         },
         asmPolicies: {
-          link: [{ url: '/asm/policy/create', name: 'Create' }],
+          link: [],
           actions: ['Delete', 'Export'],
           objects: 'WAF Policies'
         },
