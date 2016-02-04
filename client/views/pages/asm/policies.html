@@ -17,7 +17,7 @@
                     <th>Policy Name</th>
                     <th>Enforcement Mode</th>
                     <th>Learning Mode</th>
-                    <th>Status</th>
+                    <th>Device</th>
                     <th>Select</th>
                   </tr>
                 </thead>
@@ -29,7 +29,7 @@
                         <td><a href="/asm/policies/{{_id}}">{{this.name}}</a></td>
                         <td>{{enforcementMode}}</td>
                         <td>{{learningMode}}</td>
-                        <td>{{active}}</td>
+                        <td>{{getOnDevice onDevice}}</td>
                         <td><input type="checkbox" id="{{this._id}}" name="{{this._id}}"></td>
                       </tr>
                     {{/if}}

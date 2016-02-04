@@ -50,6 +50,29 @@ Template.devices.events({
       });
     });
   },
+  'click #Refresh': function (event, template) {
+    event.preventDefault();
+    $('#table-form :input[type=checkbox]:checked').each(function(index){
+      // Get value from form element
+      var deviceId = $(this)[0].name;
+      var job = {
+        name: 'refreshDevice',
+        status: 'ready',
+        progress: 0
+      };
+      toastr.success('Refreshing Device is intensive and will run in the background.', 'Refreshing Device!');
+      Meteor.call("newJob", job, function(err, res) {
+        Meteor.call("refreshDevice", deviceId, res, function (err, res) {
+          if (err) {
+            toastr.error(err.reason.details, err.reason)
+            console.log(err);
+          } else {
+            toastr.success(res.message, res.subject);
+          }
+        });
+      });
+    });
+  },
   'click #Archive': function (event, template) {
     event.preventDefault();
     $('#table-form :input[type=checkbox]:checked').each(function(index){
