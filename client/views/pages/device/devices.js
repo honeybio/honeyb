@@ -149,7 +149,7 @@ Template.deviceDetails.rendered = function() {
 }
 
 Template.deviceDetails.events({
-  'click #Qkview': function (event) {
+  'click #Qkview': function (event, template) {
     event.preventDefault();
     // Get value from form element
     var description = "A QKview job";
@@ -166,7 +166,7 @@ Template.deviceDetails.events({
       }
     });
   },
-  'click #Archive': function (event) {
+  'click #Archive': function (event, template) {
     event.preventDefault();
     var device_id = template.data._id;
     var description = "An archive job";
@@ -180,7 +180,7 @@ Template.deviceDetails.events({
       }
     });
   },
-  'submit #stats-form': function (event) {
+  'submit #stats-form': function (event, template) {
     event.preventDefault();
     var device_id = event.target.device_id.value;
     Meteor.call("testRest", device_id, function (err, res) {
