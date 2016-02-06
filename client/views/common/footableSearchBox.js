@@ -32,8 +32,8 @@ Template.footableSearchBox.helpers({
           objects: 'Changes'
         },
         sslCerts: {
-          link: [{ url: '/ssl/certs/create', name: 'Create' }],
-          actions: ['Delete'],
+          /*link: [{ url: '/ssl/certs/create', name: 'Create' }],
+          actions: ['Delete'],*/
           objects: 'SSL Certifcates'
         },
         sslKeys: {
