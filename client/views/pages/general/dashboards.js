@@ -81,7 +81,7 @@ Template.dashboardsAppview.helpers({
     var result = Virtuals.find({}, {name: 1, destination: 1, pool: 1}).fetch();
     for(var i = 0; i < result.length; i++) {
       if (typeof result[i].pool !== 'undefined') {
-        // db.db_pools.findOne({fullPath: "/Common/pool_anniknows_80"},{})
+        // db.db_pools.findOne({fullPath: "/Common/pool"},{})
         var tmpPool = Pools.findOne({fullPath: result[i].pool}, {});
         if (typeof tmpPool !== 'undefined') {
           // console.log(tmpPool.name);

@@ -400,14 +400,14 @@ Template.deviceDetails.helpers({
     return results;
   },
   eos: function (platform) {
-    console.log(platform);
     if (platform !== undefined) {
       return 'Unknown';
+    } else {
+      console.log(platform);
     }
   },
   eots: function (version) {
     if (version !== undefined) {
-      console.log(version);
       if (version == '10.1') {
         return '1-Mar-2016';
       } else if (version == '11.6.0') {

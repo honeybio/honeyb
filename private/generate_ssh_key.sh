@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Generate honeyb's ssh_keys and import into DB
-# Copyright (C) 2014-2015 Bespin Technologies Corp. - All Rights Reserved
+# Copyright (C) 2014-2016 Honeyb.io - All Rights Reserved
 
 function usage() {
   echo "usage: $0 file"
