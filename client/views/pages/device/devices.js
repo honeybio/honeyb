@@ -396,6 +396,62 @@ Template.deviceDetails.helpers({
   getJobs: function (device_id) {
     var results = Jobs.find({onDevice: device_id});
     return results;
+  },
+  eos: function (platform) {
+    console.log(platform);
+    if (platform !== undefined) {
+      return 'SEP 01 2010';
+    }
+  },
+  eots: function (version) {
+    if (version !== undefined) {
+      console.log(version);
+      if (version == '10.1') {
+        return '1-Mar-2016';
+      } else if (version == '11.6.0') {
+        return '25-Aug-2017';
+      } else if (version == '11.5.0') {
+        return '31-Jan-2017';
+      } else if (version == '11.5.1') {
+        return '8-April-2018';
+      } else if (version == '11.5.2') {
+        return '8-April-2020';
+      } else if (version == '11.5.3') {
+        return '8-April-2020';
+      } else if (version == '11.5.4') {
+        return '8-April-2020';
+      } else if (version == '11.4.1') {
+        return '17-Sept-2017';
+      } else if (version == '11.4.0') {
+        return '11-June-2016';
+      } else if (version == '11.2.1') {
+        return '25-Sept-2016';
+      } else if (version == '10.2.4') {
+        return '31-Dec-2016';
+      } else if (version == '10.2.3') {
+        return '31-Dec-2016';
+      } else if (version == '10.2.2') {
+        return '31-Dec-2016';
+      } else if (version == '10.2.1') {
+        return '31-Dec-2016';
+      } else if (version == '10.2.0') {
+        return '31-Dec-2016';
+      } else if (version == '11.3.0') {
+        return '17-Dec-2015';
+      } else if (version == '11.2.0') {
+        return '11-June-2015';
+      } else if (version == '11.1.0') {
+        return '28-Nov-2014';
+      } else if (version == '11.0.0') {
+        return '31-Dec-2016';
+      } else if (version == '10.2.0') {
+        return '31-Dec-2016';
+      } else if (version == '10.2') {
+        return '31-Dec-2016';
+      } else {
+        return 'Not Found';
+      }
+    }
   }
 });
 

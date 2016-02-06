@@ -283,19 +283,20 @@
                 <tr>
                   <th>Version</th>
                   <th>Build</th>
-                  <th>End of Support</th>
+                  <th>EoTS</th>
                   <th>Platform Name</th>
                   <th>Platform ID</th>
-                  <th>End of Support</th>
+                  <th>EoS</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>{{mgmtAddress}}</td>
                   <td>{{self.version}}</td>
                   <td>{{self.build}}</td>
+                  <td>{{eots self.version}}</td>
                   <td>{{self.marketingName}}</td>
                   <td>{{self.platform}}</td>
+                  <td>{{eos self.platform}}</td>
                 </tr>
               </tbody>
               <tfoot>

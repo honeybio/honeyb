@@ -20,20 +20,36 @@ Meteor.methods({
     var myDevice = Devices.findOne({_id: deviceId});
     if (myDevice.restEnabled === true) {
       var device = Meteor.call("discoverDevice", myDevice.mgmtAddress, myDevice.mgmtUser, myDevice.mgmtPass);
-      var mySelf = device.items[1];;
-      var myPeer = device.items[0];;
-      for (var i = 0; i < selfIpList.length; i++) {
-        if (device.items[0].managementIp == selfIpList[i]) {
-          mySelf = device.items[0];
-          myPeer = device.items[1];
+      if (device) {
+        var mySelf = device.items[1];
+        var myPeer = device.items[0];
+        var networks = Meteor.call("discoverNetwork", ip, user, pass);
+        var managementIp = Meteor.call("discoverManagementIp", ip, user, pass);
+        var selfIpList = [];
+        for (var i = 0; i < managementIp.length; i++) {
+          selfIpList.push(managementIp[i].name.replace(/\/.*/, ''));
         }
+        for (var i = 0; i < networks.selfs.length; i++) {
+          if (networks.selfs[i].floating == 'disabled') {
+            selfIpList.push(networks.selfs[i].address.replace(/\/.*/, ''));
+          }
+        }
+        for (var i = 0; i < selfIpList.length; i++) {
+          if (device.items[0].managementIp == selfIpList[i]) {
+            mySelf = device.items[0];
+            myPeer = device.items[1];
+          }
+        }
+        Devices.update({_id: deviceId},
+          { $set: {
+            reachable: true,
+            self: mySelf,
+            peer: myPeer,
+          }
+        });
+      } else {
+        Devices.update({_id: deviceId}, {$set: { reachable: false } })
       }
-      Devices.update({_id: deviceId},
-        { $set: {
-          self: mySelf,
-          peer: myPeer,
-        }
-      });
     }
   },
   setCurrentCpu(cpuStat, device_id) {
