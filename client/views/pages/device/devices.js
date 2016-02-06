@@ -351,45 +351,47 @@ Template.deviceNetworkChart.rendered = function() {
 }
 
 Template.deviceDetails.rendered = function() {
-  var donutData = [
-    {
-      value: this.data.cpuUsage.fiveMinAvgIdle,
-      color: "#a3e1d4",
-      highlight: "#1ab394",
-      label: "Idle"
-    },
-    {
-      value: this.data.cpuUsage.fiveMinAvgIowait,
-      color: "#dedede",
-      highlight: "#1ab394",
-      label: "Disk Wait Time"
-    },
-    {
-      value: this.data.cpuUsage.fiveMinAvgSystem,
-      color: "#b5b8cf",
-      highlight: "#1ab394",
-      label: "System Processes"
-    },
-    {
-      value: this.data.cpuUsage.fiveMinAvgUser,
-      color: "#b5b8cf",
-      highlight: "#1ab394",
-      label: "User Processes"
-    }
-  ];
-  var donutOptions = {
-    segmentShowStroke: true,
-    segmentStrokeColor: "#fff",
-    segmentStrokeWidth: 2,
-    percentageInnerCutout: 45, // This is 0 for Pie charts
-    animationSteps: 100,
-    animationEasing: "easeOutBounce",
-    animateRotate: true,
-    animateScale: false,
-    responsive: true,
-  };
-  var ctx = document.getElementById("donutChart").getContext("2d");
-  var myNewChart = new Chart(ctx).Doughnut(donutData, donutOptions);
+  if (this.data.cpuUsage !== undefined) {
+    var donutData = [
+      {
+        value: this.data.cpuUsage.fiveMinAvgIdle,
+        color: "#a3e1d4",
+        highlight: "#1ab394",
+        label: "Idle"
+      },
+      {
+        value: this.data.cpuUsage.fiveMinAvgIowait,
+        color: "#dedede",
+        highlight: "#1ab394",
+        label: "Disk Wait Time"
+      },
+      {
+        value: this.data.cpuUsage.fiveMinAvgSystem,
+        color: "#b5b8cf",
+        highlight: "#1ab394",
+        label: "System Processes"
+      },
+      {
+        value: this.data.cpuUsage.fiveMinAvgUser,
+        color: "#b5b8cf",
+        highlight: "#1ab394",
+        label: "User Processes"
+      }
+    ];
+    var donutOptions = {
+      segmentShowStroke: true,
+      segmentStrokeColor: "#fff",
+      segmentStrokeWidth: 2,
+      percentageInnerCutout: 45, // This is 0 for Pie charts
+      animationSteps: 100,
+      animationEasing: "easeOutBounce",
+      animateRotate: true,
+      animateScale: false,
+      responsive: true,
+    };
+    var ctx = document.getElementById("donutChart").getContext("2d");
+    var myNewChart = new Chart(ctx).Doughnut(donutData, donutOptions);
+  }
 };
 
 Template.deviceDetails.helpers({

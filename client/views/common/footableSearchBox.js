@@ -143,6 +143,7 @@ Template.footableSearchBox.helpers({
           objects: 'Pool Members'
         },
         vcmpHosts: {
+          hide: true,
           link: [],
           actions: [],
           objects: 'VCMP Hosts'
