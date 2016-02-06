@@ -1,6 +1,6 @@
 Meteor.methods({
-  discoverGTM: function (ip, user, pass, device_id) {
-    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass };
+  discoverGTM: function (ip, user, pass, device_id, version) {
+    var bigip = { iControl: 'rest', ip: ip, user: user, pass: pass, version: version};
     var gtm_settings = BigipClient.list.gtm.global_settings.general(bigip);
     // var gtm_settings = mdrBigipRestGetv2(device_id, "https://localhost/mgmt/tm/gtm/global-settings/general");
     var exist_sync = Gtmsyncgroups.findOne({synchronizationGroupName: gtm_settings.synchronizationGroupName});
@@ -38,19 +38,25 @@ Meteor.methods({
       for (var i=0; i < wip_list.length; i++) {
         // get list of pools for each wideip
         var wip_pool_list = wip_list[i].pools;
-        // loop through list of pools for each wideip
-        if (wip_pool_list !== undefined) {
-          for (var j=0; j < wip_pool_list.length; j++) {
-            // URL for this specific pool
-            // var wip_pool_details = mdrBigipRestGetv2(device_id, wip_pool_list[j].nameReference.link);
-            var wip_pool_details = mdrBigipRestGetv2(device_id, wip_pool_list[j].nameReference.link);
-            var pmems = mdrBigipRestGetItems(device_id, wip_pool_details.membersReference.link);
-            wip_list[i].pools[j].members = pmems;
+        if (bigip.version.match(/11/)) {
+          wip_list[i].group = 'default-group';
+          wip_list[i]['inSyncGroup'] = sync_id;
+          Wideips.insert(wip_list[i]);
+        } else {
+          // loop through list of pools for each wideip
+          if (wip_pool_list !== undefined) {
+            for (var j=0; j < wip_pool_list.length; j++) {
+              // URL for this specific pool
+              // var wip_pool_details = mdrBigipRestGetv2(device_id, wip_pool_list[j].nameReference.link);
+              var wip_pool_details = mdrBigipRestGetv2(device_id, wip_pool_list[j].nameReference.link);
+              var pmems = mdrBigipRestGetItems(device_id, wip_pool_details.membersReference.link);
+              wip_list[i].pools[j].members = pmems;
+            }
           }
+          wip_list[i].group = 'default-group';
+          wip_list[i]['inSyncGroup'] = sync_id;
+          Wideips.insert(wip_list[i]);
         }
-        wip_list[i].group = 'default-group';
-        wip_list[i]['inSyncGroup'] = sync_id;
-        Wideips.insert(wip_list[i]);
       }
     }
     var pool_list = BigipClient.list.gtm.pool.a(bigip);
@@ -591,7 +597,7 @@ Meteor.methods({
     var trafficGroupList = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/cm/traffic-group");
     if (trafficGroupList !== undefined) {
       for (var i = 0; i < trafficGroupList.length; i++) {
-        console.log(trafficGroupList[i]);
+        //console.log(trafficGroupList[i]);
         if (trafficGroupList[i].isFloating == 'true') {
           try {
             var link = trafficGroupList[i].selfLink.replace(/\?.*/, '/stats');

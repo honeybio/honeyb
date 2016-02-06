@@ -864,7 +864,6 @@ ChangeFunction.discover.device.all = function(argList) {
         var sshShellCommand = "install_ssh_key.sh";
         try {
           var output = Meteor.call("runShellCmd", sshShellCommand, sshArgs);
-          console.log(output);
           if (output == '0') {
             Jobs.update({_id: argList.jobId}, {$set: {progress: 5, status: 'Copied SSH Key...'}});
           } else if (output == 255) {
@@ -973,7 +972,7 @@ ChangeFunction.discover.device.all = function(argList) {
       // Get sync group if not exists in db
       if(provisioning.gtm !== "none") {
         Settings.update({name: 'navigation'}, {$set: {showGSLB: true}});
-        Meteor.call("discoverGTM", ip, user, pass, deviceId);
+        Meteor.call("discoverGTM", ip, user, pass, deviceId, mySelf.version);
         Jobs.update({_id: argList.jobId}, {$set: {progress: 20, status: 'Getting GTM info...'}});
       }
       // Get LTM stuff
