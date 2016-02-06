@@ -400,7 +400,7 @@ Template.deviceDetails.helpers({
   eos: function (platform) {
     console.log(platform);
     if (platform !== undefined) {
-      return 'SEP 01 2010';
+      return 'Unknown';
     }
   },
   eots: function (version) {

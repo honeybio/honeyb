@@ -143,7 +143,7 @@ Template.settingsHoneyb.helpers({
 Template.settingsHoneyb.events({
   'submit .scheduler': function (event) {
     event.preventDefault();
-    Meteor.call("updateSchedule", event.target.archives.value, event.target.qkviews.value, function (err, res) {
+    Meteor.call("updateSchedule", event.target.archives.value, function (err, res) {
       if (err) {
         toastr.error(err.details, err.reason)
       } else {
@@ -158,7 +158,7 @@ Template.settingsHoneyb.events({
     var ihealthUser = event.target.ihealthUser.value;
     var ihealthPass = event.target.ihealthPass.value;
     var ihealthFreq = event.target.ihealthFreq.value;
-    Meteor.call("updateSystemSettings", hname, ihealthUser, ihealthPass, ihealthFreq, certAdmin, function (err, res) {
+    Meteor.call("updateSystemSettings", hname, ihealthUser, ihealthPass, ihealthFreq, event.target.qkviews.value, certAdmin, function (err, res) {
       if (err) {
         toastr.error(err.details, err.reason)
       } else {

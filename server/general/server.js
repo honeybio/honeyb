@@ -420,14 +420,15 @@ Meteor.methods({
     }});
     return update;
   },
-  updateSystemSettings: function(hname, ihealthUser, ihealthPass, ihealthFreq, certAdmin) {
+  updateSystemSettings: function(hname, ihealthUser, ihealthPass, ihealthFreq, qkviewFreq, certAdmin) {
     var update = Settings.update({type: "system"}, { $set: { ihealthUser: ihealthUser,
-      ihealthPass: ihealthPass, ihealthFreq: ihealthFreq, certificateEmail: certAdmin }});
+      ihealthPass: ihealthPass, ihealthFreq: ihealthFreq, certificateEmail: certAdmin,
+      qkviewSchedule: qkviewFreq }});
     Settings.update({name: 'navigation'}, {$set: {showIhealth: true}});
     return update;
   },
-  updateSchedule: function (archiveFreq, qkviewFreq) {
-    Settings.update({type: "system"}, { $set: { archiveSchedule: archiveFreq, qkviewSchedule: qkviewFreq}})
+  updateSchedule: function (archiveFreq) {
+    Settings.update({type: "system"}, { $set: { archiveSchedule: archiveFreq }});
   },
   updateChangeSettings: function (enable) {
     Settings.update({type: 'system'}, { $set: { changeControl: enable }});
