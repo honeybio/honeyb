@@ -23,8 +23,8 @@ Meteor.methods({
       if (device) {
         var mySelf = device.items[1];
         var myPeer = device.items[0];
-        var networks = Meteor.call("discoverNetwork", ip, user, pass);
-        var managementIp = Meteor.call("discoverManagementIp", ip, user, pass);
+        var networks = Meteor.call("discoverNetwork", myDevice.mgmtAddress, myDevice.mgmtUser, myDevice.mgmtPass);
+        var managementIp = Meteor.call("discoverManagementIp", myDevice.mgmtAddress, myDevice.mgmtUser, myDevice.mgmtPass);
         var selfIpList = [];
         for (var i = 0; i < managementIp.length; i++) {
           selfIpList.push(managementIp[i].name.replace(/\/.*/, ''));
