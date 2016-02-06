@@ -27,11 +27,13 @@ Template.footableSearchBox.helpers({
           objects: 'WAF Policies'
         },
         changesCommitted: {
+          hide: true,
           link: [],
           actions: [],
           objects: 'Changes'
         },
         sslCerts: {
+          hide: true,
           /*link: [{ url: '/ssl/certs/create', name: 'Create' }],
           actions: ['Delete'],*/
           objects: 'SSL Certifcates'
