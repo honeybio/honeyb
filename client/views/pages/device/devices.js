@@ -268,31 +268,35 @@ Template.deviceNetworkChart.rendered = function() {
         today.setSeconds(0);
         today.setMilliseconds(0);
         var stats = Statistics.findOne({device: self.data._id, timestamp_day: today, type: 'interface'});
-        for (var i = 0; i < 36; i++) {
-          // var labelDate = new Date((now.getHours() * 60 + now.getMinutes()) - ((36 - i) * 5) );
-          // var minutes = Math.floor((now.getHours() * 60 + now.getMinutes()) / 5) * 5 - ((36 - i) * 5);
-          var minutes = curMin - ((36 - i) * 5);
-          if (stats.values[minutes] !== undefined) {
-            if (stats.values[minutes].throughput === undefined || stats.values[minutes].throughput === null) {
-              today.setHours(0);
-              today.setMinutes(0);
-              today.setMinutes(minutes);
-              tFormat = today.getHours() + ":" + (today.getMinutes()<10?'0':'') + today.getMinutes();
-              myLabel.push(tFormat);
-              mgmtDataIn.push('0');
-              mgmtDataOut.push('0');
-              oneDotOneIn.push('0');
-              oneDotOneOut.push('0');
-            } else {
-              today.setHours(0);
-              today.setMinutes(0);
-              today.setMinutes(minutes);
-              tFormat = today.getHours() + ":" + (today.getMinutes()<10?'0':'') + today.getMinutes();
-              myLabel.push(tFormat);
-              mgmtDataIn.push(stats.values[minutes].throughput.mgmt.bpsIn);
-              mgmtDataOut.push(stats.values[minutes].throughput.mgmt.bpsOut);
-              oneDotOneIn.push(stats.values[minutes].throughput['1-dot-1'].bpsIn);
-              oneDotOneOut.push(stats.values[minutes].throughput['1-dot-1'].bpsOut);
+        if (stats !== undefined) {
+          for (var i = 0; i < 36; i++) {
+            // var labelDate = new Date((now.getHours() * 60 + now.getMinutes()) - ((36 - i) * 5) );
+            // var minutes = Math.floor((now.getHours() * 60 + now.getMinutes()) / 5) * 5 - ((36 - i) * 5);
+            var minutes = curMin - ((36 - i) * 5);
+            if (stats.values !== undefined) {
+              if (stats.values[minutes] !== undefined) {
+                if (stats.values[minutes].throughput === undefined || stats.values[minutes].throughput === null) {
+                  today.setHours(0);
+                  today.setMinutes(0);
+                  today.setMinutes(minutes);
+                  tFormat = today.getHours() + ":" + (today.getMinutes()<10?'0':'') + today.getMinutes();
+                  myLabel.push(tFormat);
+                  mgmtDataIn.push('0');
+                  mgmtDataOut.push('0');
+                  oneDotOneIn.push('0');
+                  oneDotOneOut.push('0');
+                } else {
+                  today.setHours(0);
+                  today.setMinutes(0);
+                  today.setMinutes(minutes);
+                  tFormat = today.getHours() + ":" + (today.getMinutes()<10?'0':'') + today.getMinutes();
+                  myLabel.push(tFormat);
+                  mgmtDataIn.push(stats.values[minutes].throughput.mgmt.bpsIn);
+                  mgmtDataOut.push(stats.values[minutes].throughput.mgmt.bpsOut);
+                  oneDotOneIn.push(stats.values[minutes].throughput['1-dot-1'].bpsIn);
+                  oneDotOneOut.push(stats.values[minutes].throughput['1-dot-1'].bpsOut);
+                }
+              }
             }
           }
         }

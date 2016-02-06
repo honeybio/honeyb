@@ -19,7 +19,7 @@ Meteor.methods({
   updateHAStatus(deviceId) {
     var myDevice = Devices.findOne({_id: deviceId});
     if (myDevice.restEnabled === true) {
-      var device = Meteor.call("discoverDevice", myDevice.mgmtAddress, myDevice.mgmtUser, mgmtPass.pass);
+      var device = Meteor.call("discoverDevice", myDevice.mgmtAddress, myDevice.mgmtUser, myDevice.mgmtPass);
       var mySelf = device.items[1];;
       var myPeer = device.items[0];;
       for (var i = 0; i < selfIpList.length; i++) {
