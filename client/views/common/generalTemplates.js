@@ -1,6 +1,6 @@
 Template.deviceList.helpers({
   getDeviceList: function () {
-    return Devices.find();
+    return Devices.find({'self.failoverState': 'active'});
   }
 });
 
