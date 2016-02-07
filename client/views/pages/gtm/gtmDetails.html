@@ -35,7 +35,8 @@
 </template>
 
 <template name="gtmWideipDetails">
-  {{> pageHeading title='Wideip Detail' category='GTM' }}
+<!--
+{{> pageHeading title='Wideip Detail' category='GTM' }}
   <div class="wrapper wrapper-content animated fadeIn">
     <div class="row">
       <form class="virtualForm">
@@ -78,6 +79,31 @@
       </form>
     </div>
   </div>
+-->
+{{> pageHeading title='Wideip Details' category='GTM' }}
+<div class="wrapper wrapper-content animated fadeIn">
+  <div class="row">
+    <form id="table-form" class="form-horizontal">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Details for Wideip {{name}} <small class="m-l-sm">Manage your GTM Wideips</small></h5>
+            {{>iboxTools}}
+          </div>
+          <div class="ibox-content">
+              <h2>Unsupported for editing on honeyb: {{name}}</h2>
+              {{#each myProps}}
+              <div class="form-group"><label class="col-sm-4 control-label">{{this}}</label>
+                <div class="col-sm-4"><input type="text" name="sshuser" class="form-control" value="{{getThis this}}"/></div>
+              </div>
+              {{/each}}
+          </div>
+          <div class="ibox-footer"></div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 </template>
 
 <template name="gtmServerDetails">
