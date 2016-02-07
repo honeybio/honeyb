@@ -39,6 +39,7 @@ Template.footableSearchBox.helpers({
           objects: 'SSL Certifcates'
         },
         sslKeys: {
+          hide: true,
           link: [{ url: '/ssl/keys/create', name: 'Create' }],
           actions: ['Delete'],
           objects: 'SSL Keys'

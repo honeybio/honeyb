@@ -15,6 +15,7 @@
                   <thead>
                     <tr>
                       <th>Monitor Name</th>
+                      <th>Type</th>
                       <th>On BIG-IP</th>
                       <th>Select</th>
                     </tr>
@@ -24,6 +25,7 @@
                     {{#unless deleted}}
                     <tr>
                       <td><a href="/ltm/monitors/{{type}}/{{_id}}">{{name}}</a></td>
+                      <td>{{type}}</td>
                       <td>{{getOnDevice this.onDevice}}</td>
                       <td><input type="checkbox" id="{{_id}}" name="{{_id}}"></td>
                     </tr>
