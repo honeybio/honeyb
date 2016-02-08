@@ -148,6 +148,7 @@ Router.route('/ssl/csrs/:_id', {
   }
 });
 Router.route('/ssl/profiles');
+Router.route('/ssl/profiles/create');
 Router.route('/ssl/profiles/:_id', {
   template: 'sslprofileDetails',
   data: function(){

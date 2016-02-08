@@ -34,6 +34,54 @@ Template.sslDetails.events({
   }
 });
 
+Template.sslProfilesCreate.helpers({
+  getCerts: function (deviceId) {
+    if (Template.instance().pickedDevice.get()) {
+      return Certificates.find({onDevice: Template.instance().pickedDevice.get(), ssltype: 'certificate'});
+    } else {
+      return null;
+    }
+  },
+  getKeys: function (deviceId) {
+    if (Template.instance().pickedDevice.get()) {
+      return Certificates.find({onDevice: Template.instance().pickedDevice.get(), ssltype: 'key'});
+    } else {
+      return null;
+    }
+  },
+  getCertCn: function () {
+    if (Template.instance().pickedCert.get()) {
+      var cert = Certificates.findOne({_id: Template.instance().pickedCert.get()});
+      return cert.commonName;
+    } else {
+      return null;
+    }
+  },
+  getCertExpiration: function () {
+    if (Template.instance().pickedCert.get()) {
+      var cert = Certificates.findOne({_id: Template.instance().pickedCert.get()});
+      return cert.apiRawValues.expiration;
+    } else {
+      return null;
+    }
+  }
+});
+
+Template.sslProfilesCreate.onCreated(function() {
+  this.pickedCert = new ReactiveVar();
+  this.pickedCert.set(null);
+  this.pickedDevice = new ReactiveVar();
+  this.pickedDevice.set(null);
+});
+
+Template.sslProfilesCreate.events({
+  'change #certificate': function (event, template) {
+    template.pickedCert.set(certificate.options[certificate.selectedIndex].value);
+  },
+  'change #device': function (event, template) {
+    template.pickedDevice.set(device.options[device.selectedIndex].value);
+  },
+});
 
 Template.profilesDetails.helpers({
   isSupported: function (profType) {
