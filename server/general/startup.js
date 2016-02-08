@@ -118,20 +118,20 @@ Meteor.startup(function () {
         ldap: false,
         adAuthentication : {
           debug: false,
-          ldapDomain: 'ad.bespintech.com',
-          ldapBaseDn: 'DC=ad,DC=bespintech,DC=com',
+          ldapDomain: 'ad.company.com',
+          ldapBaseDn: 'DC=ad,DC=company,DC=com',
           ldapUrl: 'ldap://10.100.21.51:389',
-          ldapBindCn: 'CN=service account,CN=Managed Service Accounts,DC=ad,DC=bespintech,DC=com',
-          ldapBindPassword: 'whatthefuck!23',
-          defaultAdminGroup: 'CN=F5Admin,CN=Users,DC=ad,DC=bespintech,DC=com',
-          defaultOperatorGroup: 'CN=F5Operator,CN=Users,DC=ad,DC=bespintech,DC=com',
-          defaultGuestGroup: 'CN=F5Guest,CN=Users,DC=ad,DC=bespintech,DC=com'
+          ldapBindCn: 'CN=service account,CN=Managed Service Accounts,DC=ad,DC=company,DC=com',
+          ldapBindPassword: 'whatsthepassword!23',
+          defaultAdminGroup: 'CN=F5Admin,CN=Users,DC=ad,DC=company,DC=com',
+          defaultOperatorGroup: 'CN=F5Operator,CN=Users,DC=ad,DC=company,DC=com',
+          defaultGuestGroup: 'CN=F5Guest,CN=Users,DC=ad,DC=company,DC=com'
         },
         ldapAuthPublishFields: ['displayName'],
         ldapGroupMembership: [
-          'CN=F5Admin,CN=Users,DC=ad,DC=bespintech,DC=com',
-          'CN=F5Operator,CN=Users,DC=ad,DC=bespintech,DC=com',
-          'CN=F5Guest,CN=Users,DC=ad,DC=bespintech,DC=com'
+          'CN=F5Admin,CN=Users,DC=ad,DC=company,DC=com',
+          'CN=F5Operator,CN=Users,DC=ad,DC=company,DC=com',
+          'CN=F5Guest,CN=Users,DC=ad,DC=company,DC=com'
         ],
         timeout: true,
         staleSessionInactivityTimeout: 1800000,
