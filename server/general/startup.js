@@ -91,7 +91,8 @@ Meteor.startup(function () {
         archiveSchedule: 'nightly',
         qkviewSchedule: 'weekly'
       },
-      certificateEmail: 'root@localhost'
+      certificateEmail: 'root@localhost',
+      helpEmail: 'help@honeyb.io'
     });
     //var pubKey = Meteor.call('generateSshKey', 'honeyb');
     //console.log(pubKey);
