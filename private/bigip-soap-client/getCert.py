@@ -13,20 +13,19 @@ import sys
 hostip = sys.argv[1]
 uname = sys.argv[2]
 upass = sys.argv[3]
-whichObjects = [sys.argv[4]]
+whichCerts = [sys.argv[4]]
 
 try:
     b = bigsuds.BIGIP(
-        hostname = hostip,
-        username = uname,
-        password = upass,
-    )
+                        hostname = hostip,
+                        username = uname,
+                        password = upass,
+                        )
 except:
     pass
 
+#cert_list = b.Management.KeyCertificate.get_key_list('MANAGEMENT_MODE_DEFAULT')
+cert_list = b.Management.KeyCertificate.certificate_export_to_pem('MANAGEMENT_MODE_DEFAULT', whichCerts)
 
-#object_list = b.Management.KeyCertificate.get_key_list('MANAGEMENT_MODE_DEFAULT')
-object_list = b.Management.KeyCertificate.key_export_to_pem('MANAGEMENT_MODE_DEFAULT', whichObjects)
-#
-for object in object_list:
-    print object
+for cert in cert_list:
+    print cert

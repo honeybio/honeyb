@@ -56,8 +56,11 @@ Meteor.methods({
       user: device.mgmtUser,
       pass: device.mgmtPass,
     };
-    var myVar = BigipClient.list.net.interface(bigip);
+    var obj = { name: '/Common/honeyb3_cert' };
+    var myVar = BigipClient.download.certificate(bigip, obj);
     console.log(myVar);
+    //var myVar = BigipClient.list.net.interface(bigip);
+    //console.log(myVar);
     //BigipClient.list.net.interface
     //var cpuStats = mdrBigipRestGetv2(deviceId, "https://localhost/mgmt/tm/sys/cpu/stats");
     // var rule_list = deprecatedRestClient.bigipRestGetItems(deviceId, "https://localhost/mgmt/tm/ltm/rule");

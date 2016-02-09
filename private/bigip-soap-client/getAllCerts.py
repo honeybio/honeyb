@@ -24,24 +24,30 @@ try:
 except:
     pass
 
-cert_list = b.Management.KeyCertificate.get_key_list('MANAGEMENT_MODE_DEFAULT')
+key_list = b.Management.KeyCertificate.get_key_list('MANAGEMENT_MODE_DEFAULT')
+
 my_list = []
-for cert in cert_list:
-    my_list.append(cert['key_info']['id'])
+
+for key in key_list:
+    my_list.append(key['key_info']['id'])
 
 pem = b.Management.KeyCertificate.key_export_to_pem('MANAGEMENT_MODE_DEFAULT', my_list)
 
 # print cert_list
-for cert in cert_list:
-    pem = b.Management.KeyCertificate.key_export_to_pem('MANAGEMENT_MODE_DEFAULT', [cert['key_info']['id']])
-    cert['pem'] = pem
-    print cert['pem']
+for key in key_list:
+    pem = b.Management.KeyCertificate.key_export_to_pem('MANAGEMENT_MODE_DEFAULT', [key['key_info']['id']])
+    key['pem'] = pem
+    print key['pem']
 #    time.sleep(1)
 
 #print pem
 
+all_certs = b.Management.KeyCertificate.get_certificate_list('MANAGEMENT_MODE_DEFAULT')
 
-#all_certs = b.Management.KeyCertificate.certificate_export_to_pem('MANAGEMENT_MODE_DEFAULT', my_small_list)
+for cert in all_certs:
+    pem = b.Management.KeyCertificate.certificate_export_to_pem('MANAGEMENT_MODE_DEFAULT', [key['key_info']['id']])
+
+all_certs = b.Management.KeyCertificate.certificate_export_to_pem('MANAGEMENT_MODE_DEFAULT', my_small_list)
 
 #print all_certs
 #for cert in all_certs:
