@@ -85,16 +85,14 @@
             <li class="{{isActiveRoute regex='ltmProfile'}}"><a href="/ltm/profiles">All Profiles</a></li>
           </ul>
         </li>
-        <li id="gtm" class="{{isActiveRoute regex='gtmSyncgroups|gtmWideips|gtmDatacenters|gtmLinks|gtmServers|gtmPools|gtmMonitors'}}">
+        <li id="gtm" class="{{isActiveRoute regex='gtmSyncgroups|gtmWideips|gtmDatacenters|gtmServers|gtmPools'}}">
           <a href="#"><i class="fa fa-globe"></i> <span class="nav-label">Global Load Balancer<br>(GTM/DNS)</span><span class="fa arrow"></span></a>
           <ul class="nav nav-second-level collapse {{isActiveRoute regex='gtmSyncgroups|gtmWideips|gtmDatacenters|gtmLinks|gtmServers|gtmPools|gtmMonitors' className='in'}}">
             <li class="{{isActiveRoute regex='gtmSyncgroups'}}"><a href="/gtm/syncgroups">Sync Groups</a></li>
             <li class="{{isActiveRoute regex='gtmWideips'}}"><a href="/gtm/wideips">Wide IPs</a></li>
             <li class="{{isActiveRoute regex='gtmDatacenters'}}"><a href="/gtm/datacenters">Datacenters</a></li>
-            <li class="{{isActiveRoute regex='gtmLinks'}}"><a href="/gtm/links">Links</a></li>
             <li class="{{isActiveRoute regex='gtmServers'}}"><a href="/gtm/servers">Servers</a></li>
             <li class="{{isActiveRoute regex='gtmPools'}}"><a href="/gtm/pools">Pools</a></li>
-            <li class="{{isActiveRoute regex='gtmMonitors'}}"><a href="/gtm/monitors">Monitors</a></li>
           </ul>
         </li>
         <li id="asm" class="{{isActiveRoute regex='asmPolicies|asmPoliciesExported'}}">
@@ -116,7 +114,6 @@
           <a href="#"><i class="fa fa-support"></i> <span class="nav-label">Support</span><span class="fa arrow"></span></a>
           <ul class="nav nav-second-level collapse {{isActiveRoute regex='supportGenius|supportRma|supportTroubleshooting' className='in'}}">
             <li class="{{isActiveRoute regex='supportGenius'}}"><a href="/support/genius">Need Professional Help?</a></li>
-            <li class="{{isActiveRoute regex='supportRma'}}"><a href="/support/rma">RMA Assistance</a></li>
             <li class="{{isActiveRoute regex='supportTroubleshooting'}}"><a href="/support/troubleshooting">Troubleshooting Assistance</a></li>
           </ul>
         </li>
