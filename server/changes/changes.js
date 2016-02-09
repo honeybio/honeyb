@@ -713,6 +713,8 @@ ChangeFunction.create.ltm.profile = function(argList) {
       }
       var newProf = BigipClient.list.ltm.profile(bigip, newObj);
       newProf.group = 'default-group';
+      newProf.onDevice = argList.device_id;
+      newProf.profType = 'client-ssl';
       Profiles.insert(newProf);
       return response;
     }
