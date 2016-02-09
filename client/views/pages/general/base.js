@@ -19,6 +19,7 @@ Template.home.helpers({
 });
 Template.homeChart.rendered = function(){
   // Options, data for doughnut chart
+  /*
   var doughnutData = [
     {
       value: 300,
@@ -94,5 +95,5 @@ Template.homeChart.rendered = function(){
   };
   var ctx = document.getElementById("polarChart").getContext("2d");
   var Polarchart = new Chart(ctx).PolarArea(polarData, polarOptions);
-
+  */
 };

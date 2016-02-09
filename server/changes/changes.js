@@ -684,8 +684,38 @@ ChangeFunction.create.ltm.node = function(argList) {
   var deviceId = argList.device_id;
 }
 ChangeFunction.create.ltm.profile = function(argList) {
-  if (argList.type == undefined) {
+  if (argList.type === undefined) {
     // need a type
+  } else if (argList.type === 'clientssl') {
+    var device = Devices.findOne({_id: argList.device_id});
+    if (device.restEnabled) {
+      var bigip = {
+        iControl: 'rest',
+        ip: device.mgmtAddress,
+        user: device.mgmtUser,
+        pass: device.mgmtPass,
+        version: device.self.version
+      };
+      var profObj = {
+        type: argList.type,
+        name: argList.name,
+        key: argList.key,
+        cert: argList.cert,
+        key: argList.key,
+        chain: argList.chain,
+        ciphers: argList.ciphers
+      }
+      var response = BigipClient.create.ltm.profile(bigip, profObj);
+      // Discover it now
+      var newObj = {
+        name: argList.name,
+        type: argList.type
+      }
+      var newProf = BigipClient.list.ltm.profile(bigip, newObj);
+      newProf.group = 'default-group';
+      Profiles.insert(newProf);
+      return response;
+    }
   }
 }
 ChangeFunction.create.ltm.rule = function(argList) {

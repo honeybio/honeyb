@@ -146,6 +146,42 @@ Meteor.methods({
     var myRes = { subject: 'Success!', message: result };
     return myRes;
   },
+  createSslProfile: function(device_id, profObj, stage) {
+    /**
+    * Method that builds a change to add an LTM pool member
+    *
+    * @method createSslProfile
+    * @param {string} The id of the device this is going to add on
+    * @param {string} The object of the profile
+    * @param {string} 1 if sbeing staged, 0 if pushed immediately
+    * @return {boolean} returns true if success
+    */
+    var device = Devices.findOne({_id: device_id});
+    var argList = {
+      type: 'clientssl',
+      device_id: device_id,
+      name: profObj.name,
+      cert: profObj.cert,
+      key: profObj.key,
+      chain: profObj.chain,
+      ciphers: profObj.ciphers,
+    };
+    var theChange = { description: "Create SSL Profile " + argList.name + " on device: " + device.self.name,
+      theMethod: {
+        action: "create",
+        module: "ltm",
+        object: "profile"
+      },
+      argList: argList
+    };
+    var change_id = Meteor.call('createStagedChange', theChange);
+    if (stage == "1") {
+      return;
+    }
+    var result = Meteor.call('pushChange', change_id);
+    var myRes = { subject: 'Success!', message: result };
+    return myRes;
+  },
   createGtmAPool: function(sync_id, poolObject, stage) {
     /**
     * Method that builds a change to add an LTM pool

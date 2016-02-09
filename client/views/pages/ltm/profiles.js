@@ -50,17 +50,29 @@ Template.sslProfilesCreate.helpers({
     }
   },
   getCertCn: function () {
-    if (Template.instance().pickedCert.get()) {
-      var cert = Certificates.findOne({_id: Template.instance().pickedCert.get()});
-      return cert.commonName;
+    if (Template.instance().pickedCert.get() !== 'none') {
+      var cert = Certificates.findOne({
+        onDevice: Template.instance().pickedDevice.get(),
+        fullPath: Template.instance().pickedCert.get()});
+      if (cert !== undefined) {
+        return cert.commonName;
+      } else {
+        return null;
+      }
     } else {
       return null;
     }
   },
   getCertExpiration: function () {
-    if (Template.instance().pickedCert.get()) {
-      var cert = Certificates.findOne({_id: Template.instance().pickedCert.get()});
-      return cert.apiRawValues.expiration;
+    if (Template.instance().pickedCert.get() !== 'none') {
+      var cert = Certificates.findOne({
+        onDevice: Template.instance().pickedDevice.get(),
+        fullPath: Template.instance().pickedCert.get()});
+      if (cert !== undefined) {
+        return cert.apiRawValues.expiration;
+      } else {
+        return null;
+      }
     } else {
       return null;
     }
@@ -81,6 +93,25 @@ Template.sslProfilesCreate.events({
   'change #device': function (event, template) {
     template.pickedDevice.set(device.options[device.selectedIndex].value);
   },
+  'submit #createForm': function (event, template) {
+    event.preventDefault();
+    var stage = 0;
+    var profileObject = {
+      name: event.target.name.value,
+      device_id: event.target.device.value,
+      cert: event.target.certificate.value,
+      key: event.target.key.value,
+      chain: event.target.chain.value,
+      ciphers: event.target.ciphers.value
+    }
+    Meteor.call("createSslProfile", event.target.device.value, profileObject, stage, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success(res.message, res.subject);
+      }
+    });
+  }
 });
 
 Template.profilesDetails.helpers({
