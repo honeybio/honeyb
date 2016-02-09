@@ -998,14 +998,16 @@ ChangeFunction.discover.device.all = function(argList) {
       Meteor.call("getDiskStats", deviceId);
       var trafGroups = Meteor.call("discoverTrafficGroups", deviceId);
       Devices.update({_id: deviceId}, {$set: {trafficGroups: trafGroups}});
+      Jobs.update({_id: argList.jobId}, {$set: {progress: 17, status: 'Getting Keys (may take a while)...'}});
       Meteor.call("discoverKeys", ip, user, pass, deviceId);
+      Jobs.update({_id: argList.jobId}, {$set: {progress: 19, status: 'Getting Certs (may take a while)...'}});
       Meteor.call("discoverCerts", ip, user, pass, deviceId);
 
       // Get sync group if not exists in db
       if(provisioning.gtm !== "none") {
         Settings.update({name: 'navigation'}, {$set: {showGSLB: true}});
         Meteor.call("discoverGTM", ip, user, pass, deviceId, mySelf.version);
-        Jobs.update({_id: argList.jobId}, {$set: {progress: 20, status: 'Getting GTM info...'}});
+        Jobs.update({_id: argList.jobId}, {$set: {progress: 22, status: 'Getting GTM info...'}});
       }
       // Get LTM stuff
       if (provisioning.apm !== "none") {

@@ -428,7 +428,11 @@ Meteor.methods({
     // var cert_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/sys/crypto/cert");
     if (cert_list.length !== undefined) {
       for (var i = 0; i < cert_list.length; i++) {
-        var certObject = { onDevice: device_id, ssltype: "certificate" };
+        var certObject = {
+          onDevice: device_id,
+          ssltype: "certificate",
+          id: cert_list[i].fullPath.replace(/\.crt/, '')
+        };
         for(var attrname in cert_list[i]) {
           certObject[attrname] = cert_list[i][attrname];
         };
@@ -437,8 +441,12 @@ Meteor.methods({
           certObject.epochExpirationDate = certObject.expirationDate.valueOf();
         }
         certObject.group = 'default-group';
+        if (certObject.id === undefined || certObject.id.match(/ca-bundle/)) {
+          // pass
+        } else {
+          certObject.pem = BigipClient.download.certificate(bigip, { name: certObject.id });
+        }
         var myCert = Certificates.insert(certObject);
-        // Meteor.call("getCertPem", device_id, myCert);
       }
     }
   },
@@ -448,11 +456,18 @@ Meteor.methods({
     //var key_list = mdrBigipRestGetItems(device_id, "https://localhost/mgmt/tm/sys/crypto/key");
     if (key_list.length !== undefined) {
       for (var i = 0; i < key_list.length; i++) {
-        var keyObject = { onDevice: device_id, ssltype: "key" };
+        var keyObject = {
+          onDevice: device_id,
+          ssltype: "key",
+          id: key_list[i].fullPath.replace(/\.key/, '')
+        };
         for(var attrname in key_list[i]) {
           keyObject[attrname] = key_list[i][attrname];
         };
         keyObject.group = 'default-group';
+        if (keyObject.id !== undefined) {
+          keyObject.pem = BigipClient.download.key(bigip, { name: keyObject.id });
+        }
         var myKey = Certificates.insert(keyObject);
         // Meteor.call("getKeyPem", device_id, myKey);
       }

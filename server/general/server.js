@@ -56,7 +56,7 @@ Meteor.methods({
       user: device.mgmtUser,
       pass: device.mgmtPass,
     };
-    var obj = { name: '/Common/honeyb3_cert' };
+    var obj = { name: '/Common/ca-bundle' };
     var myVar = BigipClient.download.certificate(bigip, obj);
     console.log(myVar);
     //var myVar = BigipClient.list.net.interface(bigip);
