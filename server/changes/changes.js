@@ -1228,26 +1228,26 @@ ChangeFunction.discover.device.remove = function (argList) {
 
   // GTM is special
   // Check if its the last member of a sync group
-  var syncgroups = Gtmsyncgroups.find({}, {fields: { onDevice: 1}});
-  syncgroups.forEach(function (row) {
-    var i = row.onDevice.length;
+  var syncgroups = Gtmsyncgroups.findOne({}, {fields: { onDevice: 1}});
+  if (syncgroups !== undefined) {
+    var i = syncgroups.onDevice.length;
     while (i--) {
-      if (row.onDevice[i] == deviceId) {
-        row.onDevice.splice(i, 1);
+      if (syncgroups.onDevice[i] == deviceId) {
+        syncgroups.onDevice.splice(i, 1);
       }
     }
-    if (row.onDevice.length == 0) {
+    if (syncgroups.onDevice.length === 0) {
       //delete gtm sync group & objects
-      Wideips.remove({inSyncGroup: row._id});
-      Widepools.remove({inSyncGroup: row._id});
-      Gtmdatacenters.remove({inSyncGroup: row._id});
-      Gtmservers.remove({inSyncGroup: row._id});
-      Gtmvservers.remove({inSyncGroup: row._id});
-      Gtmlinks.remove({inSyncGroup: row._id});
-      Gtmmonitors.remove({inSyncGroup: row._id});
-      Gtmsyncgroups.remove({_id: row._id});
+      Wideips.remove({inSyncGroup: syncgroups._id});
+      Widepools.remove({inSyncGroup: syncgroups._id});
+      Gtmdatacenters.remove({inSyncGroup: syncgroups._id});
+      Gtmservers.remove({inSyncGroup: syncgroups._id});
+      Gtmvservers.remove({inSyncGroup: syncgroups._id});
+      Gtmlinks.remove({inSyncGroup: syncgroups._id});
+      Gtmmonitors.remove({inSyncGroup: syncgroups._id});
+      Gtmsyncgroups.remove({_id: syncgroups._id});
     }
-  });
+  }
 }
 
 var checkAuth = function(change_id, cmethod, cb) {
