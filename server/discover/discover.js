@@ -458,15 +458,14 @@ Meteor.methods({
       for (var i = 0; i < key_list.length; i++) {
         var keyObject = {
           onDevice: device_id,
-          ssltype: "key",
-          id: key_list[i].fullPath.replace(/\.key/, '')
+          ssltype: "key"
         };
         for(var attrname in key_list[i]) {
           keyObject[attrname] = key_list[i][attrname];
         };
         keyObject.group = 'default-group';
-        if (keyObject.id !== undefined) {
-          keyObject.pem = BigipClient.download.key(bigip, { name: keyObject.id });
+        if (keyObject.fullPath !== undefined) {
+          keyObject.pem = BigipClient.download.key(bigip, { name: keyObject.fullPath });
         }
         var myKey = Certificates.insert(keyObject);
         // Meteor.call("getKeyPem", device_id, myKey);

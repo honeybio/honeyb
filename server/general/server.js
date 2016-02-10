@@ -48,17 +48,20 @@ Meteor.methods({
     });
     return { message: 'GTM Tested!', subject: 'Success' };
   },
-  testRest: function (deviceId) {
-    var device = Devices.findOne({_id: deviceId});
-    var bigip = {
-      iControl: 'rest',
-      ip: device.mgmtAddress,
-      user: device.mgmtUser,
-      pass: device.mgmtPass,
-    };
-    var obj = { name: '/Common/ca-bundle' };
-    var myVar = BigipClient.download.certificate(bigip, obj);
-    console.log(myVar);
+  testRest: function () {
+
+    var myCert = "-----BEGIN CERTIFICATE-----\nMIIDDjCCAfagAwIBAgIEC0/oLTANBgkqhkiG9w0BAQsFADBJMQswCQYDVQQGEwJV\nUzELMAkGA1UECBMCTlYxEjAQBgNVBAcTCUxhcyBWZWdhczEZMBcGA1UEAxMQdGVz\ndDMxLmhvbmV5Yi5pbzAeFw0xNjAxMDYyMjIyMzdaFw0xNjAyMDYyMjIyMzdaMEkx\nCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJOVjESMBAGA1UEBxMJTGFzIFZlZ2FzMRkw\nFwYDVQQDExB0ZXN0MzEuaG9uZXliLmlvMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A\nMIIBCgKCAQEAqV9IzTNrKma3T0RL07W/NVNcMIQFqYj8cl6G3nr/fETMs4jqmBvj\nVNXkcMhwkPw8uz1E+KJBejqLEO7jokJeYaHRTErWzcMatKbPKbicOMTITuPVYtYY\nDd+O9O9agEFKHapM+41r8h8O1woYjistb1coenS5mMd77TRNAn5dvtRPi6YGLoRH\nyZihVmmG6X5oqaOmz/a5iRZeU1LRQI+6gixqrXcPbgmhKJg8pKQngudep/UVlY41\nZ2yApCzX8RESk4XcVwGauUKjl8l/b272P1eJMqQA0C7dWSh51Yrq3ShVxYyIiDFx\nuR0bFpp7NERHeWgoZkPEhWnpljIrs4zl/wIDAQABMA0GCSqGSIb3DQEBCwUAA4IB\nAQBjNZ3fUTr6npW6oSicKQamM3VvuypuhmkFwgwXI10JsvcCDbcPQL+eIh4s71TR\nGBfOlDxfZaOmGNMrXWEik3Cn86Ya2HTbDEKixH5ts1o+NqQBl2yFWkJAn9fVltdt\nh2EibF65Z4wuKatQrMMmKouMqVzD0IXMa7bMW+oGNs/2I5c+psztj2Wpu736ZWif\nM7ugil7GmEKYnnyjPGeHOfjgftlVjLGI9JEQRWyNA9WDzuKyir7Vu3y4Wk17nJqU\nHE1IJ/8nUGEP52LNcs2wzMiW+pUWDIhx+y+47MHdQ4b7QJROFnQBsgLqAn5Sqy6C\n9xyOm1f0EjDkPY3F7WtPpjLN\n-----END CERTIFICATE-----\n\n";
+    certificateParser(myCert);
+    //var device = Devices.findOne({_id: deviceId});
+    //var bigip = {
+    //  iControl: 'rest',
+    //  ip: device.mgmtAddress,
+    //  user: device.mgmtUser,
+    //  pass: device.mgmtPass,
+    //};
+    //var obj = { name: '/Common/ca-bundle' };
+    //var myVar = BigipClient.download.certificate(bigip, obj);
+    //console.log(myVar);
     //var myVar = BigipClient.list.net.interface(bigip);
     //console.log(myVar);
     //BigipClient.list.net.interface
