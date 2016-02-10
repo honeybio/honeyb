@@ -24,7 +24,9 @@ try:
 except:
     pass
 
-obj_list = b.Management.KeyCertificate.key_export_to_pem('MANAGEMENT_MODE_DEFAULT', objectName)
 
+#object_list = b.Management.KeyCertificate.get_key_list_v2('MANAGEMENT_MODE_DEFAULT')
+obj_list = b.Management.KeyCertificate.key_export_to_pem('MANAGEMENT_MODE_DEFAULT', objectName)
+#print object_list
 for obj in obj_list:
     print obj
