@@ -38,6 +38,14 @@ Template.footableSearchBox.helpers({
           actions: ['Delete'],*/
           objects: 'SSL Certifcates'
         },
+        sslMasterCerts: {
+          link: [
+            { url: '/ssl/master/certs/import', name: 'Import Cert' },
+            { url: '/ssl/master/keys/import', name: 'Import Key' }
+          ],
+          actions: ['Delete'],
+          objects: 'Master SSL Certifcates'
+        },
         sslKeys: {
           hide: true,
           link: [{ url: '/ssl/keys/create', name: 'Create' }],

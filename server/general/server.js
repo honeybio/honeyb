@@ -657,6 +657,62 @@ Meteor.methods({
     });
     return future.wait();
   },
+  sslWrapperCn: function (pem) {
+    var exec = Npm.require("child_process").exec;
+    var Future = Npm.require("fibers/future");
+    this.unblock();
+    var future = new Future();
+    var command = "/bin/echo '" + pem + "' | openssl x509 -noout -subject | sed 's/.*CN=//'";
+    exec(command, function(error, stdout, stderr) {
+        if (error) {
+            console.log(error);
+        }
+        future.return(stdout.toString());
+    });
+    return future.wait();
+  },
+  sslWrapperMod: function (pem) {
+    var exec = Npm.require("child_process").exec;
+    var Future = Npm.require("fibers/future");
+    this.unblock();
+    var future = new Future();
+    var command = "/bin/echo '" + pem + "' | openssl x509 -noout -modulus";
+    exec(command, function(error, stdout, stderr) {
+        if (error) {
+            console.log(error);
+        }
+        future.return(stdout.toString());
+    });
+    return future.wait();
+  },
+  sslWrapperExpires: function (pem) {
+    var exec = Npm.require("child_process").exec;
+    var Future = Npm.require("fibers/future");
+    this.unblock();
+    var future = new Future();
+    var command = "/bin/echo '" + pem + "' | openssl x509 -noout -enddate | sed 's/.*=//'";
+    exec(command, function(error, stdout, stderr) {
+        if (error) {
+            console.log(error);
+        }
+        future.return(stdout.toString());
+    });
+    return future.wait();
+  },
+  keyWrapperMod: function (pem) {
+    var exec = Npm.require("child_process").exec;
+    var Future = Npm.require("fibers/future");
+    this.unblock();
+    var future = new Future();
+    var command = "/bin/echo '" + pem + "' | openssl rsa -noout -modulus";
+    exec(command, function(error, stdout, stderr) {
+        if (error) {
+            console.log(error);
+        }
+        future.return(stdout.toString());
+    });
+    return future.wait();
+  },
   certEmailNotifications: function () {
     var certList = Certificates.find({ssltype: 'certificate'});
     var now = new Date();

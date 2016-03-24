@@ -289,5 +289,109 @@
       </div>
     </div>
   </div>
+</template>
 
+<template name="sslMasterCerts">
+  {{> pageHeading title='Master Certificates' category='SSL' }}
+  <div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>SSL Certificates <small class="m-l-sm">Manage your SSL certificates</small></h5>
+            {{>iboxTools}}
+          </div>
+          <div class="ibox-content">
+            <div class="hr-line-dashed"></div>
+            <form id="table-form" class="form-horizontal">
+              {{> footableSearchBox}}
+              <table class="footable table table-striped" data-page-size="8" data-filter=#filter>
+                <thead>
+                  <tr>
+                    <th>Status</th>
+                    <th>Common Name</th>
+                    <th>Expiration</th>
+                    <th>Key Installed</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each allCerts}}
+                  <tr>
+                    {{#with getExpirationStatus epochExpirationDate}}
+                    <td><img title="{{this.title}}" src="/{{this.src}}"></td>
+                    {{/with}}
+                    <td>{{commonName}}</td>
+                    <td data-type="numeric" data-value="{{epochExpirationDate}}">{{expirationDate}}</td>
+                    <td>{{hasKey modulus}}</td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="5">
+                    <ul class="pagination pull-right hide-if-no-paging"></ul>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+              <div class="hr-line-dashed"></div>
+            </form>
+          </div>
+          <div class="ibox-footer"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="sslMasterCertsImport">
+  {{> pageHeading title="Import a certificate" category="SSL Certificates" }}
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title"><h5>Import A Certificate</h5>{{>iboxTools}}</div>
+          <div class="ibox-content">
+            <form id="create-form" class="form-horizontal">
+              <div class="form-group"><label class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-4"><input type="text" id="mask" value="{{mask}}" class="form-control"></div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">Certificate PEM</label>
+                <div class="col-sm-6">
+                  <textarea id="certPem" name="certPem" rows="20" cols="60"></textarea>
+                </div>
+              </div>
+              {{> submitCancelButtons}}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="sslMasterKeysImport">
+  {{> pageHeading title="Import a Key" category="SSL Keys" }}
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title"><h5>Import A Key</h5>{{>iboxTools}}</div>
+          <div class="ibox-content">
+            <form id="create-form" class="form-horizontal">
+              <div class="form-group"><label class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-4"><input type="text" id="mask" value="{{mask}}" class="form-control"></div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">Key PEM</label>
+                <div class="col-sm-6">
+                  <textarea id="pem" name="pem" rows="20" cols="80"></textarea>
+                </div>
+              </div>
+              {{> submitCancelButtons}}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>

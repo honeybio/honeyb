@@ -131,6 +131,9 @@ Router.route('/ssl/certs/:_id', {
     return Certificates.findOne({ _id: currentCert});
   }
 });
+Router.route('/ssl/master/certs');
+Router.route('/ssl/master/certs/import');
+Router.route('/ssl/master/keys/import');
 Router.route('/ssl/keys');
 Router.route('/ssl/keys/:_id', {
   template: 'keyDetails',
@@ -139,6 +142,7 @@ Router.route('/ssl/keys/:_id', {
     return Certificates.findOne({ _id: currentKey});
   }
 });
+Router.route('/ssl/master/keys');
 Router.route('/ssl/csrs');
 Router.route('/ssl/csrs/:_id', {
   template: 'csrDetails',

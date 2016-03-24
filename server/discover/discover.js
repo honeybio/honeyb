@@ -445,6 +445,7 @@ Meteor.methods({
           // pass
         } else {
           certObject.pem = BigipClient.download.certificate(bigip, { name: certObject.id });
+          Meteor.call('insertMasterCert', certObject.pem);
         }
         var myCert = Certificates.insert(certObject);
       }
@@ -466,6 +467,7 @@ Meteor.methods({
         keyObject.group = 'default-group';
         if (keyObject.fullPath !== undefined) {
           keyObject.pem = BigipClient.download.key(bigip, { name: keyObject.fullPath });
+          Meteor.call('insertMasterKey', keyObject.pem);
         }
         var myKey = Certificates.insert(keyObject);
         // Meteor.call("getKeyPem", device_id, myKey);

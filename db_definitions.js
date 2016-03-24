@@ -72,6 +72,7 @@ Vcmpguests = new Mongo.Collection("db_vcmpguests");
 Vcmpdisks = new Mongo.Collection("db_vcmpdisks");
 
 Asmpolicies = new Mongo.Collection("db_asmpolicies");
+Pkifiles = new Mongo.Collection("db_pkifiles");
 
 Gtmsyncgroups = new Mongo.Collection("db_gtmsyncgroup");
 Gtmdatacenters = new Mongo.Collection("db_gtmdatacenters");
