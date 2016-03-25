@@ -662,7 +662,7 @@ Meteor.methods({
     var Future = Npm.require("fibers/future");
     this.unblock();
     var future = new Future();
-    var command = "/bin/echo '" + pem + "' | openssl x509 -noout -subject | sed 's/.*CN=//'";
+    var command = "/bin/echo '" + pem + "' | openssl x509 -noout -subject -nameopt RFC2253 | sed 's/.*CN=//' | sed 's/,.*//' | tr -d '\n'";
     exec(command, function(error, stdout, stderr) {
         if (error) {
             console.log(error);

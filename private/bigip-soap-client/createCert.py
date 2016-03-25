@@ -15,7 +15,7 @@ uname = sys.argv[2]
 upass = sys.argv[3]
 objectName = [sys.argv[4]]
 
-overwrite = False
+overwrite = True
 
 if len(sys.argv) > 5:
     if sys.argv[5] == 1:
@@ -35,6 +35,9 @@ except:
     pass
 
 # Strange behavior where it appears you need to prime the SOAP api to send keys
-b.Management.KeyCertificate.certificate_import_from_pem('MANAGEMENT_MODE_DEFAULT', [objectName], [pemData], overwrite)
+try:
+    b.Management.KeyCertificate.certificate_import_from_pem('MANAGEMENT_MODE_DEFAULT', [objectName], [pemData], overwrite)
+except:
+    pass
 #for obj in object_list:
 #    print obj

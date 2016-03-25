@@ -43,7 +43,7 @@ Template.footableSearchBox.helpers({
             { url: '/ssl/master/certs/import', name: 'Import Cert' },
             { url: '/ssl/master/keys/import', name: 'Import Key' }
           ],
-          actions: ['Delete'],
+          actions: ['Delete', 'Sync', 'Pull', 'Push'],
           objects: 'Master SSL Certifcates'
         },
         sslKeys: {

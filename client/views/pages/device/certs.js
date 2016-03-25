@@ -63,6 +63,42 @@ Template.sslMasterCerts.helpers({
   }
 });
 
+Template.sslMasterCerts.events({
+  'click #Delete': function (event, template) {
+    event.preventDefault();
+  },
+  'click #Sync': function (event, template) {
+    event.preventDefault();
+    Meteor.call('syncAllPki', function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success(res.message, res.subject);
+      }
+    });
+  },
+  'click #Pull': function (event, template) {
+    event.preventDefault();
+    Meteor.call('pullAllPki', function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success(res.message, res.subject);
+      }
+    });
+  },
+  'click #Push': function (event, template) {
+    event.preventDefault();
+    Meteor.call('pushAllPki', function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success(res.message, res.subject);
+      }
+    });
+  },
+});
+
 Template.sslKeys.helpers({
   allKeys: function () {
     return Certificates.find({ssltype: "key"});
