@@ -63,6 +63,8 @@ Meteor.methods({
     bigip_devices.forEach(function (eachDevice) {
       Meteor.call("pushAllPki", eachDevice._id);
     });
+    var ret = { message: "PKI Synced to all devices", subject: "Success" };
+    return ret;
   },
   pullAllPki: function () {
     if (! Meteor.userId()) {
@@ -72,6 +74,8 @@ Meteor.methods({
     bigip_devices.forEach(function (eachDevice) {
       Meteor.call("getAllPki", eachDevice._id);
     });
+    var ret = { message: "PKI Pulled from all devices", subject: "Success" };
+    return ret;
   },
   pushAllPki: function () {
     if (! Meteor.userId()) {
@@ -81,6 +85,8 @@ Meteor.methods({
     bigip_devices.forEach(function (eachDevice) {
       Meteor.call("putAllPki", eachDevice._id);
     });
+    var ret = { message: "PKI pushed to all devices", subject: "Success" };
+    return ret;
   },
   getAllPki: function (deviceId) {
     if (! Meteor.userId()) {
@@ -107,7 +113,7 @@ Meteor.methods({
     if (cert_list.length !== undefined) {
       for (var i = 0; i < cert_list.length; i++) {
         var certObject = {
-          onDevice: device_id,
+          onDevice: deviceId,
           ssltype: "certificate",
           id: cert_list[i].fullPath.replace(/\.crt/, '')
         };
@@ -131,8 +137,9 @@ Meteor.methods({
     if (key_list.length !== undefined) {
       for (var i = 0; i < key_list.length; i++) {
         var keyObject = {
-          onDevice: device_id,
-          ssltype: "key"
+          onDevice: deviceId,
+          ssltype: "key",
+          fullPath: key_list[i].fullPath.replace(/\.key/, '')
         };
         if (keyObject.fullPath !== undefined) {
           keyObject.pem = BigipClient.download.key(bigip, { name: keyObject.fullPath });
@@ -158,7 +165,7 @@ Meteor.methods({
     certList.forEach(function (cert) {
       var certObj = { name: cert.commonName.replace(/ /g, '_') + '_' + cert.epochExpirationDate, overwrite: 1, pem: cert.pem };
       var re = new RegExp(certObj.name);
-      if (certNames.match(/re/)) {
+      if (certNames.match(re)) {
         // don't upload, its already there
       } else {
         BigipClient.upload.certificate(bigip, certObj);
@@ -186,10 +193,8 @@ Meteor.methods({
       } else {
         var keyObj = { name: matchCert.commonName.replace(/ /g, '_') + '_' + matchCert.epochExpirationDate, overwrite: 1, pem: key.pem };
         var re = new RegExp(keyObj.name);
-        if (certNames.match(/re/)) {
-          console.log('Already There Key...')
+        if (certNames.match(re)) {
         } else {
-          console.log(keyObj.name);
           BigipClient.upload.key(bigip, keyObj);
         }
       }
