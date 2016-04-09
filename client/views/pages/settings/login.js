@@ -99,6 +99,19 @@ Template.settingsUser.helpers({
   }
 });
 
+Template.settingsUserDetails.events({
+  'submit #user-form': function (e, t) {
+    event.preventDefault();
+    Meteor.call("updatePassword", e.target.userid.value, e.target.password.value, function (err, res) {
+      if (err) {
+        toastr.error(err.details, err.reason)
+      } else {
+        toastr.success('Updated!', 'Success!');
+      }
+    });
+  },
+});
+
 Template.settingsUser.onRendered(function() {
   $('.footable').footable();
 });

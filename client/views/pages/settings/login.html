@@ -43,7 +43,7 @@
               <div class="form-group"><label class="col-sm-2 control-label">iHealth Password</label>
                 <div class="col-sm-4"><input type="password" id="ihealthPass" value="{{ihealthPass}}" class="form-control"></div>
               </div>
-              {{submitCancelButtons}}
+              {{>submitCancelButtons}}
             </form>
           </div>
         </div>
@@ -72,7 +72,7 @@
                 <div class="col-sm-4"><input type="text" id="updateLtmPoolMember" value="{{msecToSec interval.updateLtmPoolMember}}" class="form-control"></div>
               </div>
               <div class="hr-line-dashed"></div>
-              {{submitCancelButtons}}
+              {{>submitCancelButtons}}
             </form>
           </div>
         </div>
@@ -93,7 +93,7 @@
                 </div>
               </div>
               <div class="hr-line-dashed"></div>
-              {{submitCancelButtons}}
+              {{>submitCancelButtons}}
             </form>
           </div>
         </div>
@@ -130,7 +130,7 @@
                 </div>
               </div>
               <div class="hr-line-dashed"></div>
-              {{submitCancelButtons}}
+              {{>submitCancelButtons}}
             </form>
           </div>
         </div>
@@ -168,7 +168,7 @@
                 </div>
               </div>
               <div class="hr-line-dashed"></div>
-              {{submitCancelButtons}}
+              {{>submitCancelButtons}}
             </form>
             {{/with}}
           </div>
@@ -285,7 +285,7 @@
             <div class="form-group"><label class="col-sm-2 control-label">Password</label>
               <div class="col-sm-4"><input type="password" id="password" class="form-control" required></div>
             </div>
-            {{submitCancelButtons}}
+            {{>submitCancelButtons}}
           </form>
         </div>
       </div>
@@ -306,9 +306,13 @@
             <div class="form-group"><label class="col-sm-2 control-label">Username </label>
               <div class="col-sm-4"><input type="text" value="{{username}}" class="form-control" disabled></div>
             </div>
+            <div class="form-group"><label class="col-sm-2 control-label">Password </label>
+              <div class="col-sm-4"><input id="password" type="text" value="*********" class="form-control"></div>
+            </div>
             <div class="form-group"><label class="col-sm-2 control-label">Created </label>
               <div class="col-sm-4"><input type="text" value="{{createdAt}}" class="form-control" disabled></div>
             </div>
+            <input type="hidden" id="userid" value="{{_id}}">
             {{#each listRoles roles}}
               <div class="form-group"><label class="col-sm-2 control-label">{{group}}</label>
                 <div class="col-sm-6">
@@ -320,6 +324,7 @@
                 </div>
               </div>
             {{/each}}
+            {{>submitCancelButtons}}
           </form>
         </div>
       </div>
@@ -378,7 +383,7 @@
             <div class="form-group"><label class="col-sm-2 control-label">Group Name </label>
               <div class="col-sm-4"><input type="text" value="Group" class="form-control"></div>
             </div>
-            {{submitCancelButtons}}
+            {{>submitCancelButtons}}
           </form>
         </div>
       </div>
@@ -454,7 +459,7 @@
             <div class="form-group"><label class="col-sm-2 control-label">Group Name </label>
               <div class="col-sm-4"><input id="roleName" type="text" value="" class="form-control"></div>
             </div>
-            {{submitCancelButtons}}
+            {{>submitCancelButtons}}
           </form>
         </div>
       </div>
@@ -561,7 +566,7 @@
             <div class="form-group"><label class="col-sm-2 control-label">Container Name </label>
               <div class="col-sm-4"><input type="text" value="Group" class="form-control"></div>
             </div>
-            {{submitCancelButtons}}
+            {{>submitCancelButtons}}
           </form>
         </div>
       </div>

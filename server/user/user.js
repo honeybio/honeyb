@@ -58,5 +58,17 @@ Meteor.methods({
   listContainers: function () {
     var result = Containers.find();
     return result
-  }
+  },
+  updatePassword: function (userId, pass) {
+    var loggedInUser = Meteor.user();
+    if (!loggedInUser ||
+        !Roles.userIsInRole(loggedInUser,
+                            ['admin'], 'default-group')) {
+      throw new Meteor.Error(403, "Access denied")
+    } else {
+      //Meteor.users.update({ _id: userId }, { $set:{ profile : profile }});
+      Accounts.setPassword(userId, pass);
+      return { subject: 'Updated!', message: 'Password has been set!' };
+    }
+  },
 });
